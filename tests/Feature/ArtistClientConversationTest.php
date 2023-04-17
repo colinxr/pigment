@@ -36,11 +36,9 @@ class ArtistClientConversationTest extends TestCase
             'idea' => fake()->text(),
         ];
         // act
-        // submit post request
         $response = $this->post("/api/artist/{$artist->id}/submissions", $submission);
 
         // assert 
-
         $response->assertStatus(201);
 
         // check the submission exists
