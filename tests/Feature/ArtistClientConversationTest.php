@@ -75,4 +75,36 @@ class ArtistClientConversationTest extends TestCase
         $this->assertCount(2, $artist->submissions);
         $this->assertCount(2, $artist->conversations);
     }
+
+    public function test_client_can_submit_to_multiple_artists()
+    {
+        $artist = User::factory()->create();
+        $artist_B = User::factory()->create();
+        $client = Client::factory()->create(['user_id' => $artist->id,]);
+        $first_submission = Submission::factory()->create([
+            'client_id' => $client->id,
+            'user_id' => $artist->id,
+        ]);
+        $first_conversation = $artist->conversations()->create([
+            'client_id' => $client->id,
+            'submission_id' => $first_submission->id,
+        ]);
+
+        $new_submission_data = [
+            'email' => $client->email,
+            'first_name' => $client->first_name,
+            'last_name' => $client->last_name,
+            'idea' => fake()->text(),
+        ];
+
+        $response = $this->post("/api/artist/{$artist_B->id}/submissions", $new_submission_data);
+
+        $response->assertStatus(201);
+        $response->assertJsonFragment(['message' => 'Your message has been successfully submitted.']);
+
+        $clients = Client::where(['email' => $client->email])->get();
+        $this->assertCount(2, $clients);
+        $this->assertCount(1, $artist->submissions);
+        $this->assertCount(1, $artist_B->submissions);
+    }
 }
