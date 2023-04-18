@@ -5,6 +5,7 @@ namespace Tests\Feature;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Client;
+use App\Models\Message;
 use App\Models\Submission;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -29,9 +30,9 @@ class ArtistConversationsTest extends TestCase
                 'user_id' => $artist->id,
             ]);
 
-            $conversation = $artist->conversations()->create([
+            $conversation = $submission->conversation()->create([
+                'user_id' => $artist->id,
                 'client_id' => $client->id,
-                'submission_id' => $submission->id,
             ]);
         });
     }
@@ -58,13 +59,21 @@ class ArtistConversationsTest extends TestCase
 
     public function test_can_view_messages_when_viewing_conversation()
     {
-        $this->actingAs($this->artist);
         $conversation = $this->artist->conversations->first();
+        $messages_from_artist = Message::factory()->count(3)->create([
+            'conversation_id' => $conversation->id,
+            'sender_id' => $this->artist->id,
+            'sender_type' => get_class($this->artist),
+            'recipient_id' => $conversation->client_id,
+            'recipient_type' => 'App\Models\Client',
+        ]);
 
+        $this->actingAs($this->artist);
         $response = $this->get("/api/conversations/{$conversation->id}");
         $response->assertStatus(200);
 
+
         $messages = json_decode($response->getContent())->messages;
-        $this->assertCount(0, $messages);
+        $this->assertCount(3, $messages);
     }
 }
