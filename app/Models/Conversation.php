@@ -33,8 +33,8 @@ class Conversation extends Model
         return $this->belongsTo(Client::class);
     }
 
-    public function submissions()
+    public function submission()
     {
-        return $this->belongsTO(Submission::class);
+        return $this->belongsTo(Submission::class);
     }
 }
