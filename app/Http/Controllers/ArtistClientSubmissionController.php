@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class ArtistClientConversationController extends Controller
+class ArtistClientSubmissionController extends Controller
 {
     public function store(Request $request, User $user)
     {
@@ -17,6 +17,8 @@ class ArtistClientConversationController extends Controller
         ]);
 
         // return validation error
+
+        // create the resources
         $client = $user->clients()->firstOrCreate($validated);
 
         $submission = $user->submissions()->create([

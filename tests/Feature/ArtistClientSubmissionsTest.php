@@ -8,7 +8,7 @@ use App\Models\Client;
 use App\Models\Submission;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ArtistClientConversationTest extends TestCase
+class ArtistClientSubmissionsTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -36,8 +36,6 @@ class ArtistClientConversationTest extends TestCase
         ])->first();
 
         // check the submission exists
-
-
         $this->assertModelExists($client);
         $this->assertEquals($submission['email'], $client->email);
 
@@ -79,7 +77,7 @@ class ArtistClientConversationTest extends TestCase
     public function test_client_can_submit_to_multiple_artists()
     {
         $artist = User::factory()->create();
-        $artist_B = User::factory()->create();
+        $artist_b = User::factory()->create();
         $client = Client::factory()->create(['user_id' => $artist->id,]);
         $first_submission = Submission::factory()->create([
             'client_id' => $client->id,
@@ -97,7 +95,7 @@ class ArtistClientConversationTest extends TestCase
             'idea' => fake()->text(),
         ];
 
-        $response = $this->post("/api/artist/{$artist_B->id}/submissions", $new_submission_data);
+        $response = $this->post("/api/artist/{$artist_b->id}/submissions", $new_submission_data);
 
         $response->assertStatus(201);
         $response->assertJsonFragment(['message' => 'Your message has been successfully submitted.']);
@@ -105,6 +103,6 @@ class ArtistClientConversationTest extends TestCase
         $clients = Client::where(['email' => $client->email])->get();
         $this->assertCount(2, $clients);
         $this->assertCount(1, $artist->submissions);
-        $this->assertCount(1, $artist_B->submissions);
+        $this->assertCount(1, $artist_b->submissions);
     }
 }
