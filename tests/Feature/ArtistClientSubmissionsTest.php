@@ -52,9 +52,9 @@ class ArtistClientSubmissionsTest extends TestCase
             'client_id' => $client->id,
             'user_id' => $artist->id,
         ]);
-        $first_conversation = $artist->conversations()->create([
+        $first_conversation = $first_submission->conversation()->create([
             'client_id' => $client->id,
-            'submission_id' => $first_submission->id,
+            'user_id' => $artist->id,
         ]);
 
         $new_submission_data = [
@@ -83,10 +83,6 @@ class ArtistClientSubmissionsTest extends TestCase
             'client_id' => $client->id,
             'user_id' => $artist->id,
         ]);
-        $first_conversation = $artist->conversations()->create([
-            'client_id' => $client->id,
-            'submission_id' => $first_submission->id,
-        ]);
 
         $new_submission_data = [
             'email' => $client->email,
@@ -104,5 +100,28 @@ class ArtistClientSubmissionsTest extends TestCase
         $this->assertCount(2, $clients);
         $this->assertCount(1, $artist->submissions);
         $this->assertCount(1, $artist_b->submissions);
+    }
+
+    public function test_artist_can_view_all_their_submissions()
+    {
+        $artist = User::factory()->create();
+        $clients = Client::factory()->count(3)->create([
+            'user_id' => $artist->id,
+        ]);
+
+        $clients->each(function ($client) use ($artist) {
+            $submission = Submission::factory()->create([
+                'client_id' => $client->id,
+                'user_id' => $artist->id,
+            ]);
+        });
+
+        $this->actingAs($artist);
+        $response = $this->get("/api/submissions");
+
+        $response->assertStatus(200);
+
+        $submissions = json_decode($response->getContent())->submissions;
+        $this->assertCount(3, $submissions);
     }
 }

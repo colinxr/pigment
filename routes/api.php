@@ -3,7 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArtistConversationsController;
-use App\Http\Controllers\ArtistClientConversationController;
+use App\Http\Controllers\ArtistSubmissionsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,8 +20,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::post('artist/{user}/submissions', [ArtistClientConversationController::class, 'store']);
+Route::post('/artist/{user}/submissions', [ArtistSubmissionsController::class, 'store']);
 
-Route::get('artist/conversations', [ArtistConversationsController::class, 'index']);
+Route::get('/submissions', [ArtistSubmissionsController::class, 'index']);
 
-Route::get('artist/conversations/{conversation}', [ArtistConversationsController::class, 'show']);
+Route::get('/conversations/{conversation}', [ArtistConversationsController::class, 'show']);

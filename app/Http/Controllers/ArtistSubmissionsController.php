@@ -4,9 +4,19 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class ArtistClientSubmissionController extends Controller
+class ArtistSubmissionsController extends Controller
 {
+    public function index()
+    {
+        $artist = Auth::user();
+
+        return response()->json([
+            'submissions' => $artist->submissions
+        ], 200);
+    }
+
     public function store(Request $request, User $user)
     {
         // validate reques
@@ -26,9 +36,9 @@ class ArtistClientSubmissionController extends Controller
             'idea' => $request->idea,
         ]);
 
-        $conversation = $user->conversations()->create([
+        $conversation = $submission->conversation()->create([
+            'user_id' => $user->id,
             'client_id' => $client->id,
-            'submission_id' => $submission->id,
         ]);
 
         return response()->json([

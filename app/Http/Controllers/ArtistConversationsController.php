@@ -8,20 +8,10 @@ use Illuminate\Support\Facades\Auth;
 
 class ArtistConversationsController extends Controller
 {
-    public function index()
-    {
-        $artist = Auth::user();
-
-        return response()->json([
-            'conversations' => $artist->conversations
-        ], 200);
-    }
-
     public function show(Conversation $conversation)
     {
         return response()->json([
-            'submission' => $conversation->submission,
-            'messages' => [],
+            'messages' => collect([]),
         ], 200);
     }
 }
