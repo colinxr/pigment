@@ -2,8 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
-use App\Models\Conversation;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -18,13 +16,13 @@ class ArtistClientConversationController extends Controller
             'last_name' => 'required',
         ]);
 
+        // return validation error
+
         $client = $user->clients()->create($validated);
 
-        $data = array_merge();
-
         $submission = $user->submissions()->create([
-            'idea' => $request->idea,
             'client_id' => $client->id,
+            'idea' => $request->idea,
         ]);
 
         $conversation = $user->conversations()->create([
@@ -32,8 +30,10 @@ class ArtistClientConversationController extends Controller
             'submission_id' => $submission->id,
         ]);
 
-        dump($user->clients);
-
-        return response($submission, 201);
+        return response()->json([
+            'status' => 'success',
+            'data' => [],
+            'message' => 'Your message has been successfully submitted.'
+        ], 201);
     }
 }

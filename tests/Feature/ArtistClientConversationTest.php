@@ -40,6 +40,7 @@ class ArtistClientConversationTest extends TestCase
 
         // assert 
         $response->assertStatus(201);
+        $response->assertJsonFragment(['message' => 'Your message has been successfully submitted.']);
 
         // check the submission exists
 
