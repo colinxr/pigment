@@ -17,8 +17,7 @@ class ArtistClientConversationController extends Controller
         ]);
 
         // return validation error
-
-        $client = $user->clients()->create($validated);
+        $client = $user->clients()->firstOrCreate($validated);
 
         $submission = $user->submissions()->create([
             'client_id' => $client->id,
