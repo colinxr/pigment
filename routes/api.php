@@ -2,8 +2,9 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ArtistConversationsController;
+use App\Http\Controllers\ConversationsController;
 use App\Http\Controllers\ArtistSubmissionsController;
+use App\Http\Controllers\ArtistConversationsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +26,4 @@ Route::post('/artist/{user}/submissions', [ArtistSubmissionsController::class, '
 Route::get('/submissions', [ArtistSubmissionsController::class, 'index']);
 
 Route::get('/conversations/{conversation}', [ArtistConversationsController::class, 'show']);
+Route::post('/conversations/{conversation}/message', [ConversationsController::class, 'store']);

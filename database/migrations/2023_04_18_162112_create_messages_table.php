@@ -15,7 +15,6 @@ return new class extends Migration
             $table->id();
             $table->foreignId('conversation_id');
             $table->morphs('sender');
-            $table->morphs('recipient');
             $table->text('body');
             $table->timestamps();
             $table->boolean('is_from_admin')->virtualAs('sender_type="App\Models\User"');

@@ -64,8 +64,6 @@ class ArtistConversationsTest extends TestCase
             'conversation_id' => $conversation->id,
             'sender_id' => $this->artist->id,
             'sender_type' => get_class($this->artist),
-            'recipient_id' => $conversation->client_id,
-            'recipient_type' => 'App\Models\Client',
         ]);
 
         $this->actingAs($this->artist);
