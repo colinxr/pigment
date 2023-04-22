@@ -8,7 +8,7 @@ use App\Models\Client;
 use App\Models\Submission;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ArtistClientSubmissionsTest extends TestCase
+class ArtistSubmissionsTest extends TestCase
 {
     use RefreshDatabase;
 

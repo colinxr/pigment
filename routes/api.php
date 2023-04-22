@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\ConversationsController;
 use App\Http\Controllers\ArtistSubmissionsController;
 use App\Http\Controllers\ArtistConversationsController;
@@ -20,6 +21,8 @@ use App\Http\Controllers\ArtistConversationsController;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::post('/users', [UserController::class, 'store']);
 
 Route::post('/artist/{user}/submissions', [ArtistSubmissionsController::class, 'store']);
 
