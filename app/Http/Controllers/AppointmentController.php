@@ -10,7 +10,7 @@ class AppointmentController extends Controller
 {
     public function store(Request $request, Submission $submission)
     {
-        if (Auth::user()->id !== $submission->user->id) {
+        if ($submission->user->id !== Auth::user()->id) {
             return response()->json([
                 'error' => "You're not authorized to do that."
             ], 403);
