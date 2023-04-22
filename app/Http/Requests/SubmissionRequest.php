@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use App\Http\Requests\FormRequest;
 
-class NewUserRequest extends FormRequest
+class SubmissionRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,12 +22,9 @@ class NewUserRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'email' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required|unique:users|email',
-            'username' => 'required|unique:users',
-            'password' => 'required',
-            'password_confirmation' => 'required|same:password',
         ];
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\SubmissionRequest;
 
 class ArtistSubmissionsController extends Controller
 {
@@ -17,19 +18,18 @@ class ArtistSubmissionsController extends Controller
         ], 200);
     }
 
-    public function store(Request $request, User $user)
+    public function store(SubmissionRequest $request, User $user)
     {
-        // validate reques
-        $validated = $request->validate([
-            'email' => 'required',
-            'first_name' => 'required',
-            'last_name' => 'required',
-        ]);
-
-        // return validation error
+        // // return validation error
+        // if (!$validated) {
+        //     return response()->json([
+        //         'message' => 'Validation errors occurred',
+        //         'errors' => $validated['errors'],
+        //     ], 422);
+        // }
 
         // create the resources
-        $client = $user->clients()->firstOrCreate($validated);
+        $client = $user->clients()->firstOrCreate($request->safe()->toArray());
 
         $submission = $user->submissions()->create([
             'client_id' => $client->id,

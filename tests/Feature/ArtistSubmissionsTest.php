@@ -124,4 +124,22 @@ class ArtistSubmissionsTest extends TestCase
         $submissions = json_decode($response->getContent())->submissions;
         $this->assertCount(3, $submissions);
     }
+
+    public function test_api_returns_validation_errors_if_request_is_incomplete()
+    {
+        $artist = User::factory()->create();
+
+        $response = $this->post("/api/artist/{$artist->id}/submissions", [
+            'email' => fake()->unique()->safeEmail(),
+            'first_name' => fake()->firstName(),
+        ]);
+
+        $response->assertStatus(422);
+        $response->assertJsonFragment([
+            'message' => 'Validation errors occurred',
+            'errors' => [
+                'last_name' => ["The last name field is required."]
+            ]
+        ]);
+    }
 }
