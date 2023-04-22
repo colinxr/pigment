@@ -24,4 +24,9 @@ class Client extends Model
     {
         return $this->hasMany(Conversation::class);
     }
+
+    public function submissions()
+    {
+        return $this->hasMany(Submission::class);
+    }
 }
