@@ -14,9 +14,9 @@ class Submission extends Model
     ///
     // Relationships
     // 
-    public function artist()
+    public function user()
     {
-        return $this->belongsT(User::class);
+        return $this->belongsTo(User::class);
     }
 
     public function client()

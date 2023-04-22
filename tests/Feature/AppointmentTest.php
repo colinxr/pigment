@@ -40,6 +40,8 @@ class AppointmentTest extends TestCase
             'deposit' => fake()->randomNumber(2),
         ];
 
+        $this->actingAs($this->artist);
+
         $response = $this->post("/api/submissions/{$submission->id}/appointments", $data);
 
         $response->assertStatus(201)
