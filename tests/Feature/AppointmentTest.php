@@ -77,10 +77,10 @@ class AppointmentTest extends TestCase
 
         $response = $this->get("/api/appointments/");
 
-        $response->assertStatus(200);
-
         $content = json_decode($response->getContent());
 
+        $response->assertStatus(200);
         $this->assertSame($content->data[0]->id, $appointments->first()->id);
+        $this->assertEquals(2, count($content->data));
     }
 }
