@@ -7,6 +7,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ConversationsController;
 use App\Http\Controllers\ArtistSubmissionsController;
 use App\Http\Controllers\ArtistConversationsController;
+use App\Http\Controllers\ConversationMessageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -32,4 +33,4 @@ Route::get('/submissions', [ArtistSubmissionsController::class, 'index']);
 Route::post('/submissions/{submission}/appointments', [AppointmentController::class, 'store']);
 
 Route::get('/conversations/{conversation}', [ArtistConversationsController::class, 'show']);
-Route::post('/conversations/{conversation}/message', [ConversationsController::class, 'store']);
+Route::post('/conversations/{conversation}/message', [ConversationMessageController::class, 'store']);

@@ -25,8 +25,6 @@ class MessageTest extends TestCase
             'user_id' => $user->id,
         ]);
 
-        dump($submission);
-
         $conversation = $submission->conversation()->create([
             'user_id' => $user->id,
             'client_id' => $client->id,
