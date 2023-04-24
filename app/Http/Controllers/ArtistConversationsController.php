@@ -12,4 +12,11 @@ class ArtistConversationsController extends Controller
             'messages' => $conversation->messages,
         ], 200);
     }
+
+    public function destroy(Conversation $conversation)
+    {
+        $conversation->delete();
+
+        return response()->json(null, 204);
+    }
 }

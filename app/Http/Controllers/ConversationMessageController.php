@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Conversation;
-use Illuminate\Http\Request;
 use App\Mail\NewMessageAlert;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->foreignId('client_id');
-            $table->foreignId('submission_id');
+            $table->foreignId('submission_id')->onDelete('cascade');
             $table->timestamps();
         });
     }

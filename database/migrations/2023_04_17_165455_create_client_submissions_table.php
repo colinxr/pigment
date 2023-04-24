@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::create('submissions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id');
-            $table->foreignId('client_id');
+            $table->foreignId('client_id')->onDelete('cascade');
             $table->text('idea')->nullable();
-            $table->foreignId('conversation_id')->nullable();
             $table->enum('status', ['new', 'responded', 'booked'])->default(('responded'));
             $table->timestamps();
         });

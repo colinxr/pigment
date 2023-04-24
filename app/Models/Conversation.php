@@ -13,6 +13,18 @@ class Conversation extends Model
 
     protected $guarded = ['id'];
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(
+            function ($model) {
+                $model->submission()->delete();
+                $model->messages()->delete();
+            }
+        );
+    }
+
     ///
     // Relationships
     // 
