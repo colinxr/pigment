@@ -12,28 +12,14 @@ class ConversationMessageController extends Controller
 {
     public function store(Request $request, Conversation $conversation)
     {
-        // if user is logged in 
-        if (!Auth::check()) {
-            return response()->json([
-                'error' => 'we havent sent up email responses yet.'
-            ], 403);
-        }
+        $message = $conversation->newMessage(Auth::user(), $request->body);
 
-        $sender = Auth::user();
-
-        $message = $conversation->messages()->create([
-            'sender_id' => $sender->id,
-            'sender_type' => get_class($sender),
-            'body' => $request->body,
-        ]);
-
-        Mail::to($message->recipient())
-            ->queue(new NewMessageAlert($message));
+        Mail::to($message->recipient())->queue(new NewMessageAlert($message));
 
         return response()->json([
             'status' => 'success',
+            'message' => 'Message sent successfully',
             'data' => [],
         ], 201);
-        // else  we've received an email 
     }
 }

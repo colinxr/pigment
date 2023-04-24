@@ -30,7 +30,10 @@ Route::post('/artist/{user}/submissions', [ArtistSubmissionsController::class, '
 
 Route::get('/submissions', [ArtistSubmissionsController::class, 'index']);
 
-Route::post('/submissions/{submission}/appointments', [AppointmentController::class, 'store']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/submissions/{submission}/appointments', [AppointmentController::class, 'store']);
 
-Route::get('/conversations/{conversation}', [ArtistConversationsController::class, 'show']);
-Route::post('/conversations/{conversation}/message', [ConversationMessageController::class, 'store']);
+    Route::get('/conversations/{conversation}', [ArtistConversationsController::class, 'show']);
+
+    Route::post('/conversations/{conversation}/message', [ConversationMessageController::class, 'store']);
+});
