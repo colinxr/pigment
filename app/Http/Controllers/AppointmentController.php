@@ -8,6 +8,16 @@ use Illuminate\Support\Facades\Auth;
 
 class AppointmentController extends Controller
 {
+
+    public function index()
+    {
+        return response()->json([
+            'status' => 'success',
+            'data' => Auth::user()->appointments,
+        ], 200);
+    }
+
+
     public function store(Request $request, Submission $submission)
     {
         if ($submission->user->id !== Auth::user()->id) {
@@ -29,6 +39,6 @@ class AppointmentController extends Controller
 
         $appointment = $submission->appointment()->create($data);
 
-        return response($appointment, 201);
+        return response()->json($appointment, 201);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use App\Models\Appointment;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Client;
@@ -13,26 +14,26 @@ class AppointmentTest extends TestCase
 {
     use RefreshDatabase;
 
-    public $artist;
+    public $user;
 
     protected function setUp(): void
     {
         parent::setUp();
 
-        $this->artist = User::factory()->create();
+        $this->user = User::factory()->create();
 
         $client = Client::factory()->create([
-            'user_id' => $this->artist->id,
+            'user_id' => $this->user->id,
         ]);
 
         $submission = $client->submissions()->create([
-            'user_id' => $this->artist->id,
+            'user_id' => $this->user->id,
         ]);
     }
 
-    public function test_artist_can_turn_submission_into_appointment()
+    public function test_user_can_turn_submission_into_appointment()
     {
-        $submission = $this->artist->submissions->first();
+        $submission = $this->user->submissions->first();
 
         $data = [
             'date' => fake()->date(),
@@ -40,7 +41,7 @@ class AppointmentTest extends TestCase
             'deposit' => fake()->randomNumber(2),
         ];
 
-        $this->actingAs($this->artist);
+        $this->actingAs($this->user);
 
         $response = $this->post("/api/submissions/{$submission->id}/appointments", $data);
 
@@ -51,9 +52,35 @@ class AppointmentTest extends TestCase
             ]);
 
         $this->assertDatabaseHas('appointments', [
-            'user_id' => $this->artist->id,
+            'user_id' => $this->user->id,
             'submission_id' => $submission->id,
             'date' => $data['date'],
         ]);
+    }
+
+    public function test_user_can_view_their_appointments()
+    {
+        $client = Client::factory()->create([
+            'user_id' => $this->user->id,
+        ]);
+        $submission = Submission::factory()->create([
+            'user_id' => $this->user->id,
+            'client_id' => $client->id,
+        ]);
+
+        $appointments = Appointment::factory()->count(2)->create([
+            'user_id' => $this->user->id,
+            'submission_id' => $submission->id,
+        ]);
+
+        $this->actingAs($this->user);
+
+        $response = $this->get("/api/appointments/");
+
+        $response->assertStatus(200);
+
+        $content = json_decode($response->getContent());
+
+        $this->assertSame($content->data[0]->id, $appointments->first()->id);
     }
 }
