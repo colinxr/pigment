@@ -6,6 +6,8 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Client;
 use App\Models\Submission;
+use App\Mail\NewMessageAlert;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -38,8 +40,8 @@ class ConversationTest extends TestCase
 
     public function test_can_add_new_messages_in_a_conversation()
     {
+        Mail::fake();
         $conversation = $this->artist->conversations->first();
-        $client = $this->artist->clients->first();
 
         $this->actingAs($this->artist);
         $body = fake()->text();
@@ -54,5 +56,7 @@ class ConversationTest extends TestCase
 
         $this->assertCount(1, $messages);
         $this->assertEquals($body, $messages->first()->body);
+
+        Mail::assertQueued(NewMessageAlert::class);
     }
 }

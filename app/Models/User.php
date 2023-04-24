@@ -67,4 +67,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Client::class)->where('email', $email)->first();
     }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class);
+    }
 }

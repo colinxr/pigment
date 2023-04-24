@@ -37,26 +37,6 @@ class ArtistConversationsTest extends TestCase
         });
     }
 
-    // public function test_artist_can_view_the_submission_details_in_a_conversation()
-    // {
-    //     $this->actingAs($this->artist);
-    //     $conversation = $this->artist->conversations->first();
-
-    //     $response = $this->get("/api/artist/conversations/{$conversation->id}");
-    //     $response->assertStatus(200);
-
-    //     $submission = json_decode($response->getContent())->submission;
-    //     $this->assertEquals($submission->id, $this->artist->submissions->first()->id);
-    // }
-
-    // public function test_conversation_can_be_marked_as_read()
-    // {
-    //     $active_conversation = $this->artist->conversations->first();
-    //     $this->actingAs($this->artist);
-
-    //     $response = $this->get("/api/artist/conversations/{$active_conversation->id}");
-    // }
-
     public function test_can_view_messages_when_viewing_conversation()
     {
         $conversation = $this->artist->conversations->first();

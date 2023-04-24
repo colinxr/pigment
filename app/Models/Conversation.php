@@ -13,18 +13,10 @@ class Conversation extends Model
 
     protected $guarded = ['id'];
 
-    // protected static function booted(): void
-    // {
-    //     static::creating(function (Model $model) {
-    //         $model->user_id = $model->submission->user_id;
-    //         $model->client_id = $model->submission->client_id;
-    //     });
-    // }
-
     ///
     // Relationships
     // 
-    public function artist()
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
