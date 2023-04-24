@@ -7,10 +7,11 @@ use Illuminate\Http\Request;
 use App\Mail\NewMessageAlert;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use App\Http\Requests\NewMessageRequest;
 
 class ConversationMessageController extends Controller
 {
-    public function store(Request $request, Conversation $conversation)
+    public function store(NewMessageRequest $request, Conversation $conversation)
     {
         $message = $conversation->newMessage(Auth::user(), $request->body);
 
