@@ -45,6 +45,13 @@ class ConversationTest extends TestCase
         });
     }
 
+    protected  function tearDown(): void
+    {
+        // Storage::deleteDirectory('/media-library');
+        Storage::deleteDirectory('/public');
+        Storage::makeDirectory('/public');
+    }
+
     public function test_can_add_new_messages_in_a_conversation()
     {
         Mail::fake();
@@ -69,11 +76,11 @@ class ConversationTest extends TestCase
 
     public function test_messages_can_have_attachments()
     {
-        $this->withoutExceptionHandling();
         Mail::fake();
         $conversation = $this->user->conversations->first();
 
         $this->actingAs($this->user);
+
         $body = fake()->text();
         $response = $this->post("/api/conversations/{$conversation->id}/message", [
             'sender_id' => $this->user->id,
@@ -94,11 +101,9 @@ class ConversationTest extends TestCase
         $message = $conversation->messages->first();
         $images = $message->getMedia('attachments');
         $this->assertCount(2, $images);
-        // $this->assertFileExists($message->getFirstMedia()->getPath());
 
-        Mail::assertQueued(NewMessageAlert::class, function ($mail) {
-            // dump($mail);
-            return count($mail->attachments) > 0;
+        Mail::assertQueued(NewMessageAlert::class, function (NewMessageAlert $mail) {
+            return true && count($mail->attachments()) === 2;
         });
     }
 

@@ -56,11 +56,11 @@ class NewMessageAlert extends Mailable
      */
     public function attachments(): array
     {
-        $files = $this->message->getMedia();
+        $files = $this->message->getMedia('attachments');
 
-        return array_map(function ($file) {
+        return $files->map(function ($file) {
             return Attachment::fromPath($file->getPath());
-        }, $files);
+        })->toArray();
     }
 
     public function headers()

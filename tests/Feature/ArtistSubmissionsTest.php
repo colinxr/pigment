@@ -15,6 +15,13 @@ class ArtistSubmissionsTest extends TestCase
 {
     use RefreshDatabase;
 
+    protected  function tearDown(): void
+    {
+        // Storage::deleteDirectory('/media-library');
+        Storage::deleteDirectory('/public');
+        Storage::makeDirectory('/public');
+    }
+
     public function test_client_can_start_new_conversation_with_artist()
     {
         // need a new artist

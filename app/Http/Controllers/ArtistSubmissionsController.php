@@ -29,8 +29,7 @@ class ArtistSubmissionsController extends Controller
 
         if ($request->attachments) {
             foreach ($request->attachments as $attachment) {
-                $image =  $submission->addMedia($attachment)->toMediaCollection('attachments');
-                dump($image);
+                $image = $submission->addMedia($attachment)->toMediaCollection('attachments');
             }
         }
 
