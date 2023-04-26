@@ -7,13 +7,13 @@
 // [x] user can reply to a submission/conversation
 // [x] users can delete a conversation/submission 
 // [x] users can see list of appointments 
+// [x] client can submit images in a submission
+// [x] user can send images in a message  
 
 
 // to do 
-// client can submit images in a submission
-// user can send images in a message  
-// clients receive messages in an email
-// users can change their username
+// [] clients receive messages in an email
+// [] users can change their username
 
 
 

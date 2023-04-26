@@ -14,6 +14,12 @@ class ConversationMessageController extends Controller
     {
         $message = $conversation->newMessage(Auth::user(), $request->body);
 
+        if ($request->attachments) {
+            foreach ($request->attachments as $attachment) {
+                $message->addMedia($attachment);
+            }
+        }
+
         Mail::to($message->recipient())->queue(new NewMessageAlert($message));
 
         return response()->json([

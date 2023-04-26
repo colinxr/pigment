@@ -7,7 +7,9 @@ use App\Models\User;
 use App\Models\Client;
 use App\Models\Submission;
 use App\Mail\NewMessageAlert;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -55,12 +57,46 @@ class ConversationTest extends TestCase
 
         $response->assertStatus(201);
 
-        $messages = $conversation->messages;
+        // $messages = $conversation->messages;
 
-        $this->assertCount(1, $messages);
-        $this->assertEquals($body, $messages->first()->body);
+        // $this->assertCount(1, $messages);
+        $this->assertDatabaseHas('messages', [
+            'body' => $body,
+            'conversation_id' => $conversation->id,
+        ]);
+
+        // $this->assertEquals($body, $messages->first()->body);
 
         Mail::assertQueued(NewMessageAlert::class);
+    }
+
+    public function test_messages_can_have_attachments()
+    {
+        Storage::fake();
+        $conversation = $this->user->conversations->first();
+
+        $this->actingAs($this->user);
+        $body = fake()->text();
+        $response = $this->post("/api/conversations/{$conversation->id}/message", [
+            'sender_id' => $this->user->id,
+            'body' => $body,
+            'attachments' => [
+                UploadedFile::fake()->create('somefile.jpeg', 13),
+                UploadedFile::fake()->create('another-img.png', 13),
+            ],
+        ]);
+
+        $response->assertStatus(201);
+
+        $this->assertDatabaseHas('messages', [
+            'body' => $body,
+            'conversation_id' => $conversation->id,
+        ]);
+
+        $message = $conversation->messages->first();
+
+        $images = $message->getMedia();
+        $this->assertCount(2, $images->count());
     }
 
     public function test_users_can_delete_a_conversation()

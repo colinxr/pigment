@@ -9,6 +9,7 @@ use App\Models\Submission;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\Testing\File;
 
 class ArtistSubmissionsTest extends TestCase
 {
@@ -151,8 +152,8 @@ class ArtistSubmissionsTest extends TestCase
             'last_name' => fake()->firstName(),
             'idea' => fake()->text(),
             'attachments' => [
-                UploadedFile::fake()->create('somefile.jpeg', 13),
-                UploadedFile::fake()->create('another-img.png', 13),
+                File::image('somefile.jpeg', 13),
+                File::image('another-img.png', 12),
             ],
         ];
 
@@ -164,8 +165,7 @@ class ArtistSubmissionsTest extends TestCase
         ]);
 
         $submisison = $user->submissions()->first();
-        $images = $submisison->getMedia('attachments');
-
-        $this->assertCount(2, $images->count());
+        $images = $submisison->getMedia();
+        $this->assertCount(2, $images);
     }
 }

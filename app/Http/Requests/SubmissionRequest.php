@@ -26,7 +26,7 @@ class SubmissionRequest extends FormRequest
             'email' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
-            'files.*' => [
+            'attachments.*' => [
                 'nullable',
                 File::image(),
             ]

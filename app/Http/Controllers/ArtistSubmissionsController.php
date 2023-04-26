@@ -28,12 +28,9 @@ class ArtistSubmissionsController extends Controller
             'idea' => $request->idea,
         ]);
 
-
-        dump($request->attachments);
-
         if ($request->attachments) {
             foreach ($request->attachments as $attachment) {
-                $submission->addMediaFromRequest($attachment);
+                $submission->addMedia($attachment);
             }
         }
 

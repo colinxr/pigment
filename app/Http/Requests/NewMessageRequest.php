@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Validation\Rules\File;
 use Illuminate\Foundation\Http\FormRequest;
 
 class NewMessageRequest extends FormRequest
@@ -24,7 +24,11 @@ class NewMessageRequest extends FormRequest
     {
         return [
             'sender_id' => 'required',
-            'body' => 'required'
+            'body' => 'required',
+            'attachments.*' => [
+                'nullable',
+                File::image(),
+            ]
         ];
     }
 }

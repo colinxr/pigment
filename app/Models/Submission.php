@@ -46,7 +46,6 @@ class Submission extends Model implements HasMedia
     /// 
     // Media 
     ///
-
     public function registerMediaConversions(Media $media = null): void
     {
         $this->addMediaConversion('preview')
