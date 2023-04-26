@@ -9,11 +9,11 @@
 // [x] users can see list of appointments 
 // [x] client can submit images in a submission
 // [x] user can send images in a message  
+// [x] users can change their username
 
 
 // to do 
 // [] clients receive messages in an email
-// [] users can change their username
 
 
 

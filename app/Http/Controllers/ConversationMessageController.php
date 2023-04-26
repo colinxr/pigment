@@ -16,7 +16,7 @@ class ConversationMessageController extends Controller
 
         if ($request->attachments) {
             foreach ($request->attachments as $attachment) {
-                $message->addMedia($attachment);
+                $message->addMedia($attachment)->toMediaCollection('attachments');
             }
         }
 

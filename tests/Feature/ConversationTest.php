@@ -13,6 +13,8 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
+use function PHPUnit\Framework\assertNotEmpty;
+
 class ConversationTest extends TestCase
 {
     use RefreshDatabase;
@@ -57,22 +59,18 @@ class ConversationTest extends TestCase
 
         $response->assertStatus(201);
 
-        // $messages = $conversation->messages;
-
-        // $this->assertCount(1, $messages);
         $this->assertDatabaseHas('messages', [
             'body' => $body,
             'conversation_id' => $conversation->id,
         ]);
-
-        // $this->assertEquals($body, $messages->first()->body);
 
         Mail::assertQueued(NewMessageAlert::class);
     }
 
     public function test_messages_can_have_attachments()
     {
-        Storage::fake();
+        $this->withoutExceptionHandling();
+        Mail::fake();
         $conversation = $this->user->conversations->first();
 
         $this->actingAs($this->user);
@@ -81,8 +79,8 @@ class ConversationTest extends TestCase
             'sender_id' => $this->user->id,
             'body' => $body,
             'attachments' => [
-                UploadedFile::fake()->create('somefile.jpeg', 13),
-                UploadedFile::fake()->create('another-img.png', 13),
+                UploadedFile::fake()->image('test.jpg'),
+                UploadedFile::fake()->image('test.png'),
             ],
         ]);
 
@@ -94,9 +92,14 @@ class ConversationTest extends TestCase
         ]);
 
         $message = $conversation->messages->first();
+        $images = $message->getMedia('attachments');
+        $this->assertCount(2, $images);
+        // $this->assertFileExists($message->getFirstMedia()->getPath());
 
-        $images = $message->getMedia();
-        $this->assertCount(2, $images->count());
+        Mail::assertQueued(NewMessageAlert::class, function ($mail) {
+            // dump($mail);
+            return count($mail->attachments) > 0;
+        });
     }
 
     public function test_users_can_delete_a_conversation()

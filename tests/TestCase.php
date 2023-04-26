@@ -2,6 +2,7 @@
 
 namespace Tests;
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -14,5 +15,41 @@ abstract class TestCase extends BaseTestCase
         $this->app->detectEnvironment(function () {
             return 'testing';
         });
+
+        $this->initializeDirectory($this->getTempDirectory());
+    }
+
+    protected function initializeDirectory($directory)
+    {
+        if (File::isDirectory($directory)) {
+            File::deleteDirectory($directory);
+        }
+        File::makeDirectory($directory);
+    }
+
+    protected function setUpTempTestFiles()
+    {
+        $this->initializeDirectory($this->getTestFilesDirectory());
+        File::copyDirectory(__DIR__ . '/TestSupport/testfiles', $this->getTestFilesDirectory());
+    }
+
+    public function getTempDirectory(string $suffix = ''): string
+    {
+        return __DIR__ . '/TestSupport/temp' . ($suffix == '' ? '' : '/' . $suffix);
+    }
+
+    public function getTestFilesDirectory(string $suffix = ''): string
+    {
+        return $this->getTempDirectory() . '/testfiles' . ($suffix == '' ? '' : '/' . $suffix);
+    }
+
+    public function getTestJpg(): string
+    {
+        return $this->getTestFilesDirectory('test.jpg');
+    }
+
+    public function getTestPng(): string
+    {
+        return $this->getTestFilesDirectory('test.png');
     }
 }

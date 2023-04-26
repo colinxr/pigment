@@ -9,7 +9,7 @@ use App\Models\Submission;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\Testing\File;
+use Illuminate\Http\File;
 
 class ArtistSubmissionsTest extends TestCase
 {
@@ -27,7 +27,7 @@ class ArtistSubmissionsTest extends TestCase
             'idea' => fake()->text(),
         ];
 
-        $response = $this->post("/api/artist/{$user->id}/submissions", $submission);
+        $response = $this->post("/api/users/{$user->id}/submissions", $submission);
 
         $response->assertStatus(201);
         $response->assertJsonFragment(['message' => 'Your message has been successfully submitted.']);
@@ -61,7 +61,7 @@ class ArtistSubmissionsTest extends TestCase
             'idea' => fake()->text(),
         ];
 
-        $response = $this->post("/api/artist/{$user->id}/submissions", $new_submission_data);
+        $response = $this->post("/api/users/{$user->id}/submissions", $new_submission_data);
 
         $response->assertStatus(201);
         $response->assertJsonFragment(['message' => 'Your message has been successfully submitted.']);
@@ -88,7 +88,7 @@ class ArtistSubmissionsTest extends TestCase
             'idea' => fake()->text(),
         ];
 
-        $response = $this->post("/api/artist/{$user_b->id}/submissions", $new_submission_data);
+        $response = $this->post("/api/users/{$user_b->id}/submissions", $new_submission_data);
 
         $response->assertStatus(201);
         $response->assertJsonFragment(['message' => 'Your message has been successfully submitted.']);
@@ -126,7 +126,7 @@ class ArtistSubmissionsTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->post("/api/artist/{$user->id}/submissions", [
+        $response = $this->post("/api/users/{$user->id}/submissions", [
             'email' => fake()->unique()->safeEmail(),
             'first_name' => fake()->firstName(),
         ]);
@@ -142,8 +142,6 @@ class ArtistSubmissionsTest extends TestCase
 
     public function test_client_can_submit_images()
     {
-        $this->withoutExceptionHandling();
-        Storage::fake();
         $user = User::factory()->create();
 
         $data = [
@@ -152,12 +150,13 @@ class ArtistSubmissionsTest extends TestCase
             'last_name' => fake()->firstName(),
             'idea' => fake()->text(),
             'attachments' => [
-                File::image('somefile.jpeg', 13),
-                File::image('another-img.png', 12),
+                UploadedFile::fake()->image('test.jpg'),
+                UploadedFile::fake()->image('test.png'),
             ],
         ];
 
-        $response = $this->post("/api/artist/{$user->id}/submissions", $data);
+
+        $response = $this->post("/api/users/{$user->id}/submissions", $data);
         $response->assertStatus(201);
 
         $this->assertDatabaseHas('submissions', [
@@ -165,7 +164,7 @@ class ArtistSubmissionsTest extends TestCase
         ]);
 
         $submisison = $user->submissions()->first();
-        $images = $submisison->getMedia();
+        $images = $submisison->getMedia('attachments');
         $this->assertCount(2, $images);
     }
 }

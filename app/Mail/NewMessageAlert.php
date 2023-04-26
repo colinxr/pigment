@@ -11,6 +11,7 @@ use Illuminate\Mail\Mailables\Headers;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailables\Attachment;
 
 class NewMessageAlert extends Mailable
 {
@@ -55,7 +56,11 @@ class NewMessageAlert extends Mailable
      */
     public function attachments(): array
     {
-        return [];
+        $files = $this->message->getMedia();
+
+        return array_map(function ($file) {
+            return Attachment::fromPath($file->getPath());
+        }, $files);
     }
 
     public function headers()

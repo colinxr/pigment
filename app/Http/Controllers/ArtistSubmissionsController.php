@@ -20,7 +20,6 @@ class ArtistSubmissionsController extends Controller
 
     public function store(SubmissionRequest $request, User $user)
     {
-        // create the resources
         $client = $user->clients()->firstOrCreate($request->all());
 
         $submission = $user->submissions()->create([
@@ -30,9 +29,11 @@ class ArtistSubmissionsController extends Controller
 
         if ($request->attachments) {
             foreach ($request->attachments as $attachment) {
-                $submission->addMedia($attachment);
+                $image =  $submission->addMedia($attachment)->toMediaCollection('attachments');
+                dump($image);
             }
         }
+
 
         $conversation = $submission->conversation()->create([
             'user_id' => $user->id,
