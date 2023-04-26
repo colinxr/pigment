@@ -26,12 +26,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('/users', [UserController::class, 'store']);
 
-Route::post('/artist/{user}/submissions', [ArtistSubmissionsController::class, 'store']);
+Route::post('/users/{user}/submissions', [ArtistSubmissionsController::class, 'store']);
 
 Route::get('/submissions', [ArtistSubmissionsController::class, 'index']);
 
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('appointments', [AppointmentController::class, 'index']);
+    Route::post('/users/{user}', [UserController::class, 'update']);
+
+    Route::get('/appointments', [AppointmentController::class, 'index']);
 
     Route::post('/submissions/{submission}/appointments', [AppointmentController::class, 'store']);
 

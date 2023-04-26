@@ -33,4 +33,33 @@ class UserTest extends TestCase
             'email' => $data['email'],
         ]);
     }
+
+    public function test_user_can_update_their_username()
+    {
+        $user = User::factory()->create();
+        $new_username = fake()->userName();
+
+        $this->actingAs($user);
+        $response = $this->post('api/users/' . $user->id, [
+            'username' => $new_username,
+        ]);
+
+        $response->assertStatus(204);
+        $this->assertDatabaseHas('users', [
+            'username' => $new_username,
+        ]);
+    }
+
+    public function test_user_can_update_their_password()
+    {
+        $user = User::factory()->create();
+
+        $this->actingAs($user);
+        $response = $this->post('api/users/' . $user->id, [
+            'password' => 'secret',
+            'password_confirmation' => 'secret',
+        ]);
+
+        $response->assertStatus(204);
+    }
 }
