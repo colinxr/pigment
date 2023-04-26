@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\FormRequest;
+use Illuminate\Validation\Rules\File;
 
 class SubmissionRequest extends FormRequest
 {
@@ -25,6 +26,10 @@ class SubmissionRequest extends FormRequest
             'email' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
+            'files.*' => [
+                'nullable',
+                File::image(),
+            ]
         ];
     }
 }

@@ -20,21 +20,22 @@ class ArtistSubmissionsController extends Controller
 
     public function store(SubmissionRequest $request, User $user)
     {
-        // // return validation error
-        // if (!$validated) {
-        //     return response()->json([
-        //         'message' => 'Validation errors occurred',
-        //         'errors' => $validated['errors'],
-        //     ], 422);
-        // }
-
         // create the resources
-        $client = $user->clients()->firstOrCreate($request->safe()->toArray());
+        $client = $user->clients()->firstOrCreate($request->all());
 
         $submission = $user->submissions()->create([
             'client_id' => $client->id,
             'idea' => $request->idea,
         ]);
+
+
+        dump($request->attachments);
+
+        if ($request->attachments) {
+            foreach ($request->attachments as $attachment) {
+                $submission->addMediaFromRequest($attachment);
+            }
+        }
 
         $conversation = $submission->conversation()->create([
             'user_id' => $user->id,

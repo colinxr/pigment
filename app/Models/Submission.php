@@ -2,12 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\Image\Manipulations;
+use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
+use Spatie\MediaLibrary\InteractsWithMedia;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Spatie\MediaLibrary\MediaCollections\Models\Media;
 
-class Submission extends Model
+class Submission extends Model implements HasMedia
 {
-    use HasFactory;
+    use InteractsWithMedia, HasFactory;
 
     protected $guarded = ['id'];
 
@@ -32,5 +36,21 @@ class Submission extends Model
     public function appointment()
     {
         return $this->hasMany(Appointment::class);
+    }
+
+    /// 
+    // Methods
+    ///
+
+
+    /// 
+    // Media 
+    ///
+
+    public function registerMediaConversions(Media $media = null): void
+    {
+        $this->addMediaConversion('preview')
+            ->fit(Manipulations::FIT_CROP, 300, 300)
+            ->nonQueued();
     }
 }

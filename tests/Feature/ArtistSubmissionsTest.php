@@ -6,6 +6,8 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Client;
 use App\Models\Submission;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class ArtistSubmissionsTest extends TestCase
@@ -15,7 +17,7 @@ class ArtistSubmissionsTest extends TestCase
     public function test_client_can_start_new_conversation_with_artist()
     {
         // need a new artist
-        $artist = User::factory()->create();
+        $user = User::factory()->create();
 
         $submission = [
             'email' => fake()->unique()->safeEmail(),
@@ -24,37 +26,31 @@ class ArtistSubmissionsTest extends TestCase
             'idea' => fake()->text(),
         ];
 
-        $response = $this->post("/api/artist/{$artist->id}/submissions", $submission);
+        $response = $this->post("/api/artist/{$user->id}/submissions", $submission);
 
         $response->assertStatus(201);
         $response->assertJsonFragment(['message' => 'Your message has been successfully submitted.']);
 
-        // check the client exists 
-        $client = Client::where([
+        $this->assertDatabaseHas('clients', [
             'email' => $submission['email'],
-            'user_id' => $artist->id,
-        ])->first();
+            'user_id' => $user->id,
+        ]);
 
-        // check the submission exists
-        $this->assertModelExists($client);
-        $this->assertEquals($submission['email'], $client->email);
-
-        // checck the conversations
-        $this->assertCount(1, $artist->conversations);
-        $this->assertEquals($client->id, $artist->conversations->first()->client_id);
+        $this->assertDatabaseHas('submissions', ['idea' => $submission['idea']]);
+        $this->assertDatabaseHas('conversations', ['user_id' => $user->id,]);
     }
 
-    public function test_client_can_submitt_multiple_requests_to_same_artists()
+    public function test_client_can_submit_multiple_requests_to_same_artists()
     {
-        $artist = User::factory()->create();
-        $client = Client::factory()->create(['user_id' => $artist->id,]);
+        $user = User::factory()->create();
+        $client = Client::factory()->create(['user_id' => $user->id,]);
         $first_submission = Submission::factory()->create([
             'client_id' => $client->id,
-            'user_id' => $artist->id,
+            'user_id' => $user->id,
         ]);
         $first_conversation = $first_submission->conversation()->create([
             'client_id' => $client->id,
-            'user_id' => $artist->id,
+            'user_id' => $user->id,
         ]);
 
         $new_submission_data = [
@@ -64,24 +60,24 @@ class ArtistSubmissionsTest extends TestCase
             'idea' => fake()->text(),
         ];
 
-        $response = $this->post("/api/artist/{$artist->id}/submissions", $new_submission_data);
+        $response = $this->post("/api/artist/{$user->id}/submissions", $new_submission_data);
 
         $response->assertStatus(201);
         $response->assertJsonFragment(['message' => 'Your message has been successfully submitted.']);
 
-        $this->assertCount(1, $artist->clients);
-        $this->assertCount(2, $artist->submissions);
-        $this->assertCount(2, $artist->conversations);
+        $this->assertCount(1, $user->clients);
+        $this->assertCount(2, $user->submissions);
+        $this->assertCount(2, $user->conversations);
     }
 
     public function test_client_can_submit_to_multiple_artists()
     {
-        $artist = User::factory()->create();
-        $artist_b = User::factory()->create();
-        $client = Client::factory()->create(['user_id' => $artist->id,]);
+        $user = User::factory()->create();
+        $user_b = User::factory()->create();
+        $client = Client::factory()->create(['user_id' => $user->id,]);
         $first_submission = Submission::factory()->create([
             'client_id' => $client->id,
-            'user_id' => $artist->id,
+            'user_id' => $user->id,
         ]);
 
         $new_submission_data = [
@@ -91,32 +87,32 @@ class ArtistSubmissionsTest extends TestCase
             'idea' => fake()->text(),
         ];
 
-        $response = $this->post("/api/artist/{$artist_b->id}/submissions", $new_submission_data);
+        $response = $this->post("/api/artist/{$user_b->id}/submissions", $new_submission_data);
 
         $response->assertStatus(201);
         $response->assertJsonFragment(['message' => 'Your message has been successfully submitted.']);
 
         $clients = Client::where(['email' => $client->email])->get();
         $this->assertCount(2, $clients);
-        $this->assertCount(1, $artist->submissions);
-        $this->assertCount(1, $artist_b->submissions);
+        $this->assertCount(1, $user->submissions);
+        $this->assertCount(1, $user_b->submissions);
     }
 
     public function test_artist_can_view_all_their_submissions()
     {
-        $artist = User::factory()->create();
+        $user = User::factory()->create();
         $clients = Client::factory()->count(3)->create([
-            'user_id' => $artist->id,
+            'user_id' => $user->id,
         ]);
 
-        $clients->each(function ($client) use ($artist) {
+        $clients->each(function ($client) use ($user) {
             $submission = Submission::factory()->create([
                 'client_id' => $client->id,
-                'user_id' => $artist->id,
+                'user_id' => $user->id,
             ]);
         });
 
-        $this->actingAs($artist);
+        $this->actingAs($user);
         $response = $this->get("/api/submissions");
 
         $response->assertStatus(200);
@@ -127,9 +123,9 @@ class ArtistSubmissionsTest extends TestCase
 
     public function test_api_returns_validation_errors_if_request_is_incomplete()
     {
-        $artist = User::factory()->create();
+        $user = User::factory()->create();
 
-        $response = $this->post("/api/artist/{$artist->id}/submissions", [
+        $response = $this->post("/api/artist/{$user->id}/submissions", [
             'email' => fake()->unique()->safeEmail(),
             'first_name' => fake()->firstName(),
         ]);
@@ -141,5 +137,35 @@ class ArtistSubmissionsTest extends TestCase
                 'last_name' => ["The last name field is required."]
             ]
         ]);
+    }
+
+    public function test_client_can_submit_images()
+    {
+        $this->withoutExceptionHandling();
+        Storage::fake();
+        $user = User::factory()->create();
+
+        $data = [
+            'email' => fake()->unique()->safeEmail(),
+            'first_name' => fake()->firstName(),
+            'last_name' => fake()->firstName(),
+            'idea' => fake()->text(),
+            'attachments' => [
+                UploadedFile::fake()->create('somefile.jpeg', 13),
+                UploadedFile::fake()->create('another-img.png', 13),
+            ],
+        ];
+
+        $response = $this->post("/api/artist/{$user->id}/submissions", $data);
+        $response->assertStatus(201);
+
+        $this->assertDatabaseHas('submissions', [
+            'idea' => $data['idea']
+        ]);
+
+        $submisison = $user->submissions()->first();
+        $images = $submisison->getMedia('attachments');
+
+        $this->assertCount(2, $images->count());
     }
 }
