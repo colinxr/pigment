@@ -10,10 +10,15 @@
 // [x] client can submit images in a submission
 // [x] user can send images in a message  
 // [x] users can change their username
+// [x] clients receive attachments in an email
 
 
 // to do 
-// [] clients receive messages in an email
+// [] users and clients can respond to an email and its threaded in the conversation
+// [] users can store appointments in Google Calendar
+// [] clienets are reminded of upcoming appointmennts
+// [] clients can update status of an appointment 
+// []
 
 
 
