@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Http\Request;
-use App\Services\GoogleApiClient;
 use App\Services\GoogleApiService;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OAuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,16 +20,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/oauth/google/callback', function (GoogleApiService $service) {
-
-    if (request()->code) {
-        $token = $service->client()->fetchAccessTokenWithAuthCode(request()->code);
-        $service->client()->setAccessToken($token);
-
-        auth()->user()->google_access_token = $token;
-
-        dd(auth()->user());
-    }
-
-    return redirect('/');;
-});
+Route::get('/oauth/google/callback', [OAuthController::class, 'store']);
