@@ -24,7 +24,7 @@ class UserTest extends TestCase
         $response = $this->post('api/users', $data);
 
         $response->assertStatus(201)
-            ->assertJson([
+            ->assertJsonFragment([
                 'last_name' => $data['last_name'],
                 'email' => $data['email'],
             ]);
@@ -32,6 +32,8 @@ class UserTest extends TestCase
         $this->assertDatabaseHas('users', [
             'email' => $data['email'],
         ]);
+
+        $this->assertNotNull($response->getData()->token);
     }
 
     public function test_user_can_update_their_username()

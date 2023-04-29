@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\OAuthController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ConversationsController;
 use App\Http\Controllers\ArtistSubmissionsController;
@@ -30,6 +31,7 @@ Route::post('/users/{user}/submissions', [ArtistSubmissionsController::class, 's
 
 Route::get('/submissions', [ArtistSubmissionsController::class, 'index']);
 
+
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/users/{user}', [UserController::class, 'update']);
 
@@ -42,4 +44,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/conversations/{conversation}', [ArtistConversationsController::class, 'destroy']);
 
     Route::post('/conversations/{conversation}/message', [ConversationMessageController::class, 'store']);
+
+    Route::post('/oauth/google/callback', [OAuthController::class, 'update']);
 });

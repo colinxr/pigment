@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\NewUserRequest;
 
@@ -11,18 +12,21 @@ class UserController extends Controller
 {
     public function store(NewUserRequest $request)
     {
-        // $validated = $request->validate([
-        //     'first_name' => 'required',
-        //     'last_name' => 'required',
-        //     'email' => 'required|unique:users|email',
-        //     'username' => 'required|unique:users',
-        //     'password' => 'required',
-        //     'password_confirmation' => 'required|same:password',
-        // ]);
+        try {
+            $user = User::create($request->validated());
 
-        $user = User::create($request->all());
+            $token = $user->createToken('auth_token')->plainTextToken;
 
-        return response()->json($user, 201);
+            return response()->json([
+                'user' => $user,
+                'token' => $token,
+            ], 201);
+        } catch (\Throwable $th) {
+
+            return response()->json([
+                'error' => $th->getMessage(),
+            ], 500);
+        }
     }
 
     public function update(Request $request, User $user)

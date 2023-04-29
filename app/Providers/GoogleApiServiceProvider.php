@@ -62,9 +62,9 @@ class GoogleApiServiceProvider extends ServiceProvider
 
         $this->validateConfigSetting($credentials);
 
-        $token = $config['auth_profiles']['oauth']['token_json'];
+        // $token = $config['auth_profiles']['oauth']['token_json'];
 
-        $this->validateConfigSetting($token);
+        // $this->validateConfigSetting($token);
     }
 
     protected function validateConfigSetting(string $setting)

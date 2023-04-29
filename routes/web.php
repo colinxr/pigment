@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use App\Services\GoogleApiService;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\OAuthController;
 
@@ -20,4 +21,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/oauth/google/callback', [OAuthController::class, 'store']);
+Route::get('/oauth/google/callback', function () {
+    if (!request()->code) {
+
+        $auth_url = $this->apiClient->createAuthUrl();
+
+        return redirect()->away($auth_url);
+    }
+
+    $response = Http::withToken(session()->token())
+        ->post('/api/oauth/google/callback', ['code' => request()->code]);
+
+    return redirect('/');
+});

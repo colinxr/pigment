@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Http\Requests\FormRequest;
+use Illuminate\Support\Facades\Hash;
 
 class NewUserRequest extends FormRequest
 {
@@ -29,5 +30,15 @@ class NewUserRequest extends FormRequest
             'password' => 'required',
             'password_confirmation' => 'required|same:password',
         ];
+    }
+
+    public function validated($key = null, $default = null)
+    {
+        $validated = parent::validated();
+
+        // Hash the user's password
+        $validated['password'] = Hash::make($validated['password']);
+
+        return $validated;
     }
 }
