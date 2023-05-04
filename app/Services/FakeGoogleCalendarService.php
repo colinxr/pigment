@@ -10,6 +10,11 @@ class FakeGoogleCalendarService implements GoogleCalendarInterface
 {
   public $events;
 
+  public function __construct()
+  {
+    $this->events = [];
+  }
+
   public function createEventFromAppointment(Appointment $appointment)
   {
     $event = new Event;

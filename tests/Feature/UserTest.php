@@ -2,6 +2,7 @@
 
 namespace Tests\Feature;
 
+use Carbon\Carbon;
 use Tests\TestCase;
 use App\Models\User;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -63,5 +64,24 @@ class UserTest extends TestCase
         ]);
 
         $response->assertStatus(204);
+    }
+
+    public function test_can_store_access_tokens()
+    {
+        $user = User::factory()->create();
+
+        $token = [
+            "access_token" => "ya29.a0AWY7CkmLp-cPmV1CaLAbaJaqbqcb7LEiFIrW4v8VqedBZMeWyP0E9GJaQVniun228Q_ApUpLtpNWpJR_ag-nZikMNlaSZmNUKao_sOyzxf5kiebf-xH0MWOrVUyak9tw-FxnSRgTKod-oOhQwcN8rRAO8uLFaCgYKAW8SARESFQG1tDrpR1aj4ywbYLDeZ2mv0Xty-A0163",
+            "expires_in" => 3599,
+            "refresh_token" => "1//060pXHwOMnXJHCgYIARAAGAYSNwF-L9IrG1oVzRum8NyCQoab0tHBpXjfR1x0YuuOgWznWrOOC6nXhueIjdKT5W_xHDGmCl_2em0",
+            "scope" => "https://www.googleapis.com/auth/calendar",
+            "token_type" => "Bearer",
+            "created" => 1683234955,
+        ];
+
+        $user->storeGCalTokens($token);
+
+        $this->assertNotNull($user->accessToken());
+        $this->assertNotNull($user->refreshToken());
     }
 }

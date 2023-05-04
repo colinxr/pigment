@@ -2,9 +2,8 @@
 
 namespace App\Services;
 
-use Google_Client;
-use App\Models\Appointment;
 use Google_Service_Calendar;
+use App\Models\Appointment;
 use App\Services\GoogleApiService;
 use Google\Service\Calendar\Event;
 use App\Interfaces\GoogleCalendarInterface;

@@ -42,7 +42,7 @@ class OAuthController extends Controller
 
         $this->apiClient->setAccessToken($token);
 
-        auth()->user()->update(['google_access_token' => $token]);
+        auth()->user()->storeGCalTokens($token);
 
         return response()->json([
             'status' => 'success',

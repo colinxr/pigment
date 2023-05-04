@@ -38,6 +38,9 @@ class CalendarTest extends TestCase
 
         $auth_url = $service->client()->createAuthUrl();
 
+
+        dump($auth_url);
+
         $this->assertNotNull($auth_url);
         $this->assertTrue(Str::contains(
             $auth_url,
@@ -45,24 +48,28 @@ class CalendarTest extends TestCase
         ));
     }
 
-    // public function test_can_return_access_token()
-    // {
-    //     $user = User::factory()->create();
+    public function test_can_return_access_token()
+    {
+        $user = User::factory()->create([
+            'email' => 'colinxr@gmail.com'
+        ]);
 
-    //     // Mock the Google_Client class
-    //     $clientMock = Mockery::mock(Google_Client::class);
-    //     $clientMock->expects($this->once())
-    //         ->method('fetchAccessTokenWithAuthCode')
-    //         ->with(['access_token' => 'MY_ACCESS_TOKEN']);
+        $this->actingAs($user);
 
-    //     $this->actingAs($user);
-    //     $auth_code = Str::random(8);
-    //     $response = $this->post('/api/oauth/google/callback', [
-    //         'code' => $auth_code,
-    //     ]);
+        $request_code = '4/0AbUR2VN5OiOOljIEgWElrbIh_Rgt5b6sSPNGvf4mdL9jHb_0gUTISvG9cJ2uKCx_kl0LyQ';
 
-    //     $response->assertStatus(200);
-    // }
+        $config = config('google-client');
+        $service = new GoogleApiService($config);
+
+        $token = $service->client()->fetchAccessTokenWithAuthCode($request_code);
+
+        dump($token);
+        // $response = $this->post('/api/oauth/google/callback', [
+        // 'code' => $auth_code,
+        // ]);
+
+        // $response->assertStatus(200);
+    }
 }
 
 

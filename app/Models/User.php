@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Carbon\Carbon;
 use App\Models\Submission;
 use App\Models\Appointment;
 use Laravel\Sanctum\HasApiTokens;
@@ -78,5 +79,55 @@ class User extends Authenticatable
     public function appointments()
     {
         return $this->hasMany(Appointment::class);
+    }
+
+    ///
+    // Methods
+    ///
+
+    public function getToken(string $name)
+    {
+        return $this->tokens()->where('name', $name)->first();
+    }
+
+    public function accessToken()
+    {
+        return $this->getToken('google_access_token');
+    }
+
+    public function refreshToken()
+    {
+        return $this->getToken('google_refresh_token');
+    }
+
+    public function storeGCalTokens($token)
+    {
+        $this->storeGCalAccessToken($token);
+        $this->storeGCalRefreshToken($token['refresh_token']);
+    }
+
+    public function storeGCalAccessToken($token)
+    {
+        $expiresAt = $token['expires_in'] + $token['created'];
+
+        $stored_token = $this->tokens()->create([
+            'name' => 'google_access_token',
+            'token' => $token['access_token'],
+            'abilities' => '*',
+            'expires_at' => Carbon::createFromTimestamp($expiresAt)->toDateTimeString(),
+        ]);
+
+        return $stored_token;
+    }
+
+    public function storeGCalRefreshToken($refreshToken)
+    {
+        $token = $this->tokens()->create([
+            'name' => 'google_refresh_token',
+            'token' => $refreshToken,
+            'abilities' => '*',
+        ]);
+
+        return $token;
     }
 }
