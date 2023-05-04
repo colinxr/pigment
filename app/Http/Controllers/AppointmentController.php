@@ -3,11 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Submission;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\NewAppointmentRequest;
+use App\Interfaces\GoogleCalendarInterface;
+use App\Services\GoogleApiService;
+use App\Services\GoogleCalendarService;
 
 class AppointmentController extends Controller
 {
+
+    private $gCalService;
+
+    public function __construct(GoogleCalendarInterface $gCalService)
+    {
+        $this->gCalService = $gCalService;
+    }
 
     public function index()
     {
@@ -18,7 +28,7 @@ class AppointmentController extends Controller
     }
 
 
-    public function store(Request $request, Submission $submission)
+    public function store(NewAppointmentRequest $request, Submission $submission)
     {
         if ($submission->user->id !== Auth::user()->id) {
             return response()->json([
@@ -26,18 +36,14 @@ class AppointmentController extends Controller
             ], 403);
         }
 
-        $validated = $request->validate([
-            'date' => 'required|date',
-            'price' => 'required',
-            'deposit' => 'sometimes',
-        ]);
-
         $data = array_merge(
-            ['user_id' => $submission->user_id],
             $request->toArray(),
+            ['user_id' => $submission->user_id],
         );
 
         $appointment = $submission->appointment()->create($data);
+
+        $event = $this->gCalService->saveEvent($appointment);
 
         return response()->json($appointment, 201);
     }

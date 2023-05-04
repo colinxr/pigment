@@ -2,11 +2,13 @@
 
 namespace Tests\Feature;
 
-use App\Models\Appointment;
+use App\Interfaces\GoogleCalendarInterface;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Client;
 use App\Models\Submission;
+use App\Models\Appointment;
+use App\Services\FakeGoogleCalendarService;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -82,5 +84,43 @@ class AppointmentTest extends TestCase
         $response->assertStatus(200);
         $this->assertSame($content->data[0]->id, $appointments->first()->id);
         $this->assertEquals(2, count($content->data));
+    }
+
+    public function test_creating_appointment_can_create_an_event_in_GCal()
+    {
+        $gCalService = new FakeGoogleCalendarService;
+        $this->app->bind(GoogleCalendarInterface::class, function () use ($gCalService) {
+            return $gCalService;
+        });
+
+        $submission = $this->user->submissions->first();
+
+        $data = [
+            'name' => fake()->text(),
+            'description' => fake()->text(),
+            'startDateTime' => fake()->date(),
+            'endDateTime' => fake()->date(),
+            'price' => fake()->randomNumber(3),
+            'deposit' => fake()->randomNumber(2),
+        ];
+        // 
+        $this->actingAs($this->user);
+
+        $response = $this->post("/api/submissions/{$submission->id}/appointments", $data);
+
+        // assert appointment exists
+
+        $this->assertDatabaseHas('appointments', [
+            'name' => $data['name'],
+        ]);
+
+        // make sure events is not empty
+        dump($gCalService->getEvents());
+        $this->assertNotEmpty($gCalService->getEvents());
+
+        $event = $gCalService->getEvents()[0];
+
+        // event has the right details 
+        $this->assertEquals($event['name'], $data['name']);
     }
 }

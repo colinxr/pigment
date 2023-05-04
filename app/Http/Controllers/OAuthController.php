@@ -17,10 +17,7 @@ class OAuthController extends Controller
 
     public function index()
     {
-        dd(session()->token());
-
         if (!request()->code) {
-
             $auth_url = $this->apiClient->createAuthUrl();
 
             return redirect()->away($auth_url);
@@ -36,7 +33,7 @@ class OAuthController extends Controller
     {
         if (!request()->code) {
             return response()->json([
-                'error' => 'Bad request: now authentication code provided',
+                'error' => 'Bad request: no authentication code provided',
                 'status' => 'error',
             ], 401);
         }
@@ -45,7 +42,7 @@ class OAuthController extends Controller
 
         $this->apiClient->setAccessToken($token);
 
-        auth()->user()->google_access_token = $token;
+        auth()->user()->update(['google_access_token' => $token]);
 
         return response()->json([
             'status' => 'success',

@@ -2,28 +2,13 @@
 
 namespace App\Services;
 
-use Google_Client;
 use App\Models\Appointment;
-use Google_Service_Calendar;
-use App\Services\GoogleApiService;
 use Google\Service\Calendar\Event;
 use App\Interfaces\GoogleCalendarInterface;
 
-class GoogleCalendarService implements GoogleCalendarInterface
+class FakeGoogleCalendarService implements GoogleCalendarInterface
 {
-  private $client;
-  private $service;
-
-  public function __construct(GoogleApiService $api)
-  {
-    $this->client = $api->client();
-    $this->service = new Google_Service_Calendar($this->client);
-  }
-
-  public function getService()
-  {
-    return $this->service;
-  }
+  public $events;
 
   public function createEventFromAppointment(Appointment $appointment)
   {
@@ -41,12 +26,12 @@ class GoogleCalendarService implements GoogleCalendarInterface
   {
     $event = $this->createEventFromAppointment($appointment);
 
-    $this->service->getCalendar('primary')->insertEvent($event);
-
+    $this->events[] = $event;
     return $event;
   }
 
   public function getEvents()
   {
+    return $this->events;
   }
 }

@@ -8,8 +8,9 @@ use App\Exceptions\InvalidGCalConfiguration;
 
 class GoogleApiService
 {
+  const SCOPES = Google_Service_Calendar::CALENDAR;
 
-  public $config;
+  private $config;
 
   public function __construct(array $config)
   {
@@ -39,11 +40,7 @@ class GoogleApiService
   {
     $client = new ApiClient();
 
-    $client->setScopes([
-      Google_Service_Calendar::CALENDAR,
-    ]);
-
-
+    $client->setScopes([self::SCOPES]);
     $client->setAuthConfig($authProfile['credentials_json']);
 
     return $client;
@@ -53,15 +50,12 @@ class GoogleApiService
   {
     $client = new ApiClient();
 
-    $client->setScopes([
-      Google_Service_Calendar::CALENDAR,
-    ]);
-
+    $client->setScopes([self::SCOPES]);
     $client->setAuthConfig($authProfile['credentials_json']);
     $client->setRedirectUri(env('APP_URL') . '/oauth/google/callback');
     $client->setAccessType('offline');
     $client->setPrompt('consent');
-    $client->setIncludeGrantedScopes(true);   // incremental auth
+    $client->setIncludeGrantedScopes(true);
 
     return $client;
   }

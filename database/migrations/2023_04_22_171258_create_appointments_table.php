@@ -15,7 +15,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id');
             $table->foreignId('submission_id');
-            $table->dateTime('date');
+            $table->text('name');
+            $table->text('description');
+            $table->dateTime('startDateTime');
+            $table->dateTime('endDateTime');
             $table->integer('price');
             $table->integer('deposit')->default(0);
             $table->timestamps();
