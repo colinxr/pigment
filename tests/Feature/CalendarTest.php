@@ -14,7 +14,7 @@ class CalendarTest extends TestCase
 {
     use RefreshDatabase;
     /**
-     * A basic feature test example.
+     * @group google
      */
     public function test_example(): void
     {
@@ -26,12 +26,17 @@ class CalendarTest extends TestCase
         $this->assertFalse(true);
     }
 
+    /**
+     * @group google
+     */
     public function test_can_get_auth_url()
     {
         $config = config('google-client');
         $service = new GoogleApiService($config);
 
         $auth_url = $service->client()->createAuthUrl();
+
+        dump($auth_url);
 
         $this->assertNotNull($auth_url);
         $this->assertTrue(Str::contains(
@@ -40,25 +45,54 @@ class CalendarTest extends TestCase
         ));
     }
 
-    // public function test_can_return_access_token()
-    // {
-    //     $user = User::factory()->create([
-    //         'email' => 'colinxr@gmail.com'
-    //     ]);
+    /**
+     * @group google
+     */
+    public function test_can_return_access_token()
+    {
+        $user = User::factory()->create([
+            'email' => 'colinxr@gmail.com'
+        ]);
 
-    //     $this->actingAs($user);
+        $this->actingAs($user);
 
-    //     $request_code = '4/0AbUR2VN5OiOOljIEgWElrbIh_Rgt5b6sSPNGvf4mdL9jHb_0gUTISvG9cJ2uKCx_kl0LyQ';
+        $request_code = '4/0AbUR2VN5OiOOljIEgWElrbIh_Rgt5b6sSPNGvf4mdL9jHb_0gUTISvG9cJ2uKCx_kl0LyQ';
 
-    //     $config = config('google-client');
-    //     $service = new GoogleApiService($config);
+        $config = config('google-client');
+        $service = new GoogleApiService($config);
 
-    //     $token = $service->client()->fetchAccessTokenWithAuthCode($request_code);
+        $token = $service->client()->fetchAccessTokenWithAuthCode($request_code);
 
-    //     dump($token);
+        dump($token);
 
-    //     $this->assertFalse(true);
-    // }`
+        $this->assertNotNull($token);
+    }
+
+    /**
+     * @group google
+     */
+    public function can_create_event_and_store_it_in_google_calendar(): void
+    {
+        // bind gcal interface to the real googlecalendar service 
+
+        // get auth url from first test 
+        // use auth url to log in to gcal with colinxr@gmail.com
+
+        // get the authentication from URL 
+        // use that to in the second test to get the access token 
+
+        // store that token in the uesrs datdabase table
+
+        // set that token in the api client 
+
+        // call api to create an appointment 
+        // assert response is 201 
+        // 
+
+        // use google calendar service to get events
+        // find the event that matches the appointment we just created. 
+
+    }
 }
 
 

@@ -35,7 +35,7 @@ Route::get('/submissions', [ArtistSubmissionsController::class, 'index']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/oauth/google/callback', [OAuthController::class, 'update']);
 
-    Route::middleware('CheckForValidAccessToken')->group(function () {
+    Route::middleware('hasValidAccessToken')->group(function () {
         Route::post('/users/{user}', [UserController::class, 'update']);
 
         Route::get('/appointments', [AppointmentController::class, 'index']);

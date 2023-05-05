@@ -24,7 +24,7 @@ class CheckForValidAccessToken
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (app()->env() === 'testing') {
+        if (app()->environment() === 'testing') {
             return $next($request);
         }
 
