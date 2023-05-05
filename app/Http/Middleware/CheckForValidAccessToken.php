@@ -29,7 +29,7 @@ class CheckForValidAccessToken
         }
 
         // Set the user's access token and refresh token on the Google client
-        $this->apiClient->setAccessToken(auth()->user()->getAccessToken());
+        // $this->apiClient->setAccessToken(auth()->user()->getAccessToken());
 
         // Check if access token has expired
         if ($this->apiClient->isAccessTokenExpired()) {
