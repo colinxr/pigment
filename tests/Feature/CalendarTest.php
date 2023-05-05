@@ -18,12 +18,7 @@ class CalendarTest extends TestCase
      */
     public function test_example(): void
     {
-        // $config = config('google-client');
-        // $client = GoogleApiClient::client($config);
-        // $service = new GoogleCalendarService($client);
-
         $user = User::factory()->create();
-        // $user->createToken('api');
 
         $this->actingAs($user);
         $response = $this->get('/oauth/google/callback');
@@ -37,9 +32,6 @@ class CalendarTest extends TestCase
         $service = new GoogleApiService($config);
 
         $auth_url = $service->client()->createAuthUrl();
-
-
-        dump($auth_url);
 
         $this->assertNotNull($auth_url);
         $this->assertTrue(Str::contains(
