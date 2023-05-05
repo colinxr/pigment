@@ -56,6 +56,7 @@ class ArtistSubmissionsTest extends TestCase
             'client_id' => $client->id,
             'user_id' => $user->id,
         ]);
+
         $first_conversation = $first_submission->conversation()->create([
             'client_id' => $client->id,
             'user_id' => $user->id,
@@ -73,7 +74,12 @@ class ArtistSubmissionsTest extends TestCase
         $response->assertStatus(201);
         $response->assertJsonFragment(['message' => 'Your message has been successfully submitted.']);
 
-        $this->assertCount(1, $user->clients);
+        $this->assertDatabaseHas('clients', [
+            'user_id' => $user->id,
+            'email' => $client->email,
+        ]);
+
+        $this->assertEquals(1, Client::count());
         $this->assertCount(2, $user->submissions);
         $this->assertCount(2, $user->conversations);
     }

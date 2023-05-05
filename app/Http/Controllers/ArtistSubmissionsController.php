@@ -20,7 +20,7 @@ class ArtistSubmissionsController extends Controller
 
     public function store(SubmissionRequest $request, User $user)
     {
-        $client = $user->clients()->firstOrCreate($request->all());
+        $client = $user->clients()->firstOrCreate(['email' => $request->email], $request->except('email'));
 
         $submission = $user->submissions()->create([
             'client_id' => $client->id,
@@ -33,7 +33,6 @@ class ArtistSubmissionsController extends Controller
             }
         }
 
-
         $conversation = $submission->conversation()->create([
             'user_id' => $user->id,
             'client_id' => $client->id,
@@ -41,8 +40,8 @@ class ArtistSubmissionsController extends Controller
 
         return response()->json([
             'status' => 'success',
+            'message' => 'Your message has been successfully submitted.',
             'data' => [],
-            'message' => 'Your message has been successfully submitted.'
         ], 201);
     }
 }
