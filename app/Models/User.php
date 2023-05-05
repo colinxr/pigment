@@ -85,49 +85,28 @@ class User extends Authenticatable
     // Methods
     ///
 
-    public function getToken(string $name)
+    public function getAccessToken()
     {
-        return $this->tokens()->where('name', $name)->first();
+        return json_decode($this->access_token);
     }
 
-    public function accessToken()
+    public function storeTokens(array $token)
     {
-        return $this->getToken('google_access_token');
+        $this->storeAccessToken($token);
+        $this->storeRefreshToken($token['refresh_token']);
     }
 
-    public function refreshToken()
+    public function storeAccessToken(array $token)
     {
-        return $this->getToken('google_refresh_token');
+        $accessToken = collect($token)->except('refresh_token');
+
+        $this->access_token = json_encode($accessToken);
+        $this->save();
     }
 
-    public function storeGCalTokens($token)
+    public function storeRefreshToken(string $refreshToken)
     {
-        $this->storeGCalAccessToken($token);
-        $this->storeGCalRefreshToken($token['refresh_token']);
-    }
-
-    public function storeGCalAccessToken($token)
-    {
-        $expiresAt = $token['expires_in'] + $token['created'];
-
-        $stored_token = $this->tokens()->create([
-            'name' => 'google_access_token',
-            'token' => $token['access_token'],
-            'abilities' => '*',
-            'expires_at' => Carbon::createFromTimestamp($expiresAt)->toDateTimeString(),
-        ]);
-
-        return $stored_token;
-    }
-
-    public function storeGCalRefreshToken($refreshToken)
-    {
-        $token = $this->tokens()->create([
-            'name' => 'google_refresh_token',
-            'token' => $refreshToken,
-            'abilities' => '*',
-        ]);
-
-        return $token;
+        $this->refresh_token = json_encode($refreshToken);
+        $this->save();
     }
 }

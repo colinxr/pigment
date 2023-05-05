@@ -48,28 +48,25 @@ class CalendarTest extends TestCase
         ));
     }
 
-    public function test_can_return_access_token()
-    {
-        $user = User::factory()->create([
-            'email' => 'colinxr@gmail.com'
-        ]);
+    // public function test_can_return_access_token()
+    // {
+    //     $user = User::factory()->create([
+    //         'email' => 'colinxr@gmail.com'
+    //     ]);
 
-        $this->actingAs($user);
+    //     $this->actingAs($user);
 
-        $request_code = '4/0AbUR2VN5OiOOljIEgWElrbIh_Rgt5b6sSPNGvf4mdL9jHb_0gUTISvG9cJ2uKCx_kl0LyQ';
+    //     $request_code = '4/0AbUR2VN5OiOOljIEgWElrbIh_Rgt5b6sSPNGvf4mdL9jHb_0gUTISvG9cJ2uKCx_kl0LyQ';
 
-        $config = config('google-client');
-        $service = new GoogleApiService($config);
+    //     $config = config('google-client');
+    //     $service = new GoogleApiService($config);
 
-        $token = $service->client()->fetchAccessTokenWithAuthCode($request_code);
+    //     $token = $service->client()->fetchAccessTokenWithAuthCode($request_code);
 
-        dump($token);
-        // $response = $this->post('/api/oauth/google/callback', [
-        // 'code' => $auth_code,
-        // ]);
+    //     dump($token);
 
-        // $response->assertStatus(200);
-    }
+    //     $this->assertFalse(true);
+    // }`
 }
 
 

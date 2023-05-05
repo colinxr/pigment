@@ -79,9 +79,9 @@ class UserTest extends TestCase
             "created" => 1683234955,
         ];
 
-        $user->storeGCalTokens($token);
+        $user->storeTokens($token);
 
-        $this->assertNotNull($user->accessToken());
-        $this->assertNotNull($user->refreshToken());
+        $this->assertNotNull($user->getAccessToken());
+        $this->assertNotNull($user->refresh_token);
     }
 }
