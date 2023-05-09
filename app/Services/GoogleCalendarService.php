@@ -20,7 +20,6 @@ class GoogleCalendarService implements GoogleCalendarInterface
   public function __construct(GoogleApiService $api)
   {
     $this->client = $api->client();
-    // $this->client->setAccessToken();
     $this->service = new Google_Service_Calendar($this->client);
   }
 
@@ -103,7 +102,27 @@ class GoogleCalendarService implements GoogleCalendarInterface
     return $this->service->calendars->insert($calendar);
   }
 
-  public function getEvents()
+  public function listEvents()
   {
+    $calendarId = $this->getCalendarId();
+
+    return $this->service->events->listEvents($calendarId);
+  }
+
+  public function getCalendarId()
+  {
+    if (!auth()->user()->calendar_id) {
+      $calendar = $this->getCalendarBySummary();
+
+      if (!$calendar) {
+        $calendar = $this->createCalendar();
+      }
+
+      auth()->user()->update(['calendar_id' => $calendar->getId()]);
+
+      return $calendar->getId();
+    }
+
+    return auth()->user()->calendar_id;
   }
 }

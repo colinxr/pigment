@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Response;
 class CheckForValidAccessToken
 {
 
+    public $user;
     protected $apiClient;
 
     public function __construct(GoogleApiService $apiClient)
@@ -28,16 +29,25 @@ class CheckForValidAccessToken
             return $next($request);
         }
 
-        // Set the user's access token and refresh token on the Google client
-        // $this->apiClient->setAccessToken(auth()->user()->getAccessToken());
+        if (!$request->user()->access_token) {
+            $auth_url = $this->apiClient->createAuthUrl();
 
-        // Check if access token has expired
-        if ($this->apiClient->isAccessTokenExpired()) {
-            // Refresh access token
-            $this->apiClient->fetchAccessTokenWithRefreshToken($this->apiClient->getRefreshToken());
-            // Update user's access token in the database or session
-            auth()->user->storeAccessToken($this->apiClient->getAccessToken());
+            return response()->json([
+                'status' => '403',
+                'message' => 'user is unauthenticated',
+                'data' => $auth_url,
+            ], 403);
         }
+
+        if ($request->user()->isTokenExpired()) {
+            $refresh_token = $request->user()->getAccessToken()->refresh_token;
+            $token = $this->apiClient
+                ->fetchAccessTokenWithRefreshToken($refresh_token);
+
+            $request->user()->update(['access_token' => $token]);
+        }
+
+        $this->user = auth()->user();
 
         return $next($request);
     }

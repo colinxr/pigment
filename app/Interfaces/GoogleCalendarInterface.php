@@ -12,7 +12,7 @@ interface GoogleCalendarInterface
 
   public function saveEvent(Appointment $appointment);
 
-  public function getEvents();
+  public function listEvents();
 
   public function getService();
 }

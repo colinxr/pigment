@@ -53,9 +53,7 @@ class OAuthController extends Controller
         $calendar = $gCalService->checkCalendarExists(auth()->user()->calendar_id);
 
         if ($calendar->getId() !== auth()->user()->calendar_id) {
-            auth()->user()->update([
-                'calendar_id' => $calendar->getId()
-            ]);
+            auth()->user()->update(['calendar_id' => $calendar->getId()]);
         }
 
         return response()->json([

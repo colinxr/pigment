@@ -35,10 +35,11 @@ Route::get('/submissions', [ArtistSubmissionsController::class, 'index']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/oauth/google/callback', [OAuthController::class, 'update']);
 
-    // Route::middleware('hasValidAccessToken')->group(function () {
-    Route::post('/users/{user}', [UserController::class, 'update']);
+    Route::middleware('hasValidAccessToken')->group(function () {
+        Route::post('/users/{user}', [UserController::class, 'update']);
 
-    Route::get('/appointments', [AppointmentController::class, 'index']);
+        Route::get('/appointments', [AppointmentController::class, 'index']);
+    });
 
     Route::post('/submissions/{submission}/appointments', [AppointmentController::class, 'store']);
 
