@@ -3,6 +3,8 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
+use App\Interfaces\GoogleCalendarInterface;
+use App\Providers\GoogleCalendarServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {

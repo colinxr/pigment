@@ -4,21 +4,22 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Services\GoogleApiService;
+use App\Services\GoogleCalendarService;
 use Illuminate\Support\Facades\Http;
 
 class OAuthController extends Controller
 {
-    protected $apiClient;
+    protected $google;
 
-    public function __construct(GoogleApiService $apiClient)
+    public function __construct(GoogleApiService $google)
     {
-        $this->apiClient = $apiClient->client();
+        $this->google = $google;
     }
 
     public function index()
     {
         if (!request()->code) {
-            $auth_url = $this->apiClient->createAuthUrl();
+            $auth_url = $this->google->client()->createAuthUrl();
 
             return redirect()->away($auth_url);
         }
@@ -38,11 +39,20 @@ class OAuthController extends Controller
             ], 401);
         }
 
-        $token = $this->apiClient->fetchAccessTokenWithAuthCode(request()->code);
+        $token = $this->google->client()->fetchAccessTokenWithAuthCode(request()->code);
 
-        $this->apiClient->setAccessToken($token);
+        $this->google->client()->setAccessToken($token);
+        auth()->user()->storeAccessToken($token);
 
-        auth()->user()->storeGCalTokens($token);
+        $gCalService = new GoogleCalendarService($this->google);
+
+        $calendar = $gCalService->checkCalendarExists(auth()->user()->calendar_id);
+
+        if ($calendar->getId() !== auth()->user()->calendar_id) {
+            auth()->user()->update([
+                'calendar_id' => $calendar->getId()
+            ]);
+        }
 
         return response()->json([
             'status' => 'success',

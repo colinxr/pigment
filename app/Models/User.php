@@ -98,9 +98,7 @@ class User extends Authenticatable
 
     public function storeAccessToken(array $token)
     {
-        $accessToken = collect($token)->except('refresh_token');
-
-        $this->access_token = json_encode($accessToken);
+        $this->access_token = json_encode($token);
         $this->save();
     }
 

@@ -35,17 +35,17 @@ Route::get('/submissions', [ArtistSubmissionsController::class, 'index']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/oauth/google/callback', [OAuthController::class, 'update']);
 
-    Route::middleware('hasValidAccessToken')->group(function () {
-        Route::post('/users/{user}', [UserController::class, 'update']);
+    // Route::middleware('hasValidAccessToken')->group(function () {
+    Route::post('/users/{user}', [UserController::class, 'update']);
 
-        Route::get('/appointments', [AppointmentController::class, 'index']);
+    Route::get('/appointments', [AppointmentController::class, 'index']);
 
-        Route::post('/submissions/{submission}/appointments', [AppointmentController::class, 'store']);
+    Route::post('/submissions/{submission}/appointments', [AppointmentController::class, 'store']);
 
-        Route::get('/conversations/{conversation}', [ArtistConversationsController::class, 'show']);
+    Route::get('/conversations/{conversation}', [ArtistConversationsController::class, 'show']);
 
-        Route::delete('/conversations/{conversation}', [ArtistConversationsController::class, 'destroy']);
+    Route::delete('/conversations/{conversation}', [ArtistConversationsController::class, 'destroy']);
 
-        Route::post('/conversations/{conversation}/message', [ConversationMessageController::class, 'store']);
-    });
+    Route::post('/conversations/{conversation}/message', [ConversationMessageController::class, 'store']);
+    // });
 });

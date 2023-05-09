@@ -2,10 +2,11 @@
 
 namespace App\Providers;
 
-use App\Exceptions\InvalidGCalConfiguration;
 use App\Services\GoogleApiService;
 use App\Services\GoogleCalendarService;
 use Illuminate\Support\ServiceProvider;
+use App\Interfaces\GoogleCalendarInterface;
+use App\Exceptions\InvalidGCalConfiguration;
 use Illuminate\Contracts\Foundation\Application;
 
 class GoogleCalendarServiceProvider extends ServiceProvider
@@ -15,7 +16,7 @@ class GoogleCalendarServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(GoogleCalendarService::class, function (Application $app) {
+        $this->app->bind(GoogleCalendarInterface::class, function (Application $app) {
             return new GoogleCalendarService($app->make(GoogleApiService::class));
         });
     }
