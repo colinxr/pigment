@@ -30,9 +30,22 @@ class AppointmentController extends Controller
 
     public function store(NewAppointmentRequest $request, Submission $submission)
     {
-        // dd(auth()->user()->access_token);
-
         $client = $this->gCalService->getClient();
+
+        if (!auth()->user()->access_token) {
+            return response()->json([
+                'status' => '403',
+                'message' => 'User is unauthorized.',
+                'data' => $client->createAuthUrl(),
+            ], 403);
+        }
+
+        if (auth()->user()->isTokenExpired()) {
+            $refresh_token = auth()->user()->access_token['refresh_token'];
+            $token = $client->fetchAccessTokenWithRefreshToken($refresh_token);
+            auth()->user()->update(['access_token' => $token]);
+        }
+
         $client->setAccessToken(auth()->user()->access_token);
 
         if ($submission->user->id !== Auth::user()->id) {

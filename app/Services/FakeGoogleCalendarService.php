@@ -29,7 +29,7 @@ class FakeGoogleCalendarService implements GoogleCalendarInterface
   {
     $event = new Event;
 
-    $event->name = $appointment->name;
+    $event->summary = $appointment->name;
     $event->description = $appointment->description;
     $event->startDateTime = $appointment->startDateTime;
     $event->endDateTime = $appointment->endDateTime;

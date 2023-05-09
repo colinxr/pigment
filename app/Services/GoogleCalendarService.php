@@ -2,10 +2,11 @@
 
 namespace App\Services;
 
-use App\Models\Appointment;
+use Google_Client;
 use Google_Service_Calendar;
-use App\Services\GoogleApiService;
+use App\Models\Appointment;
 use Google\Service\Calendar\Event;
+use Illuminate\Support\Facades\Log;
 use Google\Service\Calendar\Calendar;
 use App\Interfaces\GoogleCalendarInterface;
 
@@ -19,6 +20,7 @@ class GoogleCalendarService implements GoogleCalendarInterface
   public function __construct(GoogleApiService $api)
   {
     $this->client = $api->client();
+    // $this->client->setAccessToken();
     $this->service = new Google_Service_Calendar($this->client);
   }
 

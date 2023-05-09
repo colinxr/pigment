@@ -40,6 +40,8 @@ Route::get('/oauth/google/callback', function (GoogleApiService $apiClient) {
 
     $user = User::where('email', 'colinxr@gmail.com')->first();
 
+    dd(request()->code);
+
     $response = Http::acceptJson()->withToken($user->tokens->first()->token)
         ->post(config('app.url') . '/api/oauth/google/callback', ['code' => request()->code]);
 

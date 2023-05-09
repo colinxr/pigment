@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Services\GoogleApiService;
-use App\Services\GoogleCalendarService;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Http;
+use App\Services\GoogleCalendarService;
 
 class OAuthController extends Controller
 {
@@ -24,6 +26,8 @@ class OAuthController extends Controller
             return redirect()->away($auth_url);
         }
 
+        dd(request()->token());
+
         $response = Http::withToken(auth()->user()->token)
             ->post('/api/oauth/google/callback', ['code' => request()->code]);
 
@@ -41,7 +45,6 @@ class OAuthController extends Controller
 
         $token = $this->google->client()->fetchAccessTokenWithAuthCode(request()->code);
 
-        $this->google->client()->setAccessToken($token);
         auth()->user()->storeAccessToken($token);
 
         $gCalService = new GoogleCalendarService($this->google);

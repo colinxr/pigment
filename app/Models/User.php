@@ -107,4 +107,10 @@ class User extends Authenticatable
         $this->refresh_token = json_encode($refreshToken);
         $this->save();
     }
+
+    public function isTokenExpired()
+    {
+        $expires_at = Carbon::createFromTimestamp($this->getAccessToken()->created + $this->getAccessToken()->expires_in);
+        return $expires_at < Carbon::now();
+    }
 }
