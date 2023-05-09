@@ -52,9 +52,7 @@ class GoogleCalendarService implements GoogleCalendarInterface
 
     $event = $this->createEventFromAppointment($appointment);
 
-    $this->service->events->insert($calendar->getId(), $event);
-
-    return $event;
+    return $this->service->events->insert($calendar->getId(), $event);
   }
 
   public function checkCalendarExists(string $calendarId = null)

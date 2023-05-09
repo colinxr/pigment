@@ -43,7 +43,8 @@ class OAuthController extends Controller
             ], 401);
         }
 
-        $token = $this->google->client()->fetchAccessTokenWithAuthCode(request()->code);
+        $token = $this->google->client()
+            ->fetchAccessTokenWithAuthCode(request()->code);
 
         auth()->user()->storeAccessToken($token);
 
