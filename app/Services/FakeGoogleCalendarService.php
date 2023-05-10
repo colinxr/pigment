@@ -49,4 +49,9 @@ class FakeGoogleCalendarService implements GoogleCalendarInterface
   {
     return $this->events;
   }
+
+  public function getCalendarId()
+  {
+    return 'id';
+  }
 }

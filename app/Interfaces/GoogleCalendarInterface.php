@@ -15,4 +15,6 @@ interface GoogleCalendarInterface
   public function listEvents();
 
   public function getService();
+
+  public function getCalendarId();
 }

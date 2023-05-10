@@ -1,9 +1,12 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
+use App\Services\GoogleCalendarService;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OAuthController;
+use App\Interfaces\GoogleCalendarInterface;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ConversationsController;
 use App\Http\Controllers\ArtistSubmissionsController;
@@ -21,8 +24,14 @@ use App\Http\Controllers\ConversationMessageController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware('auth:sanctum')->get('/user', function (GoogleCalendarInterface $gCalService) {
+
+    if (!request()->user()->calendar_id) {
+        $gCalService->getCalendarId();
+    }
+
+
+    return request()->user();
 });
 
 Route::post('/users', [UserController::class, 'store']);
@@ -36,6 +45,19 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/oauth/google/callback', [OAuthController::class, 'update']);
 
     Route::middleware('hasValidAccessToken')->group(function () {
+
+        Route::get('/user', function (GoogleCalendarInterface $gCalService) {
+            if (!request()->user()->calendar_id) {
+                $gCalService->getClient()->setAccessToken(request()->user()->access_token);
+
+                $gCalService->getCalendarId();
+            }
+
+
+            return request()->user();
+        });
+
+
         Route::post('/users/{user}', [UserController::class, 'update']);
 
         Route::get('/appointments', [AppointmentController::class, 'index']);

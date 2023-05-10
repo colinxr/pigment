@@ -112,15 +112,22 @@ class GoogleCalendarService implements GoogleCalendarInterface
   public function getCalendarId()
   {
     if (!auth()->user()->calendar_id) {
+      Log::info('no calendar id');
       $calendar = $this->getCalendarBySummary();
 
       if (!$calendar) {
+        Log::info('need to create calendar');
         $calendar = $this->createCalendar();
       }
 
-      auth()->user()->update(['calendar_id' => $calendar->getId()]);
+      Log::info('update the database');
 
-      return $calendar->getId();
+      Log::info($calendar->id);
+
+      auth()->user()->calendar_id = $calendar->id;
+      auth()->user()->save();
+
+      return $calendar->id;
     }
 
     return auth()->user()->calendar_id;

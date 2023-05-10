@@ -50,6 +50,8 @@ class OAuthController extends Controller
 
         $gCalService = new GoogleCalendarService($this->google);
 
+        $gCalService->getClient()->setAccessToken($token);
+
         $calendar = $gCalService->checkCalendarExists(auth()->user()->calendar_id);
 
         if ($calendar->getId() !== auth()->user()->calendar_id) {
@@ -59,7 +61,7 @@ class OAuthController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Successfully authenticated Google Calendar',
-            'data' => [],
+            'data' => $calendar,
         ], 200);
     }
 }

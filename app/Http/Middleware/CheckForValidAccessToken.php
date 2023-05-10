@@ -2,9 +2,11 @@
 
 namespace App\Http\Middleware;
 
+use App\Interfaces\GoogleCalendarInterface;
 use Closure;
 use Illuminate\Http\Request;
 use App\Services\GoogleApiService;
+use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckForValidAccessToken
@@ -13,9 +15,9 @@ class CheckForValidAccessToken
     public $user;
     protected $apiClient;
 
-    public function __construct(GoogleApiService $apiClient)
+    public function __construct(GoogleCalendarInterface $gCalService)
     {
-        $this->apiClient = $apiClient->client();
+        $this->apiClient = $gCalService->getClient();
     }
 
     /**
@@ -30,6 +32,7 @@ class CheckForValidAccessToken
         }
 
         if (!$request->user()->access_token) {
+            Log::info('test');
             $auth_url = $this->apiClient->createAuthUrl();
 
             return response()->json([
@@ -40,14 +43,19 @@ class CheckForValidAccessToken
         }
 
         if ($request->user()->isTokenExpired()) {
+            Log::info('token is expired');
             $refresh_token = $request->user()->getAccessToken()->refresh_token;
+            Log::info($refresh_token);
+
             $token = $this->apiClient
                 ->fetchAccessTokenWithRefreshToken($refresh_token);
 
             $request->user()->update(['access_token' => $token]);
         }
 
-        $this->user = auth()->user();
+        $this->apiClient->setAccessToken($request->user()->access_token);
+
+        Log::info('return next request');
 
         return $next($request);
     }

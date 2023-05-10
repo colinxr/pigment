@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/auth-token', function () {
+
+    return phpinfo();
+
     $user = User::where('email', 'colinxr@gmail.com')->first();;
 
     return response()->json([
