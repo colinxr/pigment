@@ -33,6 +33,11 @@ class GoogleCalendarService implements GoogleCalendarInterface
     return $this->client;
   }
 
+  public function setToken(array $token)
+  {
+    return $this->client->setAccessToken($token);
+  }
+
   public function createEventFromAppointment(Appointment $appointment)
   {
     $event = new Event;

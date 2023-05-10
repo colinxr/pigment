@@ -48,7 +48,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::get('/user', function (GoogleCalendarInterface $gCalService) {
             if (!request()->user()->calendar_id) {
-                $gCalService->getClient()->setAccessToken(request()->user()->access_token);
+                $gCalService->setToken(request()->user()->access_token);
 
                 $gCalService->getCalendarId();
             }

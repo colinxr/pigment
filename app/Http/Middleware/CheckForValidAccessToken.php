@@ -32,7 +32,6 @@ class CheckForValidAccessToken
         }
 
         if (!$request->user()->access_token) {
-            Log::info('test');
             $auth_url = $this->apiClient->createAuthUrl();
 
             return response()->json([
@@ -43,19 +42,13 @@ class CheckForValidAccessToken
         }
 
         if ($request->user()->isTokenExpired()) {
-            Log::info('token is expired');
             $refresh_token = $request->user()->getAccessToken()->refresh_token;
-            Log::info($refresh_token);
 
             $token = $this->apiClient
                 ->fetchAccessTokenWithRefreshToken($refresh_token);
 
             $request->user()->update(['access_token' => $token]);
         }
-
-        $this->apiClient->setAccessToken($request->user()->access_token);
-
-        Log::info('return next request');
 
         return $next($request);
     }

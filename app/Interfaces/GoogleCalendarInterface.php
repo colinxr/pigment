@@ -6,6 +6,8 @@ use App\Models\Appointment;
 
 interface GoogleCalendarInterface
 {
+  public function setToken(array $token);
+
   public function createEventFromAppointment(Appointment $appointment);
 
   public function getClient();
