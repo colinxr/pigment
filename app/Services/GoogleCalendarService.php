@@ -3,11 +3,13 @@
 namespace App\Services;
 
 use Google_Client;
-use Google_Service_Calendar;
 use App\Models\Appointment;
+use Illuminate\Support\Str;
+use Google_Service_Calendar;
 use Google\Service\Calendar\Event;
 use Illuminate\Support\Facades\Log;
 use Google\Service\Calendar\Calendar;
+use Google\Service\Calendar\Channel;
 use App\Interfaces\GoogleCalendarInterface;
 
 class GoogleCalendarService implements GoogleCalendarInterface
@@ -62,14 +64,18 @@ class GoogleCalendarService implements GoogleCalendarInterface
   public function checkCalendarExists(string $calendarId = null)
   {
     $matchingCalendar = null;
+
+    // make sure the user's calendar ID actually exists in GCal
     if ($calendarId) {
       $matchingCalendar = $this->getCalendarById($calendarId);
     }
 
+    // if it doesn't, lets check they have  calendar with the name 'DayPlanner'
     if (!$matchingCalendar) {
       $matchingCalendar = $this->getCalendarBySummary();
     }
 
+    // if there's no matching calendar, let's create one. 
     if (!$matchingCalendar) {
       $matchingCalendar = $this->createCalendar();
     }
@@ -105,6 +111,27 @@ class GoogleCalendarService implements GoogleCalendarInterface
     $calendar->setTimeZone('America/Los_Angeles');
 
     return $this->service->calendars->insert($calendar);
+  }
+
+  public function watchCalendar(string $calendarId, $notificationUrl)
+  {
+    // Set up the notification channel request
+    $watchRequest = new Channel();
+    $watchRequest->setId(Str::random(10));
+    $watchRequest->setType('web_hook');
+    $watchRequest->setAddress($notificationUrl);
+
+    $channel = $this->service->events->watch($calendarId, $watchRequest);
+
+        // Store the channel information in your app's database
+        // This is needed so you can later stop the channel when you want to stop watching for updates
+        $channelExpiration = $channel->getExpiration();
+        $channelToken = $channel->getResourceId();
+        // Store the $channelExpiration and $channelToken in your database
+
+        // Return the channel information to the caller
+        return ['expiration' => $channelExpiration, 'token' => $channelToken];
+
   }
 
   public function listEvents()

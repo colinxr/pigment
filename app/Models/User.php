@@ -7,7 +7,9 @@ use Carbon\Carbon;
 use App\Models\Submission;
 use App\Models\Appointment;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Notifications\Notifiable;
+use App\Interfaces\GoogleCalendarInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -114,5 +116,20 @@ class User extends Authenticatable
     {
         $expires_at = Carbon::createFromTimestamp($this->getAccessToken()->created + $this->getAccessToken()->expires_in);
         return $expires_at < Carbon::now();
+    }
+
+    public function subscribeToCalendarUpdates()
+    {
+        # code...
+    }
+
+    public function updateCalendar(GoogleCalendarInterface $gCalService, string $calendarId)
+    {
+        $this->update([ 'calendar_id' => $calendarId]);
+
+        $webhookUrl = url("/api/users/{$this->id}/calendar/subscribe");
+        
+        $watchRequest = $gCalService->watchCalendar($calendarId, $webhookUrl);
+        
     }
 }

@@ -19,4 +19,6 @@ interface GoogleCalendarInterface
   public function getService();
 
   public function getCalendarId();
+
+  public function watchCalendar(string $calendarId, string $notificationUrl);
 }
