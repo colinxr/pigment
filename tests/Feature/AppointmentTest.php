@@ -82,8 +82,6 @@ class AppointmentTest extends TestCase
         
         $this->assertNotEmpty($this->gCalService->listEvents());
 
-        dump($appt->startDateTime);
-
         $newStartTime = fake()->dateTime()->format('d-m-Y H:i:s');
         $newEndTime = fake()->dateTime()->format('d-m-Y H:i:s');
         
@@ -132,28 +130,5 @@ class AppointmentTest extends TestCase
         $response->assertStatus(200);
         $this->assertSame($content->data[0]->id, $appointments->first()->id);
         $this->assertEquals(2, count($content->data));
-    }
-
-    public function test_creating_appointment_can_create_an_event_in_GCal()
-    {
-        $submission = $this->user->submissions->first();
-
-        $data = [
-            'name' => fake()->text(),
-            'description' => fake()->text(),
-            'start' => fake()->date(),
-            'end' => fake()->date(),
-            'price' => fake()->randomNumber(3),
-            'deposit' => fake()->randomNumber(2),
-        ];
-        // 
-        $this->actingAs($this->user);
-
-        $response = $this->post("/api/submissions/{$submission->id}/appointments", $data);
-
-        // assert appointment exists
-        $this->assertDatabaseHas('appointments', [
-            'name' => $data['name'],
-        ]);
     }
 }

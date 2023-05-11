@@ -65,7 +65,15 @@ class GoogleCalendarService implements GoogleCalendarInterface
 
   public function updateEvent(string $event_id, Appointment $appt)
   {
-    # code...
+    $event = $this->service->events->get(auth()->user()->calendar_id, $event_id);
+
+    // Update the event data
+    $event->setSummary($appt->name);
+    $event->setDescription($appt->description);
+    $event->setStart(['startDateTime' => $appt->startDateTime]);
+    $event->setEnd(['endDateTime' => $appt->endDateTime]);
+
+    $this->service->events->update(auth()->user()->calendar_id, $event_id, $event);
   }
 
   public function checkCalendarExists(string $calendarId = null)

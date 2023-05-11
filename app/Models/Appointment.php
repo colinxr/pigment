@@ -13,8 +13,8 @@ class Appointment extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'startDateTime' => 'datetime:Y-m-d',
-        'endDateTime' => 'datetime:Y-m-d',
+        'startDateTime' => 'datetime:d-m-Y H:i:s',
+        'endDateTime' => 'datetime:d-m-Y H:i:s',
     ];
 
     ///
