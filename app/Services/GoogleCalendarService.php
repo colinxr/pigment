@@ -23,6 +23,8 @@ class GoogleCalendarService implements GoogleCalendarInterface
   {
     $this->client = $api->client();
     $this->service = new Google_Service_Calendar($this->client);
+
+    // $this->client->setAccessToken(request()->user()->access_token);
   }
 
   public function getService()
@@ -35,7 +37,7 @@ class GoogleCalendarService implements GoogleCalendarInterface
     return $this->client;
   }
 
-  public function setToken(array $token)
+  public function setToken(array|string $token)
   {
     return $this->client->setAccessToken($token);
   }

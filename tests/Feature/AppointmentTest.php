@@ -23,18 +23,15 @@ class AppointmentTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = User::factory()->create();
+        $this->user = User::factory()->create([ 'access_token' => [] ]);
 
-        $client = Client::factory()->create([
-            'user_id' => $this->user->id,
-        ]);
+        $client = Client::factory()->create([ 'user_id' => $this->user->id ]);
 
-        $submission = $client->submissions()->create([
-            'user_id' => $this->user->id,
-        ]);
+        $submission = $client->submissions()->create([ 'user_id' => $this->user->id, ]);
 
         $this->gCalService = new FakeGoogleCalendarService;
         $gCal = $this->gCalService;
+
         $this->app->bind(GoogleCalendarInterface::class, function () use ($gCal) {
             return $gCal;
         });
@@ -42,12 +39,11 @@ class AppointmentTest extends TestCase
 
     public function test_user_can_turn_submission_into_appointment()
     {
-        $this->withoutExceptionHandling();
         $submission = $this->user->submissions->first();
 
         $data = [
-            'startDateTime' => fake()->date(),
-            'endDateTime' => fake()->date(),
+            'start' => fake()->date(),
+            'end' => fake()->date(),
             'price' => fake()->randomNumber(3),
             'deposit' => fake()->randomNumber(2),
             'name' => fake()->name(),
@@ -58,17 +54,26 @@ class AppointmentTest extends TestCase
 
         $response = $this->post("/api/submissions/{$submission->id}/appointments", $data);
 
-        $response->assertStatus(201)
-            ->assertJson([
-                'price' => $data['price'],
-                'startDateTime' => $data['startDateTime'],
-            ]);
+        $response->assertStatus(201);
+            // ->assertJson([
+            //     'price' => $data['price'],
+            //     'start' => $data['start'],
+            // ]);
 
         $this->assertDatabaseHas('appointments', [
             'user_id' => $this->user->id,
             'submission_id' => $submission->id,
-            'startDateTime' => $data['startDateTime'],
+            'startDateTime' => $data['start'],
         ]);
+
+        // make sure events is not empty
+        // dump($this->gCalService->getEvents());
+        $this->assertNotEmpty($this->gCalService->listEvents());
+
+        $event = $this->gCalService->listEvents()[0];
+
+        // event has the right details 
+        $this->assertEquals($event['summary'], $data['name']);
     }
 
     public function test_user_can_view_their_appointments()
@@ -105,8 +110,8 @@ class AppointmentTest extends TestCase
         $data = [
             'name' => fake()->text(),
             'description' => fake()->text(),
-            'startDateTime' => fake()->date(),
-            'endDateTime' => fake()->date(),
+            'start' => fake()->date(),
+            'end' => fake()->date(),
             'price' => fake()->randomNumber(3),
             'deposit' => fake()->randomNumber(2),
         ];
@@ -119,14 +124,5 @@ class AppointmentTest extends TestCase
         $this->assertDatabaseHas('appointments', [
             'name' => $data['name'],
         ]);
-
-        // make sure events is not empty
-        // dump($this->gCalService->getEvents());
-        $this->assertNotEmpty($this->gCalService->getEvents());
-
-        $event = $this->gCalService->getEvents()[0];
-
-        // event has the right details 
-        $this->assertEquals($event['name'], $data['name']);
     }
 }

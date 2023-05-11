@@ -25,6 +25,11 @@ class FakeGoogleCalendarService implements GoogleCalendarInterface
     return [];
   }
 
+  public function setToken(array|string $token)
+  {
+    return $token;
+  }
+
   public function createEventFromAppointment(Appointment $appointment)
   {
     $event = new Event;
@@ -45,13 +50,20 @@ class FakeGoogleCalendarService implements GoogleCalendarInterface
     return $event;
   }
 
-  public function getEvents()
+  public function listEvents()
   {
-    return $this->events;
+      return $this->events;
   }
 
   public function getCalendarId()
   {
     return 'id';
   }
+
+  public function watchCalendar(string $calendarId, string $notificationUrl)
+  {
+    return true;
+  }
+
+
 }

@@ -2,21 +2,21 @@
 
 namespace App\Http\Middleware;
 
-use App\Interfaces\GoogleCalendarInterface;
 use Closure;
 use Illuminate\Http\Request;
-use App\Services\GoogleApiService;
 use Illuminate\Support\Facades\Log;
+use App\Interfaces\GoogleCalendarInterface;
 use Symfony\Component\HttpFoundation\Response;
 
-class CheckForValidAccessToken
+class HasValidAccessToken
 {
 
-    public $user;
+    protected $gCalService;
     protected $apiClient;
 
     public function __construct(GoogleCalendarInterface $gCalService)
     {
+        $this->gCalService = $gCalService;
         $this->apiClient = $gCalService->getClient();
     }
 

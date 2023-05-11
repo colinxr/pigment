@@ -18,12 +18,12 @@ class AppointmentController extends Controller
     public function __construct(GoogleCalendarInterface $gCalService)
     {
         $this->gCalService = $gCalService;
+        
     }
 
     public function index()
     {
-        $client = $this->gCalService->getClient();
-        $client->setAccessToken(auth()->user()->access_token);
+        $this->gCalService->setToken(request()->user()->access_token);
 
         $appointments = Auth::user()->appointments;
         $events = $this->gCalService->listEvents();
@@ -37,16 +37,11 @@ class AppointmentController extends Controller
 
     public function store(NewAppointmentRequest $request, Submission $submission)
     {
-        $client = $this->gCalService->getClient();
-
         if ($submission->user->id !== Auth::user()->id) {
             return response()->json([
                 'error' => "You're not authorized to do that."
             ], 403);
         }
-
-        $client = $this->gCalService->getClient();
-        $client->setAccessToken(auth()->user()->access_token);
 
         $appointment = $submission->appointment()->create(
             array_merge(
@@ -59,6 +54,8 @@ class AppointmentController extends Controller
             )
         );
 
+        $this->gCalService->setToken(auth()->user()->access_token);
+        
         $event = $this->gCalService->saveEvent($appointment);
 
         $appointment->update(['event_id' => $event->getId()]);
