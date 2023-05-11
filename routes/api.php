@@ -61,6 +61,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/users/{user}', [UserController::class, 'update']);
 
         Route::get('/appointments', [AppointmentController::class, 'index']);
+        
+        Route::post('/appointments/{appointment}', [AppointmentController::class, 'update']);
     });
 
     Route::post('/submissions/{submission}/appointments', [AppointmentController::class, 'store']);

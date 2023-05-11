@@ -9,6 +9,7 @@ use App\Models\Client;
 use App\Models\Submission;
 use App\Models\Appointment;
 use App\Services\FakeGoogleCalendarService;
+use Carbon\Carbon;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -42,8 +43,8 @@ class AppointmentTest extends TestCase
         $submission = $this->user->submissions->first();
 
         $data = [
-            'start' => fake()->date(),
-            'end' => fake()->date(),
+            'startDateTime' => fake()->date(),
+            'endDateTime' => fake()->date(),
             'price' => fake()->randomNumber(3),
             'deposit' => fake()->randomNumber(2),
             'name' => fake()->name(),
@@ -55,15 +56,11 @@ class AppointmentTest extends TestCase
         $response = $this->post("/api/submissions/{$submission->id}/appointments", $data);
 
         $response->assertStatus(201);
-            // ->assertJson([
-            //     'price' => $data['price'],
-            //     'start' => $data['start'],
-            // ]);
 
         $this->assertDatabaseHas('appointments', [
             'user_id' => $this->user->id,
             'submission_id' => $submission->id,
-            'startDateTime' => $data['start'],
+            'startDateTime' => $data['startDateTime'],
         ]);
 
         // make sure events is not empty
@@ -76,9 +73,43 @@ class AppointmentTest extends TestCase
         $this->assertEquals($event['summary'], $data['name']);
     }
 
+    public function test_user_can_update_their_appointment(): void
+    {
+        $appt = Appointment::factory()->create();
+        $event = $this->gCalService->saveEvent($appt);
+        $event->id = fake()->uuid();
+        $appt->update(['event_id' => $event->id]);
+        
+        $this->assertNotEmpty($this->gCalService->listEvents());
+
+        dump($appt->startDateTime);
+
+        $newStartTime = fake()->dateTime()->format('d-m-Y H:i:s');
+        $newEndTime = fake()->dateTime()->format('d-m-Y H:i:s');
+        
+        $this->actingAs($appt->user);
+        $response = $this->post("/api/appointments/{$appt->id}", [
+            'name' => $appt->name,
+            'price' => $appt->price,
+            'description' => $appt->description,
+            'startDateTime' => $newStartTime,
+            'endDateTime' => $newEndTime,
+        ]);
+
+        $response->assertStatus(204);
+
+        $this->assertDatabaseHas('appointments', [
+            'user_id' => $appt->user_id,
+            'submission_id' => $appt->submission_id,
+            'startDateTime' => $newStartTime,
+        ]);
+
+        $event = $this->gCalService->listEvents()[0];
+        $this->assertEquals($newStartTime, $event->start['startDateTime']->format('d-m-Y H:i:s'));
+    }
+
     public function test_user_can_view_their_appointments()
     {
-        $this->withoutExceptionHandling();
         $client = Client::factory()->create([
             'user_id' => $this->user->id,
         ]);

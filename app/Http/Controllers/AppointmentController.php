@@ -3,12 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Models\Submission;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\NewAppointmentRequest;
-use App\Interfaces\GoogleCalendarInterface;
+use App\Models\Appointment;
+use Illuminate\Http\Request;
 use App\Services\GoogleApiService;
-use App\Services\GoogleCalendarService;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Auth;
+use App\Services\GoogleCalendarService;
+use App\Interfaces\GoogleCalendarInterface;
+use App\Http\Requests\NewAppointmentRequest;
 
 class AppointmentController extends Controller
 {
@@ -48,8 +50,8 @@ class AppointmentController extends Controller
                 $request->toArray(),
                 [
                     'user_id' => $submission->user_id,
-                    'startDateTime' => $request->start,
-                    'endDateTime' => $request->end,
+                    // 'startDateTime' => $request->startDateTime,
+                    // 'endDateTime' => $request->endDateTime,
                 ]
             )
         );
@@ -68,5 +70,17 @@ class AppointmentController extends Controller
                 'event' => $event,
             ]
         ], 201);
+    }
+
+    public function update(NewAppointmentRequest $request, Appointment $appointment)
+    {
+        $appointment->update($request->toArray());
+
+        $this->gCalService->updateEvent($appointment->event_id, $appointment);
+
+        return response()->json([
+            'message' => 'Resource updated successfully',
+            'data' => $appointment,
+        ], 204);
     }
 }

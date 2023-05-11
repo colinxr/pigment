@@ -12,7 +12,7 @@ class FakeGoogleCalendarService implements GoogleCalendarInterface
 
   public function __construct()
   {
-    $this->events = [];
+    $this->events = collect();
   }
 
   public function getClient()
@@ -46,7 +46,27 @@ class FakeGoogleCalendarService implements GoogleCalendarInterface
   {
     $event = $this->createEventFromAppointment($appointment);
 
-    $this->events[] = $event;
+    $this->events->push($event);
+    return $event;
+  }
+
+  public function updateEvent(string $event_id, Appointment $appt)
+  {
+    $event = $this->events->filter(fn ($item) => $item->id = $event_id)->first();
+
+    $event->summary = $appt->name;
+    $event->description = $appt->description;
+    $event->start = ['startDateTime' => $appt->startDateTime];
+    $event->end =['endtDateTime' => $appt->endDateTime];
+
+    dump($event);
+    
+    $this->events = $this->events->map(function($item) use ($event) {
+      if ($item->id !== $event->id) return $item;
+
+      return $event;
+    });
+    
     return $event;
   }
 

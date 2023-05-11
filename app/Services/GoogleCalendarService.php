@@ -42,25 +42,30 @@ class GoogleCalendarService implements GoogleCalendarInterface
     return $this->client->setAccessToken($token);
   }
 
-  public function createEventFromAppointment(Appointment $appointment)
+  public function createEventFromAppointment(Appointment $appt)
   {
     $event = new Event;
 
-    $event->summary = $appointment->name;
-    $event->description = $appointment->description;
-    $event->start = ['dateTime' => $appointment->startDateTime];
-    $event->end = ['dateTime' => $appointment->endDateTime];
+    $event->summary = $appt->name;
+    $event->description = $appt->description;
+    $event->start = ['dateTime' => $appt->startDateTime];
+    $event->end = ['dateTime' => $appt->endDateTime];
 
     return $event;
   }
 
-  public function saveEvent(Appointment $appointment)
+  public function saveEvent(Appointment $appt)
   {
     $calendar = $this->checkCalendarExists();
 
-    $event = $this->createEventFromAppointment($appointment);
+    $event = $this->createEventFromAppointment($appt);
 
     return $this->service->events->insert($calendar->getId(), $event);
+  }
+
+  public function updateEvent(string $event_id, Appointment $appt)
+  {
+    # code...
   }
 
   public function checkCalendarExists(string $calendarId = null)

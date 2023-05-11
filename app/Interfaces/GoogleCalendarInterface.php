@@ -13,6 +13,8 @@ interface GoogleCalendarInterface
   public function getClient();
 
   public function saveEvent(Appointment $appointment);
+  
+  public function updateEvent(string $event_id, Appointment $appt);
 
   public function listEvents();
 
@@ -21,4 +23,5 @@ interface GoogleCalendarInterface
   public function getCalendarId();
 
   public function watchCalendar(string $calendarId, string $notificationUrl);
+
 }

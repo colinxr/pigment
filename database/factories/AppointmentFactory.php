@@ -2,6 +2,9 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
+use App\Models\Client;
+use App\Models\Submission;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,12 +19,20 @@ class AppointmentFactory extends Factory
      */
     public function definition(): array
     {
+        $user = User::factory()->create();
+        $submission = Submission::factory()->create([
+            'user_id' => $user->id,
+            'client_id' => Client::factory()->create(['user_id' => $user->id])
+        ]);
+
         return [
             'name' => fake()->name(),
             'description' => fake()->text(),
             'startDateTime' => fake()->dateTime(),
             'endDateTime' => fake()->dateTime(),
             'price' => fake()->randomNumber(3),
+            'user_id' => $user->id,
+            'submission_id' => $submission->id,
         ];
     }
 }
