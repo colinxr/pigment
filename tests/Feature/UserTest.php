@@ -81,7 +81,7 @@ class UserTest extends TestCase
 
         $user->storeTokens($token);
 
-        $this->assertNotNull($user->getAccessToken());
+        $this->assertNotNull($user->access_token);
         $this->assertNotNull($user->refresh_token);
     }
 }

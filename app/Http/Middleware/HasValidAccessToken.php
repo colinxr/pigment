@@ -42,7 +42,7 @@ class HasValidAccessToken
         }
 
         if ($request->user()->isTokenExpired()) {
-            $refresh_token = $request->user()->getAccessToken()->refresh_token;
+            $refresh_token = $request->user()->access_token['refresh_token'];
 
             $token = $this->apiClient
                 ->fetchAccessTokenWithRefreshToken($refresh_token);

@@ -90,11 +90,6 @@ class User extends Authenticatable
     // Methods
     ///
 
-    public function getAccessToken()
-    {
-        return json_decode($this->access_token);
-    }
-
     public function storeTokens(array $token)
     {
         $this->storeAccessToken($token);
@@ -115,7 +110,7 @@ class User extends Authenticatable
 
     public function isTokenExpired()
     {
-        $expires_at = Carbon::createFromTimestamp($this->getAccessToken()->created + $this->getAccessToken()->expires_in);
+        $expires_at = Carbon::createFromTimestamp($this->access_token['created'] + $this->access_token['expires_in']);
         return $expires_at < Carbon::now();
     }
 

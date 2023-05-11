@@ -67,11 +67,10 @@ class GoogleCalendarService implements GoogleCalendarInterface
   {
     $event = $this->service->events->get(auth()->user()->calendar_id, $event_id);
 
-    // Update the event data
-    $event->setSummary($appt->name);
-    $event->setDescription($appt->description);
-    $event->setStart(['startDateTime' => $appt->startDateTime]);
-    $event->setEnd(['endDateTime' => $appt->endDateTime]);
+    $event->summary = $appt->name;
+    $event->description = $appt->description;
+    $event->start = ['dateTime' => $appt->startDateTime];
+    $event->end = ['dateTime' => $appt->endDateTime];
 
     $this->service->events->update(auth()->user()->calendar_id, $event_id, $event);
   }
