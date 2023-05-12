@@ -72,12 +72,26 @@ class GoogleCalendarService implements GoogleCalendarInterface
     $event->start = ['dateTime' => $appt->startDateTime];
     $event->end = ['dateTime' => $appt->endDateTime];
 
-    $this->service->events->update(auth()->user()->calendar_id, $event_id, $event);
+    $response = $this->service->events->update(auth()->user()->calendar_id, $event_id, $event);
+    
+        // Handle the response
+    if ($response->getStatusCode() == 204) {
+      // Event deleted successfully
+    } else {
+      // Error deleting event
+    }
   }
 
   public function deleteEvent(string $event_id)
   {
-    return null;
+    $response = $this->service->events->delete(auth()->user()->calendar_id, $event_id);
+
+    // Handle the response
+    if ($response->getStatusCode() == 204) {
+      // Event deleted successfully
+    } else {
+      // Error deleting event
+    }
   }
 
   public function checkCalendarExists(string $calendarId = null)
