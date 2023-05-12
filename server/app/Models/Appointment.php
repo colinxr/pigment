@@ -20,7 +20,6 @@ class Appointment extends Model
     ///
     // Relationships
     ///
-
     public function submission()
     {
         return $this->belongsTo(Submission::class);

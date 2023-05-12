@@ -73,5 +73,4 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/conversations/{conversation}', [ArtistConversationsController::class, 'destroy']);
 
     Route::post('/conversations/{conversation}/message', [ConversationMessageController::class, 'store']);
-    // });
 });

@@ -4,17 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Models\Submission;
 use App\Models\Appointment;
-use Illuminate\Http\Request;
-use App\Services\GoogleApiService;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
-use App\Services\GoogleCalendarService;
 use App\Interfaces\GoogleCalendarInterface;
 use App\Http\Requests\NewAppointmentRequest;
 
 class AppointmentController extends Controller
 {
-
     private $gCalService;
 
     public function __construct(GoogleCalendarInterface $gCalService)
