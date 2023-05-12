@@ -139,10 +139,8 @@ class AppointmentTest extends TestCase
         $event = $this->gCalService->saveEvent($appt);
         $event->id = fake()->uuid();
 
+        $appt->update(['event_id' => $event->id]);
 
-        // $appt->update(['event_id' => $event->id]);
-        dump($appt);
-        
         $this->assertNotEmpty($this->gCalService->listEvents());
 
         $this->actingAs($appt->user);
@@ -150,6 +148,6 @@ class AppointmentTest extends TestCase
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('appointments', ['id' => $appt->id]);
-        $this->assertEmpty( $this->assertNotEmpty($this->gCalService->listEvents()));
+        $this->assertEmpty($this->assertNotEmpty($this->gCalService->listEvents()));
     }
 }

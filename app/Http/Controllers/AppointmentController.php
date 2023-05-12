@@ -72,27 +72,25 @@ class AppointmentController extends Controller
         ], 201);
     }
 
-    public function update(NewAppointmentRequest $request, Appointment $appt)
+    public function update(NewAppointmentRequest $request, Appointment $appointment)
     {
-        $appt->update($request->toArray());
+        $appointment->update($request->toArray());
 
         $this->gCalService->setToken(auth()->user()->access_token);
-        $this->gCalService->updateEvent($appt->event_id, $appt);
+        $this->gCalService->updateEvent($appointment->event_id, $appointment);
 
         return response()->json([
             'message' => 'Resource updated successfully',
-            'data' => $appt,
+            'data' => $appointment,
         ], 204);
     }
 
-    public function destroy(Appointment $appt)
+    public function destroy(Appointment $appointment)
     {
-        dump($appt);
-
         $this->gCalService->setToken(auth()->user()->access_token);
-        $this->gCalService->deleteEvent($appt->event_id);
+        $this->gCalService->deleteEvent($appointment->event_id);
 
-        $appt->delete();
+        $appointment->delete();
 
         return response()->json([], 204);
     }

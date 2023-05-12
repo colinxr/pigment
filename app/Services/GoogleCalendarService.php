@@ -75,6 +75,11 @@ class GoogleCalendarService implements GoogleCalendarInterface
     $this->service->events->update(auth()->user()->calendar_id, $event_id, $event);
   }
 
+  public function deleteEvent(string $event_id)
+  {
+    return null;
+  }
+
   public function checkCalendarExists(string $calendarId = null)
   {
     $matchingCalendar = null;
