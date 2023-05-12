@@ -9,8 +9,6 @@ use App\Models\Client;
 use App\Models\Submission;
 use App\Models\Appointment;
 use App\Services\FakeGoogleCalendarService;
-use Carbon\Carbon;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AppointmentTest extends TestCase
