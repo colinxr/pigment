@@ -16,6 +16,8 @@ interface GoogleCalendarInterface
   
   public function updateEvent(string $event_id, Appointment $appt);
 
+  public function deleteEvent(string $event_id);
+
   public function listEvents();
 
   public function getService();

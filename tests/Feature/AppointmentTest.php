@@ -131,4 +131,25 @@ class AppointmentTest extends TestCase
         $this->assertSame($content->data[0]->id, $appointments->first()->id);
         $this->assertEquals(2, count($content->data));
     }
+
+    public function test_user_can_delete_appointment_and_events()
+    {
+        $appt = Appointment::factory()->create();
+        
+        $event = $this->gCalService->saveEvent($appt);
+        $event->id = fake()->uuid();
+
+
+        // $appt->update(['event_id' => $event->id]);
+        dump($appt);
+        
+        $this->assertNotEmpty($this->gCalService->listEvents());
+
+        $this->actingAs($appt->user);
+        $response = $this->delete("/api/appointments/{$appt->id}");
+
+        $response->assertStatus(204);
+        $this->assertDatabaseMissing('appointments', ['id' => $appt->id]);
+        $this->assertEmpty( $this->assertNotEmpty($this->gCalService->listEvents()));
+    }
 }

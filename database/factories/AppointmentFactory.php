@@ -19,7 +19,9 @@ class AppointmentFactory extends Factory
      */
     public function definition(): array
     {
-        $user = User::factory()->create();
+        $user = User::factory()->create([
+            'access_token' => [],
+        ]);
         $submission = Submission::factory()->create([
             'user_id' => $user->id,
             'client_id' => Client::factory()->create(['user_id' => $user->id])

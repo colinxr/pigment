@@ -45,7 +45,7 @@ class AppointmentController extends Controller
             ], 403);
         }
 
-        $appointment = $submission->appointment()->create(
+        $appt = $submission->appointment()->create(
             array_merge(
                 $request->toArray(),
                 [
@@ -58,30 +58,42 @@ class AppointmentController extends Controller
 
         $this->gCalService->setToken(auth()->user()->access_token);
         
-        $event = $this->gCalService->saveEvent($appointment);
+        $event = $this->gCalService->saveEvent($appt);
 
-        $appointment->update(['event_id' => $event->getId()]);
+        $appt->update(['event_id' => $event->getId()]);
 
         return response()->json([
             'status' => 'success',
             'message' => 'Appointment saved successfully',
             'data' => [
-                'appointment' => $appointment,
+                'appointment' => $appt,
                 'event' => $event,
             ]
         ], 201);
     }
 
-    public function update(NewAppointmentRequest $request, Appointment $appointment)
+    public function update(NewAppointmentRequest $request, Appointment $appt)
     {
-        $appointment->update($request->toArray());
+        $appt->update($request->toArray());
 
         $this->gCalService->setToken(auth()->user()->access_token);
-        $this->gCalService->updateEvent($appointment->event_id, $appointment);
+        $this->gCalService->updateEvent($appt->event_id, $appt);
 
         return response()->json([
             'message' => 'Resource updated successfully',
-            'data' => $appointment,
+            'data' => $appt,
         ], 204);
+    }
+
+    public function destroy(Appointment $appt)
+    {
+        dump($appt);
+
+        $this->gCalService->setToken(auth()->user()->access_token);
+        $this->gCalService->deleteEvent($appt->event_id);
+
+        $appt->delete();
+
+        return response()->json([], 204);
     }
 }

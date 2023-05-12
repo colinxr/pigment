@@ -58,8 +58,6 @@ class FakeGoogleCalendarService implements GoogleCalendarInterface
     $event->description = $appt->description;
     $event->start = ['startDateTime' => $appt->startDateTime];
     $event->end =['endtDateTime' => $appt->endDateTime];
-
-    dump($event);
     
     $this->events = $this->events->map(function($item) use ($event) {
       if ($item->id !== $event->id) return $item;
@@ -68,6 +66,13 @@ class FakeGoogleCalendarService implements GoogleCalendarInterface
     });
     
     return $event;
+  }
+
+  public function deleteEvent(string $event_id)
+  {
+    $this->events->filter(function ($item) use ($event_id) {
+      return $item->id !== $event_id;
+    });
   }
 
   public function listEvents()
