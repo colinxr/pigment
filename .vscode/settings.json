@@ -1,5 +1,9 @@
 {
   "intelephense.environment.includePaths": [
     "vendor/**"
-]
+  ],
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "eslint.workingDirectories": [{ "mode": "auto" }]
 }
