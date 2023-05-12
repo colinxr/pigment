@@ -1,0 +1,23 @@
+{
+  "name": "dayplanner",
+  "version": "1.0.0",
+  "description": "admin app for tattoo artists and other creative professionals",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/colinxr/dayplanner.git"
+  },
+  "author": "Colin Rabyniuk",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/colinxr/dayplanner/issues"
+  },
+  "homepage": "https://github.com/colinxr/dayplanner#readme",
+  "workspaces": [
+    "packages/ApiClient",
+    "packages/Store"
+  ]
+}

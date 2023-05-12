@@ -1,0 +1,19 @@
+{
+  "name": "@dayplanner/apiclient",
+  "version": "1.0.0",
+  "description": "shared client to connect to laravel backend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/colinxr/dayplanner.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/colinxr/dayplanner/issues"
+  },
+  "homepage": "https://github.com/colinxr/dayplanner#readme"
+}
