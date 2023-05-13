@@ -1,6 +1,19 @@
-import createApiService from './src/apiService'
+import createApiClient from './src/createApiClient'
+import { AuthRepository, UsersRepository } from './src/repositories'
 
-export default (accessToken = null) => createApiService({
-  baseUrl: 'https://local.dayplanner.com/api',
-  accessToken,
-})
+// apiClient.auth = repos.AuthRepository
+// apiClient.user = repos.UserRepository
+
+class ApiService {
+  constructor(accessToken = null) {
+    this.client = createApiClient({
+      baseUrl: 'https://local.dayplanner.com/api',
+      accessToken,
+    })
+
+    this.auth = new AuthRepository(this.client)
+    this.users = new UsersRepository(this.client)
+  }
+}
+
+export default ApiService
