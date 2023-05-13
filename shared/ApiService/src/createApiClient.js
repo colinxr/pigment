@@ -1,9 +1,9 @@
 import axios from 'axios'
 import handleApiErrors from './handleApiErrors'
 
-export default ({ baseUrl, accessToken }) => {
+export default ({ baseURL, accessToken }) => {
   const headers = {
-    'Content-Type': 'application/json',
+    Accept: 'application/json',
     'X-Requested-With': 'XMLHttpRequest',
   }
 
@@ -12,7 +12,7 @@ export default ({ baseUrl, accessToken }) => {
   }
 
   const client = axios.create({
-    baseUrl,
+    baseURL,
     headers,
     withCredentials: true,
   })
@@ -24,4 +24,6 @@ export default ({ baseUrl, accessToken }) => {
       return Promise.reject(error)
     },
   )
+
+  return client
 }

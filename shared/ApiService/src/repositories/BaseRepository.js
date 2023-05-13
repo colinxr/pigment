@@ -1,9 +1,5 @@
-import apiService from '../createApiClient'
-
-class BaseRepository {
-  constructor() {
-    this.apiClient = apiService()
+export default class BaseRepository {
+  constructor(apiClient) {
+    this.apiClient = apiClient
   }
 }
-
-export default new BaseRepository()

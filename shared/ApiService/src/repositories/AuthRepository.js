@@ -1,20 +1,27 @@
-import BaseRepository from './BaseRepository'
-
-export default class AuthRepository extends BaseRepository {
-  async getCSRFToken() {
-    const resp = await this.apiClient.get('/sanctum/csrf-cookie')
-
-    return resp.headers['set-cookie']
+export default class AuthRepository {
+  constructor(apiClient) {
+    this.apiClient = apiClient
+    this.apiClient.defaults.baseURL = 'https://local.dayplanner.com'
+    this.apiClient.defaults.withCredentials = true
   }
 
   async login({ email, password }) {
-    const cookies = await this.getCSRFToken()
+    const res = await this.apiClient.get('/sanctum/csrf-cookie')
 
-    this.apiClient.headers['X-XSRF-Token'] = cookies['X-CSRF-TOKEN']
+    const cookies = res.headers['set-cookie']
 
-    const { data } = await this.apiClient.post('/login', { email, password })
+    console.log(cookies)
+
+    // this.apiClient.headers['X-XSRF-Token'] = 'tk'
+    const { data } = await this.apiClient.post('/login', {
+      email,
+      password,
+      _token: document.cookie.split('=')[1],
+    })
 
     const { user, token } = data
+
+    console.log(user)
     // store user data in pinia
     // store token in session and add it as as authentication to the apiClient
     this.apiClient.headers.Authentication = `Bearer ${token}`

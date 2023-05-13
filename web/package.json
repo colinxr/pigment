@@ -1,15 +1,17 @@
 {
-  "name": "nuxt-app",
+  "name": "web",
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "nuxt dev",
+    "web:dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 npx nuxi dev --host localhost --port 3000 --https --ssl-cert localhost.pem --ssl-key localhost-key.pem",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
   },
   "devDependencies": {
     "@types/node": "^18",
-    "nuxt": "^3.4.3"
+    "@vitejs/plugin-basic-ssl": "^1.0.1",
+    "nuxt": "^3.4.3",
+    "vite-plugin-mkcert": "^1.15.0"
   }
 }

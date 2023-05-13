@@ -6,13 +6,13 @@ import { AuthRepository, UsersRepository } from './src/repositories'
 
 class ApiService {
   constructor(accessToken = null) {
-    this.client = createApiClient({
-      baseUrl: 'https://local.dayplanner.com/api',
+    const client = createApiClient({
+      baseURL: 'https://local.dayplanner.com/api',
       accessToken,
     })
 
-    this.auth = new AuthRepository(this.client)
-    this.users = new UsersRepository(this.client)
+    this.auth = new AuthRepository(client)
+    this.users = new UsersRepository(client)
   }
 }
 
