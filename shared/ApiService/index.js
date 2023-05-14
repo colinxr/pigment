@@ -1,13 +1,10 @@
 import createApiClient from './src/createApiClient'
 import { AuthRepository, UsersRepository } from './src/repositories'
 
-// apiClient.auth = repos.AuthRepository
-// apiClient.user = repos.UserRepository
-
 class ApiService {
   constructor(accessToken = null) {
     const client = createApiClient({
-      baseURL: 'https://local.dayplanner.com/api',
+      baseURL: 'https://127.0.0.1:5173/',
       accessToken,
     })
 
