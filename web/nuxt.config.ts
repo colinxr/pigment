@@ -1,9 +1,11 @@
-import fs from 'fs'
 import path from 'path'
 
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  alias: {
+    '@dayplanner': path.resolve(__dirname, '..', 'shared')
+  },
   css: [
     '@/assets/css/main.css',
   ],
