@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "web:dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 npx nuxi dev --host localhost --port 3000 --https --ssl-cert localhost.pem --ssl-key localhost-key.pem",
+    "web:dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 nuxt dev --host dayplanner.test --https --ssl-cert dayplanner.test+1.pem --ssl-key dayplanner.test+1-key.pem",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -11,7 +11,13 @@
   "devDependencies": {
     "@types/node": "^18",
     "@vitejs/plugin-basic-ssl": "^1.0.1",
+    "autoprefixer": "^10.4.14",
     "nuxt": "^3.4.3",
+    "postcss": "^8.4.23",
+    "tailwindcss": "^3.3.2",
     "vite-plugin-mkcert": "^1.15.0"
+  },
+  "dependencies": {
+    "daisyui": "^2.51.6"
   }
 }

@@ -1,5 +1,20 @@
+import fs from 'fs'
+import path from 'path'
+
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  css: [
+    '@/assets/css/main.css',
+  ],
+  postcss: {
+    plugins: {
+      tailwindcss: {},
+      autoprefixer: {},
+    },
+  },
 })
 
-// "web:dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 npx nuxi dev --host localhost --port 3000 --https --ssl-cert localhost.pem --ssl-key localhost-key.pem",
+// "NODE_TLS_REJECT_UNAUTHORIZED=0 nuxt dev --host dayplanner.test --https  \
+// --ssl-cert ~/.config/valet/CA/LaravelValetCASelfSigned.pem \ 
+// --ssl-key ~/.config/valet/CA/LaravelValetCASelfSigned.key",

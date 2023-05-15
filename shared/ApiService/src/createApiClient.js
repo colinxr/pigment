@@ -18,24 +18,11 @@ export default ({ baseURL, accessToken }) => {
     withCredentials: true,
   })
 
-  // client.interceptors.request.use(async (config) => {
-  //   if (
-  //     ['post', 'put', 'delete'].includes(config.method)
-  //     && !Cookies.get('XSRF-TOKEN')) {
-  //     const res = await client.get('/sanctum/csrf-token', {
-  //       baseURL: 'https://local.dayplanner.com',
-  //     })
-
-  //     return config
-  //   }
-  //   return config
-  // }, null)
-
   client.interceptors.response.use(
     (response) => response,
     (error) => {
       handleApiErrors(error)
-      return Promise.reject(error)
+      return error.response
     },
   )
 

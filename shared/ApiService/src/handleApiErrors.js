@@ -21,7 +21,9 @@ export default (error) => {
         console.log('Server Error:', data)
         break
     }
-  } else if (error.request) {
+
+    return error.response
+  } if (error.request) {
     // The request was made, but no response was received
     console.log('No response received from the server:', error.request)
   } else {
