@@ -1,5 +1,4 @@
-import path from 'path'
-
+import path from "path";
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -9,6 +8,9 @@ export default defineNuxtConfig({
   css: [
     '@/assets/css/main.css',
   ],
+  // modules: [
+  //   '@pinia/nuxt',
+  // ],
   postcss: {
     plugins: {
       tailwindcss: {},

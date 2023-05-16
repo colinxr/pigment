@@ -1,5 +1,5 @@
 {
-  "name": "@dayplanner/apiclient",
+  "name": "@dayplanner/apiservice",
   "version": "1.0.0",
   "description": "shared client to connect to laravel backend",
   "main": "index.js",

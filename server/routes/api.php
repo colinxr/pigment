@@ -25,12 +25,6 @@ use App\Http\Controllers\ConversationMessageController;
 */
 
 Route::middleware('auth:sanctum')->get('/user', function (GoogleCalendarInterface $gCalService) {
-
-    if (!request()->user()->calendar_id) {
-        $gCalService->getCalendarId();
-    }
-
-
     return request()->user();
 });
 
@@ -61,7 +55,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/users/{user}', [UserController::class, 'update']);
 
         Route::get('/appointments', [AppointmentController::class, 'index']);
-        
+
         Route::post('/appointments/{appointment}', [AppointmentController::class, 'update']);
         Route::delete('/appointments/{appointment}', [AppointmentController::class, 'destroy']);
     });

@@ -19,5 +19,8 @@
   },
   "dependencies": {
     "daisyui": "^2.51.6"
+  },
+  "overrides": {
+    "vue": "latest"
   }
 }

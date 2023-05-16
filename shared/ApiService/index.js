@@ -4,7 +4,7 @@ import { AuthRepository, UsersRepository } from './src/repositories'
 class ApiService {
   constructor(accessToken = null) {
     const client = createApiClient({
-      baseURL: 'https://api.dayplanner.test',
+      baseURL: 'https://api.dayplanner.test/api',
       accessToken,
     })
 
@@ -13,4 +13,4 @@ class ApiService {
   }
 }
 
-export default ApiService
+export default new ApiService()
