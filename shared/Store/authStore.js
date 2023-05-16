@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 
-export default defineStore('authStore', {
+const useAuthStore = defineStore('authStore', {
   user: () => undefined,
 
   getters: {
@@ -19,3 +19,5 @@ export default defineStore('authStore', {
     },
   },
 });
+
+export default useAuthStore;

@@ -34,6 +34,10 @@
 import { ref } from '../.nuxt/imports'
 import ApiService from '@dayplanner/ApiService'
 
+import useAuthStore from '@/stores/auth'
+
+const store = useAuthStore()
+
 const { errorState, handleResponseErrors } = useFormErrors()
 
 const email = ref('')
@@ -53,13 +57,12 @@ const handleSubmit = async () => {
     })
 
     console.log(response.status);
-
-    if (![200, '200'].includes(response.status)) {
+    if (response.status !== 200) {
       console.log();
       return handleResponseErrors(response)
     }
 
-    // store user in pina 
+    store.login(response.data.user)
 
     return navigateTo('/')
 

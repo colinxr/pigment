@@ -13,14 +13,22 @@
 <script setup>
 import ApiService from '@dayplanner/ApiService'
 
+import useAuthStore from '@/stores/auth'
+
+const store = useAuthStore()
+
+console.log(store.user)
 
 const getUser = async () => {
   const res = await ApiService.auth.getAuthenticatedSession()
 
   console.log(res)
 }
+
 const handleLogOut = async () => {
   const res = await ApiService.auth.logOut()
+
+  store.logout()
 
   return navigateTo('/login')
 }
