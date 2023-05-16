@@ -32,18 +32,13 @@ Route::post('/users', [UserController::class, 'store']);
 
 Route::post('/users/{user}/submissions', [ArtistSubmissionsController::class, 'store']);
 
-Route::get('/submissions', [ArtistSubmissionsController::class, 'index']);
-
-
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/oauth/google/callback', [OAuthController::class, 'update']);
 
     Route::middleware('hasValidAccessToken')->group(function () {
-
         Route::get('/user', function (GoogleCalendarInterface $gCalService) {
             if (!request()->user()->calendar_id) {
                 $gCalService->setToken(request()->user()->access_token);
-
                 $gCalService->getCalendarId();
             }
 
@@ -59,6 +54,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/appointments/{appointment}', [AppointmentController::class, 'update']);
         Route::delete('/appointments/{appointment}', [AppointmentController::class, 'destroy']);
     });
+
+    Route::get('/submissions', [ArtistSubmissionsController::class, 'index']);
 
     Route::post('/submissions/{submission}/appointments', [AppointmentController::class, 'store']);
 

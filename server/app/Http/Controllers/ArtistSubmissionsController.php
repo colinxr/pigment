@@ -11,10 +11,8 @@ class ArtistSubmissionsController extends Controller
 {
     public function index()
     {
-        $artist = Auth::user();
-
         return response()->json([
-            'submissions' => $artist->submissions
+            'submissions' => Auth::user()->submissions
         ], 200);
     }
 
