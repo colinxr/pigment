@@ -1,19 +1,19 @@
 <template>
-  <div>
-    app index
+  <div class="dashboard flex">
+    <DashboardSidebar class="w-1/3 h-screen" />
 
-    <button class="btn mt-5" type="submit" @click="handleLogOut">Log Out</button>
-
-    <div>
-      <button class="btn mt-5" type="submit" @click="getUser">Get User</button>
-    </div>
+    <main class=" conversation w-2/3 h-screen">
+      <div v-if="!activeConversation" class="h-screen flex items-center justify-center">
+        Select a conversation or send a new message
+      </div>
+    </main>
   </div>
 </template>
 
 <script setup>
-import ApiService from '@dayplanner/ApiService'
-
 import useAuthStore from '@/stores/auth'
+import ApiService from '@dayplanner/ApiService'
+import DashboardSidebar from '@/components/Dashboard/DashboardSidebar'
 
 const store = useAuthStore()
 
