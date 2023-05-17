@@ -1,27 +1,22 @@
-import ApiService from '@dayplanner/apiservice'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
-const useAuthStore = defineStore('authStore', {
-  user: () => undefined,
+const useAuthStore = defineStore('authStore', () => {
+  const user = ref(undefined)
 
-  getters: {
-    isAuthenticated() {
-      return !!this.user.value
-    },
-  },
+  const setUser = (authUser) => {
+    user.value = authUser
+  }
 
-  actions: {
-    login(user) {
-      this.user = user
-    },
+  const removeUser = async () => {
+    user.value = undefined
+  }
 
-    async logout() {
-      const res = await ApiService.auth.logout()
-      console.log(res)
-
-      this.user = undefined
-    },
-  },
+  return {
+    user,
+    setUser,
+    removeUser,
+  }
 })
 
 export default useAuthStore

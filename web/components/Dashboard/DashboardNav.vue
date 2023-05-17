@@ -13,11 +13,19 @@
 
 <script setup>
 import useAuthStore from '@/stores/auth'
+const { handleResponseErrors } = useFormErrors()
+
 
 const store = useAuthStore()
 
 const handleLogOut = async () => {
   try {
+    const res = await ApiService.auth.logout()
+
+    if (response.status !== 200) {
+      return handleResponseErrors(response)
+    }
+
     store.logout()
 
     return navigateTo('/login')

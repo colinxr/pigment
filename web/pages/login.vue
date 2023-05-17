@@ -37,7 +37,6 @@ import ApiService from '@dayplanner/apiservice'
 import useAuthStore from '@/stores/auth'
 
 const store = useAuthStore()
-
 const { errorState, handleResponseErrors } = useFormErrors()
 
 const email = ref('')
@@ -57,12 +56,12 @@ const handleSubmit = async () => {
     })
 
     console.log(response.status);
+
     if (response.status !== 200) {
-      console.log();
       return handleResponseErrors(response)
     }
 
-    store.login(response.data.user)
+    store.setUser(response.data.user)
 
     return navigateTo('/')
 
