@@ -10,6 +10,7 @@ use App\Interfaces\GoogleCalendarInterface;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ConversationsController;
 use App\Http\Controllers\ArtistSubmissionsController;
+use App\Http\Controllers\SubmissionMessageController;
 use App\Http\Controllers\ArtistConversationsController;
 use App\Http\Controllers\ConversationMessageController;
 
@@ -57,11 +58,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/submissions', [ArtistSubmissionsController::class, 'index']);
 
+    Route::get('/submissions/{submission}', [ArtistSubmissionsController::class, 'show']);
+
+    Route::delete('/submissions/{submission}', [ArtistSubmissionsController::class, 'destroy']);
+
     Route::post('/submissions/{submission}/appointments', [AppointmentController::class, 'store']);
 
-    Route::get('/conversations/{conversation}', [ArtistConversationsController::class, 'show']);
-
-    Route::delete('/conversations/{conversation}', [ArtistConversationsController::class, 'destroy']);
-
-    Route::post('/conversations/{conversation}/message', [ConversationMessageController::class, 'store']);
+    Route::post('/submissions/{submission}/message', [SubmissionMessageController::class, 'store']);
 });

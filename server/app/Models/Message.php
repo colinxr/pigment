@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Submission;
 use App\Models\Conversation;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
@@ -16,9 +17,9 @@ class Message extends Model implements HasMedia
 
     protected $guarded = ['id'];
 
-    public function conversation()
+    public function submission()
     {
-        return $this->belongsTo(Conversation::class);
+        return $this->belongsTo(Submission::class);
     }
 
     public function sender()
@@ -29,8 +30,8 @@ class Message extends Model implements HasMedia
     public function recipient(): string
     {
         return get_class($this->sender) === "App\Models\User" ?
-            $this->conversation->client->email :
-            $this->conversation->user->email;
+            $this->submission->client->email :
+            $this->submission->user->email;
     }
 
     /// 

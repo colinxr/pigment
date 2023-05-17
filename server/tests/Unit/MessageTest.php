@@ -16,21 +16,14 @@ class MessageTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $client = Client::factory()->create([
-            'user_id' => $user->id,
-        ]);
+        $client = Client::factory()->create(['user_id' => $user->id]);
 
         $submission = Submission::factory()->create([
             'client_id' => $client->id,
             'user_id' => $user->id,
         ]);
 
-        $conversation = $submission->conversation()->create([
-            'user_id' => $user->id,
-            'client_id' => $client->id,
-        ]);
-
-        $message_from_user = $conversation->messages()->create([
+        $message_from_user = $submission->messages()->create([
             'sender_id' => $user->id,
             'sender_type' => get_class($user),
             'body' => fake()->text(),

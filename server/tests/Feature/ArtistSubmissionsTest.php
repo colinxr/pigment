@@ -45,7 +45,6 @@ class ArtistSubmissionsTest extends TestCase
         ]);
 
         $this->assertDatabaseHas('submissions', ['idea' => $submission['idea']]);
-        $this->assertDatabaseHas('conversations', ['user_id' => $user->id,]);
     }
 
     public function test_client_can_submit_multiple_requests_to_same_artists()
@@ -53,11 +52,6 @@ class ArtistSubmissionsTest extends TestCase
         $user = User::factory()->create();
         $client = Client::factory()->create(['user_id' => $user->id,]);
         $first_submission = Submission::factory()->create([
-            'client_id' => $client->id,
-            'user_id' => $user->id,
-        ]);
-
-        $first_conversation = $first_submission->conversation()->create([
             'client_id' => $client->id,
             'user_id' => $user->id,
         ]);
@@ -81,7 +75,6 @@ class ArtistSubmissionsTest extends TestCase
 
         $this->assertEquals(1, Client::count());
         $this->assertCount(2, $user->submissions);
-        $this->assertCount(2, $user->conversations);
     }
 
     public function test_client_can_submit_to_multiple_artists()

@@ -28,9 +28,9 @@ class Submission extends Model implements HasMedia
         return $this->belongsTo(Client::class);
     }
 
-    public function conversation()
+    public function messages()
     {
-        return $this->hasOne(Conversation::class);
+        return $this->hasMany(Message::class);
     }
 
     public function appointment()
@@ -38,9 +38,18 @@ class Submission extends Model implements HasMedia
         return $this->hasMany(Appointment::class);
     }
 
-    /// 
-    // Methods
     ///
+    // Methods
+    /// 
+
+    public function newMessage(User|Client $sender, string $body)
+    {
+        return $this->messages()->create([
+            'sender_id' => $sender->id,
+            'sender_type' => get_class($sender),
+            'body' => $body,
+        ]);
+    }
 
 
     /// 

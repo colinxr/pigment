@@ -66,11 +66,6 @@ class User extends Authenticatable
         return $this->hasMany(Client::class);
     }
 
-    public function conversations()
-    {
-        return $this->hasMany(Conversation::class);
-    }
-
     public function client($email)
     {
         return $this->hasMany(Client::class)->where('email', $email)->first();
@@ -102,11 +97,10 @@ class User extends Authenticatable
 
     public function updateCalendar(GoogleCalendarInterface $gCalService, string $calendarId)
     {
-        $this->update([ 'calendar_id' => $calendarId]);
+        $this->update(['calendar_id' => $calendarId]);
 
         $webhookUrl = url("/api/users/{$this->id}/calendar/subscribe");
-        
+
         $watchRequest = $gCalService->watchCalendar($calendarId, $webhookUrl);
-        
     }
 }

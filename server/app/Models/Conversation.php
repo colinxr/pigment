@@ -47,17 +47,4 @@ class Conversation extends Model
     {
         return $this->hasMany(Message::class);
     }
-
-    ///
-    // Methods
-    /// 
-
-    public function newMessage(User|Client $sender, string $body)
-    {
-        return $this->messages()->create([
-            'sender_id' => $sender->id,
-            'sender_type' => get_class($sender),
-            'body' => $body,
-        ]);
-    }
 }

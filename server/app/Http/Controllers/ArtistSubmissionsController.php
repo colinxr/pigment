@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Submission;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\SubmissionRequest;
@@ -31,15 +32,24 @@ class ArtistSubmissionsController extends Controller
             }
         }
 
-        $conversation = $submission->conversation()->create([
-            'user_id' => $user->id,
-            'client_id' => $client->id,
-        ]);
-
         return response()->json([
             'status' => 'success',
             'message' => 'Your message has been successfully submitted.',
             'data' => [],
         ], 201);
+    }
+
+    public function show(Submission $submission)
+    {
+        return response()->json([
+            'messages' => $submission->messages,
+        ], 200);
+    }
+
+    public function destroy(Submission $submission)
+    {
+        $submission->delete();
+
+        return response()->json(null, 204);
     }
 }

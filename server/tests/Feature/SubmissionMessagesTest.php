@@ -15,7 +15,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 use function PHPUnit\Framework\assertNotEmpty;
 
-class ConversationTest extends TestCase
+class SubmissionMessagesTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -37,11 +37,6 @@ class ConversationTest extends TestCase
                 'client_id' => $client->id,
                 'user_id' => $user->id,
             ]);
-
-            $conversation = $submission->conversation()->create([
-                'user_id' => $user->id,
-                'client_id' => $client->id,
-            ]);
         });
     }
 
@@ -55,11 +50,11 @@ class ConversationTest extends TestCase
     public function test_can_add_new_messages_in_a_conversation()
     {
         Mail::fake();
-        $conversation = $this->user->conversations->first();
+        $submission = $this->user->submissions->first();
 
         $this->actingAs($this->user);
         $body = fake()->text();
-        $response = $this->post("/api/conversations/{$conversation->id}/message", [
+        $response = $this->post("/api/submissions/{$submission->id}/message", [
             'sender_id' => $this->user->id,
             'body' => $body,
         ]);
@@ -68,7 +63,7 @@ class ConversationTest extends TestCase
 
         $this->assertDatabaseHas('messages', [
             'body' => $body,
-            'conversation_id' => $conversation->id,
+            'submission_id' => $submission->id,
         ]);
 
         Mail::assertQueued(NewMessageAlert::class);
@@ -77,12 +72,12 @@ class ConversationTest extends TestCase
     public function test_messages_can_have_attachments()
     {
         Mail::fake();
-        $conversation = $this->user->conversations->first();
+        $submission = $this->user->submissions->first();
 
         $this->actingAs($this->user);
 
         $body = fake()->text();
-        $response = $this->post("/api/conversations/{$conversation->id}/message", [
+        $response = $this->post("/api/submissions/{$submission->id}/message", [
             'sender_id' => $this->user->id,
             'body' => $body,
             'attachments' => [
@@ -95,10 +90,10 @@ class ConversationTest extends TestCase
 
         $this->assertDatabaseHas('messages', [
             'body' => $body,
-            'conversation_id' => $conversation->id,
+            'submission_id' => $submission->id,
         ]);
 
-        $message = $conversation->messages->first();
+        $message = $submission->messages->first();
         $images = $message->getMedia('attachments');
         $this->assertCount(2, $images);
 
@@ -111,23 +106,18 @@ class ConversationTest extends TestCase
     {
         $this->actingAs($this->user);
 
-        $this->assertDatabaseCount('conversations', 3);
+        $this->assertDatabaseCount('submissions', 3);
 
-        $conversation = $this->user->conversations->first();
-        $submission = $conversation->submission;
+        $submission = $this->user->submissions->first();
 
-        $conversation->newMessage($this->user, 'body text');
+        $submission->newMessage($this->user, 'body text');
 
-        $response = $this->delete("/api/conversations/{$conversation->id}");
+        $response = $this->delete("/api/submissions/{$submission->id}");
 
         $response->assertStatus(204);
 
-        $this->assertDatabaseMissing('conversations', [
-            'id' => $conversation->id,
-        ]);
-
         $this->assertDatabaseMissing('messages', [
-            'conversation_id' => $conversation->id
+            'conversation_id' => $submission->id
         ]);
 
         $this->assertDatabaseMissing('submissions', [
