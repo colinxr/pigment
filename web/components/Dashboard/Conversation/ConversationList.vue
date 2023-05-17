@@ -10,11 +10,24 @@
 </template>
 
 <script setup>
-import ConversationCard from './ConversationCard.vue';
+import { ref } from 'vue'
+import ConversationCard from './ConversationCard.vue'
 import ApiService from '@dayplanner/ApiService'
 
+onBeforeMount(async () => {
+  const user = await ApiService.auth.getAuthenticatedSession()
+  console.log(user);
 
-// fetch conversations from api
+  const res = await ApiService.submissions.index()
+  console.log(res);
+});
 
 
+const { pending, data: conversations } = useAsyncData('conversations', () => {
+
+
+  return
+})
+
+console.log(conversations);
 </script>

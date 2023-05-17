@@ -1,26 +1,26 @@
 export default class AuthRepository {
   constructor(apiClient) {
     this.apiClient = apiClient
-    this.apiClient.defaults.baseURL = apiClient.defaults.baseURL.slice(0, -4)
-    // this.apiClient.defaults.withCredentials = true
   }
 
   async getAuthenticatedSession() {
     try {
-      const res = await this.apiClient.get('/api/user')
+      const res = await this.apiClient.get('/user')
 
       if (res.status !== 200) return false
 
       return res.data
-    } catch (error) {
+    } catch (err) {
       console.log(err)
       return false
     }
   }
 
   async login({ email, password }) {
-    const res = this.apiClient.get('/api/csrf-cookie').then(async (resp) => {
-      const response = await this.apiClient.post('/login', { email, password })
+    const res = this.apiClient.get('/csrf-cookie').then(async (resp) => {
+      const response = await this.apiClient.post('/login', { email, password }, {
+        baseURL: this.apiClient.defaults.baseURL.slice(0, -4),
+      })
       return response
     })
 
@@ -28,10 +28,14 @@ export default class AuthRepository {
   }
 
   logOut() {
-    this.apiClient.post('/logout')
+    this.apiClient.post('/logout', {
+      baseURL: this.apiClient.defaults.baseURL.slice(0, -4),
+    })
   }
 
   register() {
-    this.apiClient.post()
+    this.apiClient.post('/register', {
+      baseURL: this.apiClient.defaults.baseURL.slice(0, -4),
+    })
   }
 }

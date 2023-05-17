@@ -4,7 +4,7 @@ export default class SubmissionRepository {
   }
 
   async index() {
-    const res = await this.apiClient.get('/submissions')
+    const res = await this.apiClient.get('submissions')
 
     return res.data
   }

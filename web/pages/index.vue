@@ -11,25 +11,6 @@
 </template>
 
 <script setup>
-import useAuthStore from '@/stores/auth'
-import ApiService from '@dayplanner/ApiService'
 import DashboardSidebar from '@/components/Dashboard/DashboardSidebar'
 
-const store = useAuthStore()
-
-console.log(store.user)
-
-const getUser = async () => {
-  const res = await ApiService.auth.getAuthenticatedSession()
-
-  console.log(res)
-}
-
-const handleLogOut = async () => {
-  const res = await ApiService.auth.logOut()
-
-  store.logout()
-
-  return navigateTo('/login')
-}
 </script>
