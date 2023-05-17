@@ -1,7 +1,9 @@
 import AuthRepository from './AuthRepository'
-import UsersRepository from './UsersRepository'
+import UserRepository from './UserRepository'
+import SubmissionRepository from './SubmissionRepository'
 
 export {
   AuthRepository,
-  UsersRepository,
+  UserRepository,
+  SubmissionRepository,
 }

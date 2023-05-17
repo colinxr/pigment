@@ -1,5 +1,5 @@
 import createApiClient from './src/createApiClient'
-import { AuthRepository, UsersRepository } from './src/repositories'
+import { AuthRepository, UserRepository, SubmissionRepository } from './src/repositories'
 
 class ApiService {
   constructor(accessToken = null) {
@@ -9,7 +9,8 @@ class ApiService {
     })
 
     this.auth = new AuthRepository(client)
-    this.users = new UsersRepository(client)
+    this.users = new UserRepository(client)
+    this.submissions = new SubmissionRepository(client)
   }
 }
 

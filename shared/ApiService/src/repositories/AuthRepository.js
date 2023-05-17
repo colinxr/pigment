@@ -2,7 +2,7 @@ export default class AuthRepository {
   constructor(apiClient) {
     this.apiClient = apiClient
     this.apiClient.defaults.baseURL = apiClient.defaults.baseURL.slice(0, -4)
-    this.apiClient.defaults.withCredentials = true
+    // this.apiClient.defaults.withCredentials = true
   }
 
   async getAuthenticatedSession() {
@@ -19,10 +19,8 @@ export default class AuthRepository {
   }
 
   async login({ email, password }) {
-    const res = this.apiClient.get('api/csrf-cookie').then(async (resp) => {
+    const res = this.apiClient.get('/api/csrf-cookie').then(async (resp) => {
       const response = await this.apiClient.post('/login', { email, password })
-      console.log(response)
-
       return response
     })
 
