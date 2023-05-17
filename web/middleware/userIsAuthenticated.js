@@ -1,19 +1,24 @@
 import ApiService from '@dayplanner/ApiService'
+import useAuthStore from '@/stores/auth'
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
-  if (!user) {
+  const store = useAuthStore()
+  console.log(to);
+
+  console.log(store);
+
+  if (!store.user) {
     const authSession = await ApiService.auth.getAuthenticatedSession()
     if (!authSession) {
+      if (['login', 'register'].includes(to.name)) return 
+
       return navigateTo('/login')
     }
 
-    // useStorage.setUser()
-    // let user proceeed to their destination 
-    // return to?
+    store.login(authSession)
+    return navigateTo(to.path)
   }
 
-  // if to === /login
   // /redirct to index
-
-  return to
+  // return navigateTo(to)
 })

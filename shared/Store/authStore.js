@@ -1,3 +1,4 @@
+import ApiService from '@dayplanner/apiservice'
 import { defineStore } from 'pinia'
 
 const useAuthStore = defineStore('authStore', {
@@ -14,7 +15,10 @@ const useAuthStore = defineStore('authStore', {
       this.user = user
     },
 
-    logout() {
+    async logout() {
+      const res = await ApiService.auth.logout()
+      console.log(res)
+
       this.user = undefined
     },
   },

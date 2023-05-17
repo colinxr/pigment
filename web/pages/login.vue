@@ -31,7 +31,7 @@
 </template>
 
 <script setup>
-import { ref } from '../.nuxt/imports'
+import { ref } from 'vue'
 import ApiService from '@dayplanner/ApiService'
 
 import useAuthStore from '@/stores/auth'
@@ -70,5 +70,7 @@ const handleSubmit = async () => {
     errorState.isSet = true
     errorState.message = 'something went wrong'
   }
+
+  definePageMeta({ middleware: 'user-is-authenticated' })
 }
 </script>

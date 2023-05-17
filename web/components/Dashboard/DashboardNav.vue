@@ -12,15 +12,14 @@
 </template>
 
 <script setup>
-import ApiService from '@dayplanner/ApiService'
 import useAuthStore from '@/stores/auth'
 
 const store = useAuthStore()
 
 const handleLogOut = async () => {
   try {
-    const res = await ApiService.auth.logOut()
     store.logout()
+
     return navigateTo('/login')
   } catch (error) {
     console.log(error)

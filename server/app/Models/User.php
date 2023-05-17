@@ -86,6 +86,8 @@ class User extends Authenticatable
     ///
     public function isTokenExpired()
     {
+        if (!$this->accessToke || isset($this->accessToken['error'])) return true;
+
         $expires_at = Carbon::createFromTimestamp($this->access_token['created'] + $this->access_token['expires_in']);
         return $expires_at < Carbon::now();
     }
