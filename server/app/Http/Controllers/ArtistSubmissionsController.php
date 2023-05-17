@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Models\Submission;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\SubmissionRequest;
 
@@ -13,7 +12,7 @@ class ArtistSubmissionsController extends Controller
     public function index()
     {
         return response()->json([
-            'submissions' => Auth::user()->submissions
+            'submissions' => auth()->user()->submissions()->with(['lastMessage', 'client'])->get(),
         ], 200);
     }
 

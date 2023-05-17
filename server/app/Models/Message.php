@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Submission;
+use Illuminate\Support\Str;
 use App\Models\Conversation;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
@@ -32,6 +33,11 @@ class Message extends Model implements HasMedia
         return get_class($this->sender) === "App\Models\User" ?
             $this->submission->client->email :
             $this->submission->user->email;
+    }
+
+    public function getPreviewAttribute()
+    {
+        return Str::substr($this->body, 0, 50);
     }
 
     /// 

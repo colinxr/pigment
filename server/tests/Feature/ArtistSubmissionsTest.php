@@ -107,6 +107,7 @@ class ArtistSubmissionsTest extends TestCase
 
     public function test_artist_can_view_all_their_submissions()
     {
+        $this->withoutExceptionHandling();
         $user = User::factory()->create();
         $clients = Client::factory()->count(3)->create([
             'user_id' => $user->id,

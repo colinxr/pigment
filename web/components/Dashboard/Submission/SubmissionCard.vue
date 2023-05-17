@@ -3,14 +3,14 @@
     <div class="avatar w-10">
       <div class="rounded-full bg-slate-600 ">
         <div class="w-10 h-full flex items-center justify-center">
-          <span class="text-xl font-bold ">CR</span>
+          <span class="text-xl font-bold ">{{ client.initials }}</span>
         </div>
       </div>
     </div>
 
     <div class="card-body grow ml-5">
-      <span class="card-title p">Alex Nino Gheciu</span>
-      <p class="text-sm">Click the button to watch on Jetflix app.</p>
+      <span class="card-title p">{{ client.first_name }}</span>
+      <p class="text-sm">{{ last_message.preview }}</p>
     </div>
   </div>
 </template>
@@ -20,8 +20,11 @@ const { submission } = defineProps({
   submission: {
     type: Object,
     required: true,
-  },
+  }
 })
+
+const { client, last_message } = submission
+
 </script>
 
 <style>

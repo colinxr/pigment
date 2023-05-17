@@ -10,6 +10,8 @@
 </template>
 
 <script setup>
+import { storeToRefs } from 'pinia'
+
 import useDashboardStore from '@/stores/dashboard'
 import SubmissionCard from './SubmissionCard.vue'
 

@@ -11,14 +11,17 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import useDashboardStore from '@/stores/dashboard'
 import DashboardSidebar from '@/components/Dashboard/DashboardSidebar.vue'
 
 const dashboardStore = useDashboardStore()
-const { getConversations } = dashboardStore
+const { getSubmissions } = dashboardStore
+
+const activeConversation = ref(null)
 
 onBeforeMount(async () => {
-  await getConversations()
+  await getSubmissions()
 })
 
 </script>

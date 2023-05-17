@@ -11,6 +11,8 @@ class Client extends Model
 
     protected $guarded = ['id'];
 
+    protected $appends = ['initials'];
+
     ///
     // Relationships
     // 
@@ -28,5 +30,12 @@ class Client extends Model
     public function messages()
     {
         return $this->hasMany(Message::class);
+    }
+
+    public function getInitialsAttribute()
+    {
+        return strtoupper(
+            substr($this->first_name, 0, 1) . substr($this->last_name, 0, 1)
+        );
     }
 }
