@@ -15,7 +15,14 @@
   </div>
 </template>
 
-<script setup></script>
+<script setup>
+const { submission } = defineProps({
+  submission: {
+    type: Object,
+    required: true,
+  },
+})
+</script>
 
 <style>
 .card {

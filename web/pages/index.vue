@@ -11,6 +11,14 @@
 </template>
 
 <script setup>
-import DashboardSidebar from '@/components/Dashboard/DashboardSidebar'
+import useDashboardStore from '@/stores/dashboard'
+import DashboardSidebar from '@/components/Dashboard/DashboardSidebar.vue'
+
+const dashboardStore = useDashboardStore()
+const { getConversations } = dashboardStore
+
+onBeforeMount(async () => {
+  await getConversations()
+})
 
 </script>

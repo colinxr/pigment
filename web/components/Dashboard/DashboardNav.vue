@@ -1,17 +1,19 @@
 <template>
   <nav class="w-50 mr-10">
     <ul>
-      <li>home</li>
-      <li>clients</li>
-      <li>setings</li>
-      <li @click="handleLogOut">Logout</li>
+      <li>H</li>
+      <li>C</li>
+      <li>|||</li>
+      <li @click="handleLogOut">
+        Logout
+      </li>
     </ul>
   </nav>
-</template >
+</template>
 
-<script setup >
+<script setup>
+import ApiService from '@dayplanner/ApiService'
 import useAuthStore from '@/stores/auth'
-import ApiService from '~/../shared/ApiService';
 
 const store = useAuthStore()
 
@@ -21,10 +23,8 @@ const handleLogOut = async () => {
     store.logout()
     return navigateTo('/login')
   } catch (error) {
-    console.log(error);
+    console.log(error)
   }
-
 }
 
 </script>
-            

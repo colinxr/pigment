@@ -17,5 +17,6 @@
         "vue"
     ],
     "rules": {
+        "semi": ["error", "never"]
     }
 }
