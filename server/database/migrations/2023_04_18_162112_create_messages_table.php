@@ -17,7 +17,6 @@ return new class extends Migration
             $table->morphs('sender');
             $table->text('body');
             $table->timestamps();
-            $table->boolean('is_from_admin')->virtualAs('sender_type="App\Models\User"');
         });
     }
 

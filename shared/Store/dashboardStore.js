@@ -20,9 +20,10 @@ const useDashboardStore = defineStore('dashboardStore', () => {
   }
 
   async function getSubmissions() {
+    if (!nextPage.value) return
+
     try {
       const { submissions: respData } = await ApiService.submissions.index(nextPage.value)
-      console.log(respData.data)
       submissions.value = [...submissions.value, ...respData.data]
       nextPage.value = getNextPageFromUrl(respData.next_page_url)
     } catch (error) {

@@ -18,6 +18,8 @@ class Message extends Model implements HasMedia
 
     protected $guarded = ['id'];
 
+    protected $appends = ['is_from_admin'];
+
     public function submission()
     {
         return $this->belongsTo(Submission::class);
@@ -38,6 +40,11 @@ class Message extends Model implements HasMedia
     public function getPreviewAttribute()
     {
         return Str::substr($this->body, 0, 50);
+    }
+
+    public function getIsFromAdminAttribute()
+    {
+        return get_class($this->sender) === "App\Models\User";
     }
 
     /// 

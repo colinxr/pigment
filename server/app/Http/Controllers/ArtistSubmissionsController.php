@@ -14,7 +14,7 @@ class ArtistSubmissionsController extends Controller
         $per_page = request()->query('per_page', 50);
 
         $subs = Auth::user()->submissions()
-            ->with(['latestMessages', 'lastMessage', 'client'])
+            ->with(['messages', 'lastMessage', 'client'])
             ->paginate($per_page);
 
         return response()->json(['submissions' => $subs], 200);
