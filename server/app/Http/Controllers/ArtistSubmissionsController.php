@@ -10,10 +10,14 @@ use App\Http\Requests\SubmissionRequest;
 class ArtistSubmissionsController extends Controller
 {
     public function index()
-    {;
-        return response()->json([
-            'submissions' => Auth::user()->submissions()->submissions()->with(['lastMessage', 'client'])->get(),
-        ], 200);
+    {
+        $per_page = request()->query('per_page', 50);
+
+        $subs = Auth::user()->submissions()
+            ->with(['latestMessages', 'lastMessage', 'client'])
+            ->paginate($per_page);
+
+        return response()->json(['submissions' => $subs], 200);
     }
 
     public function store(SubmissionRequest $request, User $user)
