@@ -3,8 +3,8 @@ export default class SubmissionRepository {
     this.apiClient = apiClient
   }
 
-  async index() {
-    const res = await this.apiClient.get('submissions')
+  async index(page = 1) {
+    const res = await this.apiClient.get(`/submissions?page=${page}`)
 
     return res.data
   }

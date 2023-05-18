@@ -31,29 +31,29 @@ class HasValidAccessToken
             return $next($request);
         }
 
-        if (!$request->user()->access_token) {
-            $auth_url = $this->apiClient->createAuthUrl();
+        // if (!$request->user()->access_token) {
+        //     $auth_url = $this->apiClient->createAuthUrl();
 
-            return response()->json([
-                'status' => '403',
-                'message' => 'user is unauthenticated',
-                'data' => $auth_url,
-            ], 403);
-        }
+        //     return response()->json([
+        //         'status' => '403',
+        //         'message' => 'user is unauthenticated',
+        //         'data' => $auth_url,
+        //     ], 403);
+        // }
 
-        if ($request->user()->isTokenExpired()) {
-            if ($request->user()->access_token['error']) {
-                $request->user()->update(['access_token' => []]);
-                return $next($request);
-            }
+        // if ($request->user()->isTokenExpired()) {
+        //     if ($request->user()->access_token['error']) {
+        //         $request->user()->update(['access_token' => []]);
+        //         return $next($request);
+        //     }
 
-            $token = $this->apiClient
-                ->fetchAccessTokenWithRefreshToken($request->user()->access_token['refresh_token']);
+        //     $token = $this->apiClient
+        //         ->fetchAccessTokenWithRefreshToken($request->user()->access_token['refresh_token']);
 
-            $request->user()->update(['access_token' => $token]);
+        //     $request->user()->update(['access_token' => $token]);
 
-            return $next($request);
-        }
+        //     return $next($request);
+        // }
 
         return $next($request);
     }

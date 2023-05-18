@@ -14,7 +14,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
       return navigateTo('/login')
     }
 
-    store.login(authSession)
+    store.setUser(authSession)
     return navigateTo(to.path)
   }
 

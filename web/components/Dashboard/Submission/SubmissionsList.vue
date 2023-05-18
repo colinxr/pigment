@@ -17,5 +17,6 @@ import SubmissionCard from './SubmissionCard.vue'
 
 const dashboardStore = useDashboardStore()
 const { submissions } = storeToRefs(dashboardStore)
+console.log(submissions);
 const hasSubmissions = computed(() => submissions.value.length)
 </script>
