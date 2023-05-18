@@ -10,7 +10,7 @@ use App\Models\Submission;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ArtistSubmissionsTest extends TestCase
+class ArtistSubmissionsMessagesTest extends TestCase
 {
     use RefreshDatabase;
     public $artist;

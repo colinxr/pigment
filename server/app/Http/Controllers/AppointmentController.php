@@ -15,7 +15,6 @@ class AppointmentController extends Controller
     public function __construct(GoogleCalendarInterface $gCalService)
     {
         $this->gCalService = $gCalService;
-        
     }
 
     public function index()
@@ -51,8 +50,8 @@ class AppointmentController extends Controller
             )
         );
 
-        $this->gCalService->setToken(auth()->user()->access_token);
-        
+        $this->gCalService->setToken(Auth::user()->access_token);
+
         $event = $this->gCalService->saveEvent($appt);
 
         $appt->update(['event_id' => $event->getId()]);
@@ -71,7 +70,7 @@ class AppointmentController extends Controller
     {
         $appointment->update($request->toArray());
 
-        $this->gCalService->setToken(auth()->user()->access_token);
+        $this->gCalService->setToken(Auth::user()->access_token);
         $this->gCalService->updateEvent($appointment->event_id, $appointment);
 
         return response()->json([
@@ -82,7 +81,7 @@ class AppointmentController extends Controller
 
     public function destroy(Appointment $appointment)
     {
-        $this->gCalService->setToken(auth()->user()->access_token);
+        $this->gCalService->setToken(Auth::user()->access_token);
         $this->gCalService->deleteEvent($appointment->event_id);
 
         $appointment->delete();

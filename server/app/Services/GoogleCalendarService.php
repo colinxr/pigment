@@ -8,8 +8,9 @@ use Illuminate\Support\Str;
 use Google_Service_Calendar;
 use Google\Service\Calendar\Event;
 use Illuminate\Support\Facades\Log;
-use Google\Service\Calendar\Calendar;
 use Google\Service\Calendar\Channel;
+use Illuminate\Support\Facades\Auth;
+use Google\Service\Calendar\Calendar;
 use App\Interfaces\GoogleCalendarInterface;
 
 class GoogleCalendarService implements GoogleCalendarInterface
@@ -65,16 +66,16 @@ class GoogleCalendarService implements GoogleCalendarInterface
 
   public function updateEvent(string $event_id, Appointment $appt)
   {
-    $event = $this->service->events->get(auth()->user()->calendar_id, $event_id);
+    $event = $this->service->events->get(Auth::user()->calendar_id, $event_id);
 
     $event->summary = $appt->name;
     $event->description = $appt->description;
     $event->start = ['dateTime' => $appt->startDateTime];
     $event->end = ['dateTime' => $appt->endDateTime];
 
-    $response = $this->service->events->update(auth()->user()->calendar_id, $event_id, $event);
-    
-        // Handle the response
+    $response = $this->service->events->update(Auth::user()->calendar_id, $event_id, $event);
+
+    // Handle the response
     if ($response->getStatusCode() == 204) {
       // Event deleted successfully
     } else {
@@ -84,7 +85,7 @@ class GoogleCalendarService implements GoogleCalendarInterface
 
   public function deleteEvent(string $event_id)
   {
-    $response = $this->service->events->delete(auth()->user()->calendar_id, $event_id);
+    $response = $this->service->events->delete(Auth::user()->calendar_id, $event_id);
 
     // Handle the response
     if ($response->getStatusCode() == 204) {
@@ -156,15 +157,14 @@ class GoogleCalendarService implements GoogleCalendarInterface
 
     $channel = $this->service->events->watch($calendarId, $watchRequest);
 
-        // Store the channel information in your app's database
-        // This is needed so you can later stop the channel when you want to stop watching for updates
-        $channelExpiration = $channel->getExpiration();
-        $channelToken = $channel->getResourceId();
-        // Store the $channelExpiration and $channelToken in your database
+    // Store the channel information in your app's database
+    // This is needed so you can later stop the channel when you want to stop watching for updates
+    $channelExpiration = $channel->getExpiration();
+    $channelToken = $channel->getResourceId();
+    // Store the $channelExpiration and $channelToken in your database
 
-        // Return the channel information to the caller
-        return ['expiration' => $channelExpiration, 'token' => $channelToken];
-
+    // Return the channel information to the caller
+    return ['expiration' => $channelExpiration, 'token' => $channelToken];
   }
 
   public function listEvents()
@@ -176,7 +176,7 @@ class GoogleCalendarService implements GoogleCalendarInterface
 
   public function getCalendarId()
   {
-    if (!auth()->user()->calendar_id) {
+    if (!Auth::user()->calendar_id) {
       Log::info('no calendar id');
       $calendar = $this->getCalendarBySummary();
 
@@ -189,12 +189,12 @@ class GoogleCalendarService implements GoogleCalendarInterface
 
       Log::info($calendar->id);
 
-      auth()->user()->calendar_id = $calendar->id;
-      auth()->user()->save();
+      Auth::user()->calendar_id = $calendar->id;
+      Auth::user()->save();
 
       return $calendar->id;
     }
 
-    return auth()->user()->calendar_id;
+    return Auth::user()->calendar_id;
   }
 }

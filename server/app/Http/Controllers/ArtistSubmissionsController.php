@@ -10,9 +10,9 @@ use App\Http\Requests\SubmissionRequest;
 class ArtistSubmissionsController extends Controller
 {
     public function index()
-    {
+    {;
         return response()->json([
-            'submissions' => auth()->user()->submissions()->with(['lastMessage', 'client'])->get(),
+            'submissions' => Auth::user()->submissions()->submissions()->with(['lastMessage', 'client'])->get(),
         ], 200);
     }
 
