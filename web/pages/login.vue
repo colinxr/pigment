@@ -55,8 +55,6 @@ const handleSubmit = async () => {
       password: password.value
     })
 
-    console.log(response.status);
-
     if (response.status !== 200) {
       return handleResponseErrors(response)
     }

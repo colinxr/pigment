@@ -12,6 +12,7 @@
 </template>
 
 <script setup>
+import ApiService from '@dayplanner/apiservice'
 import useAuthStore from '@/stores/auth'
 const { handleResponseErrors } = useFormErrors()
 
@@ -20,13 +21,13 @@ const store = useAuthStore()
 
 const handleLogOut = async () => {
   try {
-    const res = await ApiService.auth.logout()
+    const response = await ApiService.auth.logout()
 
-    if (response.status !== 200) {
+    if (response.status !== 204) {
       return handleResponseErrors(response)
     }
 
-    store.logout()
+    store.removeUser()
 
     return navigateTo('/login')
   } catch (error) {

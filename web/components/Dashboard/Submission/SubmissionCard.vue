@@ -9,13 +9,17 @@
     </div>
 
     <div class="card-body grow ml-5">
-      <span class="card-title p">{{ client.first_name }}</span>
+      <div class="flex items-center ">
+        <span class="card-title p mr-1">{{ client.first_name }}</span>
+        <Badge :status="submission.status" />
+      </div>
       <p class="text-sm">{{ last_message.preview }}</p>
     </div>
   </div>
 </template>
 
 <script setup>
+import Badge from '~/components/Badge.vue';
 const { submission } = defineProps({
   submission: {
     type: Object,
@@ -24,7 +28,6 @@ const { submission } = defineProps({
 })
 
 const { client, last_message } = submission
-
 </script>
 
 <style>

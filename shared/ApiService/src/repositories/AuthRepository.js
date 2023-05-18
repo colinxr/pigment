@@ -28,14 +28,18 @@ export default class AuthRepository {
   }
 
   async logout() {
-    await this.apiClient.post('/logout', {}, {
+    const res = await this.apiClient.post('/logout', {}, {
       baseURL: this.apiClient.defaults.baseURL.slice(0, -4),
     })
+
+    return res
   }
 
   async register() {
     const res = await this.apiClient.post('/register', {
       baseURL: this.apiClient.defaults.baseURL.slice(0, -4),
     })
+
+    return res
   }
 }
