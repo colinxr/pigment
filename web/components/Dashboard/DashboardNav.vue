@@ -16,7 +16,6 @@ import ApiService from '@dayplanner/apiservice'
 import useAuthStore from '@/stores/auth'
 const { handleResponseErrors } = useFormErrors()
 
-
 const store = useAuthStore()
 
 const handleLogOut = async () => {

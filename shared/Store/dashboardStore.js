@@ -4,6 +4,7 @@ import ApiService from '@dayplanner/apiservice'
 
 const useDashboardStore = defineStore('dashboardStore', () => {
   const submissions = ref([])
+  const activeSubmission = ref(null)
 
   async function getSubmissions() {
     try {
@@ -14,9 +15,15 @@ const useDashboardStore = defineStore('dashboardStore', () => {
     }
   }
 
+  function setActiveSubmission(submission) {
+    activeSubmission.value = submission
+  }
+
   return {
     submissions,
+    activeSubmission,
     getSubmissions,
+    setActiveSubmission,
   }
 })
 

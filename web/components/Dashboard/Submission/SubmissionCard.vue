@@ -1,5 +1,5 @@
 <template>
-  <div class="conversation-card card space-between items-center p-4 h-20 hover:cursor-pointer">
+  <div @click="handleClick" class="conversation-card card space-between items-center p-4 h-20 hover:cursor-pointer">
     <div class="avatar w-10">
       <div class="rounded-full bg-slate-600 ">
         <div class="w-10 h-full flex items-center justify-center">
@@ -19,7 +19,11 @@
 </template>
 
 <script setup>
+import useDashboardStore from '@/stores/dashboard'
 import Badge from '~/components/Badge.vue';
+
+const dashboardStore = useDashboardStore();
+
 const { submission } = defineProps({
   submission: {
     type: Object,
@@ -28,6 +32,11 @@ const { submission } = defineProps({
 })
 
 const { client, last_message } = submission
+
+const handleClick = () => {
+  console.log('got here');
+  dashboardStore.setActiveSubmission(submission)
+}
 </script>
 
 <style>
