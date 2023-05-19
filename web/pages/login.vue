@@ -32,7 +32,7 @@
 
 <script setup>
 import { ref } from 'vue'
-import ApiService from '@dayplanner/apiservice'
+import ApiService from '~/../shared/ApiService/src/src/index.js'
 
 import useAuthStore from '@/stores/auth'
 
