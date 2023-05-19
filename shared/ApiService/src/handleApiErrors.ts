@@ -1,6 +1,6 @@
 import { AxiosError, AxiosResponse } from 'axios'
 
-export default (error: AxiosError) : AxiosResponse => {
+export default (error: AxiosError) => {
   if (error.response) {
     // Server responded with an error status code
     const { status, data } = error.response

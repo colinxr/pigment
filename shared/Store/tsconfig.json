@@ -4,5 +4,6 @@
     "rootDir": "src",
     "outDir": "dist"
   },
-  "references": [{ "path": "../ApiService" }]
+  "include": ["src/**/*.*", "index.d.ts"],
+  "references": [{ "path": "../store" }]
 }

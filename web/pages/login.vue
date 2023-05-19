@@ -44,7 +44,6 @@ const password = ref('')
 
 const getUser = async () => {
   const res = await ApiService.auth.getAuthenticatedSession()
-
   console.log(res)
 }
 

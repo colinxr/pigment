@@ -2,13 +2,10 @@
   "name": "@dayplanner/apiservice",
   "version": "1.0.0",
   "description": "shared client to connect to laravel backend",
-  "main": "index.js",
-  "module": "dist/index.js",
-  "types": "dist/index.d.ts",
-  "type": "module",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "rm -rf dist && tsc index.ts --declaration --allowJs --outDir dist"
+    "compile": "rm -rf dist && rm -rf tsconfig.tsbuildinfo && tsc -p tsconfig.json"
   },
   "repository": {
     "type": "git",
