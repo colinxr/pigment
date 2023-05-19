@@ -1,6 +1,11 @@
 <template>
-  <div class="msg flex flex-col">
-    <div class="msg__body relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
+  <div class="msg flex flex-col" :class="props.type === 'user' ? 'user' : 'incoming'">
+
+    <div class="text-sm font-medium px-2" :class="props.type === 'user' ? 'self-end' : 'justify-start'">
+      {{ props.sender }}
+    </div>
+    <div class="msg__body relative fle mt-1 text-sm py-2 px-4 shadow rounded-xl"
+      :class="props.type === 'user' ? 'bg-indigo-100 text-left' : 'bg-white'">
       <div>{{ props.message.body }}</div>
       <div class="timestamp">
         {{ props.message.timestamp }}
@@ -18,21 +23,11 @@ const props = defineProps({
   sender: {
     type: String,
     required: true,
+  },
+  type: {
+    type: String,
+    default: 'user'
   }
 
 })
 </script>
-
-<style>
-.incoming .msg__name {
-  @apply justify-start;
-}
-
-.user .msg__name {
-  @apply justify-end;
-}
-
-.user .msg__body {
-  @apply text-left;
-}
-</style>

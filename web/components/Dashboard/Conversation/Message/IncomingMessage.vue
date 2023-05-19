@@ -1,6 +1,6 @@
 <template>
   <div class="col-start-1 col-end-8 p-3 rounded-lg">
-    <BaseMessage :sender="props.data.sender.full_name" :message="props.data" class="incoming-message" />
+    <BaseMessage :sender="props.data.sender.full_name" :message="props.data" type="incoming" class="incoming-message" />
   </div>
 </template>
 

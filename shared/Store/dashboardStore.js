@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
-import ApiService from '~/../shared/ApiService/'
+import ApiService from '@dayplanner/apiservice'
 
 const useDashboardStore = defineStore('dashboardStore', () => {
   const submissions = ref([])

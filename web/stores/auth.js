@@ -1,3 +1,3 @@
-import stores from '@dayplanner/Store'
+import stores from '@dayplanner/store'
 
 export default stores.authStore
