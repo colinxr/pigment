@@ -58,19 +58,13 @@ const postMessageToServer = async (message) => {
     files: message.files,
   })
 
-  console.log(res)
-
-  if (res.status !== 'success') return false
-
-  return true
+  return res.status === 'success'
 }
 
 const updateMessage = (messageWasSent, bodyText) => {
-  const msg = messages.value.find(({ body }) => body === bodyText)
+  const msg = messages.value.find(({ body, status }) => status && body === bodyText)
 
   msg.status = !messageWasSent ? 'FAILED' : null
-
-  return msg
 }
 
 const scrollToLastMessage = () => {
