@@ -3,29 +3,81 @@
 
     <div class="h-full overflow-hidden py-4">
       <div class="h-full overflow-y-auto">
-        <div class="grid grid-cols-12 gap-y-2">
+        <div class="grid grid-cols-12 gap-y-2" ref="wrapper">
           <div v-if="!activeSubmission" class="flex items-center justify-center">
             Select a conversation or send a new message
           </div>
-          <MessageContainer v-else v-for="(message, i)  in activeSubmission.messages" :key="i" :message="message" />
+          <MessageContainer v-else v-for="(message, i)  in messages" :key="i" :message="message" />
         </div>
       </div>
     </div>
 
-    <ConversationTextInput />
+    <ConversationTextInput @sendMsg="handleNewMessage" />
   </main>
 </template>
 
 <script setup>
+import { ref, nextTick } from 'vue';
 import { storeToRefs } from 'pinia';
+
 import useDashboardStore from '@/stores/dashboard'
 import MessageContainer from './Message/MessageContainer.vue';
 import ConversationTextInput from './ConversationTextInput.vue';
+import ApiService from '@dayplanner/apiservice';
 
 const dashboardStore = useDashboardStore()
+
+const messages = ref([])
+const wrapper = ref(null)
+
 const { activeSubmission } = storeToRefs(dashboardStore)
 
-// const messages = ref([...activeSubmission.latest_messages])
+watchEffect(() => {
+  if (!activeSubmission.value) return
+
+  return messages.value = activeSubmission.value.messages
+})
+
+const buildMessageObject = ({ body, attachments }) => ({
+  body,
+  attachments,
+  status: 'PENDING',
+  is_from_admin: true,
+})
+
+const handleNewMessage = async (message) => {
+  const msgObject = buildMessageObject(message)
+
+  messages.value = [...messages.value, msgObject]
+
+  nextTick(() => wrapper.value.scrollIntoView({ block: 'end' }))
+
+  const messageWasSent = await postMessageToServer(msgObject)
+
+  updateMessage(messageWasSent, message.body)
+}
+
+
+const postMessageToServer = async (message) => {
+  const res = await ApiService.messages.post(activeSubmission.value.id, {
+    body: message.body,
+    files: message.files,
+  })
+
+  console.log(res)
+
+  if (res.status !== 'success') return false
+
+  return true
+}
+
+const updateMessage = (messageWasSent, bodyText) => {
+  const msg = messages.value.find(({ body }) => body === bodyText)
+
+  msg.status = !messageWasSent ? 'FAILED' : null
+
+  return msg
+}
 
 </script>
 

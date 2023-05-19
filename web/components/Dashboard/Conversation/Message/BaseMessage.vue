@@ -11,6 +11,7 @@
         {{ props.message.timestamp }}
       </div>
     </div>
+    <span class="mt-1 pr-2 text-xs self-end">{{ props.message.status }}</span>
   </div>
 </template>
 

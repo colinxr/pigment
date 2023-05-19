@@ -23,7 +23,6 @@ class NewMessageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sender_id' => 'required',
             'body' => 'required',
             'attachments.*' => [
                 'nullable',

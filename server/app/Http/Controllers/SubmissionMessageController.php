@@ -21,7 +21,7 @@ class SubmissionMessageController extends Controller
             }
         }
 
-        Mail::to($message->recipient())->queue(new NewMessageAlert($message));
+        // Mail::to($message->recipient())->queue(new NewMessageAlert($message));
 
         return response()->json([
             'status' => 'success',
