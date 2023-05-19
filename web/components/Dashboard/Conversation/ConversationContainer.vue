@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import { ref, nextTick } from 'vue';
+import { ref, nextTick, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 
 import useDashboardStore from '@/stores/dashboard'
@@ -32,12 +32,6 @@ const wrapper = ref(null)
 
 const { activeSubmission } = storeToRefs(dashboardStore)
 
-watchEffect(() => {
-  if (!activeSubmission.value) return
-
-  return messages.value = activeSubmission.value.messages
-})
-
 const buildMessageObject = ({ body, attachments }) => ({
   body,
   attachments,
@@ -50,7 +44,7 @@ const handleNewMessage = async (message) => {
 
   messages.value = [...messages.value, msgObject]
 
-  nextTick(() => wrapper.value.scrollIntoView({ block: 'end' }))
+  scrollToLastMessage()
 
   const messageWasSent = await postMessageToServer(msgObject)
 
@@ -78,6 +72,18 @@ const updateMessage = (messageWasSent, bodyText) => {
 
   return msg
 }
+
+const scrollToLastMessage = () => {
+  nextTick(() => wrapper.value.scrollIntoView({ block: 'end' }))
+}
+
+watchEffect(() => {
+  if (!activeSubmission.value) return
+
+  messages.value = activeSubmission.value.messages
+
+  scrollToLastMessage()
+})
 
 </script>
 
