@@ -7,6 +7,7 @@ use Illuminate\Support\Str;
 use App\Models\Conversation;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\InteractsWithMedia;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -32,6 +33,9 @@ class Message extends Model implements HasMedia
 
     public function recipient(): string
     {
+        Log::info(json_encode($this->submission->client));
+        log::info($this->submission->client->email);
+
         return get_class($this->sender) === "App\Models\User" ?
             $this->submission->client->email :
             $this->submission->user->email;

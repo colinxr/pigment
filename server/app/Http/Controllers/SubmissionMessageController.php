@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Submission;
 use App\Models\Conversation;
 use App\Mail\NewMessageAlert;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Requests\NewMessageRequest;
@@ -21,7 +22,9 @@ class SubmissionMessageController extends Controller
             }
         }
 
-        // Mail::to($message->recipient())->queue(new NewMessageAlert($message));
+        Log::info($message->recipient());
+
+        Mail::to($message->recipient())->queue(new NewMessageAlert($message));
 
         return response()->json([
             'status' => 'success',

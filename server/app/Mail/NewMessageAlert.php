@@ -36,6 +36,9 @@ class NewMessageAlert extends Mailable
         return new Envelope(
             subject: "You've received a new message",
             from: $this->message->sender->email,
+            metadata: [
+                'submission' => $this->message->submission_id,
+            ]
         );
     }
 
@@ -45,7 +48,7 @@ class NewMessageAlert extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'view.name',
+            view: 'mail.new-message',
         );
     }
 
@@ -61,16 +64,5 @@ class NewMessageAlert extends Mailable
         return $files->map(function ($file) {
             return Attachment::fromPath($file->getPath());
         })->toArray();
-    }
-
-    public function headers()
-    {
-        return new Headers(
-            messageId: $this->message->id,
-            text: [
-                'from_email' => $this->message->sender->email,
-                'conversation_id' => $this->message->conversation_id,
-            ],
-        );
     }
 }
