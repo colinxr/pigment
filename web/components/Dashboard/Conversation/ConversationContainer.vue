@@ -1,11 +1,12 @@
 <template>
-  <main class="submission">
-    <div v-if="!activeSubmission" class="h-screen flex items-center justify-center">
-      Select a conversation or send a new message
-    </div>
-
-    <div v-else class="chat-container">
-      <MessageContainer v-for="(message, i)  in activeSubmission.messages" :key="i" :message="message" />
+  <main class="chat-container h-full overflow-hidden py-4">
+    <div class="h-full overflow-y-autoo">
+      <div class="grid grid-cols-12 gap-y-2">
+        <div v-if="!activeSubmission" class="h-screen flex items-center justify-center">
+          Select a conversation or send a new message
+        </div>
+        <MessageContainer v-else v-for="(message, i)  in activeSubmission.messages" :key="i" :message="message" />
+      </div>
     </div>
   </main>
 </template>

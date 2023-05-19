@@ -1,5 +1,7 @@
 <template>
-  <BaseMessage sender="you" :message="props.data" class="user-message" />
+  <div class="col-start-6 col-end-13 p-3 rounded-lg">
+    <BaseMessage sender="you" :message="props.data" class="user" />
+  </div>
 </template>
 
 <script setup>

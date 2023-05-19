@@ -1,19 +1,29 @@
 <template>
-  <div @click="handleClick" class="conversation-card card space-between items-center p-4 h-20 hover:cursor-pointer">
-    <div class="avatar w-10">
-      <div class="rounded-full bg-slate-600 ">
-        <div class="w-10 h-full flex items-center justify-center">
-          <span class="text-xl font-bold ">{{ client.initials }}</span>
-        </div>
-      </div>
-    </div>
+  <div class="sub-card flex flex-col -mx-4 hover:cursor-pointer" @click="handleClick">
+    <div class="relative flex flex-row items-center p-4">
+      <!-- timestamp -->
+      <div class="absolute text-xs text-gray-500 right-0 top-0 mr-4 mt-3">{ timestamp }</div>
 
-    <div class="card-body grow ml-5">
-      <div class="flex items-center ">
-        <span class="card-title p mr-1">{{ client.first_name }}</span>
-        <Badge :status="submission.status" />
+      <!-- client avatar -->
+      <div
+        class="flex items-center justify-center h-10 w-10 rounded-full bg-pink-500 text-pink-300 font-bold flex-shrink-0">
+        {{ client.initials }}
       </div>
-      <p class="text-sm">{{ last_message.preview }}</p>
+
+
+      <!-- submission body -->
+      <div class="flex flex-col flex-grow ml-3">
+        <div class="text-sm font-medium">
+          {{ client.full_name }}
+          <Badge :status="submission.status" />
+        </div>
+        <div class="text-xs truncate w-40">{{ last_message.preview }}</div>
+      </div>
+
+      <!-- new messages indicator -->
+      <div class="flex-shrink-0 ml-2 self-end mb-1">
+        <span class="flex items-center justify-center h-5 w-5 bg-red-500 text-white text-xs rounded-full">5</span>
+      </div>
     </div>
   </div>
 </template>
@@ -31,29 +41,17 @@ const { submission } = defineProps({
   }
 })
 
+console.log(submission);
+
 const { client, last_message } = submission
 
 const handleClick = () => {
-  console.log('got here');
   dashboardStore.setActiveSubmission(submission)
 }
 </script>
 
 <style>
-.card {
-  flex-direction: row;
-}
-
-.card:hover {
+.submission:hover {
   @apply bg-slate-100;
-}
-
-.card-body {
-  padding: 0;
-  gap: 0;
-}
-
-.card-title {
-  font-size: 1rem;
 }
 </style>

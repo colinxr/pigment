@@ -11,7 +11,7 @@ class Client extends Model
 
     protected $guarded = ['id'];
 
-    protected $appends = ['initials'];
+    protected $appends = ['initials', 'full_name'];
 
     ///
     // Relationships
@@ -37,5 +37,10 @@ class Client extends Model
         return strtoupper(
             substr($this->first_name, 0, 1) . substr($this->last_name, 0, 1)
         );
+    }
+
+    public function getFullNameAttribute()
+    {
+        return ucfirst($this->first_name) . ' ' . ucfirst($this->last_name);
     }
 }

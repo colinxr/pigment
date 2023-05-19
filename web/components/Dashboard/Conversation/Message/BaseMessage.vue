@@ -1,11 +1,10 @@
 <template>
-  <div class="message">
-    <span class="sender">{{ props.sender }}</span>
-    <div class="content">
-      {{ props.message.body }}
-    </div>
-    <div class="timestamp">
-      {{ props.message.timestamp }}
+  <div class="msg flex flex-col">
+    <div class="msg__body relative ml-3 text-sm bg-white py-2 px-4 shadow rounded-xl">
+      <div>{{ props.message.body }}</div>
+      <div class="timestamp">
+        {{ props.message.timestamp }}
+      </div>
     </div>
   </div>
 </template>
@@ -25,21 +24,15 @@ const props = defineProps({
 </script>
 
 <style>
-.message {
-  margin-bottom: 10px;
+.incoming .msg__name {
+  @apply justify-start;
 }
 
-.message .sender {
-  font-weight: bold;
-  color: blue;
+.user .msg__name {
+  @apply justify-end;
 }
 
-.message .content {
-  margin-left: 10px;
-}
-
-.message .timestamp {
-  font-size: 0.8em;
-  color: #999;
+.user .msg__body {
+  @apply text-left;
 }
 </style>

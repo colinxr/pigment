@@ -1,5 +1,5 @@
 <template>
-  <div class="sidebar flex bg-white">
+  <div class="sidebar flex flex-row w-96 flex-shrink-0 bg-gray-100 p-4">
     <DashboardNav />
     <SubmissionsList />
   </div>

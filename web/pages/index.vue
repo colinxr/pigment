@@ -1,8 +1,8 @@
 <template>
-  <div class="dashboard flex">
-    <DashboardSidebar class="w-1/3 h-screen" />
+  <div class="dashboard h-screen overflow-hidden flex items-center">
+    <DashboardSidebar class="h-screen" />
 
-    <ConversationContainer class=" w-2/13 h-screen" />
+    <ConversationContainer class="grow h-screen" />
   </div>
 </template>
 
