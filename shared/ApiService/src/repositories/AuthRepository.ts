@@ -1,5 +1,10 @@
-export default class AuthRepository {
-  constructor(apiClient) {
+import { AxiosInstance, AxiosResponse } from 'axios'
+import { AuthRepositoryI } from '../types'
+
+export default class AuthRepository implements AuthRepositoryI {
+  apiClient: AxiosInstance
+
+  constructor(apiClient: AxiosInstance) {
     this.apiClient = apiClient
   }
 
@@ -16,10 +21,10 @@ export default class AuthRepository {
     }
   }
 
-  async login({ email, password }) {
+  async login({ email, password }: { email: string, password: string}): Promise<AxiosResponse> {
     const res = this.apiClient.get('/csrf-cookie').then(async (resp) => {
       const response = await this.apiClient.post('/login', { email, password }, {
-        baseURL: this.apiClient.defaults.baseURL.slice(0, -4),
+        baseURL: this.resetBaseUrl(),
       })
       return response
     })
@@ -27,19 +32,23 @@ export default class AuthRepository {
     return res
   }
 
-  async logout() {
+  async logout(): Promise<AxiosResponse> {
     const res = await this.apiClient.post('/logout', {}, {
-      baseURL: this.apiClient.defaults.baseURL.slice(0, -4),
+      baseURL: this.resetBaseUrl(),
     })
 
     return res
   }
 
-  async register() {
+  async register(): Promise<AxiosResponse> {
     const res = await this.apiClient.post('/register', {
-      baseURL: this.apiClient.defaults.baseURL.slice(0, -4),
+      baseURL: this.resetBaseUrl(),
     })
 
     return res
+  }
+
+  resetBaseUrl(): string {
+    return this.apiClient.defaults.baseURL!.slice(0, -4)
   }
 }
