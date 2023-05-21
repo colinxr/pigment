@@ -1,7 +1,7 @@
 {
   "name": "@dayplanner/store",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "compile": "rm -rf dist && rm -rf tsconfig.tsbuildinfo && tsc -p tsconfig.json"

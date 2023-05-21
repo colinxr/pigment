@@ -5,3 +5,4 @@ vendor
 .test.ext
 .tsbuildinfo
 dist
+tsconfig.tsbuildinfo

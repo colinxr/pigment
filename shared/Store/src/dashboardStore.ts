@@ -1,15 +1,7 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import ApiService from '@dayplanner/apiservice'
-
-type SubmissionI = {
-  id: number,
-  client_id: number,
-  user_id: number,
-  idea: string, 
-  created_at: Date,
-  updated_at: Date,
-}
+import { SubmissionI } from './types'
 
 const useDashboardStore = defineStore('dashboardStore', () => {
   const submissions = ref<SubmissionI[]>([])
@@ -33,9 +25,11 @@ const useDashboardStore = defineStore('dashboardStore', () => {
 
     try {
       const { data } = await ApiService.submissions.index(nextPage.value)
-      submissions.value = [...submissions.value, ...data.submissions]
+      console.log(data.submissions);
       
-      nextPage.value = getNextPageFromUrl(data.next_page_url)
+      submissions.value = [...submissions.value, ...data.submissions.data]
+      
+      nextPage.value = getNextPageFromUrl(data.submissions.next_page_url)
     } catch (error) {
       console.log(error)
     }
