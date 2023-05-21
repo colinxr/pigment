@@ -9,7 +9,7 @@
 <script setup>
 import useDashboardStore from '@/stores/dashboard'
 import DashboardSidebar from '@/components/Dashboard/DashboardSidebar.vue'
-import ConversationContainer from '@/components/Dashboard/Conversation/ConversationContainer.vue'
+import ConversationContainer from '@/components/Dashboard/SubmissionMessages/ConversationContainer.vue'
 
 const dashboardStore = useDashboardStore()
 const { getSubmissions } = dashboardStore

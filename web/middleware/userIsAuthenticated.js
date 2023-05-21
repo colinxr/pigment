@@ -6,7 +6,6 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
 
   if (!store.user) {
     const authSession = await ApiService.auth.getAuthenticatedSession()
-    console.log(authSession);
     
     if (!authSession) {
       if (['login', 'register'].includes(to.name)) return 

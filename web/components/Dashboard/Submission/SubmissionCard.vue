@@ -41,8 +41,6 @@ const { submission } = defineProps({
   }
 })
 
-console.log(submission);
-
 const { client, last_message } = submission
 
 const handleClick = () => {

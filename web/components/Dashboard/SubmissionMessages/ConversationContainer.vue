@@ -58,7 +58,7 @@ const postMessageToServer = async (message) => {
     files: message.files,
   })
 
-  return res.status === 'success'
+  return res.status === 201
 }
 
 const updateMessage = (messageWasSent, bodyText) => {
