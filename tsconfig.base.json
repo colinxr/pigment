@@ -2,7 +2,7 @@
   "compilerOptions": {
     "incremental": true,
     "target": "es2020",
-    "module": "commonjs",
+    "module": "es6",
     "declaration": true,
     "sourceMap": true,
     "strict": true,
@@ -10,7 +10,9 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-
-    "composite": true
+    "composite": true,
+    "paths": {
+      "@dayplanner/*": ["./shared/*/"]
+    }
   }
 }

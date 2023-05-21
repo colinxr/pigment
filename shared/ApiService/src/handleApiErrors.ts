@@ -1,4 +1,6 @@
-export default (error) => {
+import { AxiosError, AxiosResponse } from 'axios'
+
+export default (error: AxiosError) => {
   if (error.response) {
     // Server responded with an error status code
     const { status, data } = error.response
@@ -26,8 +28,9 @@ export default (error) => {
   } if (error.request) {
     // The request was made, but no response was received
     console.log('No response received from the server:', error.request)
-  } else {
-    // Something happened while setting up the request
-    console.log('Error:', error.message)
+    return error.response
   }
+  // Something happened while setting up the request
+  console.log('Error:', error.message)
+  return error.response
 }

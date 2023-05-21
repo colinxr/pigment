@@ -3,4 +3,6 @@ node_modules
 vendor
 .DS_Store
 .test.ext
+.tsbuildinfo
 dist
+tsconfig.tsbuildinfo

@@ -1,19 +1,11 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-
-
-interface AuthUser {
-  id: number,
-  first_name: string, 
-  last_name: string,
-  email: string, 
-  username: string,
-}
+import { AuthUserI } from './types'
 
 const useAuthStore = defineStore('authStore', () => {
-  const user = ref<AuthUser>()
+  const user = ref<AuthUserI>()
 
-  const setUser = (authUser: AuthUser) => {
+  const setUser = (authUser: AuthUserI) => {
     user.value = authUser
   }
 
