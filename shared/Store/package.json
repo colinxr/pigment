@@ -34,7 +34,7 @@
     "vue-eslint-parser": "^9.3.0"
   },
   "dependencies": {
-    "@dayplanner/apiservice": "file:../ApiService",
+    "@dayplanner/apiservice": "file:../ApiService/dist",
     "pinia": "^2.0.36",
     "vue": "^3.3.2"
   }

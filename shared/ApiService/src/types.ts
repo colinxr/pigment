@@ -12,7 +12,7 @@ export interface AuthRepositoryI {
 
 export interface SubmissionRepositoryI {
   apiClient: AxiosInstance,
-  index(): Promise<AxiosResponse>,
+  index(page: number): Promise<AxiosResponse>,
 }
 
 export interface MessageRepositoryI {

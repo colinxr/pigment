@@ -11,6 +11,6 @@ export default class MessageRepository implements MessageRepositoryI {
   async post(submissionId: string, message: object): Promise<AxiosResponse> {
     const res = await this.apiClient.post(`/submissions/${submissionId}/message`, message)
 
-    return res.data
+    return res
   }
 }
