@@ -21,6 +21,7 @@ export default (error: AxiosError) => {
       default:
         // Handle other error status codes
         console.log('Server Error:', data)
+        
         break
     }
 

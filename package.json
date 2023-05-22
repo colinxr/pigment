@@ -4,7 +4,10 @@
   "description": "admin app for tattoo artists and other creative professionals",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "watch:shared": "npm run watch -w shared/ApiService && npm run watch -w shared/Store",
+    "web:dev": "npm run dev -w web",
+    "dev": "concurrently \"npm run watch:shared\" \"npm run web:dev\""
   },
   "repository": {
     "type": "git",
@@ -23,6 +26,7 @@
   ],
   "devDependencies": {
     "@typescript-eslint/parser": "^5.59.6",
+    "concurrently": "^8.0.1",
     "typescript": "^4.9.5"
   }
 }
