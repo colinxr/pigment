@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col items-center py-4 flex-shrink-0 w-20 bg-indigo-800 rounded-3xl">
+  <div class="flex flex-col items-center py-4 flex-shrink-0 w-20 bg-indigo-800">
     <a href="#" class="flex items-center justify-center h-12 w-12 bg-indigo-100 text-indigo-800 rounded-full">
       <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -61,17 +61,6 @@
       </svg>
     </button>
   </div>
-
-  <!-- <nav class="w-50 mr-10">
-    <ul>
-      <li>H</li>
-      <li>C</li>
-      <li>|||</li>
-      <li @click="handleLogOut">
-        Logout
-      </li>
-    </ul>
-  </nav> -->
 </template>
 
 <script setup>

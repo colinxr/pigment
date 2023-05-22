@@ -16,7 +16,6 @@ export default class AuthRepository implements AuthRepositoryI {
 
       return res.data
     } catch (err) {
-      console.log(err)
       return false
     }
   }

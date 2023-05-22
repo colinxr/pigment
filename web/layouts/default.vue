@@ -1,7 +1,6 @@
 <template>
-  <div class="">
-    <!-- <div class="flex flex-row h-screen antialiased text-gray-800"> -->
+  <div class="dashboard h-screen overflow-hidden flex align-start">
+    <DashboardNav />
     <slot />
   </div>
-  <!-- </div> -->
 </template>

@@ -1,15 +1,13 @@
 <template>
-  <div class="dashboard h-screen overflow-hidden flex items-center">
-    <DashboardSidebar class="h-screen" />
-
-    <ConversationContainer class="grow h-screen" />
-  </div>
+  <div class="flex"></div>
+  <SubmissionsList class="w-1/3" />
+  <ConversationContainer class="grow h-screen w-2/3" />
 </template>
 
 <script setup>
 import useDashboardStore from '@/stores/dashboard'
-import DashboardSidebar from '@/components/Dashboard/DashboardSidebar.vue'
-import ConversationContainer from '@/components/Dashboard/SubmissionMessages/ConversationContainer.vue'
+import SubmissionsList from '@/components/Dashboard/Submission/SubmissionsList.vue'
+import ConversationContainer from '@/components/Dashboard/ConversationContainer.vue'
 
 const dashboardStore = useDashboardStore()
 const { getSubmissions } = dashboardStore

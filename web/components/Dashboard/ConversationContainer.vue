@@ -1,18 +1,17 @@
 <template>
   <main class="chat-container flex flex-col h-full w-full bg-white px-4 py-6">
-
     <div class="h-full overflow-hidden py-4">
       <div class="h-full overflow-y-auto">
-        <div class="grid grid-cols-12 gap-y-2" ref="wrapper">
-          <div v-if="!activeSubmission" class="flex items-center justify-center">
-            Select a conversation or send a new message
-          </div>
-          <MessageContainer v-else v-for="(message, i)  in messages" :key="i" :message="message" />
+        <h1 v-if="!activeSubmission">
+          Select a conversation or send a new message
+        </h1>
+        <div v-else class="grid grid-cols-12 gap-y-2" ref="wrapper">
+          <MessageContainer v-for="(message, i)  in messages" :key="i" :message="message" />
         </div>
       </div>
     </div>
 
-    <ConversationTextInput @sendMsg="handleNewMessage" />
+    <ConversationTextInput v-if="!activeSubmission" @sendMsg="handleNewMessage" />
   </main>
 </template>
 
@@ -21,8 +20,8 @@ import { ref, nextTick, onMounted } from 'vue';
 import { storeToRefs } from 'pinia';
 
 import useDashboardStore from '@/stores/dashboard'
-import MessageContainer from './Message/MessageContainer.vue';
-import ConversationTextInput from './ConversationTextInput.vue';
+import MessageContainer from './SubmissionMessages/Message/MessageWrapper.vue';
+import ConversationTextInput from './SubmissionMessages/ConversationTextInput.vue';
 import ApiService from '@dayplanner/apiservice';
 
 const dashboardStore = useDashboardStore()

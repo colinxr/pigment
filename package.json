@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "watch:shared": "npm run watch -w shared/ApiService && npm run watch -w shared/Store",
     "web:dev": "npm run dev -w web",
-    "dev": "concurrently \"npm run watch:shared\" \"npm run web:dev\""
+    "dev": "code . && concurrently \"npm run watch:shared\" \"npm run web:dev\""
   },
   "repository": {
     "type": "git",

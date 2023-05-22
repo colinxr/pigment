@@ -1,5 +1,6 @@
 <template>
-  <div class="Submissions_list flex flex-col w-full h-full pl-4 pr-4 py-4 -mr-4">
+  <!-- <div class="sidebar h-screen w-96 flex-shrink-0 bg-gray-100 p-4"> -->
+  <div class="submissions_list bg-white flex flex-col w-1/3 h-full pl-4 pr-4 py-4">
     <!-- Submissions Headers -->
     <div class="flex flex-row items-center">
       <div class="flex flex-row items-center">
@@ -24,6 +25,7 @@
         :key="i" />
     </div>
   </div>
+  <!-- </div> -->
 </template>
 
 <script setup>
