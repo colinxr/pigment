@@ -23,7 +23,7 @@
       </nav>
 
       <div class="mt-3">
-        <ActionPaneClient v-if="currentView === 'client'" />
+        <ActionPaneClient v-if="currentView === 'client'" :client="submission.client" />
         <div v-else>testetsetset</div>
       </div>
     </div>
@@ -44,7 +44,4 @@ const props = defineProps({
 const currentView = ref('client')
 
 
-const openAppointmentModal = async () => {
-  // const res = await ApiService.appointment.store(submission)
-}
 </script>

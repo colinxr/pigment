@@ -4,6 +4,7 @@ export default (error: AxiosError) => {
   if (error.response) {
     // Server responded with an error status code
     const { status, data } = error.response
+    
     switch (status) {
       case 400:
         // Handle Bad Request errors
