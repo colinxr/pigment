@@ -1,3 +1,5 @@
+import { extend } from "@vue/shared";
+
 interface GoogleAccessToken {
   access_token: string,
   expires_in: number,
@@ -25,4 +27,17 @@ export type SubmissionI = {
   idea: string, 
   created_at: Date,
   updated_at: Date,
+}
+
+
+// We create blank component
+const component = extend({});
+
+// We infer its type
+export type VueComponent = InstanceType<typeof component>;
+
+// We make interface for state
+export interface ModalStateI {
+  component: null | VueComponent,
+  props?: object
 }
