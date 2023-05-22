@@ -1,7 +1,8 @@
 <template>
-  <div class="flex"></div>
-  <SubmissionsList class="w-1/3" />
-  <ConversationContainer class="grow h-screen w-2/3" />
+  <div class="flex grow">
+    <SubmissionsList class="w-1/4" />
+    <ConversationContainer class="grow h-screen w-2/3" />
+  </div>
 </template>
 
 <script setup>
