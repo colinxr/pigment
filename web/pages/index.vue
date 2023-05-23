@@ -17,6 +17,8 @@ onBeforeMount(async () => {
   await getSubmissions()
 })
 
-definePageMeta({ middleware: 'user-is-authenticated' })
+definePageMeta({
+  middleware: 'user-is-authenticated',
+  layout: 'default',
+})
 </script>
-
