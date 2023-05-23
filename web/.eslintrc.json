@@ -6,7 +6,7 @@
     "extends": [
         "plugin:vue/vue3-recommended",
         "airbnb-base",
-        "@nuxtjs"
+        "@nuxt/eslint-config"
     ],
     "overrides": [
     ],
@@ -17,15 +17,35 @@
     "plugins": [
         "vue"
     ],
+    "settings": {
+      "import/resolver": {
+        "alias": {
+          "map": [["@", "./"]],
+          "extensions": [".js", ".vue"]
+        }
+      }
+    },
     "rules": {
         "semi": ["error", "never"],
         "import/no-extraneous-dependencies": [
-            "error",
-            {
-              "devDependencies": ["test/**"],
-              "optionalDependencies": false,
-              "peerDependencies": false
-            }
-          ]
+          "error",
+          {
+            "devDependencies": ["test/**"],
+            "optionalDependencies": false,
+            "peerDependencies": false
+          }
+        ],
+        "vue/first-attribute-linebreak": ["error", {
+          "singleline": "ignore",
+          "multiline": "below"
+        }],
+        "vue/max-attributes-per-line": ["error", {
+          "singleline": {
+            "max": 2
+          },      
+          "multiline": {
+            "max": 1
+          }
+        }]
     }
 }

@@ -13,8 +13,12 @@
     <main v-else class="flex flex-col h-full w-full bg-white px-4 py-6">
       <div class="h-full overflow-hidden py-4">
         <div class="h-full overflow-y-auto">
-          <div class="grid grid-cols-12 gap-y-2" ref="wrapper">
-            <MessageContainer v-for="(message, i)  in messages" :key="i" :message="message" />
+          <div ref="wrapper" class="grid grid-cols-12 gap-y-2">
+            <MessageContainer
+              v-for="(message, i) in messages"
+              :key="i"
+              :message="message"
+            />
           </div>
         </div>
       </div>
@@ -27,13 +31,13 @@
 </template>
 
 <script setup>
-import { ref, nextTick } from 'vue';
-import { storeToRefs } from 'pinia';
+import { ref, nextTick } from 'vue'
+import { storeToRefs } from 'pinia'
 
-import ApiService from '@dayplanner/apiservice';
+import ApiService from '@dayplanner/apiservice'
 import useDashboardStore from '@/stores/dashboard'
-import MessageContainer from './SubmissionMessages/Message/MessageWrapper.vue';
-import ConversationTextInput from './SubmissionMessages/ConversationTextInput.vue';
+import MessageContainer from './SubmissionMessages/Message/MessageWrapper.vue'
+import ConversationTextInput from './SubmissionMessages/ConversationTextInput.vue'
 import ActionPane from '@/components/ActionPane/ActionPane.vue'
 
 const dashboardStore = useDashboardStore()
@@ -61,7 +65,6 @@ const handleNewMessage = async (message) => {
 
   updateMessage(messageWasSent, message.body)
 }
-
 
 const postMessageToServer = async (message) => {
   const res = await ApiService.messages.post(activeSubmission.value.id, {

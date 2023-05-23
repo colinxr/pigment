@@ -2,29 +2,32 @@
   <div class="bg-white border border-gray mx-auto w-full max-w-[550px] rounded-xl p-4">
     <form @submit.prevent="handleSubmit">
       <div class="mb-5">
-        <label for="first_name" class="mb-3 block text-base font-medium text-[#07074D]">
-          First Name
-        </label>
-        <input v-model="formData.first_name" type="text" name="first_name" id="first_name" placeholder="First Name"
-          class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+        <TextInput
+          id="first_name"
+          label-text="First Name"
+          :model-value="formData.first_name"
+        />
+      </div>
+
+      <div class="mb-5">
+        <TextInput
+          id="last_name"
+          label-text="Last Name"
+          :model-value="formData.last_name"
+        />
       </div>
       <div class="mb-5">
-        <label for="last_name" class="mb-3 block text-base font-medium text-[#07074D]">
-          Last Name
-        </label>
-        <input v-model="formData.last_name" type="text" name="last_name" id="last_name" placeholder="Last Name"
-          class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
-      </div>
-      <div class="mb-5">
-        <label for="email" class="mb-3 block text-base font-medium text-[#07074D]">
-          Email Address
-        </label>
-        <input v-model="formData.email" type="email" name="email" id="email"
-          class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-6 text-base font-medium text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md" />
+        <TextInput
+          id="email"
+          label-text="Email"
+          :model-value="formData.email"
+        />
       </div>
       <div>
         <button
-          class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none">
+          class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8
+          text-base font-semibold text-white outline-none"
+        >
           {{ btnText }}
         </button>
       </div>
@@ -35,12 +38,13 @@
 <script setup>
 import { computed, ref } from 'vue'
 import ApiService from '@dayplanner/apiservice'
+import TextInput from '@/components/Forms/TextInput.vue'
 
 const props = defineProps({
   client: {
     type: Object,
     required: true,
-  }
+  },
 })
 
 const formState = ref('')
@@ -52,13 +56,19 @@ const formData = ref({
 })
 
 const btnText = computed(() => {
-  if (formState === 'pending') return 'Submitting ...'
+  if (formState.value === 'pending') return 'Submitting ...'
 
   return 'Submit'
 })
 
 const handleSubmit = async () => {
+  // validate
+  // handle errors
+
   const res = await ApiService.clients.update(formData)
+
+  // if error show server side validation errors
+  // update formData with response data
 }
 
 </script>
