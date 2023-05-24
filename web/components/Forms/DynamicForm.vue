@@ -1,7 +1,10 @@
 <template>
-  <Form :initial-values="formValues" @submit="handleSubmit($event, onSubmit)">
+  <FormKit v-model="form" type="form" @submit="tk">
+    <FormKitSchema :schema="schema" :data="form" />
+  </FormKit>
+  <!-- <Form :validation-schema="schema" @submit="onSubmit">
     <div
-      v-for="{ as, name, label, children, ...attrs } in schema.fields"
+      v-for="{ as, name, label, children, rules, ...attrs } in schema.fields"
       :key="name"
       class="mb-5 flex flex-col"
     >
@@ -11,6 +14,7 @@
         :id="name"
         :as="as"
         :name="name"
+        :rules="rules"
         v-bind="attrs"
         class="w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-4 text-base font-medium
         text-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
@@ -26,46 +30,53 @@
           </component>
         </template>
       </Field>
+
       <ErrorMessage :name="name" />
     </div>
-
-    <div class="flex">
-      <button
-        class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8
-          text-base font-semibold text-white outline-none"
-      >
-        {{ btnText }}
-      </button>
-
-      <span v-if="successMessage">{{ successMessage }}</span>
-    </div>
-  </Form>
+  </Form> -->
 </template>
 
 <script setup>
-import { Form, Field, ErrorMessage } from 'vee-validate'
+import { FormKitSchema } from '@formkit/vue'
 import { ref } from 'vue'
 
 const props = defineProps({
   schema: {
     type: Object,
-    required: true
+    required: true,
+  },
+  data: {
+    type: Object,
+    required: true,
   },
   successMessage: {
     type: String,
-    default: ''
-  }
+    default: '',
+  },
 })
 
-const formState = ref('')
+const form = ref({})
 
-const btnText = computed(() => {
-  if (formState.value === 'pending') { return 'Submitting ...' }
+watch(
+  () => ({ schema: props.schema, data: props.data }),
+  ({ schema, data }) => {
+    const newForm = {}
+    const object = schema.map(field => field.name)
 
-  return 'Submit'
-})
+    object.forEach((field) => {
+      newForm[field] = data[field]
+    })
 
-const onSubmit = (value) => {
-  console.log(JSON.stringify(value))
+    form.value = newForm
+  },
+  { immediate: true },
+)
+
+const tk = async (event, values) => {
+  event.preventDefault()
+  await new Promise(r => setTimeout(r, 1000))
+  console.log(values)
+  console.log('got here')
 }
+
 </script>

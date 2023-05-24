@@ -3,14 +3,15 @@ import path from 'path'
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
   alias: {
-    '@': path.resolve(__dirname),
-    '@dayplanner': path.resolve(__dirname, '..', 'shared'),
+    '@': path.resolve(__dirname,),
+    '@dayplanner': path.resolve(__dirname, '..', 'shared',),
   },
   css: [
     '@/assets/css/main.css',
   ],
   modules: [
     '@pinia/nuxt',
+    '@formkit/nuxt',
   ],
   postcss: {
     plugins: {
@@ -18,7 +19,7 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
-})
+},)
 
 // "NODE_TLS_REJECT_UNAUTHORIZED=0 nuxt dev --host dayplanner.test --https  \
 // --ssl-cert ~/.config/valet/CA/LaravelValetCASelfSigned.pem \

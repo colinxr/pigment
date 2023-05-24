@@ -19,7 +19,6 @@ import useModalStore from '@/stores/modal'
 const store = useModalStore()
 
 const handleClose = () => {
-  console.log('close')
   store.closeModal()
 }
 </script>

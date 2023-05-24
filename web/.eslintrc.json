@@ -40,13 +40,12 @@
           "singleline": "ignore",
           "multiline": "below"
         }],
-        "vue/max-attributes-per-line": ["error", {
-          "singleline": {
-            "max": 2
-          },      
-          "multiline": {
-            "max": 1
-          }
-        }]
+        "comma-dangle": ["error", {
+          "arrays": "only-multiline",
+          "objects": "only-multiline",
+          "imports": "only-multiline",
+          "exports": "only-multiline",
+          "functions": "only-multiline"
+      }]
     }
 }

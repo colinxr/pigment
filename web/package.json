@@ -26,10 +26,11 @@
   },
   "dependencies": {
     "@dayplanner/apiservice": "file:../shared/ApiService",
+    "@formkit/nuxt": "^0.17.2",
+    "@formkit/themes": "^0.17.2",
+    "@formkit/vue": "^0.17.2",
     "@pinia/nuxt": "^0.4.10",
     "pinia": "^2.1.1",
-    "vee-validate": "^4.9.5",
-    "vue": "^3.3.2",
-    "yup": "^1.1.1"
+    "vue": "^3.3.2"
   }
 }

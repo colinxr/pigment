@@ -5,69 +5,62 @@
       <span class="cursor-pointer" @click="store.closeModal">X</span>
     </header>
 
-    <DynamicForm :schema="formSchema" @submit="handleSubmit" />
+    <DynamicForm :schema="formSchema" :data="props.client" @submit="handleSubmit" />
   </div>
 </template>
 
 <script setup>
-import { string } from 'yup'
-
-import ApiService from '@dayplanner/apiservice'
+// import ApiService from '@dayplanner/apiservice'
 import useModalStore from '@/stores/modal'
-import useFormErrors from '@/composables/useFormErrors'
 
-import DynamicForm from '../Forms/DynamicForm.vue'
-
-const { errorState, handleResponseErrors } = useFormErrors()
+import DynamicForm from '@/components/Forms/DynamicForm.vue'
 
 const store = useModalStore()
 
 const props = defineProps({
   client: {
     type: Object,
-    required: true
-  }
+    required: true,
+  },
 })
 
-const formSchema = {
-  fields: [
-    {
-      label: 'Client First Name *',
-      name: 'first_name',
-      as: 'input',
-      value: props.client.first_name,
-      rules: string().required()
-    },
-    {
-      label: 'Client Last Name *',
-      name: 'last_name',
-      as: 'input',
-      value: props.client.last_name,
-      rules: string().required()
-    },
-    {
-      label: 'Client Email *',
-      name: 'email',
-      as: 'input',
-      value: props.client.email,
-      rules: string().email().required()
-    }
-  ]
-}
+const formSchema = [
+  {
+    $formkit: 'text',
+    label: 'Client First Name *',
+    name: 'first_name',
+    validation: 'required',
+  },
+  {
+    $formkit: 'text',
+    label: 'Client Last Name *',
+    name: 'last_name',
+    validation: 'required',
+  },
+  {
+    $formkit: 'text',
+    label: 'Client Email *',
+    name: 'email',
+    validation: 'required|email',
+  },
+]
 
-const handleSubmit = async () => {
-  try {
-    const res = await ApiService.clients.update(formData)
+const handleSubmit = async (values) => {
+  await console.log(values)
+  return false
 
-    if (res.status !== 200) {
-      return handleResponseErrors(response)
-    }
+  // try {
+  // const res = await ApiService.clients.update(formData)
 
-    return 'tk'
-  } catch (error) {
-    errorState.isSet = true
-    errorState.message = 'something went wrong'
-    return false
-  }
+  // if (res.status !== 200) {
+  // return handleResponseErrors(response)
+  // }
+
+  // return 'tk'
+  // } catch (error) {
+  //   errorState.isSet = true
+  //   errorState.message = 'something went wrong'
+  //   return false
+  // }
 }
 </script>
