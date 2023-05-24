@@ -10,15 +10,14 @@ import useDashboardStore from '@/stores/dashboard'
 import SubmissionsList from '@/components/Dashboard/Submission/SubmissionsList.vue'
 import ConversationContainer from '@/components/Dashboard/ConversationContainer.vue'
 
+definePageMeta({
+  middleware: 'user-is-authenticated',
+})
+
 const dashboardStore = useDashboardStore()
 const { getSubmissions } = dashboardStore
 
 onBeforeMount(async () => {
   await getSubmissions()
-})
-
-definePageMeta({
-  middleware: 'user-is-authenticated',
-  layout: 'default',
 })
 </script>

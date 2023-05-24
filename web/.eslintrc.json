@@ -6,7 +6,8 @@
     "extends": [
         "plugin:vue/vue3-recommended",
         "airbnb-base",
-        "@nuxt/eslint-config"
+        "@nuxt/eslint-config",
+        "@nuxtjs/eslint-config-typescript"
     ],
     "overrides": [
     ],

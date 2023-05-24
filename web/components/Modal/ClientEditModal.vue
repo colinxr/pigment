@@ -1,5 +1,8 @@
 <template>
   <div class="bg-white border border-gray mx-auto w-full max-w-[550px] rounded-xl p-4">
+    <header class="align-right">
+      <span @click="store.closeModal">X</span>
+    </header>
     <form @submit.prevent="handleSubmit">
       <div class="mb-5">
         <TextInput
@@ -36,10 +39,13 @@
 </template>
 
 <script setup>
+
 import { computed, ref } from 'vue'
 import ApiService from '@dayplanner/apiservice'
+import useModalStore from '@/stores/modal'
 import TextInput from '@/components/Forms/TextInput.vue'
 
+const store = useModalStore()
 const props = defineProps({
   client: {
     type: Object,
@@ -65,7 +71,7 @@ const handleSubmit = async () => {
   // validate
   // handle errors
 
-  const res = await ApiService.clients.update(formData)
+  // const res = await ApiService.clients.update(formData)
 
   // if error show server side validation errors
   // update formData with response data

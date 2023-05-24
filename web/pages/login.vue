@@ -46,6 +46,10 @@ import TextInput from '@/components/Forms/TextInput.vue'
 const store = useAuthStore()
 const { errorState, handleResponseErrors } = useFormErrors()
 
+definePageMeta({
+  middleware: 'user-is-authenticated',
+})
+
 const email = ref('')
 const password = ref('')
 
@@ -66,11 +70,7 @@ const handleSubmit = async () => {
   } catch (error) {
     errorState.isSet = true
     errorState.message = 'something went wrong'
+    return false
   }
-
-  definePageMeta({
-    middleware: 'user-is-authenticated',
-    layout: 'auth',
-  })
 }
 </script>
