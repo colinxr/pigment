@@ -5,15 +5,17 @@
       <span class="cursor-pointer" @click="store.closeModal">X</span>
     </header>
 
-    <DynamicForm :schema="formSchema" :data="props.client" @submit="handleSubmit" />
+    <DynamicForm :schema="formSchema" :data="props.client" @form-submitted="handleSubmit" />
   </div>
 </template>
 
 <script setup>
-// import ApiService from '@dayplanner/apiservice'
+import ApiService from '@dayplanner/apiservice'
 import useModalStore from '@/stores/modal'
-
+import useFormErrors from '@/composables/useFormErrors'
 import DynamicForm from '@/components/Forms/DynamicForm.vue'
+
+const { errorState, handleResponseErrors } = useFormErrors()
 
 const store = useModalStore()
 
@@ -45,22 +47,21 @@ const formSchema = [
   },
 ]
 
-const handleSubmit = async (values) => {
-  await console.log(values)
-  return false
+const handleSubmit = async (formData) => {
+  try {
+    const res = await ApiService.clients.update(formData)
 
-  // try {
-  // const res = await ApiService.clients.update(formData)
+    if (res.status !== 200) {
+      return handleResponseErrors(response)
+    }
 
-  // if (res.status !== 200) {
-  // return handleResponseErrors(response)
-  // }
-
-  // return 'tk'
-  // } catch (error) {
-  //   errorState.isSet = true
-  //   errorState.message = 'something went wrong'
-  //   return false
-  // }
+    console.log(res)
+    return true
+  } catch (error) {
+    console.log(error)
+    errorState.isSet = true
+    errorState.message = 'something went wrong'
+    return false
+  }
 }
 </script>
