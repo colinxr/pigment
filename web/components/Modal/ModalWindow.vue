@@ -5,7 +5,7 @@
         v-if="store.state.component"
         class="modal-wrapper fixed left-0 top-0 z-50 w-screen
           h-screen bg-black bg-opacity-20 grid place-items-center"
-        @click.self="store.closeModal"
+        @click.self="handleClose"
       >
         <component :is="store.state?.component" v-bind="store.state?.props" />
       </div>
@@ -17,6 +17,11 @@
 import useModalStore from '@/stores/modal'
 
 const store = useModalStore()
+
+const handleClose = () => {
+  console.log('close')
+  store.closeModal()
+}
 </script>
 
 <style scoped>

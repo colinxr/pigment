@@ -4,17 +4,17 @@
       <div class="form-control mb-5">
         <TextInput
           id="email"
+          v-model="email"
           label-text="email"
-          :model-value="email"
         />
       </div>
 
       <div class="form-control mb-5">
         <TextInput
           id="password"
+          v-model="password"
           label-text="password"
           field-type="password"
-          :model-value="email"
         />
       </div>
 
@@ -47,7 +47,7 @@ const store = useAuthStore()
 const { errorState, handleResponseErrors } = useFormErrors()
 
 definePageMeta({
-  middleware: 'user-is-authenticated',
+  middleware: 'user-is-authenticated'
 })
 
 const email = ref('')
@@ -57,7 +57,7 @@ const handleSubmit = async () => {
   try {
     const response = await ApiService.auth.login({
       email: email.value,
-      password: password.value,
+      password: password.value
     })
 
     if (response.status !== 200) {

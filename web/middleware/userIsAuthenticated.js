@@ -1,21 +1,22 @@
-import ApiService from '@dayplanner/apiservice'
-import useAuthStore from '@/stores/auth'
+// import ApiService from '@dayplanner/apiservice'
+// import useAuthStore from '@/stores/auth'
 
 export default defineNuxtRouteMiddleware(async (to, from) => {
-  // const store = useAuthStore()
+//   const store = useAuthStore()
 
-  // if (!store.user) {
-  //   const authSession = await ApiService.auth.getAuthenticatedSession()
-    
-  //   if (!authSession) {
-  //     if (['login', 'register'].includes(to.name)) return 
+  //   // if (!store.user) {
+  //   //   const authSession = await ApiService.auth.getAuthenticatedSession()
 
-  //     return redirect('/login')
-  //   }
+  //   //   if (!authSession) {
+  //   //     if (['login', 'register'].includes(to.name)) return
 
-  //   store.setUser(authSession)
-  //   return navigateTo(to.path)
-  // }
+  //   //     // return redirect('/login')
+  //   //     return navigateTo({ path: '/login' })
+  //   //   }
 
-  // if (['login', 'register'].includes(to.name)) return navigateTo('/')
+  //   //   store.setUser(authSession)
+  //   //   return navigateTo({path: to.path })
+  //   // }
+
+//   // if (['login', 'register'].includes(to.name)) return navigateTo({ path: '/' })
 })
