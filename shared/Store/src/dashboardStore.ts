@@ -1,14 +1,14 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import ApiService from '@dayplanner/apiservice'
-import { SubmissionI } from './types'
+import { ClientI, SubmissionI } from './types'
 
 const useDashboardStore = defineStore('dashboardStore', () => {
   const submissions = ref<SubmissionI[]>([])
   const activeSubmission = ref<SubmissionI>()
   const nextPage = ref<number | null>(1)
 
-  function getNextPageFromUrl(url: string | null): number | null {
+  const getNextPageFromUrl = (url: string | null): number | null => {
     if (!url) return null
 
     const match = url.match(/page=(\d+)/)
@@ -16,11 +16,11 @@ const useDashboardStore = defineStore('dashboardStore', () => {
     return match ? Number(match[1]) : null
   }
 
-  function setActiveSubmission(submission: SubmissionI) {
+  const setActiveSubmission = (submission: SubmissionI) => {
     activeSubmission.value = submission
   }
 
-  async function getSubmissions() {
+  const getSubmissions = async () => {
     if (!nextPage.value) return
 
     try {
@@ -33,12 +33,23 @@ const useDashboardStore = defineStore('dashboardStore', () => {
     }
   }
 
+  const updateSubmissionClient = (client : ClientI) => {
+    if (!activeSubmission.value) return
+
+    const submission = submissions.value.find(({ id }) => id === activeSubmission.value?.id)
+
+    if (!submission) return
+
+    submission.client = client
+  }
+
   return {
     submissions,
     nextPage,
     activeSubmission,
     getSubmissions,
     setActiveSubmission,
+    updateSubmissionClient,
   }
 })
 

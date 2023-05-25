@@ -1,11 +1,7 @@
 <template>
-  <SuccessAlert v-if="status === 'success'">
+  <component :is="AlertToRender">
     {{ msg }}
-  </SuccessAlert>
-
-  <ErrorAlert v-if="status === 'error'">
-    {{ msg }}
-  </ErrorAlert>
+  </component>
 </template>
 
 <script setup>
@@ -16,7 +12,7 @@ import ErrorAlert from '@/components/Alerts/ErrorAlert.vue'
 const props = defineProps({
   status: {
     type: String,
-    default: 'success',
+    default: '',
     validator (value) {
       // The value must match one of these strings
       return ['success', 'warning', 'error'].includes(value)
@@ -26,5 +22,11 @@ const props = defineProps({
       required: true,
     }
   }
+})
+
+const AlertToRender = computed(() => {
+  if (props.status === 'success') { return SuccessAlert }
+
+  if (props.status === 'error') { return ErrorAlert }
 })
 </script>

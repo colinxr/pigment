@@ -25,6 +25,10 @@ import useModalStore from '@/stores/modal'
 import useFormErrors from '@/composables/useFormErrors'
 import DynamicForm from '@/components/Forms/DynamicForm.vue'
 
+import useDashboardStore from '@/stores/dashboard'
+
+const dashboardStore = useDashboardStore()
+
 const { errorState, handleResponseErrors } = useFormErrors()
 
 const store = useModalStore()
@@ -80,6 +84,9 @@ const handleSubmit = async (formData) => {
 
     formStatus.value = 'success'
     feedBackMessage.value = res.message
+
+    dashboardStore.updateSubmissionClient(res.data)
+
     return
   } catch (error) {
     console.log(error)
