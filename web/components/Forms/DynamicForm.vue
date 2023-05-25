@@ -1,17 +1,24 @@
 <template>
-  <FormKit v-model="form" type="form" @submit="submitHandler">
+  <FormKit :id="formId" v-model="form" type="form" @submit="submitHandler">
     <FormKitSchema :schema="schema" :data="form" />
   </FormKit>
 </template>
 
 <script setup>
-/* eslint-disable-next-line */
-import { FormKitSchema } from '@formkit/vue'
+
 import { ref } from 'vue'
+import { FormKitSchema, setErrors } from '@formkit/vue'
+import useFormErrors from '@/composables/useFormErrors'
+
+const { buildFormErrorBag } = useFormErrors()
 
 const emit = defineEmits(['form-submitted'])
 
 const props = defineProps({
+  formId: {
+    type: String,
+    required: true,
+  },
   schema: {
     type: Object,
     required: true,
@@ -24,6 +31,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  errorState: {
+    type: Object,
+    default: () => {},
+  }
 })
 
 const form = ref({})
@@ -41,6 +52,15 @@ watch(
     form.value = newForm
   },
   { immediate: true },
+)
+
+watch(
+  () => props.errorState,
+  (newErrorState) => {
+    const errorBag = buildFormErrorBag(newErrorState.validationErrs)
+
+    setErrors(props.formId, [props.errors.message], errorBag)
+  }
 )
 
 const submitHandler = values => emit('form-submitted', values)

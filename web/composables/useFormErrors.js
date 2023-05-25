@@ -5,6 +5,7 @@ export default () => {
     isSet: false,
     message: '',
     validationErrs: null,
+    errors: [],
   })
 
   const handleResponseErrors = ({ status, data }) => {
@@ -13,13 +14,24 @@ export default () => {
       message: data.message,
       validationErrs: null,
     }
-  
+
     if (status === 422) {
       newErrorState.validationErrs = data.errors
     }
-  
+
     Object.assign(errorState, newErrorState)
   }
 
-  return { errorState, handleResponseErrors }
+  const buildFormErrorBag = (validationErrs) => {
+    const errorBag = {}
+
+    Object.keys(validationErrs)
+      .forEach((field) => {
+        errorBag[field] = newErrors[field]
+      })
+
+    return errorBag
+  }
+
+  return { errorState, handleResponseErrors, buildFormErrorBag }
 }

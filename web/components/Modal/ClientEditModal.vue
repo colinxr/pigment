@@ -1,14 +1,21 @@
 <template>
   <div class="bg-white border border-gray mx-auto w-full max-w-[550px] rounded-xl p-4">
     <header>
-      <div class="flex space-between">
+      <div class="flex justify-between mb-2">
         <h1>Update Client</h1>
         <span class="cursor-pointer" @click="store.closeModal">X</span>
       </div>
-      <component :is="formAlert" />
+
+      <AlertWrapper v-if="formStatus" :status="formStatus" :msg="feedBackMessage" />
     </header>
 
-    <DynamicForm :schema="formSchema" :data="props.client" @form-submitted="handleSubmit" />
+    <DynamicForm
+      form-id="update-client"
+      :schema="formSchema"
+      :data="props.client"
+      :error-state="errorState"
+      @form-submitted="handleSubmit"
+    />
   </div>
 </template>
 
@@ -17,7 +24,6 @@ import ApiService from '@dayplanner/apiservice'
 import useModalStore from '@/stores/modal'
 import useFormErrors from '@/composables/useFormErrors'
 import DynamicForm from '@/components/Forms/DynamicForm.vue'
-import AlertSuccess from '@/components/Alerts/SuccessAlert.vue'
 
 const { errorState, handleResponseErrors } = useFormErrors()
 
@@ -30,8 +36,8 @@ const props = defineProps({
   },
 })
 
-const formStatus = ref('untouched')
-const formAlert = ref({})
+const formStatus = ref('')
+const feedBackMessage = ref('')
 
 const formSchema = [
   {
@@ -57,9 +63,9 @@ const formSchema = [
 watch(
   () => formStatus,
   () => {
-    if (formStatus.value === 'success') { return formAlert.value = AlertSuccess }
-
-    return null
+    if (formStatus.value === 'success') {
+      formAlert.value = SuccessAlert
+    }
   }
 )
 
@@ -72,16 +78,14 @@ const handleSubmit = async (formData) => {
       handleResponseErrors(res)
     }
 
-    console.log(res)
-
     formStatus.value = 'success'
-    return true
+    feedBackMessage.value = res.message
+    return
   } catch (error) {
     console.log(error)
     errorState.isSet = true
-    errorState.message = 'something went wrong'
+    errorState.message = 'Something went wrong'
     formStatus.value = 'error'
-    return false
   }
 }
 </script>

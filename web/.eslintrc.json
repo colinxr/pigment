@@ -46,6 +46,7 @@
           "imports": "only-multiline",
           "exports": "only-multiline",
           "functions": "only-multiline"
-      }]
+      }],
+      "consistent-return": ["error", { "treatUndefinedAsUnspecified": true }]
     }
 }
