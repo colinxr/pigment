@@ -47,6 +47,7 @@
           "exports": "only-multiline",
           "functions": "only-multiline"
       }],
-      "consistent-return": ["error", { "treatUndefinedAsUnspecified": true }]
+      "consistent-return": ["error", { "treatUndefinedAsUnspecified": true }],
+      "curly": ["error", "multi-line"]
     }
 }

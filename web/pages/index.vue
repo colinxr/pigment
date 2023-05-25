@@ -8,7 +8,7 @@
 <script setup>
 import useDashboardStore from '@/stores/dashboard'
 import SubmissionsList from '@/components/Dashboard/Submission/SubmissionsList.vue'
-import ConversationContainer from '@/components/Dashboard/ConversationContainer.vue'
+import ConversationContainer from '@/components/Dashboard/Conversation/ConversationContainer.vue'
 
 definePageMeta({
   middleware: 'user-is-authenticated',

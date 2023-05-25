@@ -10,11 +10,13 @@
       </div>
     </main>
 
-    <main v-else class="flex flex-col h-full w-full bg-white px-4 py-6">
+    <main v-else class="flex flex-col h-full w-full bg-white pb-6">
+      <ConversationHeader :client="activeSubmission.client" />
+
       <div class="h-full overflow-hidden py-4">
         <div class="h-full overflow-y-auto">
           <div ref="wrapper" class="grid grid-cols-12 gap-y-2">
-            <MessageContainer
+            <MessageWrapper
               v-for="(message, i) in messages"
               :key="i"
               :message="message"
@@ -23,7 +25,9 @@
         </div>
       </div>
 
-      <ConversationTextInput @sendMsg="handleNewMessage" />
+      <div class="px-4">
+        <ConversationTextInput @send-msg="handleNewMessage" />
+      </div>
     </main>
 
     <ActionPane v-if="activeSubmission" :submission="activeSubmission" />
@@ -36,9 +40,10 @@ import { storeToRefs } from 'pinia'
 
 import ApiService from '@dayplanner/apiservice'
 import useDashboardStore from '@/stores/dashboard'
-import MessageContainer from './SubmissionMessages/Message/MessageWrapper.vue'
-import ConversationTextInput from './SubmissionMessages/ConversationTextInput.vue'
 import ActionPane from '@/components/ActionPane/ActionPane.vue'
+import MessageWrapper from '@/components/Dashboard/SubmissionMessages/Message/MessageWrapper.vue'
+import ConversationTextInput from '@/components/Dashboard/Conversation/ConversationTextInput.vue'
+import ConversationHeader from '@/components/Dashboard/Conversation/ConversationHeader.vue'
 
 const dashboardStore = useDashboardStore()
 
@@ -86,11 +91,10 @@ const scrollToLastMessage = () => {
 }
 
 watchEffect(() => {
-  if (!activeSubmission.value) return
+  if (!activeSubmission.value) { return }
 
   messages.value = activeSubmission.value.messages
 
   scrollToLastMessage()
 })
-
 </script>

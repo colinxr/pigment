@@ -41,6 +41,15 @@ const useDashboardStore = defineStore('dashboardStore', () => {
     if (!submission) return
 
     submission.client = client
+
+    submissions.value = submissions.value.map((sub) => {
+      if (sub.id === submission.id) return sub
+
+      return sub
+    })
+
+    console.log('tk')
+    activeSubmission.value.client = client
   }
 
   return {

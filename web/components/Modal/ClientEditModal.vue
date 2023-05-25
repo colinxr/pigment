@@ -6,7 +6,7 @@
         <span class="cursor-pointer" @click="store.closeModal">X</span>
       </div>
 
-      <AlertWrapper v-if="formStatus" :status="formStatus" :msg="feedBackMessage" />
+      <AlertWrapper v-if="showFormAlert" :status="formStatus" :msg="alertMessage" />
     </header>
 
     <DynamicForm
@@ -24,6 +24,7 @@ import ApiService from '@dayplanner/apiservice'
 import useModalStore from '@/stores/modal'
 import useFormErrors from '@/composables/useFormErrors'
 import DynamicForm from '@/components/Forms/DynamicForm.vue'
+import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'
 
 import useDashboardStore from '@/stores/dashboard'
 
@@ -40,8 +41,9 @@ const props = defineProps({
   },
 })
 
+const showFormAlert = ref(false)
 const formStatus = ref('')
-const feedBackMessage = ref('')
+const alertMessage = ref('')
 
 const formSchema = [
   {
@@ -64,17 +66,9 @@ const formSchema = [
   },
 ]
 
-watch(
-  () => formStatus,
-  () => {
-    if (formStatus.value === 'success') {
-      formAlert.value = SuccessAlert
-    }
-  }
-)
-
 const handleSubmit = async (formData) => {
-  formStatus.value = 'loading'
+  showFormAlert.value = false
+
   try {
     const res = await ApiService.clients.update(formData)
 
@@ -82,17 +76,19 @@ const handleSubmit = async (formData) => {
       handleResponseErrors(res)
     }
 
+    showFormAlert.value = true
     formStatus.value = 'success'
-    feedBackMessage.value = res.message
+    alertMessage.value = res.data.message || 'Updated Successfully'
 
-    dashboardStore.updateSubmissionClient(res.data)
+    dashboardStore.updateSubmissionClient(res.data.data)
 
     return
   } catch (error) {
     console.log(error)
-    errorState.isSet = true
-    errorState.message = 'Something went wrong'
+
+    alertMessage.value = 'something went wrong'
     formStatus.value = 'error'
+    showFormAlert.value = true
   }
 }
 </script>

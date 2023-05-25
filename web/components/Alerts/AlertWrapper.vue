@@ -1,7 +1,7 @@
 <template>
-  <component :is="AlertToRender">
-    {{ msg }}
-  </component>
+  <SuccessAlert v-if="status ==='success'" :msg="msg" />
+
+  <ErrorAlert v-if="status ==='error'" :msg="msg" />
 </template>
 
 <script setup>
@@ -17,16 +17,10 @@ const props = defineProps({
       // The value must match one of these strings
       return ['success', 'warning', 'error'].includes(value)
     },
-    msg: {
-      type: String,
-      required: true,
-    }
+  },
+  msg: {
+    type: String,
+    required: true,
   }
-})
-
-const AlertToRender = computed(() => {
-  if (props.status === 'success') { return SuccessAlert }
-
-  if (props.status === 'error') { return ErrorAlert }
 })
 </script>

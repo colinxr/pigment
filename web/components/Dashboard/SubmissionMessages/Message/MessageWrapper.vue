@@ -1,13 +1,13 @@
 <template>
-  <component :is="messageType" :data="message" ref="element" />
+  <component :is="messageType" ref="element" :data="message" />
 </template>
 
 <script setup>
-import { computed } from 'vue';
-import UserMessage from './UserMessage.vue';
-import IncomingMessage from './IncomingMessage.vue';
+import { computed } from 'vue'
+import UserMessage from './UserMessage.vue'
+import IncomingMessage from './IncomingMessage.vue'
 
-const { message } = defineProps({
+const props = defineProps({
   message: {
     type: Object,
     required: true,
@@ -15,7 +15,7 @@ const { message } = defineProps({
 })
 
 const messageType = computed(() => {
-  if (!message.is_from_admin) return IncomingMessage
+  if (!props.message.is_from_admin) return IncomingMessage
 
   return UserMessage
 })
