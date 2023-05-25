@@ -46,6 +46,7 @@ export interface ApiServiceInterface {
   users: UserRepositoryI,
   submissions: SubmissionRepositoryI,
   messages: MessageRepositoryI,
+  clients: ClientRepositoryI,
 }
 
 

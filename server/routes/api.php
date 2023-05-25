@@ -7,6 +7,7 @@ use App\Services\GoogleCalendarService;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OAuthController;
 use App\Interfaces\GoogleCalendarInterface;
+use App\Http\Controllers\UserClientController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\ConversationsController;
 use App\Http\Controllers\ArtistSubmissionsController;
@@ -66,5 +67,5 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::post('/submissions/{submission}/message', [SubmissionMessageController::class, 'store']);
 
-    Route::put('/clients', [UserClientController::class, 'update']);
+    Route::put('/clients/{email}', [UserClientController::class, 'update']);
 });

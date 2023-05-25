@@ -1,10 +1,10 @@
 import createApiClient from './createApiClient'
 import {
-  ApiServiceInterface, SubmissionRepositoryI, MessageRepositoryI, UserRepositoryI, AuthRepositoryI,
+  ApiServiceInterface, SubmissionRepositoryI, MessageRepositoryI, UserRepositoryI, AuthRepositoryI, ClientRepositoryI,
 } from './types'
 
 import {
-  AuthRepository, UserRepository, SubmissionRepository, MessageRepository,
+  AuthRepository, UserRepository, SubmissionRepository, MessageRepository, ClientRepository,
 } from './repositories'
 
 class ApiService implements ApiServiceInterface {
@@ -16,6 +16,8 @@ class ApiService implements ApiServiceInterface {
 
   messages: MessageRepositoryI
 
+  clients: ClientRepositoryI
+
   constructor() {
     const client = createApiClient('https://api.dayplanner.test/api')
 
@@ -23,6 +25,7 @@ class ApiService implements ApiServiceInterface {
     this.users = new UserRepository(client)
     this.submissions = new SubmissionRepository(client)
     this.messages = new MessageRepository(client)
+    this.clients = new ClientRepository(client)
   }
 }
 
