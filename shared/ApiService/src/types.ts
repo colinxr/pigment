@@ -15,6 +15,7 @@ export interface AuthRepositoryI {
 export interface SubmissionRepositoryI {
   apiClient: AxiosInstance,
   index(page: number): Promise<AxiosResponse>,
+  getAppointments(submissionId: number): Promise<AxiosResponse>,
 }
 
 export interface MessageRepositoryI {

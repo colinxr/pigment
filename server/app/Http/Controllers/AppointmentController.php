@@ -30,6 +30,18 @@ class AppointmentController extends Controller
         ], 200);
     }
 
+    public function show(Submission $submission)
+    {
+        if ($submission->user_id !== Auth::user()->id) {
+            return response()->json([
+                'error' => "You're not authorized to do that."
+            ], 403);
+        }
+
+        return response()->json([
+            'data' => $submission->appointments,
+        ], 200);
+    }
 
     public function store(NewAppointmentRequest $request, Submission $submission)
     {
@@ -39,7 +51,7 @@ class AppointmentController extends Controller
             ], 403);
         }
 
-        $appt = $submission->appointment()->create(
+        $appt = $submission->appointments()->create(
             array_merge(
                 $request->toArray(),
                 [

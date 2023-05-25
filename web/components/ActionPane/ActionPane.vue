@@ -31,7 +31,7 @@
       </nav>
 
       <div class="mt-3">
-        testetsetset
+        <ActionPaneAppointments v-if="currentView === 'appointments'" />
       </div>
     </div>
   </aside>
@@ -39,6 +39,7 @@
 
 <script setup>
 import { ref } from 'vue'
+import ActionPaneAppointments from './ActionPaneAppointments.vue'
 
 const props = defineProps({
   submission: {

@@ -40,7 +40,6 @@
         v-for="(sub, i) in submissions"
         :key="i"
         :submission="sub"
-        @click="handleClick"
       />
     </div>
   </div>

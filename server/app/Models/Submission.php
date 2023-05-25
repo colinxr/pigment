@@ -43,7 +43,7 @@ class Submission extends Model implements HasMedia
         return $this->messages()->latest()->take(50);
     }
 
-    public function appointment()
+    public function appointments()
     {
         return $this->hasMany(Appointment::class);
     }

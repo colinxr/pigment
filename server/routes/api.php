@@ -63,6 +63,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::delete('/submissions/{submission}', [ArtistSubmissionsController::class, 'destroy']);
 
+    Route::get('/submissions/{submission}/appointments', [AppointmentController::class, 'show']);
+
     Route::post('/submissions/{submission}/appointments', [AppointmentController::class, 'store']);
 
     Route::post('/submissions/{submission}/message', [SubmissionMessageController::class, 'store']);
