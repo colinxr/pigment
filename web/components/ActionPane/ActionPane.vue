@@ -1,5 +1,5 @@
 <template>
-  <aside class="w-1/2 p-4 bg-gray-300">
+  <aside class="w-1/2 p-4 bg-slate-100 border-gray-200 border-l">
     <div class="h-full">
       <nav class="flex space-x-2" aria-label="Tabs" role="tablist">
         <button
@@ -31,7 +31,10 @@
       </nav>
 
       <div class="mt-3">
-        <ActionPaneAppointments v-if="currentView === 'appointments'" />
+        <ActionPaneAppointments
+          v-if="currentView === 'appointments'"
+          :submission="submission"
+        />
       </div>
     </div>
   </aside>

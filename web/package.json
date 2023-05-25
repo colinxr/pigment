@@ -30,6 +30,8 @@
     "@formkit/themes": "^0.17.2",
     "@formkit/vue": "^0.17.2",
     "@pinia/nuxt": "^0.4.10",
+    "@tailwindcss/typography": "^0.5.9",
+    "daisyui": "^2.51.6",
     "pinia": "^2.1.1",
     "vue": "^3.3.2"
   }
