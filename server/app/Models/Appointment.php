@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\User;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -13,8 +14,8 @@ class Appointment extends Model
     protected $guarded = ['id'];
 
     protected $casts = [
-        'startDateTime' => 'datetime:d-m-Y H:i:s',
-        'endDateTime' => 'datetime:d-m-Y H:i:s',
+        'startDateTime' => 'datetime',
+        'endDateTime' => 'datetime',
     ];
 
     ///
@@ -28,5 +29,10 @@ class Appointment extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    protected function serializeDate(DateTimeInterface $date)
+    {
+        return $date->format('Y-m-d\TH:i:sO');
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Support\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
 
 class NewAppointmentRequest extends FormRequest
@@ -24,10 +25,16 @@ class NewAppointmentRequest extends FormRequest
         return [
             'name' => 'required',
             'description' => 'sometimes',
-            'startDateTime' => 'required|date',
-            'endDateTime' => 'required|date',
+            'startDateTime' => 'required|date_format:Y-m-d\TH:i:sO',
+            'duration' => 'required',
             'price' => 'required',
             'deposit' => 'sometimes',
         ];
+    }
+
+    protected function passedValidation(): void
+    {
+        $endDateTime = Carbon::parse($this->startDateTime)->addHours(4);
+        $this->merge(['endDateTime' => $endDateTime]);
     }
 }

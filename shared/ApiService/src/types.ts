@@ -18,9 +18,22 @@ export interface SubmissionRepositoryI {
   getAppointments(submissionId: number): Promise<AxiosResponse>,
 }
 
+export interface AppointmentFormData {
+  name: string,
+  description: string,
+  startDateTime: Date,
+  duration: number,
+  price: number,
+  deposit: number,
+}
+
+export interface AppointmentRepositoryI {
+  apiClient: AxiosInstance,
+  store(submissionId: number, formData: AppointmentFormData): Promise<AxiosResponse>,
+}
+
 export interface MessageRepositoryI {
   apiClient: AxiosInstance,
-  /* eslint-disable-next-line */
   post(submissionId: string, message: object): Promise<AxiosResponse>,
 }
 
@@ -36,11 +49,8 @@ export interface ClientFormData {
 
 export interface ClientRepositoryI {
   apiClient: AxiosInstance,
-  /* eslint-disable-next-line */
   update(clientFormData: ClientFormData): Promise<AxiosResponse>,
 }
-
-
 
 export interface ApiServiceInterface {
   auth: AuthRepositoryI,

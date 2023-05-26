@@ -20,6 +20,7 @@
 </template>
 
 <script setup>
+import { getTimeZoneOffset } from '@/services/dateService'
 import ApiService from '@dayplanner/apiservice'
 import useModalStore from '@/stores/modal'
 import useFormErrors from '@/composables/useFormErrors'
@@ -41,9 +42,9 @@ const initialValues = {
   name: `${props.submission.client.full_name}`,
   description: `${props.submission.idea}`,
   startDateTime: null,
-  appt_duration: 1,
+  duration: 1,
   price: null,
-  deposity: null,
+  deposit: null,
 }
 
 const showFormAlert = ref(false)
@@ -82,8 +83,8 @@ const formSchema = [
       },
       {
         $formkit: 'number',
-        label: 'Length',
-        name: 'appt_duration',
+        label: 'Appointment Duration',
+        name: 'duration',
         validation: 'required',
         help: 'How long is the appointment going to take?',
         validationVisibility: 'dirty',
@@ -99,7 +100,7 @@ const formSchema = [
     children: [
       {
         $formkit: 'number',
-        label: 'price',
+        label: 'Price',
         name: 'price',
         validation: 'required',
         validationVisibility: 'dirty',
@@ -119,7 +120,12 @@ const handleSubmit = async (formData) => {
   showFormAlert.value = false
 
   try {
-    const res = await ApiService.appointments.store(formData)
+    const timezone = getTimeZoneOffset()
+    formData.startDateTime = `${formData.startDateTime}:00${timezone}`
+
+    console.log(formData)
+
+    const res = await ApiService.appointments.store(props.submission.id, formData)
 
     if (res.status !== 200) {
       handleResponseErrors(res)
@@ -127,10 +133,7 @@ const handleSubmit = async (formData) => {
 
     showFormAlert.value = true
     formStatus.value = 'success'
-    alertMessage.value = res.data.message || 'Updated Successfully'
-
-    // dashboardStore.updateSubmissionClient(res.data.data)
-
+    alertMessage.value = res.data.message || 'Appointment created'
     return
   } catch (error) {
     console.log(error)

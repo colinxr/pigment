@@ -39,17 +39,35 @@ const props = defineProps({
 
 const form = ref({})
 
-watch(
-  () => ({ schema: props.schema, data: props.data }),
-  ({ schema, data }) => {
-    const newForm = {}
-    const object = schema.map(field => field.name)
+const setInitialFormValues = (schema, data) => {
+  const newForm = {}
 
-    object.forEach((field) => {
+  schema.map(buildSchemaFields)
+    .filter(v => v !== null || v !== 'slots')
+    .flat()
+    .forEach((field) => {
       newForm[field] = data[field]
     })
 
-    form.value = newForm
+  return newForm
+}
+
+const buildSchemaFields = (field) => {
+  if (!field.$el) return field.name
+
+  if (field.$el && field.children) {
+    const children = field.children.map(buildSchemaFields)
+
+    return children.flat()
+  }
+
+  return null
+}
+
+watch(
+  () => ({ schema: props.schema, data: props.data }),
+  ({ schema, data }) => {
+    form.value = setInitialFormValues(schema, data)
   },
   { immediate: true },
 )

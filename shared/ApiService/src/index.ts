@@ -1,31 +1,45 @@
 import createApiClient from './createApiClient'
 import {
-  ApiServiceInterface, SubmissionRepositoryI, MessageRepositoryI, UserRepositoryI, AuthRepositoryI, ClientRepositoryI,
+  ApiServiceInterface, 
+  AppointmentRepositoryI, 
+  AuthRepositoryI, 
+  ClientRepositoryI,
+  MessageRepositoryI, 
+  UserRepositoryI, 
+  SubmissionRepositoryI, 
 } from './types'
 
 import {
-  AuthRepository, UserRepository, SubmissionRepository, MessageRepository, ClientRepository,
+  AppointmentRepository, 
+  AuthRepository, 
+  ClientRepository,
+  MessageRepository, 
+  SubmissionRepository,
+  UserRepository, 
 } from './repositories'
 
 class ApiService implements ApiServiceInterface {
+  appointments: AppointmentRepositoryI
+  
   auth: AuthRepositoryI
 
-  users: UserRepositoryI
-
-  submissions: SubmissionRepositoryI
-
-  messages: MessageRepositoryI
-
   clients: ClientRepositoryI
+  
+  messages: MessageRepositoryI
+  
+  submissions: SubmissionRepositoryI
+  
+  users: UserRepositoryI
 
   constructor() {
     const client = createApiClient('https://api.dayplanner.test/api')
 
+    this.appointments = new AppointmentRepository(client)
     this.auth = new AuthRepository(client)
-    this.users = new UserRepository(client)
-    this.submissions = new SubmissionRepository(client)
-    this.messages = new MessageRepository(client)
     this.clients = new ClientRepository(client)
+    this.messages = new MessageRepository(client)
+    this.submissions = new SubmissionRepository(client)
+    this.users = new UserRepository(client)
   }
 }
 
