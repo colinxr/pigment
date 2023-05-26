@@ -13,4 +13,10 @@ export default class AppointmentRepository implements AppointmentRepositoryI {
 
     return res
   }
+
+  async getForSubmission(submissionId: number): Promise<AxiosResponse> {
+    const res = await this.apiClient.get(`/submissions/${submissionId}/appointments`)
+
+    return res
+  }
 }

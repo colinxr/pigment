@@ -1,9 +1,9 @@
 <template>
   <div>
-    <div v-if="appointments.length">
+    <div v-if="appointments.length" class="mb-5">
       <AppointmentCard v-for="(item, index) in 2" :key="index" />
     </div>
-    <button class="btn" @click="openModal">
+    <button class="btn btn-small" @click="openModal">
       Add Appointment
     </button>
   </div>
@@ -25,10 +25,10 @@ const { activeSubmission } = useDashboardStore()
 const appointments = ref([])
 
 onMounted(async () => {
-  const res = await ApiService.submissions.getAppointments(activeSubmission.id)
+  const { data } = await ApiService.appointments.getForSubmission(activeSubmission.id)
 
-  if (res.data) {
-    appointments.value = res.data
+  if (data) {
+    appointments.value = data.data
   }
 })
 

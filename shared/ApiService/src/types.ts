@@ -15,7 +15,6 @@ export interface AuthRepositoryI {
 export interface SubmissionRepositoryI {
   apiClient: AxiosInstance,
   index(page: number): Promise<AxiosResponse>,
-  getAppointments(submissionId: number): Promise<AxiosResponse>,
 }
 
 export interface AppointmentFormData {
@@ -30,6 +29,7 @@ export interface AppointmentFormData {
 export interface AppointmentRepositoryI {
   apiClient: AxiosInstance,
   store(submissionId: number, formData: AppointmentFormData): Promise<AxiosResponse>,
+  getForSubmission(submissionId: number): Promise<AxiosResponse>,
 }
 
 export interface MessageRepositoryI {
