@@ -1,7 +1,11 @@
 <template>
   <div>
-    <div v-if="appointments.length" class="mb-5">
-      <AppointmentCard v-for="(item, index) in 2" :key="index" />
+    <div v-if="isLoading && !appointments.length" class="mb-5">
+      <LoadingCard v-for=" (i) in 3" :key="i" />
+    </div>
+
+    <div v-if="!isLoading && appointments.length" class="mb-5">
+      <AppointmentCard v-for="(appt, i) in appointments" :key="i" :appointment="appt" />
     </div>
     <button class="btn btn-small" @click="openModal">
       Add Appointment
@@ -17,19 +21,22 @@ import useDashboardStore from '@/stores/dashboard'
 import useModalStore from '@/stores/modal'
 
 import AppointmentCard from '@/components/Appointments/AppointmentCard.vue'
+import LoadingCard from '@/components/Appointments/LoadingCard.vue'
 import AppointmentCreateModal from '@/components/Modal/AppointmentCreateModal.vue'
 
 const modalStore = useModalStore()
 const { activeSubmission } = useDashboardStore()
 
+const isLoading = ref(true)
 const appointments = ref([])
 
 onMounted(async () => {
   const { data } = await ApiService.appointments.getForSubmission(activeSubmission.id)
 
-  if (data) {
-    appointments.value = data.data
-  }
+  if (!data) return
+
+  appointments.value = data.data
+  isLoading.value = false
 })
 
 const openModal = () => {
@@ -40,13 +47,3 @@ const openModal = () => {
 }
 
 </script>
-
-<!-- fetch appointments for this submission.  -->
-
-<!-- list of appointments  -->
-
-<!-- create new appointment button  -->
-
-<!-- open appointment edit modal  -->
-
-<!-- edit an appointment  -->
