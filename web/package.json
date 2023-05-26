@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 nuxt dev --host dayplanner.test --https --ssl-cert dayplanner.test+1.pem --ssl-key dayplanner.test+1-key.pem",
+    "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 nuxt dev --host dayplanner.com --https --port 3000 --ssl-cert dayplanner.test+1.pem --ssl-key dayplanner.test+1-key.pem",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"

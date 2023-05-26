@@ -52,7 +52,7 @@ class GoogleApiService
 
     $client->setScopes([self::SCOPES]);
     $client->setAuthConfig($authProfile['credentials_json']);
-    $client->setRedirectUri(env('APP_URL') . '/oauth/google/callback');
+    $client->setRedirectUri(config('app.web_url') . '/oauth/google/callback');
     $client->setAccessType('offline');
     $client->setPrompt('consent');
     $client->setIncludeGrantedScopes(true);

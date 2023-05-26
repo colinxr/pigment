@@ -1,4 +1,4 @@
-import axios, { AxiosInstance } from 'axios'
+import axios, { AxiosError, AxiosInstance } from 'axios'
 import handleApiErrors from './handleApiErrors'
 
 export default (baseURL: string): AxiosInstance => {
@@ -16,7 +16,7 @@ export default (baseURL: string): AxiosInstance => {
     (response) => response,
     (error) => {
       handleApiErrors(error)
-      return error.response
+      throw new AxiosError(error)
     },
   )
 

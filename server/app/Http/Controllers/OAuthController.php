@@ -27,8 +27,6 @@ class OAuthController extends Controller
             return redirect()->away($auth_url);
         }
 
-        dd(request()->token());
-
         $response = Http::withToken(Auth::user()->token)
             ->post('/api/oauth/google/callback', ['code' => request()->code]);
 

@@ -138,6 +138,8 @@ const handleSubmit = async (formData) => {
   } catch (error) {
     console.log(error)
 
+    if (error.response.status === 403) return
+
     alertMessage.value = 'something went wrong'
     formStatus.value = 'error'
     showFormAlert.value = true

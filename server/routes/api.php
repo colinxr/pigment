@@ -35,6 +35,8 @@ Route::post('/users', [UserController::class, 'store']);
 Route::post('/users/{user}/submissions', [ArtistSubmissionsController::class, 'store']);
 
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/oauth/google/callback', [OAuthController::class, 'index']);
+    
     Route::post('/oauth/google/callback', [OAuthController::class, 'update']);
 
     Route::middleware('hasValidAccessToken')->group(function () {
@@ -53,8 +55,11 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::get('/appointments', [AppointmentController::class, 'index']);
 
-        Route::post('/appointments/{appointment}', [AppointmentController::class, 'update']);
+        Route::put('/appointments/{appointment}', [AppointmentController::class, 'update']);
+        
         Route::delete('/appointments/{appointment}', [AppointmentController::class, 'destroy']);
+
+        Route::post('/submissions/{submission}/appointments', [AppointmentController::class, 'store']);
     });
 
     Route::get('/submissions', [ArtistSubmissionsController::class, 'index']);
@@ -64,8 +69,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/submissions/{submission}', [ArtistSubmissionsController::class, 'destroy']);
 
     Route::get('/submissions/{submission}/appointments', [AppointmentController::class, 'show']);
-
-    Route::post('/submissions/{submission}/appointments', [AppointmentController::class, 'store']);
 
     Route::post('/submissions/{submission}/message', [SubmissionMessageController::class, 'store']);
 

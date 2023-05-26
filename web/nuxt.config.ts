@@ -19,6 +19,9 @@ export default defineNuxtConfig({
       autoprefixer: {},
     },
   },
+  devServer: {
+    port: 0,
+  }
 })
 
 // "NODE_TLS_REJECT_UNAUTHORIZED=0 nuxt dev --host dayplanner.test --https  \

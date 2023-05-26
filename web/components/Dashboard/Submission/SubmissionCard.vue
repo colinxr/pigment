@@ -41,7 +41,9 @@
 
 <script setup>
 import useDashboardStore from '@/stores/dashboard'
-import Badge from '~/components/Badge.vue'
+import Badge from '@/components/Badge.vue'
+
+const router = useRouter()
 
 const dashboardStore = useDashboardStore()
 
@@ -54,6 +56,8 @@ const props = defineProps({
 
 const handleClick = () => {
   dashboardStore.setActiveSubmission(props.submission)
+
+  router.push({ query: { as: props.submission.id } })
 }
 </script>
 
