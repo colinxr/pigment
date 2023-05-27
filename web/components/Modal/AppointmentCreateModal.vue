@@ -20,16 +20,18 @@
 </template>
 
 <script setup>
-import { getTimeZoneOffset } from '@/services/dateService'
+import useAuthStore from '@/stores/auth'
 import ApiService from '@dayplanner/apiservice'
-import useModalStore from '@/stores/modal'
 import useFormErrors from '@/composables/useFormErrors'
 import DynamicForm from '@/components/Forms/DynamicForm.vue'
 import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'
 
+import { getTimeZoneOffset } from '@/services/dateService'
+
 const { errorState, handleResponseErrors } = useFormErrors()
 
-const store = useModalStore()
+const route = useRoute()
+const { setLastURL } = useAuthStore()
 
 const props = defineProps({
   submission: {
@@ -116,13 +118,14 @@ const formSchema = [
   }
 ]
 
+console.log(route)
+
 const handleSubmit = async (formData) => {
   showFormAlert.value = false
-
+  setLastURL(route.name)
   try {
     const timezone = getTimeZoneOffset()
     formData.startDateTime = `${formData.startDateTime}:00${timezone}`
-
     console.log(formData)
 
     const res = await ApiService.appointments.store(props.submission.id, formData)

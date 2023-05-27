@@ -10,9 +10,13 @@ import useDashboardStore from '@/stores/dashboard'
 import SubmissionsList from '@/components/Dashboard/Submission/SubmissionsList.vue'
 import ConversationContainer from '@/components/Dashboard/Conversation/ConversationContainer.vue'
 
+const route = useRoute()
+
 definePageMeta({
   middleware: 'user-is-authenticated',
 })
+
+console.log(route.fullPath)
 
 const dashboardStore = useDashboardStore()
 const { getSubmissions } = dashboardStore

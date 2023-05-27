@@ -32,7 +32,7 @@ class ApiService implements ApiServiceInterface {
   users: UserRepositoryI
 
   constructor() {
-    const client = createApiClient('https://api.dayplanner.com/api')
+    const client = createApiClient('https://api.dayplanner.test/api')
 
     this.appointments = new AppointmentRepository(client)
     this.auth = new AuthRepository(client)

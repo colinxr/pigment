@@ -34,10 +34,31 @@ Route::post('/users', [UserController::class, 'store']);
 
 Route::post('/users/{user}/submissions', [ArtistSubmissionsController::class, 'store']);
 
+Route::post('/sanctum/token', 'AuthController@store');
+
+Route::post('/register', 'AuthController@register');
+
+Route::post('/login', 'AuthController@login');
+
 Route::middleware('auth:sanctum')->group(function () {
+    // Auth Routes
     Route::get('/oauth/google/callback', [OAuthController::class, 'index']);
-    
     Route::post('/oauth/google/callback', [OAuthController::class, 'update']);
+
+    Route::get('/logout', 'AuthController@logout');
+
+    // Submissions and Nested Resource
+    Route::get('/submissions', [ArtistSubmissionsController::class, 'index']);
+    Route::get('/submissions/{submission}', [ArtistSubmissionsController::class, 'show']);
+    Route::delete('/submissions/{submission}', [ArtistSubmissionsController::class, 'destroy']);
+    Route::post('/submissions/{submission}/message', [SubmissionMessageController::class, 'store']);
+    Route::get('/submissions/{submission}/appointments', [AppointmentController::class, 'show']);
+
+    Route::put('/clients/{email}', [UserClientController::class, 'update']);
+
+    Route::get('/appointments', [AppointmentController::class, 'index']);
+
+    Route::post('/users/{user}', [UserController::class, 'update']);
 
     Route::middleware('hasValidAccessToken')->group(function () {
         Route::get('/user', function (GoogleCalendarInterface $gCalService) {
@@ -51,26 +72,9 @@ Route::middleware('auth:sanctum')->group(function () {
         });
 
 
-        Route::post('/users/{user}', [UserController::class, 'update']);
-
-        Route::get('/appointments', [AppointmentController::class, 'index']);
-
+        // Appointment Routes
         Route::put('/appointments/{appointment}', [AppointmentController::class, 'update']);
-        
         Route::delete('/appointments/{appointment}', [AppointmentController::class, 'destroy']);
-
         Route::post('/submissions/{submission}/appointments', [AppointmentController::class, 'store']);
     });
-
-    Route::get('/submissions', [ArtistSubmissionsController::class, 'index']);
-
-    Route::get('/submissions/{submission}', [ArtistSubmissionsController::class, 'show']);
-
-    Route::delete('/submissions/{submission}', [ArtistSubmissionsController::class, 'destroy']);
-
-    Route::get('/submissions/{submission}/appointments', [AppointmentController::class, 'show']);
-
-    Route::post('/submissions/{submission}/message', [SubmissionMessageController::class, 'store']);
-
-    Route::put('/clients/{email}', [UserClientController::class, 'update']);
 });
