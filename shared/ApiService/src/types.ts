@@ -7,7 +7,6 @@ export interface AuthRepositoryI {
   login(data: object): Promise<AxiosResponse>,
   logout(): Promise<AxiosResponse>,
   register(): Promise<AxiosResponse>,
-  resetBaseUrl(): string,
 }
 
 

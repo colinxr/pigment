@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 use App\Services\GoogleCalendarService;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OAuthController;
 use App\Interfaces\GoogleCalendarInterface;
@@ -26,26 +27,22 @@ use App\Http\Controllers\ConversationMessageController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (GoogleCalendarInterface $gCalService) {
-    return request()->user();
-});
+// Route::post('/users', [UserController::class, 'store']);
 
-Route::post('/users', [UserController::class, 'store']);
+Route::post('/register', [AuthController::class, 'register']);
+
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::post('/sanctum/token', [AuthController::class, 'store']);
 
 Route::post('/users/{user}/submissions', [ArtistSubmissionsController::class, 'store']);
-
-Route::post('/sanctum/token', 'AuthController@store');
-
-Route::post('/register', 'AuthController@register');
-
-Route::post('/login', 'AuthController@login');
 
 Route::middleware('auth:sanctum')->group(function () {
     // Auth Routes
     Route::get('/oauth/google/callback', [OAuthController::class, 'index']);
     Route::post('/oauth/google/callback', [OAuthController::class, 'update']);
 
-    Route::get('/logout', 'AuthController@logout');
+    Route::get('/logout', [AuthController::class, 'logout']);
 
     // Submissions and Nested Resource
     Route::get('/submissions', [ArtistSubmissionsController::class, 'index']);

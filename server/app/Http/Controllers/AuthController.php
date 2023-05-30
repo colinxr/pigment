@@ -25,6 +25,7 @@ class AuthController extends Controller
         }
  
         return response()->json([
+            'user' => $user,
             'access_token' => $user->createToken('spa')->plainTextToken,
             'token_type' => 'Bearer'
         ]);
@@ -46,7 +47,10 @@ class AuthController extends Controller
     
         $token = $user->createToken('spa')->plainTextToken;
     
-        return response()->json(['token' => $token]);
+        return response()->json([
+            'user' => $user,
+            'token' => $token
+        ]);
     }
 
     public function login(Request $request)
@@ -57,7 +61,11 @@ class AuthController extends Controller
         ]);
     
         if ( Auth::attempt($request->only('email', 'password'))) {
-            return response()->json(['token' => Auth::user()->createToken('mobile')->plainTextToken]);
+            return response()->json([
+                'user' => Auth::user(),
+                'token' => Auth::user()->createToken('spa')->plainTextToken,
+
+            ]);
         }
     
         return response()->json(['message' => 'Invalid credentials'], 401);

@@ -14,5 +14,6 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         '/telescope/*',
         'api/sanctum/token',
+        'api/csrf-token',
     ];
 }

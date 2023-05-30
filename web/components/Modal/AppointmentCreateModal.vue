@@ -31,7 +31,7 @@ import { getTimeZoneOffset } from '@/services/dateService'
 const { errorState, handleResponseErrors } = useFormErrors()
 
 const route = useRoute()
-const { setLastURL } = useAuthStore()
+const authStore = useAuthStore()
 
 const props = defineProps({
   submission: {
@@ -122,7 +122,9 @@ console.log(route)
 
 const handleSubmit = async (formData) => {
   showFormAlert.value = false
-  setLastURL(route.name)
+
+  authStore.setLastURL(route.name)
+
   try {
     const timezone = getTimeZoneOffset()
     formData.startDateTime = `${formData.startDateTime}:00${timezone}`

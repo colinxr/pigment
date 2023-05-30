@@ -47,7 +47,8 @@ const store = useAuthStore()
 const { errorState, handleResponseErrors } = useFormErrors()
 
 definePageMeta({
-  middleware: 'user-is-authenticated'
+  middleware: 'user-is-authenticated',
+  layout: 'auth'
 })
 
 const email = ref('')

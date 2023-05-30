@@ -18,9 +18,6 @@ export default defineNuxtConfig({
       tailwindcss: {},
       autoprefixer: {},
     },
-  },
-  devServer: {
-    port: 0,
   }
 })
 

@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import ApiService from '@dayplanner/apiservice'
 import { ClientI, SubmissionI } from './types'
 
-const useDashboardStore = defineStore('dashboardStore', () => {
+export default defineStore('dashboardStore', () => {
   const submissions = ref<SubmissionI[]>([])
   const activeSubmission = ref<SubmissionI>()
   const nextPage = ref<number | null>(1)
@@ -61,5 +61,3 @@ const useDashboardStore = defineStore('dashboardStore', () => {
     updateSubmissionClient,
   }
 })
-
-export default useDashboardStore
