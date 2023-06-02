@@ -9,13 +9,8 @@
       <AlertWrapper v-if="showFormAlert" :status="formStatus" :msg="alertMessage" />
     </header>
 
-    <DynamicForm
-      form-id="appointment-create"
-      :schema="formSchema"
-      :data="initialValues"
-      :error-state="errorState"
-      @form-submitted="handleSubmit"
-    />
+    <DynamicForm form-id="appointment-create" :schema="formSchema" :data="initialValues" :error-state="errorState"
+      @form-submitted="handleSubmit" />
   </div>
 </template>
 
@@ -118,23 +113,20 @@ const formSchema = [
   }
 ]
 
-console.log(route)
-
 const handleSubmit = async (formData) => {
   showFormAlert.value = false
 
-  authStore.setLastURL(route.name)
+  authStore.setLastURL(route)
 
   try {
     const timezone = getTimeZoneOffset()
     formData.startDateTime = `${formData.startDateTime}:00${timezone}`
-    console.log(formData)
 
     const res = await ApiService.appointments.store(props.submission.id, formData)
 
-    if (res.status !== 200) {
-      handleResponseErrors(res)
-    }
+    debugger
+
+    if (res.status !== 200) handleResponseErrors(res)
 
     showFormAlert.value = true
     formStatus.value = 'success'

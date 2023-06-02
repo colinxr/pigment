@@ -9,8 +9,17 @@ export default (baseURL: string): AxiosInstance => {
       Accept: 'application/json',
       'Content-Type': 'application/json',
       'X-Requested-With': 'XMLHttpRequest',
-    },
+    }
   })
+
+  if (typeof window !== 'undefined') {
+    const token = window.localStorage.getItem('authToken')
+  
+    client.interceptors.request.use((request) => {
+      request.headers.set('Authorization', `Bearer ${token}`);
+      return request;
+    });
+  }
 
   client.interceptors.response.use(
     (response) => response,

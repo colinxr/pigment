@@ -39,19 +39,19 @@ class HasValidAccessToken
             ], 403);
         }
 
-        if ($request->user()->isTokenExpired()) {
-            if ($request->user()->access_token['error']) {
-                $request->user()->update(['access_token' => []]);
-                return $next($request);
-            }
+        // if ($request->user()->isTokenExpired()) {
+        //     if ($request->user()->access_token['error']) {
+        //         $request->user()->update(['access_token' => []]);
+        //         return $next($request);
+        //     }
 
-            $token = $this->apiClient
-                ->fetchAccessTokenWithRefreshToken($request->user()->access_token['refresh_token']);
+        //     $token = $this->apiClient
+        //         ->fetchAccessTokenWithRefreshToken($request->user()->access_token['refresh_token']);
 
-            $request->user()->update(['access_token' => $token]);
+        //     $request->user()->update(['access_token' => $token]);
 
-            return $next($request);
-        }
+        //     return $next($request);
+        // }
 
         return $next($request);
     }

@@ -46,7 +46,10 @@ class OAuthController extends Controller
         $token = $this->googleApi->client()
             ->fetchAccessTokenWithAuthCode(request()->code);
 
-        Auth::user()->update(['accessToken', $token]);
+
+        Log::info($token);
+
+        Auth::user()->update(['access_token' => $token]);
 
         $gCalService = new GoogleCalendarService($this->googleApi);
 

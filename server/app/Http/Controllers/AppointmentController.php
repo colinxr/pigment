@@ -54,15 +54,15 @@ class AppointmentController extends Controller
         $appt = $submission->appointments()->create(
             array_merge(
                 $request->toArray(),
-                [ 'user_id' => $submission->user_id, ]
+                ['user_id' => $submission->user_id,]
             )
         );
 
-        // $this->gCalService->setToken(Auth::user()->access_token);
+        $this->gCalService->setToken(Auth::user()->access_token);
 
-        // $event = $this->gCalService->saveEvent($appt);
+        $event = $this->gCalService->saveEvent($appt);
 
-        // $appt->update(['event_id' => $event->getId()]);
+        $appt->update(['event_id' => $event->getId()]);
 
         return response()->json([
             'status' => 'success',

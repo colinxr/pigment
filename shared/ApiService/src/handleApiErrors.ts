@@ -23,9 +23,9 @@ export default (error: AxiosError) => {
         break
       case 403:
           // Handle Forbidden errors
-          
           const resJson: any = (error.response.data as any)
           console.log('Forbidden:', resJson)
+          debugger;
 
           window.location.href = resJson.data
           break
