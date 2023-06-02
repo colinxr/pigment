@@ -39,14 +39,14 @@ class OAuthController extends Controller
             return response()->json([
                 'error' => 'Bad request: no authentication code provided',
                 'status' => 'error',
+                'data' => $this->googleApi->client()->createAuthUrl()
             ], 401);
         }
 
         $token = $this->googleApi->client()
             ->fetchAccessTokenWithAuthCode(request()->code);
 
-
-        Auth::user()->storeAccessToken($token);
+        Auth::user()->update(['accessToken', $token]);
 
         $gCalService = new GoogleCalendarService($this->googleApi);
 

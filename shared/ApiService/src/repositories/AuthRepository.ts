@@ -50,4 +50,14 @@ export default class AuthRepository implements AuthRepositoryI {
 
     return res
   }
+
+  async setOAuthToken(code: string) : Promise<AxiosResponse> {
+    const token = window.localStorage.getItem('authToken')
+    this.apiClient.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+
+    console.log(code);
+    
+    const res = await this.apiClient.post('/oauth/google/callback', { code })
+    return res 
+  }
 }
