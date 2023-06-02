@@ -34,24 +34,29 @@ class HasValidAccessToken
         if (!$request->user()->access_token) {
             return response()->json([
                 'status' => '403',
-                'message' => 'user is unauthenticated',
+                'message' => 'Google Calendar user is unauthenticated',
                 'data' => $this->apiClient->createAuthUrl(),
             ], 403);
         }
 
-        // if ($request->user()->isTokenExpired()) {
-        //     if ($request->user()->access_token['error']) {
-        //         $request->user()->update(['access_token' => []]);
-        //         return $next($request);
-        //     }
+        if ($request->user()->isTokenExpired()) {
+            if ($request->user()->access_token['error']) {
+                $request->user()->update(['access_token' => []]);
 
-        //     $token = $this->apiClient
-        //         ->fetchAccessTokenWithRefreshToken($request->user()->access_token['refresh_token']);
+                return response()->json([
+                    'status' => '403',
+                    'message' => 'Google Calendar user is unauthenticated',
+                    'data' => $this->apiClient->createAuthUrl(),
+                ], 403);
+            }
 
-        //     $request->user()->update(['access_token' => $token]);
+            $token = $this->apiClient
+                ->fetchAccessTokenWithRefreshToken($request->user()->access_token['refresh_token']);
 
-        //     return $next($request);
-        // }
+            $request->user()->update(['access_token' => $token]);
+
+            return $next($request);
+        }
 
         return $next($request);
     }

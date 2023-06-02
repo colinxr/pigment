@@ -124,8 +124,6 @@ const handleSubmit = async (formData) => {
 
     const res = await ApiService.appointments.store(props.submission.id, formData)
 
-    debugger
-
     if (res.status !== 200) handleResponseErrors(res)
 
     showFormAlert.value = true
@@ -135,7 +133,7 @@ const handleSubmit = async (formData) => {
   } catch (error) {
     console.log(error)
 
-    if (error.response.status === 403) return
+    if (error.response?.status === 403) return
 
     alertMessage.value = 'something went wrong'
     formStatus.value = 'error'
