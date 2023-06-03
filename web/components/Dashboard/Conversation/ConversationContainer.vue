@@ -1,39 +1,3 @@
-<template>
-  <div class="chat-container border border-gray-300 border-l" :class="{ 'flex': activeSubmission }">
-    <main v-if="!activeSubmission" class=" h-full w-full bg-white px-4 py-6">
-      <div class="h-full overflow-hidden py-4">
-        <div class="h-full overflow-y-auto">
-          <h1 v-if="!activeSubmission">
-            Select a conversation or send a new message
-          </h1>
-        </div>
-      </div>
-    </main>
-
-    <main v-else class="flex flex-col h-full w-full bg-white pb-6">
-      <ConversationHeader :client="activeSubmission.client" />
-
-      <div class="h-full overflow-hidden py-4">
-        <div class="h-full overflow-y-auto">
-          <div ref="wrapper" class="grid grid-cols-12 gap-y-2">
-            <MessageWrapper
-              v-for="(message, i) in messages"
-              :key="i"
-              :message="message"
-            />
-          </div>
-        </div>
-      </div>
-
-      <div class="px-4">
-        <ConversationTextInput @send-msg="handleNewMessage" />
-      </div>
-    </main>
-
-    <ActionPane v-if="activeSubmission" :submission="activeSubmission" />
-  </div>
-</template>
-
 <script setup>
 import { ref, nextTick } from 'vue'
 import { storeToRefs } from 'pinia'
@@ -98,3 +62,35 @@ watchEffect(() => {
   scrollToLastMessage()
 })
 </script>
+
+<template>
+  <div class="chat-container border border-gray-300 border-l" :class="{ 'flex': activeSubmission }">
+    <main v-if="!activeSubmission" class=" h-full w-full bg-white px-4 py-6">
+      <div class="h-full overflow-hidden py-4">
+        <div class="h-full overflow-y-auto">
+          <h1 v-if="!activeSubmission">
+            Select a conversation or send a new message
+          </h1>
+        </div>
+      </div>
+    </main>
+
+    <main v-else class="flex flex-col h-full w-full bg-white pb-6">
+      <ConversationHeader :client="activeSubmission.client" />
+
+      <div class="h-full overflow-hidden py-4">
+        <div class="h-full overflow-y-auto">
+          <div ref="wrapper" class="grid grid-cols-12 gap-y-2">
+            <MessageWrapper v-for="(message, i) in messages" :key="i" :message="message" />
+          </div>
+        </div>
+      </div>
+
+      <div class="px-4">
+        <ConversationTextInput @send-msg="handleNewMessage" />
+      </div>
+    </main>
+
+    <ActionPane v-if="activeSubmission" :submission="activeSubmission" />
+  </div>
+</template>

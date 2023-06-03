@@ -48,6 +48,12 @@
           "functions": "only-multiline"
       }],
       "consistent-return": ["error", { "treatUndefinedAsUnspecified": true }],
-      "curly": ["error", "multi-line"]
+      "curly": ["error", "multi-line"],
+      "vue/component-tags-order": [
+            "error",
+            {
+                "order": ["script", "template", "style"]
+            }
+        ]
     }
 }
