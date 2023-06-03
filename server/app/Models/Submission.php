@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Carbon;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
 use Illuminate\Database\Eloquent\Model;
@@ -46,6 +47,26 @@ class Submission extends Model implements HasMedia
     public function appointments()
     {
         return $this->hasMany(Appointment::class);
+    }
+
+    public function sortedAppointments()
+    {
+        $currentDateTime = Carbon::now();
+
+
+        $appointments = $this->appointments()->get();
+
+        $upcoming = $appointments->filter(function ($appointment) use ($currentDateTime) {
+            return $appointment->startDateTime > $currentDateTime;
+        });
+
+        $past = $appointments->filter(function ($appointment) use ($currentDateTime) {
+            return $appointment->startDateTime < $currentDateTime;
+        });
+        return [
+            'upcoming' => $upcoming,
+            'past' => $past,
+        ];
     }
 
     ///

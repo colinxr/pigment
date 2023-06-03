@@ -6,6 +6,7 @@ use Tests\TestCase;
 use App\Models\User;
 use App\Models\Client;
 use App\Models\Submission;
+use App\Models\Appointment;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -16,7 +17,6 @@ class ArtistSubmissionsTest extends TestCase
 
     protected  function tearDown(): void
     {
-        // Storage::deleteDirectory('/media-library');
         Storage::deleteDirectory('/public');
         Storage::makeDirectory('/public');
     }
@@ -172,5 +172,22 @@ class ArtistSubmissionsTest extends TestCase
         $submisison = $user->submissions()->first();
         $images = $submisison->getMedia('attachments');
         $this->assertCount(2, $images);
+    }
+
+    public function test_can_show_upcoming_and_past_appointments(): void
+    {
+        $user = User::factory()->create();
+        $client = Client::factory()->create(['user_id' => $user->id]);
+        $submission = Submission::factory()->create(['user_id' => $user->id, 'client_id' => $client->id]);
+        $upcoming = Appointment::factory()->count(2)->upcoming()->create(['submission_id' => $submission->id]);
+        $past = Appointment::factory()->count(1)->past()->create(['submission_id' => $submission->id]);
+
+        $this->assertCount(3, $submission->appointments);
+
+        $this->actingAs($user);
+        $response = $this->get("/api/submissions/{$submission->id}/appointments");
+        $response->assertStatus(200);
+
+        dump(json_decode($response->getContent()));
     }
 }

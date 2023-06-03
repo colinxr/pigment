@@ -22,11 +22,11 @@ class AppointmentTest extends TestCase
     {
         parent::setUp();
 
-        $this->user = User::factory()->create([ 'access_token' => [] ]);
+        $this->user = User::factory()->create(['access_token' => []]);
 
-        $client = Client::factory()->create([ 'user_id' => $this->user->id ]);
+        $client = Client::factory()->create(['user_id' => $this->user->id]);
 
-        $submission = $client->submissions()->create([ 'user_id' => $this->user->id, ]);
+        $submission = $client->submissions()->create(['user_id' => $this->user->id,]);
 
         $this->gCalService = new FakeGoogleCalendarService;
         $gCal = $this->gCalService;
@@ -62,14 +62,12 @@ class AppointmentTest extends TestCase
             'startDateTime' => $data['startDateTime'],
         ]);
 
-        // make sure events is not empty
-        // dump($this->gCalService->getEvents());
-        // $this->assertNotEmpty($this->gCalService->listEvents());
+        $this->assertNotEmpty($this->gCalService->listEvents());
 
-        // $event = $this->gCalService->listEvents()[0];
+        $event = $this->gCalService->listEvents()[0];
 
-        // // event has the right details 
-        // $this->assertEquals($event['summary'], $data['name']);
+        // event has the right details 
+        $this->assertEquals($event['summary'], $data['name']);
     }
 
     public function test_user_can_update_their_appointment(): void
@@ -78,12 +76,12 @@ class AppointmentTest extends TestCase
         $event = $this->gCalService->saveEvent($appt);
         $event->id = fake()->uuid();
         $appt->update(['event_id' => $event->id]);
-        
+
         $this->assertNotEmpty($this->gCalService->listEvents());
 
         $newStartTime = fake()->dateTime()->format('d-m-Y H:i:s');
         $newEndTime = fake()->dateTime()->format('d-m-Y H:i:s');
-        
+
         $this->actingAs($appt->user);
         $response = $this->post("/api/appointments/{$appt->id}", [
             'name' => $appt->name,
@@ -134,7 +132,7 @@ class AppointmentTest extends TestCase
     public function test_user_can_delete_appointment_and_events()
     {
         $appt = Appointment::factory()->create();
-        
+
         $event = $this->gCalService->saveEvent($appt);
         $event->id = fake()->uuid();
 

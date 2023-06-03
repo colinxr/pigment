@@ -39,7 +39,7 @@ class AppointmentController extends Controller
         }
 
         return response()->json([
-            'data' => $submission->appointments,
+            'data' => $submission->sortedAppointments(),
         ], 200);
     }
 

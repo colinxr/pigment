@@ -5,7 +5,7 @@
     </div>
 
     <div v-if="!isLoading && appointments.length" class="mb-5">
-      <AppointmentCard v-for="(appt, i) in appointments" :key="i" :appointment="appt" />
+      <AppointmentCard v-for="(appt, i) in appointments" :key="i" :appointment="appt" class="mb-2" />
     </div>
     <button class="btn btn-small" @click="openModal">
       Add Appointment
