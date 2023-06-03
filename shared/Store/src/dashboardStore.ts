@@ -20,6 +20,16 @@ export default defineStore('dashboardStore', () => {
     activeSubmission.value = submission
   }
 
+  const findSubmissionById = (activeSubId: number) => {
+    const sub = submissions.value.find(({ id }) => {
+      console.log(id)
+      console.log(activeSubId)
+
+      return id === activeSubId
+    })
+    return sub
+  }
+
   const getSubmissions = async () => {
     if (!nextPage.value) return
 
@@ -36,7 +46,7 @@ export default defineStore('dashboardStore', () => {
   const updateSubmissionClient = (client : ClientI) => {
     if (!activeSubmission.value) return
 
-    const submission = submissions.value.find(({ id }) => id === activeSubmission.value?.id)
+    const submission = findSubmissionById(activeSubmission.value.id)
 
     if (!submission) return
 
@@ -48,7 +58,6 @@ export default defineStore('dashboardStore', () => {
       return sub
     })
 
-    console.log('tk')
     activeSubmission.value.client = client
   }
 
@@ -59,5 +68,6 @@ export default defineStore('dashboardStore', () => {
     getSubmissions,
     setActiveSubmission,
     updateSubmissionClient,
+    findSubmissionById,
   }
 })

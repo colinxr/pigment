@@ -9,13 +9,21 @@ definePageMeta({
   middleware: 'user-is-authenticated',
 })
 
-console.log(route.fullPath)
+console.log(route.query)
 
 const dashboardStore = useDashboardStore()
-const { getSubmissions } = dashboardStore
+const { getSubmissions, findSubmissionById, setActiveSubmission } = dashboardStore
 
 onBeforeMount(async () => {
   await getSubmissions()
+  if (route.query.as) {
+    const submission = findSubmissionById(Number(route.query.as))
+    setActiveSubmission(submission)
+  }
+})
+
+onMounted(() => {
+
 })
 </script>
 
