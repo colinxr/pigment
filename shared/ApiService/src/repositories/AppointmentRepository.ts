@@ -19,4 +19,10 @@ export default class AppointmentRepository implements AppointmentRepositoryI {
 
     return res
   }
+
+  async get(): Promise<AxiosResponse> {
+    const res = await this.apiClient.get(`/appointments`)
+
+    return res
+  }
 }

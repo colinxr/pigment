@@ -19,10 +19,10 @@ const openModal = () => {
 </script>
 
 <template>
-  <header class="border-gray-300 border-b p-4 px-4 flex justify-between">
-    <h2 class="font-bold text-lg">
+  <header class="border-gray-100 border-b py-3 px-4 flex justify-between">
+    <span class="font-bold text-lg ">
       {{ client.full_name }}
-    </h2>
+    </span>
     <button class="text-sm" @click="openModal">
       Edit Client
     </button>

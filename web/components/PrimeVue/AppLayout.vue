@@ -16,6 +16,7 @@ watch(isSidebarActive, (newVal) => {
     unbindOutsideClickListener()
   }
 })
+
 const containerClass = computed(() => ({
   'layout-theme-light': layoutConfig.darkTheme.value === 'light',
   'layout-theme-dark': layoutConfig.darkTheme.value === 'dark',
