@@ -29,8 +29,8 @@ const handleClick = () => {
       </div>
 
       <!-- client avatar -->
-      <div class="flex items-center justify-center h-10 w-10 rounded-full
-                bg-pink-500 text-pink-300 font-bold flex-shrink-0">
+      <div class="flex items-center justify-center h-10 rounded-full
+                  bg-pink-500 text-pink-300 font-bold flex-shrink-0">
         {{ submission.client.initials }}
       </div>
 
@@ -48,7 +48,7 @@ const handleClick = () => {
       <!-- new messages indicator -->
       <div class="flex-shrink-0 ml-2 self-end mb-1">
         <span class="flex items-center justify-center h-5 w-5 bg-red-500
-                  text-white text-xs rounded-full">5</span>
+                    text-white text-xs rounded-full">5</span>
       </div>
     </div>
   </div>

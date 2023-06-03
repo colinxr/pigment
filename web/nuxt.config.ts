@@ -7,7 +7,7 @@ export default defineNuxtConfig({
     '@dayplanner': path.resolve(__dirname, '..', 'shared'),
   },
   css: [
-    '@/assets/styles.scss',
+    '@/assets/styles/main.scss',
     'primeicons/primeicons.css',
     'primeflex/primeflex.scss',
     'primevue/resources/primevue.min.css'

@@ -1,11 +1,15 @@
+<script setup>
+import ModalWindow from '@/components/Modal/ModalWindow.vue'
+import AppSidebar from '@/components/PrimeVue/AppSidebar.vue'
+</script>
+
 <template>
   <div class="dashboard h-screen overflow-hidden flex align-start">
-    <DashboardNav />
+    <!-- <DashboardNav /> -->
+    <!-- <div class="layout-sidebar"> -->
+    <AppSidebar />
+    <!-- </div> -->
     <slot />
     <ModalWindow />
   </div>
 </template>
-
-<script setup>
-import ModalWindow from '@/components/Modal/ModalWindow.vue'
-</script>

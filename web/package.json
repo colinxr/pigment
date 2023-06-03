@@ -32,11 +32,14 @@
     "@formkit/vue": "^0.17.2",
     "@pinia/nuxt": "^0.4.10",
     "@tailwindcss/typography": "^0.5.9",
+    "chartjs": "^0.3.24",
+    "D": "^1.0.0",
     "daisyui": "^2.51.6",
     "pinia": "^2.1.1",
-    "vue": "^3.3.2",
     "primeflex": "^3.3.1",
     "primeicons": "^6.0.1",
-    "primevue": "^3.29.2"
+    "primevue": "^3.29.2",
+    "sass": "^1.62.1",
+    "vue": "^3.3.2"
   }
 }

@@ -21,6 +21,7 @@ onBeforeMount(async () => {
 
 <template>
   <div class="flex grow">
-    dashboard
+    <SubmissionsList class="w-1/4" />
+    <ConversationContainer class="grow h-screen w-2/3" />
   </div>
 </template>
