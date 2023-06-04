@@ -30,6 +30,7 @@ export interface AppointmentRepositoryI {
   index(): Promise<AxiosResponse>,
   show(appointmentId: string): Promise<AxiosResponse>,
   store(submissionId: string, formData: AppointmentFormData): Promise<AxiosResponse>,
+  update(submissionId: string, formData: AppointmentFormData): Promise<AxiosResponse>,
   getForSubmission(submissionId: string): Promise<AxiosResponse>,
 }
 

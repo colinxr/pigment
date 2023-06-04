@@ -4,7 +4,12 @@
   import DynamicForm from "@/components/Forms/DynamicForm.vue"
   import AlertWrapper from "@/components/Alerts/AlertWrapper.vue"
 
-  import { convertToIsoString, getDuration } from "@/services/dateService"
+  import {
+    getTimeZoneOffset,
+    convertToIsoString,
+    getDuration,
+  } from "@/services/dateService"
+  import { form } from "@formkit/inputs"
 
   const route = useRoute()
   const { errorState, handleResponseErrors } = useFormErrors()
@@ -99,6 +104,38 @@
 
     loading.value = false
   })
+
+  const handleSubmit = async formData => {
+    showFormAlert.value = false
+    try {
+      console.log(formData.startDateTime)
+
+      const timezone = getTimeZoneOffset()
+      formData.startDateTime = `${formData.startDateTime}:00${timezone}`
+
+      console.log(formData.startDateTime)
+
+      const res = await ApiService.appointments.update(
+        appointment.value.id,
+        formData
+      )
+
+      if (res.status !== 200) handleResponseErrors(res)
+
+      showFormAlert.value = true
+      formStatus.value = "success"
+      alertMessage.value = res.data.message || "Appointment Updated"
+      return
+    } catch (error) {
+      console.log(error)
+
+      if (error.response?.status === 403) return
+
+      alertMessage.value = "Something went wrong"
+      formStatus.value = "error"
+      showFormAlert.value = true
+    }
+  }
 </script>
 
 <template>

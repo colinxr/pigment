@@ -68,7 +68,7 @@ const convertToIsoString = (dateString, withTz = false) => {
   const minutes = dateTime.getMinutes().toString().padStart(2, "0")
   const seconds = dateTime.getSeconds().toString().padStart(2, "0")
 
-  const isoString = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`
+  const isoString = `${year}-${month}-${day}T${hours}:${minutes}`
 
   return withTz
     ? `${isoString}${

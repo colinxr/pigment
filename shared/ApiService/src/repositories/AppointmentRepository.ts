@@ -31,4 +31,10 @@ export default class AppointmentRepository implements AppointmentRepositoryI {
 
     return res
   }
+
+  async update(appointmentId: string, formData: AppointmentFormData): Promise<AxiosResponse> {
+    const res = await this.apiClient.put(`/appointments/${appointmentId}`, formData)
+
+    return res
+  }
 }

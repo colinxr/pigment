@@ -12,6 +12,7 @@ use Google\Service\Calendar\Channel;
 use Illuminate\Support\Facades\Auth;
 use Google\Service\Calendar\Calendar;
 use App\Interfaces\GoogleCalendarInterface;
+use Exception;
 
 class GoogleCalendarService implements GoogleCalendarInterface
 {
@@ -73,13 +74,16 @@ class GoogleCalendarService implements GoogleCalendarInterface
     $event->start = ['dateTime' => $appt->startDateTime];
     $event->end = ['dateTime' => $appt->endDateTime];
 
-    $response = $this->service->events->update(Auth::user()->calendar_id, $event_id, $event);
+    $event = $this->service->events->update(Auth::user()->calendar_id, $event_id, $event);
+
+    Log::info(json_encode($event));
 
     // Handle the response
-    if ($response->getStatusCode() == 204) {
+    if ($event) {
       // Event deleted successfully
     } else {
       // Error deleting event
+      throw new Exception('Event was not updated in Google');
     }
   }
 
