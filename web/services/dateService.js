@@ -38,4 +38,49 @@ const dateIsUpcoming = dateTimeString => {
   return dateTime > currentTime
 }
 
-export { getTimeZoneOffset, getReadableDate, dateIsUpcoming }
+const getDuration = (startTime, endTime) => {
+  const start = new Date(startTime)
+  const end = new Date(endTime)
+  // Calculate the difference in milliseconds
+  const diffInMilliseconds = Math.abs(end.getTime() - start.getTime())
+  // Convert milliseconds to hours
+  const hours = Math.floor(diffInMilliseconds / (1000 * 60 * 60))
+
+  return hours
+}
+
+const convertToIsoString = (dateString, withTz = false) => {
+  const dateTime = new Date(dateString)
+
+  const offset = dateTime.getTimezoneOffset()
+  const offsetHours = Math.floor(Math.abs(offset) / 60)
+  const offsetHoursString = offsetHours.toString().padStart(2, "0")
+  const offsetMinutesRemainder = (Math.abs(offset) % 60)
+    .toString()
+    .padStart(2, "0")
+
+  const year = dateTime.getFullYear()
+  const month = (dateTime.getMonth() + 1).toString().padStart(2, "0")
+  const day = dateTime.getDate().toString().padStart(2, "0")
+  const hours = withTz
+    ? dateTime.getHours().toString().padStart(2, "0")
+    : (dateTime.getHours() + offsetHours).toString().padStart(2, "0")
+  const minutes = dateTime.getMinutes().toString().padStart(2, "0")
+  const seconds = dateTime.getSeconds().toString().padStart(2, "0")
+
+  const isoString = `${year}-${month}-${day}T${hours}:${minutes}:${seconds}`
+
+  return withTz
+    ? `${isoString}${
+        offset >= 0 ? "+" : "-"
+      }${offsetHours}${offsetMinutesRemainder}`
+    : isoString
+}
+
+export {
+  getTimeZoneOffset,
+  getReadableDate,
+  dateIsUpcoming,
+  getDuration,
+  convertToIsoString,
+}

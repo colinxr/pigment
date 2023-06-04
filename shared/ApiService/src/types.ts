@@ -27,9 +27,10 @@ export interface AppointmentFormData {
 
 export interface AppointmentRepositoryI {
   apiClient: AxiosInstance,
-  get(): Promise<AxiosResponse>,
-  store(submissionId: number, formData: AppointmentFormData): Promise<AxiosResponse>,
-  getForSubmission(submissionId: number): Promise<AxiosResponse>,
+  index(): Promise<AxiosResponse>,
+  show(appointmentId: string): Promise<AxiosResponse>,
+  store(submissionId: string, formData: AppointmentFormData): Promise<AxiosResponse>,
+  getForSubmission(submissionId: string): Promise<AxiosResponse>,
 }
 
 export interface MessageRepositoryI {

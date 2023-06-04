@@ -7,7 +7,7 @@
   const loading = ref(true)
 
   onBeforeMount(async () => {
-    const { data } = await ApiService.appointments.get()
+    const { data } = await ApiService.appointments.index()
 
     appointments.value = data.data
     loading.value = false

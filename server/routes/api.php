@@ -49,7 +49,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/submissions/{submission}', [ArtistSubmissionsController::class, 'show']);
     Route::delete('/submissions/{submission}', [ArtistSubmissionsController::class, 'destroy']);
     Route::post('/submissions/{submission}/message', [SubmissionMessageController::class, 'store']);
-    Route::get('/submissions/{submission}/appointments', [AppointmentController::class, 'show']);
+    // refactor this action 
+    Route::get('/submissions/{submission}/appointments', [AppointmentController::class, 'submissionIndex']);
 
     Route::put('/clients/{email}', [UserClientController::class, 'update']);
 
@@ -70,6 +71,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
         // Appointment Routes
+        Route::get('/appointments/{appointment}', [AppointmentController::class, 'show']);
         Route::put('/appointments/{appointment}', [AppointmentController::class, 'update']);
         Route::delete('/appointments/{appointment}', [AppointmentController::class, 'destroy']);
         Route::post('/submissions/{submission}/appointments', [AppointmentController::class, 'store']);

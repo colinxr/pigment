@@ -40,7 +40,7 @@ class HasValidAccessToken
         }
 
         if ($request->user()->isTokenExpired()) {
-            if ($request->user()->access_token['error']) {
+            if (isset($request->user()->access_token['error'])) {
                 $request->user()->update(['access_token' => []]);
 
                 return response()->json([

@@ -1,30 +1,3 @@
-<template>
-  <div
-    class="bg-white border border-gray mx-auto w-full max-w-[800px] rounded-xl p-4"
-  >
-    <header>
-      <div class="flex justify-between mb-2">
-        <h1>Create Appointment</h1>
-        <span class="cursor-pointer" @click="store.closeModal">X</span>
-      </div>
-
-      <AlertWrapper
-        v-if="showFormAlert"
-        :status="formStatus"
-        :msg="alertMessage"
-      />
-    </header>
-
-    <DynamicForm
-      form-id="appointment-create"
-      :schema="formSchema"
-      :data="initialValues"
-      :error-state="errorState"
-      @form-submitted="handleSubmit"
-    />
-  </div>
-</template>
-
 <script setup>
   import useAuthStore from "@/stores/auth"
   import ApiService from "@dayplanner/apiservice"
@@ -155,3 +128,30 @@
     }
   }
 </script>
+
+<template>
+  <div
+    class="bg-white border border-gray mx-auto w-full max-w-[800px] rounded-xl p-4"
+  >
+    <header>
+      <div class="flex justify-between mb-2">
+        <h1>Create Appointment</h1>
+        <span class="cursor-pointer" @click="store.closeModal">X</span>
+      </div>
+
+      <AlertWrapper
+        v-if="showFormAlert"
+        :status="formStatus"
+        :msg="alertMessage"
+      />
+    </header>
+
+    <DynamicForm
+      form-id="appointment-create"
+      :schema="formSchema"
+      :data="initialValues"
+      :error-state="errorState"
+      @form-submitted="handleSubmit"
+    />
+  </div>
+</template>

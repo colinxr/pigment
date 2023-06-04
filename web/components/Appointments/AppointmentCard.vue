@@ -40,7 +40,7 @@
     navigateTo(`/appointments/${props.appointment.id}/edit`)
 
   const handleMouseHover = () => {
-    if (props.status === "past") {
+    if (status.value === "past") {
       showControls.value = false
       return
     }

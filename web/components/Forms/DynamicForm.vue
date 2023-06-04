@@ -5,82 +5,84 @@
 </template>
 
 <script setup>
+  import { ref } from "vue"
+  import { FormKitSchema, setErrors } from "@formkit/vue"
+  import useFormErrors from "@/composables/useFormErrors"
 
-import { ref } from 'vue'
-import { FormKitSchema, setErrors } from '@formkit/vue'
-import useFormErrors from '@/composables/useFormErrors'
+  const { buildFormErrorBag } = useFormErrors()
 
-const { buildFormErrorBag } = useFormErrors()
+  const emit = defineEmits(["form-submitted"])
 
-const emit = defineEmits(['form-submitted'])
+  const props = defineProps({
+    formId: {
+      type: String,
+      required: true,
+    },
+    schema: {
+      type: Object,
+      required: true,
+    },
+    data: {
+      type: Object,
+      required: true,
+    },
+    successMessage: {
+      type: String,
+      default: "",
+    },
+    errorState: {
+      type: Object,
+      default: () => {},
+    },
+  })
 
-const props = defineProps({
-  formId: {
-    type: String,
-    required: true,
-  },
-  schema: {
-    type: Object,
-    required: true,
-  },
-  data: {
-    type: Object,
-    required: true,
-  },
-  successMessage: {
-    type: String,
-    default: '',
-  },
-  errorState: {
-    type: Object,
-    default: () => {},
-  }
-})
+  const form = ref({})
 
-const form = ref({})
+  const setInitialFormValues = (schema, data) => {
+    const newForm = {}
 
-const setInitialFormValues = (schema, data) => {
-  const newForm = {}
+    console.log(data)
+    schema
+      .map(buildSchemaFields)
+      .filter(v => v !== null || v !== "slots")
+      .flat()
+      .forEach(field => {
+        newForm[field] = data[field]
+      })
 
-  schema.map(buildSchemaFields)
-    .filter(v => v !== null || v !== 'slots')
-    .flat()
-    .forEach((field) => {
-      newForm[field] = data[field]
-    })
+    console.log(newForm)
 
-  return newForm
-}
-
-const buildSchemaFields = (field) => {
-  if (!field.$el) return field.name
-
-  if (field.$el && field.children) {
-    const children = field.children.map(buildSchemaFields)
-
-    return children.flat()
+    return newForm
   }
 
-  return null
-}
+  const buildSchemaFields = field => {
+    if (!field.$el) return field.name
 
-watch(
-  () => ({ schema: props.schema, data: props.data }),
-  ({ schema, data }) => {
-    form.value = setInitialFormValues(schema, data)
-  },
-  { immediate: true },
-)
+    if (field.$el && field.children) {
+      const children = field.children.map(buildSchemaFields)
 
-watch(
-  () => props.errorState,
-  (newErrorState) => {
-    const errorBag = buildFormErrorBag(newErrorState.validationErrs)
+      return children.flat()
+    }
 
-    setErrors(props.formId, [props.errors.message], errorBag)
+    return null
   }
-)
 
-const submitHandler = values => emit('form-submitted', values)
+  watch(
+    () => ({ schema: props.schema, data: props.data }),
+    ({ schema, data }) => {
+      form.value = setInitialFormValues(schema, data)
+    },
+    { immediate: true }
+  )
 
+  watch(
+    () => props.errorState,
+    newErrorState => {
+      const errorBag = buildFormErrorBag(newErrorState.validationErrs)
+
+      setErrors(props.formId, [props.errors.message], errorBag)
+    }
+  )
+
+  const submitHandler = values => emit("form-submitted", values)
 </script>

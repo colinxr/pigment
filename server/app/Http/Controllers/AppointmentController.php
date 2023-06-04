@@ -29,7 +29,18 @@ class AppointmentController extends Controller
         ], 200);
     }
 
-    public function show(Submission $submission)
+    public function show(Appointment $appointment)
+    {
+        if ($appointment->user_id !== Auth::user()->id) {
+            return response()->json([
+                'error' => "You're not authorized to do that."
+            ], 403);
+        }
+
+        return response()->json(['data' => $appointment], 200);
+    }
+
+    public function submissionIndex(Submission $submission)
     {
         if ($submission->user_id !== Auth::user()->id) {
             return response()->json([
