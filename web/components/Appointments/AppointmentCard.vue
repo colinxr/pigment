@@ -1,7 +1,7 @@
 <script setup>
   import { computed } from "vue"
   import useModalStore from "@/stores/modal"
-  import { getReadableDate } from "@/services/dateService"
+  import { getReadableDate, dateIsUpcoming } from "@/services/dateService"
   import AppointmentDeleteModal from "@/components/Modal/AppointmentDeleteModal.vue"
 
   const modalStore = useModalStore()
@@ -11,9 +11,9 @@
       type: Object,
       required: true,
     },
-    status: {
+    size: {
       type: String,
-      default: "active",
+      default: "small",
     },
   })
 
@@ -22,6 +22,12 @@
   const dateTime = computed(() =>
     getReadableDate(props.appointment.startDateTime)
   )
+
+  const status = computed(() => {
+    console.log(props.appointment.startDateTime)
+
+    return dateIsUpcoming(props.appointment.startDateTime) ? "active" : "past"
+  })
 
   const handleDelete = () => {
     modalStore.openModal({
@@ -33,14 +39,13 @@
   const handleEdit = () =>
     navigateTo(`/appointments/${props.appointment.id}/edit`)
 
-  const handleMouseEnter = () => {
-    if (props.status === "past") return
-    showControls.value = true
-  }
+  const handleMouseHover = () => {
+    if (props.status === "past") {
+      showControls.value = false
+      return
+    }
 
-  const handleMouseLeave = () => {
-    if (props.status === "past") return
-    showControls.value = false
+    showControls.value = !showControls.value
   }
 </script>
 
@@ -48,19 +53,23 @@
   <nuxt-link :to="`/appointments/${props.appointment.id}/`">
     <div
       class="appt-card relative mb-2"
-      @mouseenter="handleMouseEnter"
-      @mouseleave="handleMouseLeave"
+      :class="props.size !== 'large' ? 'text-xs' : 'text-md'"
+      @mouseenter="handleMouseHover"
+      @mouseleave="handleMouseHover"
     >
       <div
-        class="text-sm font-medium"
-        :class="{ 'line-through ': props.status !== 'active' }"
+        class="font-medium"
+        :class="[
+          status !== 'active' ? 'line-through' : '',
+          props.size !== 'large' ? 'text-sm' : 'text-md',
+        ]"
       >
         {{ dateTime }}
       </div>
-      <div class="text-xs truncate w-40">
+      <div class="truncate w-40">
         {{ props.appointment.name }}
       </div>
-      <div class="text-xs truncate w-40">
+      <div class="truncate w-40">
         {{ props.appointment.description }}
       </div>
 

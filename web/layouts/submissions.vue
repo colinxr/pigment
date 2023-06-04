@@ -4,7 +4,7 @@
 </script>
 
 <template>
-  <div class="dashboard flex align-start">
+  <div class="dashboard h-screen overflow-hidden flex align-start">
     <AppSidebar />
     <slot />
     <ModalWindow />

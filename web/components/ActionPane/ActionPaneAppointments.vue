@@ -56,7 +56,6 @@
       <AppointmentCard
         v-for="(appt, i) in pastAppointments"
         :key="i"
-        status="past"
         :appointment="appt"
         class="mb-2"
       />

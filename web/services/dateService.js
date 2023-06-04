@@ -1,9 +1,10 @@
-const pad = (value, length) => ((value.toString().length < length) ? pad(`0${value}`, length) : value)
+const pad = (value, length) =>
+  value.toString().length < length ? pad(`0${value}`, length) : value
 
-const buildOffsetISO = (timezoneOffset) => {
+const buildOffsetISO = timezoneOffset => {
   const offsetHours = Math.abs(Math.floor(timezoneOffset / 60))
   const offsetMinutes = Math.abs(timezoneOffset % 60)
-  const offsetSign = (timezoneOffset >= 0 ? '+' : '-')
+  const offsetSign = timezoneOffset >= 0 ? "+" : "-"
 
   return offsetSign + pad(offsetHours, 2) + pad(offsetMinutes, 2)
 }
@@ -15,22 +16,26 @@ const getTimeZoneOffset = () => {
   return buildOffsetISO(timezoneOffset)
 }
 
-const getReadableDate = (dateString) => {
+const getReadableDate = dateString => {
   const date = new Date(dateString)
   const options = {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-    hour: 'numeric',
-    minute: 'numeric',
-    second: 'numeric',
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "numeric",
+    minute: "numeric",
+    second: "numeric",
     // timeZoneName: 'short'
   }
 
-  return date.toLocaleString('en-US', options)
+  return date.toLocaleString("en-US", options)
 }
 
-export {
-  getTimeZoneOffset,
-  getReadableDate
+const dateIsUpcoming = dateTimeString => {
+  const dateTime = new Date(dateTimeString)
+  const currentTime = new Date()
+
+  return dateTime > currentTime
 }
+
+export { getTimeZoneOffset, getReadableDate, dateIsUpcoming }
