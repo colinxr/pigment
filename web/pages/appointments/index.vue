@@ -9,7 +9,6 @@
 
     appointments.value = data.data
   })
-  // get a list of upcoming appointments for the user
 
   definePageMeta({
     keepalive: true,
@@ -17,18 +16,16 @@
 </script>
 
 <template>
-  <div class="p-4 w-full">
-    <Card class="w-full">
-      <template #header class="p-4">
-        <h2>Appointments</h2>
-      </template>
+  <div class="layout-main p-4 w-full">
+    <h2 class="text-xl font-semibold mb-5">Appointments</h2>
 
+    <Card class="w-full">
       <template #content>
         <AppointmentCard
           v-for="(appt, i) in appointments"
           :key="i"
           :appointment="appt"
-          class="mb-2"
+          class="mb-5"
         />
       </template>
     </Card>

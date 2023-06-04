@@ -25,7 +25,6 @@ class AppointmentController extends Controller
         $events = $this->gCalService->listEvents();
 
         return response()->json([
-            'status' => 'success',
             'data' => $appointments,
         ], 200);
     }

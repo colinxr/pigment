@@ -30,11 +30,8 @@
     })
   }
 
-  const handleEdit = () => {
-    // navigate to appointment edit screen
-    // /appointments/{1}/edit
+  const handleEdit = () =>
     navigateTo(`/appointments/${props.appointment.id}/edit`)
-  }
 
   const handleMouseEnter = () => {
     if (props.status === "past") return
@@ -50,7 +47,7 @@
 <template>
   <nuxt-link :to="`/appointments/${props.appointment.id}/`">
     <div
-      class="appt-card relative"
+      class="appt-card relative mb-2"
       @mouseenter="handleMouseEnter"
       @mouseleave="handleMouseLeave"
     >
