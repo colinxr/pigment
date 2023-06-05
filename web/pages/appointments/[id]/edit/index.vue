@@ -9,83 +9,23 @@ import {
 	convertToIsoString,
 	getDuration,
 } from '@/services/dateService'
-import { form } from '@formkit/inputs'
+
+import useAppointmentSchema from '@/composables/useAppointmentSchema'
+
+const { schema } = useAppointmentSchema()
 
 const route = useRoute()
-const { errorState, handleResponseErrors } = useFormErrors()
+const {
+	errorState,
+	showFormAlert,
+	formStatus,
+	alertMessage,
+	handleResponseErrors,
+} = useFormErrors()
 
 const loading = ref(true)
 const appointment = ref({})
 const initialValues = {}
-
-const showFormAlert = ref(false)
-const formStatus = ref('')
-const alertMessage = ref('')
-
-const formSchema = [
-	{
-		$formkit: 'text',
-		label: 'Appointment Name',
-		name: 'name',
-		validation: 'required',
-		value: 'test',
-		validationVisibility: 'dirty',
-	},
-	{
-		$formkit: 'textarea',
-		label: 'Description',
-		name: 'description',
-		validation: 'required',
-		validationVisibility: 'dirty',
-	},
-	{
-		$el: 'div',
-		attrs: {
-			class: 'flex gap-4',
-		},
-		children: [
-			{
-				$formkit: 'datetime-local',
-				label: 'Start Time',
-				name: 'startDateTime',
-				validation: 'required',
-				validationVisibility: 'dirty',
-				'outer-class': 'w-1/2',
-			},
-			{
-				$formkit: 'number',
-				label: 'Appointment Duration',
-				name: 'duration',
-				validation: 'required',
-				help: 'How long is the appointment going to take?',
-				validationVisibility: 'dirty',
-				'outer-class': 'w-1/2',
-			},
-		],
-	},
-	{
-		$el: 'div',
-		attrs: {
-			class: 'flex gap-4',
-		},
-		children: [
-			{
-				$formkit: 'number',
-				label: 'Price',
-				name: 'price',
-				validation: 'required',
-				validationVisibility: 'dirty',
-				'outer-class': 'w-1/2',
-			},
-			{
-				$formkit: 'number',
-				label: 'Deposit',
-				name: 'deposit',
-				'outer-class': 'w-1/2',
-			},
-		],
-	},
-]
 
 onBeforeMount(async () => {
 	const { data } = await ApiService.appointments.show(route.params.id)
@@ -144,9 +84,15 @@ const handleSubmit = async formData => {
 
 		<Card class="w-full">
 			<template v-if="!loading && appointment" #content>
+				<AlertWrapper
+					v-if="showFormAlert"
+					:status="formStatus"
+					:msg="alertMessage"
+				/>
+
 				<DynamicForm
 					form-id="appointment-edit"
-					:schema="formSchema"
+					:schema="schema"
 					:data="initialValues"
 					:error-state="errorState"
 					@form-submitted="handleSubmit"

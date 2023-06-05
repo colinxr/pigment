@@ -8,6 +8,10 @@ export default () => {
 		errors: [],
 	})
 
+	const showFormAlert = ref(false)
+	const formStatus = ref('')
+	const alertMessage = ref('')
+
 	const handleResponseErrors = ({ status, data }) => {
 		const newErrorState = {
 			isSet: true,
@@ -32,5 +36,12 @@ export default () => {
 		return errorBag
 	}
 
-	return { errorState, handleResponseErrors, buildFormErrorBag }
+	return {
+		errorState,
+		showFormAlert,
+		formStatus,
+		alertMessage,
+		handleResponseErrors,
+		buildFormErrorBag,
+	}
 }
