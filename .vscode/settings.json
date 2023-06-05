@@ -2,5 +2,4 @@
   "intelephense.environment.includePaths": [
     "vendor/**"
   ],
-  "eslint.workingDirectories": [{ "mode": "auto" }],
 }

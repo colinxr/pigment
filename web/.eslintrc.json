@@ -4,11 +4,11 @@
     "es2021": true
   },
   "extends": [
+    "plugin:prettier/recommended",
     "plugin:vue/vue3-recommended",
     "airbnb-base",
     "@nuxt/eslint-config",
-    "@nuxtjs/eslint-config-typescript",
-    "prettier"
+    "@nuxtjs/eslint-config-typescript"
   ],
   "overrides": [],
   "parserOptions": {
@@ -16,7 +16,8 @@
     "sourceType": "module"
   },
   "plugins": [
-    "vue"
+    "vue",
+    "prettier"
   ],
   "settings": {
     "import/resolver": {
@@ -87,10 +88,7 @@
         "treatUndefinedAsUnspecified": true
       }
     ],
-    "curly": [
-      "error",
-      "multi-line"
-    ],
+    "curly": [ "error","multi-line"],
     "vue/component-tags-order": [
       "error",
       {
@@ -99,8 +97,7 @@
           "template",
           "style"
         ]
-      }
-    ],
+      }],
     "vue/html-closing-bracket-newline": [
       "error",
       {
