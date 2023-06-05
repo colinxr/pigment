@@ -1,21 +1,21 @@
 <script setup>
-	import ApiService from '@dayplanner/apiservice'
-	import AppointmentCard from '@/components/Appointments/AppointmentCard.vue'
-	import LoadingCard from '@/components/Appointments/LoadingCard.vue'
+import ApiService from '@dayplanner/apiservice'
+import AppointmentCard from '@/components/Appointments/AppointmentCard.vue'
+import LoadingCard from '@/components/Appointments/LoadingCard.vue'
 
-	const appointments = ref([])
-	const loading = ref(true)
+const appointments = ref([])
+const loading = ref(true)
 
-	onBeforeMount(async () => {
-		const { data } = await ApiService.appointments.index()
+onBeforeMount(async () => {
+	const { data } = await ApiService.appointments.index()
 
-		appointments.value = data.data
-		loading.value = false
-	})
+	appointments.value = data.data
+	loading.value = false
+})
 
-	definePageMeta({
-		keepalive: true,
-	})
+definePageMeta({
+	keepalive: true,
+})
 </script>
 
 <template>
@@ -29,7 +29,8 @@
 					:key="i"
 					:appointment="appt"
 					size="large"
-					class="mb-5" />
+					class="mb-5"
+				/>
 			</template>
 
 			<template #content v-else>

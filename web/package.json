@@ -27,6 +27,7 @@
     "vue-eslint-parser": "^9.3.0"
   },
   "dependencies": {
+    "@dayplanner/store": "file:../shared/Store",
     "@dayplanner/apiservice": "file:../shared/ApiService",
     "@formkit/nuxt": "^0.17.2",
     "@formkit/pro": "^0.112.5",

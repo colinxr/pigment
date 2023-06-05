@@ -1,141 +1,141 @@
 <script setup>
-	import ApiService from '@dayplanner/apiservice'
-	import useFormErrors from '@/composables/useFormErrors'
-	import DynamicForm from '@/components/Forms/DynamicForm.vue'
-	import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'
+import ApiService from '@dayplanner/apiservice'
+import useFormErrors from '@/composables/useFormErrors'
+import DynamicForm from '@/components/Forms/DynamicForm.vue'
+import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'
 
-	import {
-		getTimeZoneOffset,
-		convertToIsoString,
-		getDuration,
-	} from '@/services/dateService'
-	import { form } from '@formkit/inputs'
+import {
+	getTimeZoneOffset,
+	convertToIsoString,
+	getDuration,
+} from '@/services/dateService'
+import { form } from '@formkit/inputs'
 
-	const route = useRoute()
-	const { errorState, handleResponseErrors } = useFormErrors()
+const route = useRoute()
+const { errorState, handleResponseErrors } = useFormErrors()
 
-	const loading = ref(true)
-	const appointment = ref({})
-	const initialValues = {}
+const loading = ref(true)
+const appointment = ref({})
+const initialValues = {}
 
-	const showFormAlert = ref(false)
-	const formStatus = ref('')
-	const alertMessage = ref('')
+const showFormAlert = ref(false)
+const formStatus = ref('')
+const alertMessage = ref('')
 
-	const formSchema = [
-		{
-			$formkit: 'text',
-			label: 'Appointment Name',
-			name: 'name',
-			validation: 'required',
-			value: 'test',
-			validationVisibility: 'dirty',
+const formSchema = [
+	{
+		$formkit: 'text',
+		label: 'Appointment Name',
+		name: 'name',
+		validation: 'required',
+		value: 'test',
+		validationVisibility: 'dirty',
+	},
+	{
+		$formkit: 'textarea',
+		label: 'Description',
+		name: 'description',
+		validation: 'required',
+		validationVisibility: 'dirty',
+	},
+	{
+		$el: 'div',
+		attrs: {
+			class: 'flex gap-4',
 		},
-		{
-			$formkit: 'textarea',
-			label: 'Description',
-			name: 'description',
-			validation: 'required',
-			validationVisibility: 'dirty',
-		},
-		{
-			$el: 'div',
-			attrs: {
-				class: 'flex gap-4',
+		children: [
+			{
+				$formkit: 'datetime-local',
+				label: 'Start Time',
+				name: 'startDateTime',
+				validation: 'required',
+				validationVisibility: 'dirty',
+				'outer-class': 'w-1/2',
 			},
-			children: [
-				{
-					$formkit: 'datetime-local',
-					label: 'Start Time',
-					name: 'startDateTime',
-					validation: 'required',
-					validationVisibility: 'dirty',
-					'outer-class': 'w-1/2',
-				},
-				{
-					$formkit: 'number',
-					label: 'Appointment Duration',
-					name: 'duration',
-					validation: 'required',
-					help: 'How long is the appointment going to take?',
-					validationVisibility: 'dirty',
-					'outer-class': 'w-1/2',
-				},
-			],
-		},
-		{
-			$el: 'div',
-			attrs: {
-				class: 'flex gap-4',
+			{
+				$formkit: 'number',
+				label: 'Appointment Duration',
+				name: 'duration',
+				validation: 'required',
+				help: 'How long is the appointment going to take?',
+				validationVisibility: 'dirty',
+				'outer-class': 'w-1/2',
 			},
-			children: [
-				{
-					$formkit: 'number',
-					label: 'Price',
-					name: 'price',
-					validation: 'required',
-					validationVisibility: 'dirty',
-					'outer-class': 'w-1/2',
-				},
-				{
-					$formkit: 'number',
-					label: 'Deposit',
-					name: 'deposit',
-					'outer-class': 'w-1/2',
-				},
-			],
+		],
+	},
+	{
+		$el: 'div',
+		attrs: {
+			class: 'flex gap-4',
 		},
-	]
+		children: [
+			{
+				$formkit: 'number',
+				label: 'Price',
+				name: 'price',
+				validation: 'required',
+				validationVisibility: 'dirty',
+				'outer-class': 'w-1/2',
+			},
+			{
+				$formkit: 'number',
+				label: 'Deposit',
+				name: 'deposit',
+				'outer-class': 'w-1/2',
+			},
+		],
+	},
+]
 
-	onBeforeMount(async () => {
-		const { data } = await ApiService.appointments.show(route.params.id)
+onBeforeMount(async () => {
+	const { data } = await ApiService.appointments.show(route.params.id)
 
-		appointment.value = data.data
+	appointment.value = data.data
 
-		initialValues.name = data.data.name
-		initialValues.description = data.data.description
-		initialValues.startDateTime = convertToIsoString(data.data.startDateTime)
-		initialValues.duration = getDuration(
-			data.data.startDateTime,
-			data.data.endDateTime
+	initialValues.name = data.data.name
+	initialValues.description = data.data.description
+	initialValues.startDateTime = convertToIsoString(data.data.startDateTime)
+	initialValues.duration = getDuration(
+		data.data.startDateTime,
+		data.data.endDateTime
+	)
+	initialValues.price = data.data.price
+	initialValues.deposit = data.data.deposit
+
+	loading.value = false
+})
+
+const handleSubmit = async formData => {
+	showFormAlert.value = false
+	try {
+		console.log(formData.startDateTime)
+
+		const timezone = getTimeZoneOffset()
+		formData.startDateTime = `${formData.startDateTime}:00${timezone}`
+
+		console.log(formData.startDateTime)
+
+		const res = await ApiService.appointments.update(
+			appointment.value.id,
+			formData
 		)
-		initialValues.price = data.data.price
-		initialValues.deposit = data.data.deposit
 
-		loading.value = false
-	})
+		if (res.status !== 200) handleResponseErrors(res)
 
-	const handleSubmit = async formData => {
-		showFormAlert.value = false
-		try {
-			console.log(formData.startDateTime)
+		showFormAlert.value = true
+		formStatus.value = 'success'
+		alertMessage.value = res.data.message || 'Appointment Updated'
+		return
+	} catch (error) {
+		console.log(error)
 
-			const timezone = getTimeZoneOffset()
-			formData.startDateTime = `${formData.startDateTime}:00${timezone}`
+		if (error.response?.status === 403) return
 
-			console.log(formData.startDateTime)
-
-			const res = await ApiService.appointments.update(
-				appointment.value.id,
-				formData
-			)
-
-			if (res.status !== 200) handleResponseErrors(res)
-
-			showFormAlert.value = true
-			formStatus.value = 'success'
-			alertMessage.value = res.data.message || 'Appointment Updated'
-			return
-		} catch (error) {
-			console.log(error)
-
-			if (error.response?.status === 403) return
-
-			alertMessage.value = 'Something went wrong'
-			formStatus.value = 'error'
-			showFormAlert.value = true
-		}
+		alertMessage.value = 'Something went wrong'
+		formStatus.value = 'error'
+		showFormAlert.value = true
 	}
+}
 </script>
 
 <template>
@@ -149,7 +149,8 @@
 					:schema="formSchema"
 					:data="initialValues"
 					:error-state="errorState"
-					@form-submitted="handleSubmit" />
+					@form-submitted="handleSubmit"
+				/>
 			</template>
 		</Card>
 	</div>
