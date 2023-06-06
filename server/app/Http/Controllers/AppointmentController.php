@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Submission;
 use App\Models\Appointment;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use App\Interfaces\GoogleCalendarInterface;
 use App\Http\Requests\NewAppointmentRequest;
 
@@ -19,34 +20,25 @@ class AppointmentController extends Controller
 
     public function index()
     {
-        $this->gCalService->setToken(request()->user()->access_token);
-
-        $appointments = Auth::user()->appointments;
-        $events = $this->gCalService->listEvents();
+        if (!request()->query('client')) {
+            return response()->json(['data' => Auth::user()->appointments], 200);
+        }
 
         return response()->json([
-            'data' => $appointments,
+            'data' => Auth::user()->appointmentsForClient(request()->query('client_id'))
         ], 200);
     }
 
     public function show(Appointment $appointment)
     {
-        if ($appointment->user_id !== Auth::user()->id) {
-            return response()->json([
-                'error' => "You're not authorized to do that."
-            ], 403);
-        }
+        Gate::allows('view', Auth::user(), $appointment);
 
         return response()->json(['data' => $appointment], 200);
     }
 
     public function submissionIndex(Submission $submission)
     {
-        if ($submission->user_id !== Auth::user()->id) {
-            return response()->json([
-                'error' => "You're not authorized to do that."
-            ], 403);
-        }
+        Gate::allows('viewSubmission', Auth::user(), $submission);
 
         return response()->json([
             'data' => $submission->sortedAppointments(),
@@ -55,11 +47,7 @@ class AppointmentController extends Controller
 
     public function store(NewAppointmentRequest $request, Submission $submission)
     {
-        if ($submission->user->id !== Auth::user()->id) {
-            return response()->json([
-                'error' => "You're not authorized to do that."
-            ], 403);
-        }
+        Gate::allows('viewSubmission', Auth::user(), $submission);
 
         $appt = $submission->appointments()->create(
             array_merge(
@@ -86,6 +74,8 @@ class AppointmentController extends Controller
 
     public function update(NewAppointmentRequest $request, Appointment $appointment)
     {
+        Gate::allows('view', Auth::user(), $appointment);
+
         $appointment->update($request->toArray());
 
         $this->gCalService->setToken(Auth::user()->access_token);
@@ -99,6 +89,8 @@ class AppointmentController extends Controller
 
     public function destroy(Appointment $appointment)
     {
+        Gate::allows('view', Auth::user(), $appointment);
+
         $this->gCalService->setToken(Auth::user()->access_token);
         $this->gCalService->deleteEvent($appointment->event_id);
 

@@ -64,7 +64,6 @@ Route::middleware('auth:sanctum')->group(function () {
                 $gCalService->getCalendarId();
             }
 
-
             return request()->user();
         });
 
@@ -74,11 +73,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/appointments/{appointment}', [AppointmentController::class, 'update']);
         Route::delete('/appointments/{appointment}', [AppointmentController::class, 'destroy']);
         Route::post('/submissions/{submission}/appointments', [AppointmentController::class, 'store']);
-
-        // Client Routes
-        Route::get('/clients', [UserClientController::class, 'index']);
-        Route::get('/clients/{client}', [UserClientController::class, 'show']);
-        Route::put('/clients/{client}', [UserClientController::class, 'update']);
-        Route::delete('/clients/{client}', [UserClientController::class, 'destroy']);
     });
+
+    // Client Routes
+    Route::get('/clients', [UserClientController::class, 'index']);
+    Route::get('/clients/{client}', [UserClientController::class, 'show']);
+    Route::put('/clients/{client}', [UserClientController::class, 'update']);
+    Route::delete('/clients/{client}', [UserClientController::class, 'destroy']);
 });

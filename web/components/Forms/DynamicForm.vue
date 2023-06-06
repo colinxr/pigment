@@ -28,6 +28,10 @@ const props = defineProps({
 		type: Object,
 		default: () => {},
 	},
+	disabled: {
+		type: Boolean,
+		default: false,
+	},
 })
 
 const form = ref({})
@@ -82,7 +86,8 @@ const submitHandler = values => emit('form-submitted', values)
 		:id="formId"
 		v-model="form"
 		type="form"
-		:submit-attrs="{
+		:disabled="props.disabled"
+		:submitAttrs="{
 			inputClass:
 				'p-button p-component form__submit flex align-center justify-center',
 			wrapperClass: 'bg-[#6A64F1]',

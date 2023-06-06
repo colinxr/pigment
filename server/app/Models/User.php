@@ -81,6 +81,13 @@ class User extends Authenticatable
         return $this->hasMany(Appointment::class);
     }
 
+    public function appointmentsForClient(int $client_id)
+    {
+        return $this->appointments()->whereHas('client', function ($query) use ($client_id) {
+            $query->where('id', $client_id);
+        })->get();
+    }
+
     ///
     // Methods
     ///

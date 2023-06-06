@@ -69,10 +69,10 @@ const handleSubmit = async formData => {
 				/>
 
 				<DynamicForm
-					form-id="client-edit"
+					formId="client-edit"
 					:schema="schema"
 					:data="initialValues"
-					:error-state="errorState"
+					:errorState="errorState"
 					@form-submitted="handleSubmit"
 				/>
 			</template>

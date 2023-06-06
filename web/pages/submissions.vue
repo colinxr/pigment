@@ -1,34 +1,34 @@
 <script setup>
-  import useDashboardStore from "@/stores/dashboard"
-  import SubmissionsList from "@/components/Dashboard/Submission/SubmissionsList.vue"
-  import ConversationContainer from "@/components/Dashboard/Conversation/ConversationContainer.vue"
+import useDashboardStore from '@/stores/dashboard'
+import SubmissionsList from '@/components/Dashboard/Submission/SubmissionsList.vue'
+import ConversationContainer from '@/components/Dashboard/Conversation/ConversationContainer.vue'
 
-  const route = useRoute()
+const route = useRoute()
 
-  definePageMeta({
-    layout: "submissions",
-    middleware: "user-is-authenticated",
-    keepalive: true,
-  })
+definePageMeta({
+	layout: 'submissions',
+	middleware: 'user-is-authenticated',
+	keepalive: true,
+})
 
-  const dashboardStore = useDashboardStore()
-  const { getSubmissions, findSubmissionById, setActiveSubmission } =
-    dashboardStore
+const dashboardStore = useDashboardStore()
+const { getSubmissions, findSubmissionById, setActiveSubmission } =
+	dashboardStore
 
-  onBeforeMount(async () => {
-    await getSubmissions()
-    if (route.query.as) {
-      const submission = findSubmissionById(Number(route.query.as))
-      setActiveSubmission(submission)
-    }
-  })
+onBeforeMount(async () => {
+	await getSubmissions()
+	if (route.query.as) {
+		const submission = findSubmissionById(Number(route.query.as))
+		setActiveSubmission(submission)
+	}
+})
 
-  onMounted(() => {})
+onMounted(() => {})
 </script>
 
 <template>
-  <div class="flex grow">
-    <SubmissionsList class="w-1/4" />
-    <ConversationContainer class="grow h-screen w-2/3" />
-  </div>
+	<div class="flex grow">
+		<SubmissionsList class="w-1/4" />
+		<ConversationContainer class="grow h-screen w-2/3" />
+	</div>
 </template>

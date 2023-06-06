@@ -36,7 +36,7 @@ const handleDelete = ($event, clientID) => {
 
 /* eslint-disable-next-line */
 const handleEdit = ($event, clientID) => {
-	navigateTo(`/appointments/${clientID}/edit`)
+	navigateTo(`/clients/${clientID}/edit`)
 }
 
 definePageMeta({ keepalive: true })

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 
@@ -18,19 +17,15 @@ class UserClientController extends Controller
 
     public function show(Client $client)
     {
-        Gate::authorize('clientBelongsToUser', $client);
+        Gate::allows('view', Auth::user(), $client);
 
-
-        return response()->json([
-            'data' => $client,
-        ], 200);
+        return response()->json(['data' => $client,], 200);
     }
 
     public function update(Client $client)
     {
-        Gate::authorize('clientBelongsToUser', $client);
-
         try {
+            Gate::allows('view', Auth::user(), $client);
             $client->update(request()->only(['email', 'first_name', 'last_name']));
 
             return response()->json([
@@ -48,7 +43,7 @@ class UserClientController extends Controller
 
     public function destroy(Client $client)
     {
-        Gate::authorize('clientBelongsToUser', $client);
+        Gate::allows('view', Auth::user(), $client);
 
         try {
             $client->delete();
