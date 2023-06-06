@@ -8,9 +8,22 @@ export default class ClientRepository implements ClientRepositoryI {
     this.apiClient = apiClient
   }
 
-  async update(formData: ClientFormData): Promise<AxiosResponse> {
-    const res = await this.apiClient.put(`/clients/${formData.email}`, formData)
+  async index(): Promise<AxiosResponse> {
+    const res = await this.apiClient.get(`/clients`)
 
     return res
   }
+
+  async show(clientId: string|number): Promise<AxiosResponse> {
+    const res = await this.apiClient.get(`/clients/${clientId}`)
+
+    return res
+  }
+
+  async update(clientId: string|number, formData: ClientFormData): Promise<AxiosResponse> {
+    const res = await this.apiClient.put(`/clients/${clientId}`, formData)
+
+    return res
+  }
+
 }

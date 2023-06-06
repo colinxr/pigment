@@ -29,9 +29,9 @@ export interface AppointmentRepositoryI {
   apiClient: AxiosInstance,
   index(): Promise<AxiosResponse>,
   show(appointmentId: string): Promise<AxiosResponse>,
-  store(submissionId: string, formData: AppointmentFormData): Promise<AxiosResponse>,
-  update(submissionId: string, formData: AppointmentFormData): Promise<AxiosResponse>,
-  delete(appointmentId: string): Promise<AxiosResponse>,
+  store(submissionId: string|number, formData: AppointmentFormData): Promise<AxiosResponse>,
+  update(submissionId: string|number, formData: AppointmentFormData): Promise<AxiosResponse>,
+  delete(appointmentId: string|number): Promise<AxiosResponse>,
   getForSubmission(submissionId: string): Promise<AxiosResponse>,
 }
 
@@ -52,7 +52,9 @@ export interface ClientFormData {
 
 export interface ClientRepositoryI {
   apiClient: AxiosInstance,
-  update(clientFormData: ClientFormData): Promise<AxiosResponse>,
+  index(): Promise<AxiosResponse>,
+  show(clientId: string|number): Promise<AxiosResponse>,
+  update(clientId: string|number, clientFormData: ClientFormData): Promise<AxiosResponse>,
 }
 
 export interface ApiServiceInterface {

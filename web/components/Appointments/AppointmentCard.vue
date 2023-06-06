@@ -1,7 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import useModalStore from '@/stores/modal'
-import { getReadableDate, dateIsUpcoming } from '@/services/dateService'
+import { getReadableDate, dateIsUpcoming } from '@/composables/useDateService'
 import AppointmentDeleteModal from '@/components/Modal/AppointmentDeleteModal.vue'
 
 const modalStore = useModalStore()

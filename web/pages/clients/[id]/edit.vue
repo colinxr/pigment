@@ -1,18 +1,12 @@
 <script setup>
 import ApiService from '@dayplanner/apiservice'
 import useFormErrors from '@/composables/useFormErrors'
+import useClientSchema from '@/composables/useClientSchema'
+
 import DynamicForm from '@/components/Forms/DynamicForm.vue'
 import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'
 
-import {
-	getTimeZoneOffset,
-	convertToIsoString,
-	getDuration,
-} from '@/services/dateService'
-
-import useAppointmentSchema from '@/composables/useAppointmentSchema'
-
-const { schema } = useAppointmentSchema()
+const { schema } = useClientSchema()
 
 const route = useRoute()
 const {
@@ -24,23 +18,17 @@ const {
 } = useFormErrors()
 
 const isLoading = ref(true)
-const appointment = ref({})
+const client = ref({})
 const initialValues = {}
 
 onBeforeMount(async () => {
-	const { data } = await ApiService.appointments.show(route.params.id)
+	const { data } = await ApiService.clients.show(route.params.id)
 
-	appointment.value = data.data
+	client.value = data.data
 
-	initialValues.name = data.data.name
-	initialValues.description = data.data.description
-	initialValues.startDateTime = convertToIsoString(data.data.startDateTime)
-	initialValues.duration = getDuration(
-		data.data.startDateTime,
-		data.data.endDateTime
-	)
-	initialValues.price = data.data.price
-	initialValues.deposit = data.data.deposit
+	initialValues.first_name = data.data.first_name
+	initialValues.last_name = data.data.last_name
+	initialValues.email = data.data.email
 
 	isLoading.value = false
 })
@@ -48,23 +36,13 @@ onBeforeMount(async () => {
 const handleSubmit = async formData => {
 	showFormAlert.value = false
 	try {
-		console.log(formData.startDateTime)
-
-		const timezone = getTimeZoneOffset()
-		formData.startDateTime = `${formData.startDateTime}:00${timezone}`
-
-		console.log(formData.startDateTime)
-
-		const res = await ApiService.appointments.update(
-			appointment.value.id,
-			formData
-		)
+		const res = await ApiService.clients.update(client.value.id, formData)
 
 		if (res.status !== 200) handleResponseErrors(res)
 
 		showFormAlert.value = true
 		formStatus.value = 'success'
-		alertMessage.value = res.data.message || 'Appointment Updated'
+		alertMessage.value = res.data.message || 'Client Updated'
 		return
 	} catch (error) {
 		console.log(error)
@@ -80,10 +58,10 @@ const handleSubmit = async formData => {
 
 <template>
 	<div class="layout-main p-4 w-full">
-		<h2 class="text-xl font-semibold mb-5">Edit Appointment</h2>
+		<h2 class="text-xl font-semibold mb-5">Edit Client</h2>
 
 		<Card class="w-full">
-			<template v-if="!isLoading && appointment" #content>
+			<template v-if="!isLoading && client" #content>
 				<AlertWrapper
 					v-if="showFormAlert"
 					:status="formStatus"
@@ -91,7 +69,7 @@ const handleSubmit = async formData => {
 				/>
 
 				<DynamicForm
-					form-id="appointment-edit"
+					form-id="client-edit"
 					:schema="schema"
 					:data="initialValues"
 					:error-state="errorState"

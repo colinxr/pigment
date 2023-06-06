@@ -8,12 +8,36 @@ use Illuminate\Support\Facades\Auth;
 
 class UserClientController extends Controller
 {
-    public function update(Request $request, string $email)
+    public function index()
+    {
+        return response()->json([
+            'data' => Auth::user()->clients,
+        ], 200);
+    }
+
+    public function show(Client $client)
+    {
+        if ($client->user_id !== Auth::user()->id) {
+            return response()->json([
+                'error' => 'You don\'t have permission to view this client.'
+            ], 400);
+        }
+
+        return response()->json([
+            'data' => $client,
+        ], 200);
+    }
+
+    public function update(Client $client)
     {
         try {
-            $client = Client::where('email', $email)->where('user_id', Auth::user()->id)->first();
+            if ($client->user_id !== Auth::user()->id) {
+                return response()->json([
+                    'error' => 'You don\'t have permission to view this client.'
+                ], 400);
+            }
 
-            $client->update($request->only(['email', 'first_name', 'last_name']));
+            $client->update(request()->only(['email', 'first_name', 'last_name']));
 
             return response()->json([
                 'status' => 'success',

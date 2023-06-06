@@ -52,7 +52,6 @@ Route::middleware('auth:sanctum')->group(function () {
     // refactor this action 
     Route::get('/submissions/{submission}/appointments', [AppointmentController::class, 'submissionIndex']);
 
-    Route::put('/clients/{email}', [UserClientController::class, 'update']);
 
     Route::get('/appointments', [AppointmentController::class, 'index']);
 
@@ -75,5 +74,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/appointments/{appointment}', [AppointmentController::class, 'update']);
         Route::delete('/appointments/{appointment}', [AppointmentController::class, 'destroy']);
         Route::post('/submissions/{submission}/appointments', [AppointmentController::class, 'store']);
+
+        // Client Routes
+        Route::get('/clients', [UserClientController::class, 'index']);
+        Route::get('/clients/{client}', [UserClientController::class, 'show']);
+        Route::put('/clients/{client}', [UserClientController::class, 'update']);
     });
 });
