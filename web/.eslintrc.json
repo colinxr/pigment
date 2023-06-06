@@ -118,13 +118,5 @@
       }
     ],
     "vue/script-indent": ["error", "tab", { "baseIndent": 1 }]
-  },
-  "overrides": [
-    {
-        "files": ["*.vue"],
-        "rules": {
-            "indent": "off"
-        }
-    }
-],
+  }
 }

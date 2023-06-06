@@ -37,4 +37,10 @@ export default class AppointmentRepository implements AppointmentRepositoryI {
 
     return res
   }
+
+  async delete(appointmentId: string): Promise<AxiosResponse> {
+    const res = await this.apiClient.delete(`/appointments/${appointmentId}`)
+
+    return res
+  }
 }

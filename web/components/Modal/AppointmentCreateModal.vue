@@ -7,8 +7,7 @@ import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'
 
 import { getTimeZoneOffset } from '@/services/dateService'
 
-import useAppointmentSchema from '@/composables/useAppointmentSchema'
-
+const { triggerRefresh } = useWatchForRefresh()
 const { schema } = useAppointmentSchema()
 
 const {
@@ -57,6 +56,7 @@ const handleSubmit = async formData => {
 		showFormAlert.value = true
 		formStatus.value = 'success'
 		alertMessage.value = res.data.message || 'Appointment created'
+		triggerRefresh()
 		return
 	} catch (error) {
 		console.log(error)

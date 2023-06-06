@@ -50,8 +50,6 @@ const form = ref({})
 
 const setInitialFormValues = (schema, data) => {
 	const newForm = {}
-
-	console.log(data)
 	schema
 		.map(buildSchemaFields)
 		.filter(v => v !== null || v !== 'slots')
@@ -59,8 +57,6 @@ const setInitialFormValues = (schema, data) => {
 		.forEach(field => {
 			newForm[field] = data[field]
 		})
-
-	console.log(newForm)
 
 	return newForm
 }

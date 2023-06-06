@@ -4,13 +4,23 @@ import AppointmentCard from '@/components/Appointments/AppointmentCard.vue'
 import LoadingCard from '@/components/Appointments/LoadingCard.vue'
 
 const appointments = ref([])
-const loading = ref(true)
+const isLoading = ref(true)
 
-onBeforeMount(async () => {
+const { shouldRefreshData } = useWatchForRefresh()
+
+const fetchData = async () => {
 	const { data } = await ApiService.appointments.index()
 
 	appointments.value = data.data
-	loading.value = false
+	isLoading.value = false
+}
+
+onBeforeMount(async () => await fetchData())
+
+watch(shouldRefreshData, async () => {
+	loading.value = true
+
+	await fetchData()
 })
 
 definePageMeta({

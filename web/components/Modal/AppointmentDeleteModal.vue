@@ -1,58 +1,76 @@
 <script setup>
-  import useModalStore from "@/stores/modal"
-  import ApiService from "@dayplanner/apiservice"
+import useModalStore from '@/stores/modal'
+import ApiService from '@dayplanner/apiservice'
 
-  const store = useModalStore()
+import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'
 
-  const props = defineProps({
-    appointment: {
-      type: Object,
-      required: true,
-    },
-  })
+const { triggerRefresh } = useWatchForRefresh()
 
-  const handleConfirm = async () => {
-    try {
-      const res = await ApiService.appointments.delete(props.appointment.id)
+const { showFormAlert, formStatus, alertMessage, handleResponseErrors } =
+	useFormErrors()
 
-      if (res.status !== 200) handleResponseErrors(res)
+const store = useModalStore()
 
-      showFormAlert.value = true
-      formStatus.value = "success"
-      alertMessage.value = res.data.message || "Appointment Deleted"
-      return
-    } catch (error) {
-      console.log(error)
+const props = defineProps({
+	appointment: {
+		type: Object,
+		required: true,
+	},
+})
 
-      if (error.response?.status === 403) return
+const handleConfirm = async () => {
+	try {
+		const res = await ApiService.appointments.delete(props.appointment.id)
 
-      alertMessage.value = "Something went wrong"
-      formStatus.value = "error"
-      showFormAlert.value = true
-    }
-  }
+		if (res.status !== 200) handleResponseErrors(res)
 
-  const handleCancel = () => {
-    store.closeModal()
-  }
+		showFormAlert.value = true
+		formStatus.value = 'success'
+		alertMessage.value = res.data.message || 'Appointment Deleted'
+
+		// emit response to trigger refetch appointments list.
+		triggerRefresh()
+
+		setTimeout(() => handleCancel(), 1000)
+		return
+	} catch (error) {
+		console.log(error)
+
+		if (error.response?.status === 403) return
+
+		alertMessage.value = 'Something went wrong'
+		formStatus.value = 'error'
+		showFormAlert.value = true
+	}
+}
+
+const handleCancel = () => store.closeModal()
 </script>
 
 <template>
-  <Card class="mx-auto max-w-[400px] rounded-xl">
-    <template #content>
-      <p>Are you sure you want to delete this appointment?</p>
-      <p>The client will receive an email notifying them of the change.</p>
+	<Card class="mx-auto max-w-[400px] rounded-xl">
+		<template #content>
+			<p>Are you sure you want to delete this appointment?</p>
+			<!-- <p>The client will receive an email notifying them of the change.</p> -->
 
-      <div class="mt-4 flex justify-end">
-        <Button
-          class="mr-3"
-          severity="secondary"
-          label="Cancel"
-          @click="handleCancel"
-        />
+			<div class="mt-4 flex justify-end">
+				<template v-if="formStatus !== 'success'">
+					<Button
+						class="mr-3"
+						severity="secondary"
+						label="Cancel"
+						@click="handleCancel"
+					/>
 
-        <Button @click="handleConfirm" label="Confirm" />
-      </div>
-    </template>
-  </Card>
+					<Button @click="handleConfirm" label="Confirm" />
+				</template>
+
+				<AlertWrapper
+					v-if="showFormAlert"
+					:status="formStatus"
+					:msg="alertMessage"
+				/>
+			</div>
+		</template>
+	</Card>
 </template>

@@ -23,7 +23,7 @@ const {
 	handleResponseErrors,
 } = useFormErrors()
 
-const loading = ref(true)
+const isLoading = ref(true)
 const appointment = ref({})
 const initialValues = {}
 
@@ -42,7 +42,7 @@ onBeforeMount(async () => {
 	initialValues.price = data.data.price
 	initialValues.deposit = data.data.deposit
 
-	loading.value = false
+	isLoading.value = false
 })
 
 const handleSubmit = async formData => {
