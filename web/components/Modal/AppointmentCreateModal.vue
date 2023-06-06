@@ -1,14 +1,23 @@
 <script setup>
+import { inject } from 'vue'
 import useAuthStore from '@/stores/auth'
+import useModalStore from '@/stores/modal'
 import ApiService from '@dayplanner/apiservice'
 import useFormErrors from '@/composables/useFormErrors'
+import { getTimeZoneOffset } from '@/services/dateService'
+import useAppointmentSchema from '@/composables/useAppointmentSchema'
+import useWatchForRefresh from '@/composables/useWatchForRefresh'
+
 import DynamicForm from '@/components/Forms/DynamicForm.vue'
 import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'
 
-import { getTimeZoneOffset } from '@/services/dateService'
+const route = useRoute()
+const authStore = useAuthStore()
+const modalStore = useModalStore()
+
+const { schema } = useAppointmentSchema()
 
 const { triggerRefresh } = useWatchForRefresh()
-const { schema } = useAppointmentSchema()
 
 const {
 	errorState,
@@ -17,9 +26,6 @@ const {
 	alertMessage,
 	handleResponseErrors,
 } = useFormErrors()
-
-const route = useRoute()
-const authStore = useAuthStore()
 
 const props = defineProps({
 	submission: {
@@ -56,7 +62,9 @@ const handleSubmit = async formData => {
 		showFormAlert.value = true
 		formStatus.value = 'success'
 		alertMessage.value = res.data.message || 'Appointment created'
+
 		triggerRefresh()
+
 		return
 	} catch (error) {
 		console.log(error)
@@ -77,7 +85,7 @@ const handleSubmit = async formData => {
 		<header>
 			<div class="flex justify-between mb-2">
 				<h1>Create Appointment</h1>
-				<span class="cursor-pointer" @click="store.closeModal">X</span>
+				<span class="cursor-pointer" @click="modalStore.closeModal">X</span>
 			</div>
 
 			<AlertWrapper

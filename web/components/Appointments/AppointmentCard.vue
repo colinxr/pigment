@@ -24,8 +24,6 @@ const dateTime = computed(() =>
 )
 
 const status = computed(() => {
-	console.log(props.appointment.startDateTime)
-
 	return dateIsUpcoming(props.appointment.startDateTime) ? 'active' : 'past'
 })
 

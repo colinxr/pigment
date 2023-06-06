@@ -18,7 +18,7 @@ const fetchData = async () => {
 onBeforeMount(async () => await fetchData())
 
 watch(shouldRefreshData, async () => {
-	loading.value = true
+	isLoading.value = true
 
 	await fetchData()
 })
@@ -33,7 +33,7 @@ definePageMeta({
 		<h2 class="text-xl font-semibold mb-5">Appointments</h2>
 
 		<Card class="w-full">
-			<template #content v-if="!loading && appointments.length">
+			<template #content v-if="!isLoading && appointments.length">
 				<AppointmentCard
 					v-for="(appt, i) in appointments"
 					:key="i"

@@ -1,15 +1,17 @@
 <script setup>
+import { inject } from 'vue'
 import useModalStore from '@/stores/modal'
 import ApiService from '@dayplanner/apiservice'
+import useWatchForRefresh from '@/composables/useWatchForRefresh'
 
 import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'
-
-const { triggerRefresh } = useWatchForRefresh()
 
 const { showFormAlert, formStatus, alertMessage, handleResponseErrors } =
 	useFormErrors()
 
 const store = useModalStore()
+
+const { triggerRefresh } = useWatchForRefresh()
 
 const props = defineProps({
 	appointment: {

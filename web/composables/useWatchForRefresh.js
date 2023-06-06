@@ -1,8 +1,6 @@
-import { reactive } from 'vue'
+const shouldRefreshData = ref(false)
 
 export default () => {
-	const shouldRefreshData = ref(false)
-
 	const triggerRefresh = () => {
 		shouldRefreshData.value = true
 	}

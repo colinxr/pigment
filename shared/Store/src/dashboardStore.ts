@@ -20,15 +20,7 @@ export default defineStore('dashboardStore', () => {
     activeSubmission.value = submission
   }
 
-  const findSubmissionById = (activeSubId: number) => {
-    const sub = submissions.value.find(({ id }) => {
-      console.log(id)
-      console.log(activeSubId)
-
-      return id === activeSubId
-    })
-    return sub
-  }
+  const findSubmissionById = (activeSubId: number) => submissions.value.find(({ id }) => id === activeSubId)
 
   const getSubmissions = async () => {
     if (!nextPage.value) return

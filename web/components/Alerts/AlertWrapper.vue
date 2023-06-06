@@ -9,6 +9,7 @@
 <script setup>
 import SuccessAlert from '@/components/Alerts/SuccessAlert.vue'
 import ErrorAlert from '@/components/Alerts/ErrorAlert.vue'
+import WarningAlert from './WarningAlert.vue'
 
 const props = defineProps({
 	status: {

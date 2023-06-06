@@ -83,7 +83,7 @@ const handleSubmit = async formData => {
 		<h2 class="text-xl font-semibold mb-5">Edit Appointment</h2>
 
 		<Card class="w-full">
-			<template v-if="!loading && appointment" #content>
+			<template v-if="!isLoading && appointment" #content>
 				<AlertWrapper
 					v-if="showFormAlert"
 					:status="formStatus"
