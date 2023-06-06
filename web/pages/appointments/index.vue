@@ -100,13 +100,10 @@ definePageMeta({
 					</Column>
 					<Column field="price" header="Price" />
 					<Column field="deposit" header="Deposit" />
-					<Column field="created_at" header="Edit/Delete">
+					<Column field="edit_edit" header="Edit/Delete">
 						<template #body="slotProps">
-							<div class="controls">
-								<button
-									class="mr-2"
-									@click.prevent="handleEdit($event, slotProps.data.id)"
-								>
+							<div class="controls flex justify-around">
+								<button @click.prevent="handleEdit($event, slotProps.data.id)">
 									<i class="pi pi-pencil" />
 								</button>
 

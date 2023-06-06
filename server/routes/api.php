@@ -79,5 +79,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/clients', [UserClientController::class, 'index']);
         Route::get('/clients/{client}', [UserClientController::class, 'show']);
         Route::put('/clients/{client}', [UserClientController::class, 'update']);
+        Route::delete('/clients/{client}', [UserClientController::class, 'destroy']);
     });
 });

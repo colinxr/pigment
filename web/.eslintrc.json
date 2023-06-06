@@ -133,7 +133,8 @@
       "ignoreWhenEmpty": true,
       "ignores": ["pre", "textarea", "h2", "h1", "h3", "h4"]
     }],
-    "vue/attribute-hyphenation": ["error", "never"]
+    "vue/attribute-hyphenation": ["error", "never"],
+    "space-before-function-paren": ["error", "always"]
     // "vue/script-indent": ["error", "tab", { "baseIndent": 1 }]
   }
 }

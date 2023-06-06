@@ -24,6 +24,21 @@ watch(shouldRefreshData, async () => {
 	await fetchData()
 })
 
+/* eslint-disable-next-line */
+const handleDelete = ($event, clientID) => {
+	const client = clients.value.find(({ id }) => id === clientID)
+
+	modalStore.openModal({
+		component: markRaw(AppointmentDeleteModal),
+		props: { client },
+	})
+}
+
+/* eslint-disable-next-line */
+const handleEdit = ($event, clientID) => {
+	navigateTo(`/appointments/${clientID}/edit`)
+}
+
 definePageMeta({ keepalive: true })
 </script>
 
@@ -67,6 +82,19 @@ definePageMeta({ keepalive: true })
 					<Column field="created_at" header="Created At">
 						<template #body="slotProps">
 							{{ getReadableDate(slotProps.data.created_at) }}
+						</template>
+					</Column>
+					<Column field="edit_edit" header="Edit/Delete">
+						<template #body="slotProps">
+							<div class="controls flex justify-around">
+								<button @click.prevent="handleEdit($event, slotProps.data.id)">
+									<i class="pi pi-pencil" />
+								</button>
+
+								<button @click.prevent="handleDelete">
+									<i class="pi pi-times" />
+								</button>
+							</div>
 						</template>
 					</Column>
 				</DataTable>
