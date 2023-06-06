@@ -127,7 +127,13 @@
       "closeBracket": 0,
       "alignAttributesVertically": true,
       "ignores": []
-    }]
+    }],
+    "vue/singleline-html-element-content-newline": ["error", {
+      "ignoreWhenNoAttributes": true,
+      "ignoreWhenEmpty": true,
+      "ignores": ["pre", "textarea", "h2", "h1", "h3", "h4"]
+    }],
+    "vue/attribute-hyphenation": ["error", "never"]
     // "vue/script-indent": ["error", "tab", { "baseIndent": 1 }]
   }
 }

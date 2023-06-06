@@ -32,12 +32,15 @@ definePageMeta({ keepalive: true })
 		<h2 class="text-xl font-semibold mb-5">Clients</h2>
 
 		<Card class="w-full">
-			<template #content v-if="!isLoading && clients.length">
+			<template v-if="!isLoading && clients.length" #content>
 				<DataTable
-					:value="clients"
 					v-model:selection="clients"
-					dataKey="id"
+					:value="clients"
+					data-key="id"
+					stripedRows
 					responsiveLayout="scroll"
+					paginator
+					:rows="50"
 				>
 					<!-- <Column selectionMode="multiple" headerStyle="width: 3em"></Column> -->
 					<Column field="id" header="ID">
@@ -66,19 +69,10 @@ definePageMeta({ keepalive: true })
 							{{ getReadableDate(slotProps.data.created_at) }}
 						</template>
 					</Column>
-					<!-- <Column field="category" header="Category"></Column> -->
-					<!-- <Column field="quantity" header="Quantity"></Column> -->
 				</DataTable>
-				<!-- <AppointmentCard
-					v-for="(appt, i) in appointments"
-					:key="i"
-					:appointment="appt"
-					size="large"
-					class="mb-5"
-				/> -->
 			</template>
 
-			<template #content v-else>
+			<template v-else #content>
 				<div class="w-full md:max-w-1/2">
 					<LoadingCard v-for="i in 3" :key="i" />
 				</div>
