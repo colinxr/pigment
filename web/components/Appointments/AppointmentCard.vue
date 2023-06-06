@@ -23,9 +23,9 @@ const dateTime = computed(() =>
 	getReadableDate(props.appointment.startDateTime)
 )
 
-const status = computed(() => {
-	return dateIsUpcoming(props.appointment.startDateTime) ? 'active' : 'past'
-})
+const status = computed(() =>
+	dateIsUpcoming(props.appointment.startDateTime) ? 'active' : 'past'
+)
 
 const handleDelete = () => {
 	modalStore.openModal({
@@ -72,12 +72,12 @@ const handleMouseHover = () => {
 			</div>
 
 			<div v-if="showControls" class="controls absolute right-0 top-0 p-1">
-				<button @click.prevent="handleEdit" class="mr-2">
-					<i class="pi pi-pencil"></i>
+				<button class="mr-2" @click.prevent="handleEdit">
+					<i class="pi pi-pencil" />
 				</button>
 
 				<button @click.prevent="handleDelete">
-					<i class="pi pi-times"></i>
+					<i class="pi pi-times" />
 				</button>
 			</div>
 		</div>

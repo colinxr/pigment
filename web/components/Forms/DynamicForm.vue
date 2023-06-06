@@ -1,19 +1,3 @@
-<template>
-	<FormKit
-		:id="formId"
-		v-model="form"
-		type="form"
-		@submit="submitHandler"
-		:submitAttrs="{
-			inputClass:
-				'p-button p-component form__submit flex align-center justify-center',
-			wrapperClass: 'bg-[#6A64F1]',
-		}"
-	>
-		<FormKitSchema :schema="schema" :data="form" />
-	</FormKit>
-</template>
-
 <script setup>
 import { ref } from 'vue'
 import { FormKitSchema, setErrors } from '@formkit/vue'
@@ -92,6 +76,22 @@ watch(
 
 const submitHandler = values => emit('form-submitted', values)
 </script>
+
+<template>
+	<FormKit
+		:id="formId"
+		v-model="form"
+		type="form"
+		:submit-attrs="{
+			inputClass:
+				'p-button p-component form__submit flex align-center justify-center',
+			wrapperClass: 'bg-[#6A64F1]',
+		}"
+		@submit="submitHandler"
+	>
+		<FormKitSchema :schema="schema" :data="form" />
+	</FormKit>
+</template>
 
 <style>
 .form__submit {
