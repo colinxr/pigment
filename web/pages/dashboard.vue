@@ -1,12 +1,9 @@
 <script setup>
 definePageMeta({
-  middleware: 'user-is-authenticated',
-  layout: 'dashboard'
+	middleware: 'user-is-authenticated',
 })
 </script>
 
 <template>
-  <div>
-    hello
-  </div>
+	<div>hello</div>
 </template>

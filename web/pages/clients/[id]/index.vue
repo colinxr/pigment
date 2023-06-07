@@ -70,13 +70,6 @@ onMounted(async () => {
 						paginator
 						:rows="50"
 					>
-						<Column field="id" header="ID" sortable>
-							<template #body="slotProps">
-								<NuxtLink :to="`/appointments/${slotProps.data.id}`">
-									{{ slotProps.data.id }}
-								</NuxtLink>
-							</template>
-						</Column>
 						<Column field="startDateTime" header="Date" sortable>
 							<template #body="slotProps">
 								<NuxtLink :to="`/appointments/${slotProps.data.id}`">

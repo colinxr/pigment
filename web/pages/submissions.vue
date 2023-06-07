@@ -6,7 +6,6 @@ import ConversationContainer from '@/components/Dashboard/Conversation/Conversat
 const route = useRoute()
 
 definePageMeta({
-	layout: 'submissions',
 	middleware: 'user-is-authenticated',
 	keepalive: true,
 })

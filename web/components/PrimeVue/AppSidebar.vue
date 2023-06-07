@@ -214,7 +214,7 @@ const menu = ref([
 <template>
 	<div class="h-screen sticky top-0">
 		<div
-			class="flex flex-col items-center py-4 h-full flex-shrink-0 w-[180px] bg-indigo-800"
+			class="flex flex-col items-center py-4 h-full flex-shrink-0 w-[240px] bg-indigo-800"
 		>
 			<ul class="layout-menu">
 				<template v-for="(item, i) in menu" :key="item">
