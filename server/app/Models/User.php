@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Carbon\Carbon;
+use App\Models\Calendar;
 use App\Models\Submission;
 use App\Models\Appointment;
 use Laravel\Sanctum\HasApiTokens;
@@ -86,6 +87,11 @@ class User extends Authenticatable
         return $this->appointments()->whereHas('client', function ($query) use ($client_id) {
             $query->where('id', $client_id);
         })->get();
+    }
+
+    public function calendar()
+    {
+        return $this->hasOne(Calendar::class);
     }
 
     ///

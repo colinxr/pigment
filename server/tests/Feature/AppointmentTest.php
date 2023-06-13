@@ -2,12 +2,13 @@
 
 namespace Tests\Feature;
 
-use App\Interfaces\GoogleCalendarInterface;
 use Tests\TestCase;
 use App\Models\User;
 use App\Models\Client;
 use App\Models\Submission;
 use App\Models\Appointment;
+use Illuminate\Support\Carbon;
+use App\Interfaces\GoogleCalendarInterface;
 use App\Services\FakeGoogleCalendarService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -49,7 +50,6 @@ class AppointmentTest extends TestCase
             'description' => fake()->text(),
         ];
 
-        dump($rfc_time);
         $this->actingAs($this->user);
 
         $response = $this->post("/api/submissions/{$submission->id}/appointments", $data);

@@ -7,6 +7,7 @@ use App\Services\GoogleCalendarService;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OAuthController;
+use App\Http\Controllers\CalendarSchedule;
 use App\Interfaces\GoogleCalendarInterface;
 use App\Http\Controllers\UserClientController;
 use App\Http\Controllers\AppointmentController;
@@ -80,4 +81,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/clients/{client}', [UserClientController::class, 'show']);
     Route::put('/clients/{client}', [UserClientController::class, 'update']);
     Route::delete('/clients/{client}', [UserClientController::class, 'destroy']);
+
+    Route::post('/calendars/schedules', [CalendarSchedule::class, 'store']);
 });

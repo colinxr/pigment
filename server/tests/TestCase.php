@@ -52,4 +52,17 @@ abstract class TestCase extends BaseTestCase
     {
         return $this->getTestFilesDirectory('test.png');
     }
+
+    function buildHiATimestamp(string $time)
+    {
+        return date('h:i a', strtotime($time));
+    }
+
+    function buildShopHours(string $open, string $close): array
+    {
+        return [
+            'open' => $this->buildHiATimestamp($open),
+            'close' => $this->buildHiATimestamp($close)
+        ];
+    }
 }

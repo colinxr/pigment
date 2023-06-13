@@ -83,4 +83,30 @@ class UserTest extends TestCase
 
         $this->assertNotNull($user->access_token);
     }
+
+    public function test_user_can_store_their_schedule(): void
+    {
+        $user = User::factory()->withCalendar()->create();
+
+        $this->actingAs($user);
+
+        $schedule = [
+            'monday' => $this->buildShopHours('9:00 am', '5:00 pm'),
+            'tuesday' => $this->buildShopHours('9:00 am', '5:00 pm'),
+            'wednesday' => $this->buildShopHours('9:00 am', '5:00 pm'),
+            'thursday' => $this->buildShopHours('10:00 am', '7:00 pm'),
+            'friday' => $this->buildShopHours('10:00 am', '5:00 pm')
+        ];
+
+        $response = $this->post('api/calendars/schedules', [
+            'schedule' => $schedule,
+        ]);
+
+        $response->assertStatus(201);
+
+        $this->assertDatabaseHas('calendars', [
+            'user_id' => $user->id,
+            'schedule' => json_encode($schedule),
+        ]);
+    }
 }
