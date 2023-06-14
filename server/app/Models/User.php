@@ -167,7 +167,6 @@ class User extends Authenticatable
             $date = $firstDay->format('Y-m-d');
 
             if (!$grouped_appts->has($date)) {
-                dump('got here???');
                 $openTime = $this->calendar->schedule[$dayName]['open'];
                 $dateTime = $firstDay->setTimeFromTimeString($openTime);
 
@@ -188,10 +187,8 @@ class User extends Authenticatable
             //than the duration of the new appointment
             // then today simply will not work. 
             $scheduledHours = $this->calendar->hoursFor($dayName);
-            dump($scheduledHours - $totalTime);
 
             if (($scheduledHours - $totalTime) < $duration) {
-                dump('schedules hours here');
                 $firstDay->addDay();
                 continue;
             }
@@ -210,36 +207,28 @@ class User extends Authenticatable
                 continue;
             }
 
-            // if there's more than one appointment on the day
-            $appointments->each(function ($appt, $index)
-            use ($appointments, $duration, $dayName, $firstDay) {
-                $firstTime = $appt->startDateTime;
+            foreach ($appointments as $key => $appt) {
+                $firstTime = $appt->endDateTime;
                 $secondTime = null;
 
                 // if there's no next appointment this day,
                 // let's set the $endTime to be equal to they end of the work day. 
-                if ($index === $appointments->count() - 1) {
-                    $closing = $this->calendar->schedule[$dayName]['open'];
+                if ($key === $appointments->count() - 1) {
+                    $closing = $this->calendar->schedule[$dayName]['close'];
                     $secondTime = $firstDay->setTimeFromTimeString($closing);
                 } else {
-                    $secondTime = $appointments[$index + 1]->startDateTime;
+                    $secondTime = $appointments[$key + 1]->startDateTime;
                 }
 
                 $gap = $secondTime->diff($firstTime);
 
-                dump('got here');
-
-                dump($gap->h);
-                dump($duration);
                 if ($gap->h >= $duration) {
-                    dump('got inside here');
-                    $availableSlots[] = [
-                        'dateTime' => $appointments->first()->endDateTime,
-                    ];
+                    dump($appt->endDateTime);
+                    $availableSlots[] = ['dateTime' => $appt->endDateTime,];
 
-                    if (count($availableSlots) === 3) return false;
+                    if (count($availableSlots) === 3) break;
                 }
-            });
+            };
 
             $firstDay->addDay();
         }
