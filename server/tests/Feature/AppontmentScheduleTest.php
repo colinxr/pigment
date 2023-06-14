@@ -64,7 +64,7 @@ class AppontmentScheduleTest extends TestCase
         $appointments->each->delete();
     }
 
-    public function test_can_get_next_appointment_window_where_day_has_nothing_scheduled(): void
+    public function test_can_find_slot_when_day_has_nothing_scheduled(): void
     {
         $user = User::factory()->withCalendar()->create();
         $schedule = $this->schedule->toArray();
@@ -95,16 +95,22 @@ class AppontmentScheduleTest extends TestCase
 
         $nextSlots = json_decode($response->getContent());
 
-        $this->assertCount(4, $nextSlots->data);
+        $this->assertCount(3, $nextSlots->data);
 
-        dump($nextSlots->data);
+        $hasSlotOnCorrectDate = false;
+
+        foreach ($nextSlots->data as $item) {
+            if (strpos($item->dateTime, $nextFridayDate) !== false) {
+                $hasSlotOnCorrectDate = true;
+                break;
+            }
+        }
 
         // should have an appointment on friday. on next friday date 
-
-        $this->assertFalse(true);
+        $this->assertTrue($hasSlotOnCorrectDate);
     }
 
-    public function test_can_get_next_appointment_window_where_day_has_one_thing_scheduled(): void
+    public function test_can_find_slot_when_a_day_has_one_thing_scheduled_recommend_start_of_day(): void
     {
         $user = User::factory()->withCalendar()->create();
         $schedule = $this->schedule->toArray();
@@ -128,8 +134,68 @@ class AppontmentScheduleTest extends TestCase
 
         $appt_a = Appointment::factory()->create([
             'user_id' => $user->id,
-            'startDateTime' => $nextFriday->copy()->setTimeFromTimeString('10:00 am'),
-            'endDateTime' => $nextFriday->copy()->setTimeFromTimeString('11:00 am'),
+            'startDateTime' => $nextFriday->copy()->setTimeFromTimeString('03:00 pm'),
+            'endDateTime' => $nextFriday->copy()->setTimeFromTimeString('05:00 pm'),
+        ]);
+
+        $this->actingAs($user);
+        $response = $this->get('/api/calendars/slots?duration=3');
+
+        $response->assertStatus(200);
+
+        $nextSlots = json_decode($response->getContent());
+
+        $this->assertCount(3, $nextSlots->data);
+
+        $hasSlotOnCorrectDate = false;
+
+        // dump($appt_a->endDateTime->toDateTimeString());
+
+
+        $carbonDate = Carbon::parse($appt_a->startDateTime);
+        // dump($carbonDate->copy());
+
+        $opening_hours = $carbonDate->setTimeFromTimeString($user->calendar->getHoursOpening($carbonDate))->toDateTimeString();
+
+        dump($opening_hours);
+        dump($nextSlots->data);
+        foreach ($nextSlots->data as $item) {
+            if (strpos($item->dateTime, $opening_hours) !== false) {
+                $hasSlotOnCorrectDate = true;
+                break;
+            }
+        }
+
+        // should have an appointment on friday. on next friday date 
+        $this->assertTrue($hasSlotOnCorrectDate);
+    }
+
+    public function test_can_find_slot_when_a_day_has_one_thing_scheduled_recommend_end_of_day(): void
+    {
+        $user = User::factory()->withCalendar()->create();
+        $schedule = $this->schedule->toArray();
+
+        $user->calendar->update(['schedule' => $schedule,]);
+
+        $this->assertDatabaseHas('calendars', [
+            'user_id' => $user->id,
+            'schedule' => json_encode($schedule),
+        ]);
+
+        $this->setAppointmentsTotallyFull($user);
+
+        $nextFriday = Carbon::now()->next(Carbon::FRIDAY);
+        $nextFridayDate = $nextFriday->format('Y-m-d');
+        $this->clearAppointmentsOnThisDate($user, $nextFridayDate);
+
+        $this->assertDatabaseMissing('appointments', [
+            'startDateTime' => $nextFridayDate . '%'
+        ]);
+
+        $appt_a = Appointment::factory()->create([
+            'user_id' => $user->id,
+            'startDateTime' => $nextFriday->copy()->setTimeFromTimeString('12:00 pm'),
+            'endDateTime' => $nextFriday->copy()->setTimeFromTimeString('1:00 pm'),
         ]);
 
         // $appt_b = Appointment::factory()->create([
@@ -145,14 +211,26 @@ class AppontmentScheduleTest extends TestCase
 
         $nextSlots = json_decode($response->getContent());
 
-        $this->assertCount(4, $nextSlots->data);
+        $this->assertCount(3, $nextSlots->data);
 
+        $hasSlotOnCorrectDate = false;
+
+        dump($appt_a->endDateTime->toDateTimeString());
         dump($nextSlots->data);
 
-        $this->assertFalse(true);
+
+        foreach ($nextSlots->data as $item) {
+            if (strpos($item->dateTime, $appt_a->endDateTime) !== false) {
+                $hasSlotOnCorrectDate = true;
+                break;
+            }
+        }
+
+        // should have an appointment on friday. on next friday date 
+        $this->assertTrue($hasSlotOnCorrectDate);
     }
 
-    public function test_can_get_next_appointment_window_where_there_is_gap_between_appointments(): void
+    public function test_can_find_slot_when_there_is_gap_between_appointments(): void
     {
         $user = User::factory()->withCalendar()->create();
         $schedule = $this->schedule->toArray();
@@ -193,10 +271,18 @@ class AppontmentScheduleTest extends TestCase
 
         $nextSlots = json_decode($response->getContent());
 
-        $this->assertCount(4, $nextSlots->data);
+        $this->assertCount(3, $nextSlots->data);
 
-        dump($nextSlots->data);
+        $hasSlotOnCorrectDate = false;
 
-        $this->assertFalse(true);
+        foreach ($nextSlots->data as $item) {
+            if (strpos($item->dateTime, $nextFridayDate) !== false) {
+                $hasSlotOnCorrectDate = true;
+                break;
+            }
+        }
+
+        // should have an appointment on friday. on next friday date 
+        $this->assertTrue($hasSlotOnCorrectDate);
     }
 }

@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\CalendarAppointmentService;
 use Auth as GlobalAuth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CalendarSchedule extends Controller
+class CalendarScheduleController extends Controller
 {
 
     function index(Request $request)
@@ -18,8 +19,10 @@ class CalendarSchedule extends Controller
             ], 501);
         }
 
+        $calService = new CalendarAppointmentService(Auth::user());
+
         return response()->json([
-            'data' => Auth::user()->getNextAvailableSlots($request->query('duration')),
+            'data' => $calService->getNextAvailableSlots($request->query('duration')),
         ], 200);
     }
 

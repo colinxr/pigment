@@ -13,6 +13,10 @@ class Calendar extends Model
 
     protected $guarded =  ['id', 'user_id'];
 
+    protected $casts = [
+        'scheduled' => 'array'
+    ];
+
     /// Relationships
     function user()
     {
@@ -20,9 +24,11 @@ class Calendar extends Model
     }
 
     /// Methods
-    private function santizeDay($dayName)
+    private function santizeDay(object|string $dayName)
     {
-        return strtolower($dayName);
+        return gettype($dayName) === 'string' ?
+            strtolower($dayName) :
+            strtolower($dayName->format('l'));
     }
 
     public function hoursFor($dayName)
@@ -39,7 +45,7 @@ class Calendar extends Model
         return $close->diff($open)->h;
     }
 
-    public function userWorksToday(string $dayName)
+    public function userWorksToday(object|string $dayName)
     {
         $day = $this->santizeDay($dayName);
 
@@ -52,7 +58,8 @@ class Calendar extends Model
 
         $hours = $this->getHoursForDay($dayName, 'open');
 
-        return !$getString ? $carbonDate->setTimeFromTimeString($hours) :
+        return !$getString ?
+            $carbonDate->setTimeFromTimeString($hours) :
             $carbonDate->setTimeFromTimeString($hours)->toDateTimeString();
     }
 
@@ -62,7 +69,8 @@ class Calendar extends Model
 
         $hours = $this->getHoursForDay($dayName, 'close');
 
-        return !$getString ? $carbonDate->setTimeFromTimeString($hours) :
+        return !$getString ?
+            $carbonDate->setTimeFromTimeString($hours) :
             $carbonDate->setTimeFromTimeString($hours)->toDateTimeString();
     }
 

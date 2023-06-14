@@ -1,21 +1,15 @@
 <?php
 
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
-use App\Services\GoogleCalendarService;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OAuthController;
-use App\Http\Controllers\CalendarSchedule;
 use App\Interfaces\GoogleCalendarInterface;
 use App\Http\Controllers\UserClientController;
 use App\Http\Controllers\AppointmentController;
-use App\Http\Controllers\ConversationsController;
+use App\Http\Controllers\CalendarScheduleController;
 use App\Http\Controllers\ArtistSubmissionsController;
 use App\Http\Controllers\SubmissionMessageController;
-use App\Http\Controllers\ArtistConversationsController;
-use App\Http\Controllers\ConversationMessageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -82,6 +76,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::put('/clients/{client}', [UserClientController::class, 'update']);
     Route::delete('/clients/{client}', [UserClientController::class, 'destroy']);
 
-    Route::get('/calendars/slots', [CalendarSchedule::class, 'index']);
-    Route::post('/calendars/schedules', [CalendarSchedule::class, 'store']);
+    Route::get('/calendars/slots', [CalendarScheduleController::class, 'index']);
+    Route::post('/calendars/schedules', [CalendarScheduleController::class, 'store']);
 });
