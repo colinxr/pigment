@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use App\Models\User;
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
@@ -16,6 +17,10 @@ class Appointment extends Model
     protected $casts = [
         'startDateTime' => 'datetime',
         'endDateTime' => 'datetime',
+    ];
+
+    protected $appended = [
+        'duration'
     ];
 
     ///
@@ -34,5 +39,22 @@ class Appointment extends Model
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d\TH:i:sO');
+    }
+
+    public function getDurationAttribute()
+    {
+        $start = Carbon::parse($this->startDateTime);
+        $end = Carbon::parse($this->endDateTime);
+
+        return $end->diffInMinutes($start) / 60;
+    }
+
+    /// Scope
+
+    public function scopeUpcoming($query, $timeToQuery = null)
+    {
+        $time = !$timeToQuery ? Carbon::now() : $timeToQuery;
+
+        return $query->where('startDateTime', '>', $time);
     }
 }

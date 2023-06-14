@@ -82,6 +82,11 @@ class User extends Authenticatable
         return $this->hasMany(Appointment::class);
     }
 
+    function upcomingAppointsments()
+    {
+        return $this->appointments()->where(['startDateTime', '>', Carbon::now()]);
+    }
+
     public function appointmentsForClient(int $client_id)
     {
         return $this->appointments()->whereHas('client', function ($query) use ($client_id) {
@@ -117,5 +122,147 @@ class User extends Authenticatable
         $webhookUrl = url("/api/users/{$this->id}/calendar/subscribe");
 
         $watchRequest = $gCalService->watchCalendar($calendarId, $webhookUrl);
+    }
+
+    function appointsmentsGroupedByDate($dateTime, $offset = 0)
+    {
+        return $this->appointments()->upcoming($dateTime)
+            ->offset($offset)
+            ->limit(100)
+            ->get()
+            ->sortBy('startDateTime')
+            ->groupBy(fn ($appt) => $appt->startDateTime->format('Y-m-d'))
+            ->map(function ($grouped) {
+                return [
+                    'totalTime' => $grouped->sum(function ($appt) {
+                        $start = Carbon::parse($appt->startDateTime);
+                        $end = Carbon::parse($appt->endDateTime);
+                        return $end->diffInMinutes($start) / 60;
+                    }),
+                    'appointments' => $grouped,
+                ];
+            });
+    }
+
+    function getNextAvailableSlots(int $duration, $timeToQuery = null)
+    {
+        $availableSlots = [];
+        $grouped_appts = $this->appointsmentsGroupedByDate($timeToQuery);
+
+        // dump($grouped_appts);
+
+        $firstDay = Carbon::createFromFormat('Y-m-d', $grouped_appts->keys()->first());
+        $lastDay = Carbon::createFromFormat('Y-m-d', $grouped_appts->keys()->last());
+        while ($firstDay <= $lastDay) {
+            // if today is not a day in the user's schedule, then today won't work. 
+            $dayName = strtolower($firstDay->format('l'));
+
+            if (!array_key_exists($dayName, $this->calendar->schedule)) {
+                $firstDay->addDay();
+                continue;
+            }
+
+            // if today is a working day, but doesn't have any appointments scheduled
+            // then lets return when the user starts work for the day.  
+            $date = $firstDay->format('Y-m-d');
+
+            if (!$grouped_appts->has($date)) {
+                dump('got here???');
+                $openTime = $this->calendar->schedule[$dayName]['open'];
+                $dateTime = $firstDay->setTimeFromTimeString($openTime);
+
+                $availableSlots[] = [
+                    'dateTime' => $dateTime->toDateTimeString(),
+                    'message' => 'Nothing scheduled this day',
+                ];
+
+                if (count($availableSlots) === 3) break;
+
+                $firstDay->addDay();
+                continue;
+            }
+
+            ['totalTime' => $totalTime, 'appointments' => $appointments] = $grouped_appts[$date];
+
+            //if the total number of hours booked is greater 
+            //than the duration of the new appointment
+            // then today simply will not work. 
+            $scheduledHours = $this->calendar->hoursFor($dayName);
+            dump($scheduledHours - $totalTime);
+
+            if (($scheduledHours - $totalTime) < $duration) {
+                dump('schedules hours here');
+                $firstDay->addDay();
+                continue;
+            }
+
+            // if there's only one appointment booked,
+            // let's return the first availability. 
+            if ($appointments->count() === 1) {
+                $availableSlots[] = [
+                    'dateTime' => $appointments->first()->endDateTime,
+                    'message' => 'Today is open anytime after this.',
+                ];
+
+                if (count($availableSlots) === 3) break;
+
+                $firstDay->addDay();
+                continue;
+            }
+
+            // if there's more than one appointment on the day
+            $appointments->each(function ($appt, $index)
+            use ($appointments, $duration, $dayName, $firstDay) {
+                $firstTime = $appt->startDateTime;
+                $secondTime = null;
+
+                // if there's no next appointment this day,
+                // let's set the $endTime to be equal to they end of the work day. 
+                if ($index === $appointments->count() - 1) {
+                    $closing = $this->calendar->schedule[$dayName]['open'];
+                    $secondTime = $firstDay->setTimeFromTimeString($closing);
+                } else {
+                    $secondTime = $appointments[$index + 1]->startDateTime;
+                }
+
+                $gap = $secondTime->diff($firstTime);
+
+                dump('got here');
+
+                dump($gap->h);
+                dump($duration);
+                if ($gap->h >= $duration) {
+                    dump('got inside here');
+                    $availableSlots[] = [
+                        'dateTime' => $appointments->first()->endDateTime,
+                    ];
+
+                    if (count($availableSlots) === 3) return false;
+                }
+            });
+
+            $firstDay->addDay();
+        }
+
+        if (count($availableSlots) < 3) {
+            while (count($availableSlots) <= 3) {
+                $lastDay->addDay();
+                $dayName = strtolower($lastDay->format('l'));
+
+                if (!array_key_exists($dayName, $this->calendar->schedule)) {
+                    continue;
+                }
+
+                $openTime = $this->calendar->schedule[$dayName]['open'];
+                $dateTime = $lastDay->setTimeFromTimeString($openTime);
+
+                $availableSlots[] = [
+                    'dateTime' => $dateTime->toDateTimeString(),
+                    'message' => 'Nothing scheduled this day',
+                ];
+            }
+        }
+
+        return $availableSlots;
     }
 }
