@@ -149,29 +149,30 @@ class User extends Authenticatable
         $availableSlots = [];
         $grouped_appts = $this->appointsmentsGroupedByDate($timeToQuery);
 
-        // dump($grouped_appts);
-
+        // date helpers 
+        // create from string
         $firstDay = Carbon::createFromFormat('Y-m-d', $grouped_appts->keys()->first());
         $lastDay = Carbon::createFromFormat('Y-m-d', $grouped_appts->keys()->last());
+
         while ($firstDay <= $lastDay) {
             // if today is not a day in the user's schedule, then today won't work. 
-            $dayName = strtolower($firstDay->format('l'));
+            $dayName = $firstDay->format('l');
 
-            if (!array_key_exists($dayName, $this->calendar->schedule)) {
+            if (!$this->calendar->userWorksToday($dayName)) {
                 $firstDay->addDay();
                 continue;
             }
 
             // if today is a working day, but doesn't have any appointments scheduled
             // then lets return when the user starts work for the day.  
-            $date = $firstDay->format('Y-m-d');
+            $date = $firstDay->format('Y-m-d'); // date helpers -- convert to string
 
             if (!$grouped_appts->has($date)) {
-                $openTime = $this->calendar->schedule[$dayName]['open'];
-                $dateTime = $firstDay->setTimeFromTimeString($openTime);
+                // $openTime = $this->calendar->schedule[$dayName]['open'];
+                // $dateTime = $firstDay->setTimeFromTimeString($openTime);
 
                 $availableSlots[] = [
-                    'dateTime' => $dateTime->toDateTimeString(),
+                    'dateTime' => $this->calendar->getHoursOpening($firstDay, true),
                     'message' => 'Nothing scheduled this day',
                 ];
 
@@ -209,21 +210,16 @@ class User extends Authenticatable
 
             foreach ($appointments as $key => $appt) {
                 $firstTime = $appt->endDateTime;
-                $secondTime = null;
 
                 // if there's no next appointment this day,
                 // let's set the $endTime to be equal to they end of the work day. 
-                if ($key === $appointments->count() - 1) {
-                    $closing = $this->calendar->schedule[$dayName]['close'];
-                    $secondTime = $firstDay->setTimeFromTimeString($closing);
-                } else {
-                    $secondTime = $appointments[$key + 1]->startDateTime;
-                }
+                $secondTime = $key < $appointments->count() - 1 ?
+                    $appointments[$key + 1]->startDateTime :
+                    $this->calendar->getHoursClosing($firstDay);
 
                 $gap = $secondTime->diff($firstTime);
 
                 if ($gap->h >= $duration) {
-                    dump($appt->endDateTime);
                     $availableSlots[] = ['dateTime' => $appt->endDateTime,];
 
                     if (count($availableSlots) === 3) break;
@@ -236,17 +232,14 @@ class User extends Authenticatable
         if (count($availableSlots) < 3) {
             while (count($availableSlots) <= 3) {
                 $lastDay->addDay();
-                $dayName = strtolower($lastDay->format('l'));
+                $dayName = $lastDay->format('l');
 
-                if (!array_key_exists($dayName, $this->calendar->schedule)) {
+                if (!$this->calendar->userWorksToday($dayName)) {
+                    $firstDay->addDay();
                     continue;
                 }
-
-                $openTime = $this->calendar->schedule[$dayName]['open'];
-                $dateTime = $lastDay->setTimeFromTimeString($openTime);
-
                 $availableSlots[] = [
-                    'dateTime' => $dateTime->toDateTimeString(),
+                    'dateTime' => $this->calendar->getHoursOpening($lastDay, true),
                     'message' => 'Nothing scheduled this day',
                 ];
             }
