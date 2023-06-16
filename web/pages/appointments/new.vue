@@ -1,22 +1,13 @@
 <script setup>
 import ApiService from '@dayplanner/apiservice'
-import useAuthStore from '@/stores/auth'
-import useModalStore from '@/stores/modal'
 import useFormErrors from '@/composables/useFormErrors'
 import { getTimeZoneOffset } from '@/composables/useDateService'
 import useAppointmentSchema from '@/composables/useAppointmentSchema'
-import useWatchForRefresh from '@/composables/useWatchForRefresh'
 
 import DynamicForm from '@/components/Forms/DynamicForm.vue'
 import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'
 
-const route = useRoute()
-const authStore = useAuthStore()
-const modalStore = useModalStore()
-
 const { schema } = useAppointmentSchema()
-
-const { triggerRefresh } = useWatchForRefresh()
 
 const {
 	errorState,
@@ -26,16 +17,9 @@ const {
 	handleResponseErrors,
 } = useFormErrors()
 
-const props = defineProps({
-	submission: {
-		type: Object,
-		required: true,
-	},
-})
-
 const initialValues = {
-	name: `${props.submission.client.full_name}`,
-	description: `${props.submission.idea}`,
+	name: '',
+	description: '',
 	startDateTime: null,
 	duration: 1,
 	price: null,
@@ -78,28 +62,26 @@ const handleSubmit = async formData => {
 </script>
 
 <template>
-	<div
-		class="bg-white border border-gray mx-auto w-full max-w-[800px] rounded-xl p-4"
-	>
-		<header>
-			<div class="flex justify-between mb-2">
-				<h1>Create Appointment</h1>
-				<span class="cursor-pointer" @click="modalStore.closeModal"> X </span>
-			</div>
+	<div class="layout-main p-4 w-full">
+		<h2 class="text-xl font-semibold mb-5">New Appointment</h2>
 
-			<AlertWrapper
-				v-if="showFormAlert"
-				:status="formStatus"
-				:msg="alertMessage"
-			/>
-		</header>
+		<Card class="w-full">
+			<template #content>
+				<AlertWrapper
+					v-if="showFormAlert"
+					:status="formStatus"
+					:msg="alertMessage"
+				/>
 
-		<DynamicForm
-			formId="appointment-create"
-			:schema="schema"
-			:data="initialValues"
-			:errorState="errorState"
-			@form-submitted="handleSubmit"
-		/>
+				<DynamicForm
+					formId="appointment-create"
+					:schema="schema"
+					:data="initialValues"
+					:errorState="errorState"
+					:disabled="true"
+					@form-submitted="handleSubmit"
+				/>
+			</template>
+		</Card>
 	</div>
 </template>

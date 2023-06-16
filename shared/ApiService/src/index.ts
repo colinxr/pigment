@@ -1,46 +1,51 @@
 import createApiClient from './createApiClient'
 import {
-  ApiServiceInterface, 
-  AppointmentRepositoryI, 
-  AuthRepositoryI, 
-  ClientRepositoryI,
-  MessageRepositoryI, 
-  UserRepositoryI, 
-  SubmissionRepositoryI, 
+	ApiServiceInterface,
+	AppointmentRepositoryI,
+	AuthRepositoryI,
+	ClientRepositoryI,
+	MessageRepositoryI,
+	UserRepositoryI,
+	SubmissionRepositoryI,
+	CalendarRepositoryI,
 } from './types'
 
 import {
-  AppointmentRepository, 
-  AuthRepository, 
-  ClientRepository,
-  MessageRepository, 
-  SubmissionRepository,
-  UserRepository, 
+	AppointmentRepository,
+	AuthRepository,
+	ClientRepository,
+	MessageRepository,
+	SubmissionRepository,
+	UserRepository,
 } from './repositories'
+import CalendarRepository from './repositories/CalendarRepository'
 
 class ApiService implements ApiServiceInterface {
-  appointments: AppointmentRepositoryI
-  
-  auth: AuthRepositoryI
+	appointments: AppointmentRepositoryI
 
-  clients: ClientRepositoryI
-  
-  messages: MessageRepositoryI
-  
-  submissions: SubmissionRepositoryI
-  
-  users: UserRepositoryI
+	auth: AuthRepositoryI
 
-  constructor() {
-    const client = createApiClient('https://api.dayplanner.test/api')
+	clients: ClientRepositoryI
 
-    this.appointments = new AppointmentRepository(client)
-    this.auth = new AuthRepository(client)
-    this.clients = new ClientRepository(client)
-    this.messages = new MessageRepository(client)
-    this.submissions = new SubmissionRepository(client)
-    this.users = new UserRepository(client)
-  }
+	calendars: CalendarRepositoryI
+
+	messages: MessageRepositoryI
+
+	submissions: SubmissionRepositoryI
+
+	users: UserRepositoryI
+
+	constructor() {
+		const client = createApiClient('https://api.dayplanner.test/api')
+
+		this.appointments = new AppointmentRepository(client)
+		this.auth = new AuthRepository(client)
+		this.clients = new ClientRepository(client)
+		this.calendars = new CalendarRepository(client)
+		this.messages = new MessageRepository(client)
+		this.submissions = new SubmissionRepository(client)
+		this.users = new UserRepository(client)
+	}
 }
 
 export default new ApiService()

@@ -28,6 +28,8 @@ class CalendarTest extends TestCase
             'friday' => $this->buildShopHours('10:00 am', '5:00 pm')
         ];
 
+        dump(json_encode($this->schedule));
+
         $this->carbonDays = [
             'monday' => Carbon::MONDAY,
             'tuesday' => Carbon::TUESDAY,

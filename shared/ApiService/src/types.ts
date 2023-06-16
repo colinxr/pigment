@@ -8,9 +8,15 @@ export interface AuthRepositoryI {
 	logout(): Promise<AxiosResponse>
 	register(): Promise<AxiosResponse>
 }
+
 export interface SubmissionRepositoryI {
 	apiClient: AxiosInstance
 	index(page: number): Promise<AxiosResponse>
+}
+
+export interface CalendarRepositoryI {
+	apiClient: AxiosInstance
+	getSlots(duration: number): Promise<AxiosResponse>
 }
 
 export interface AppointmentFormData {

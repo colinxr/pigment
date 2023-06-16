@@ -131,10 +131,16 @@
     "vue/singleline-html-element-content-newline": ["error", {
       "ignoreWhenNoAttributes": true,
       "ignoreWhenEmpty": true,
-      "ignores": ["pre", "textarea", "h2", "h1", "h3", "h4"]
+      "ignores": ["pre", "textarea", "h2", "h1", "h3", "h4", "span", "nuxt-link"]
     }],
     "vue/attribute-hyphenation": ["error", "never"],
-    "space-before-function-paren": ["error", "always"]
-    // "vue/script-indent": ["error", "tab", { "baseIndent": 1 }]
+    "space-before-function-paren": ["error", "always"],
+    "vue/html-self-closing": ["error", {
+      "html": {
+        "void": "any",
+        "normal": "any",
+        "component": "any"
+      }
+    }]
   }
 }

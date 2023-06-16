@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Services\CalendarAppointmentService;
-use Auth as GlobalAuth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 

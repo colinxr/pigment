@@ -14,7 +14,7 @@ class Calendar extends Model
     protected $guarded =  ['id', 'user_id'];
 
     protected $casts = [
-        'scheduled' => 'array'
+        'schedule' => 'array'
     ];
 
     /// Relationships

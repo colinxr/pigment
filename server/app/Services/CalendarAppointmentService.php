@@ -25,13 +25,18 @@ class CalendarAppointmentService
     $slotsToFind = 3;
     $apptsByDate = $this->appointsmentsGroupedByDate();
 
+    if (!$this->calendar->schedule) {
+      return [
+        'warning' => 'no calendar schedule set'
+      ];
+    }
+
     $slots = $this->findAvailableSlots($apptsByDate, $duration, $slotsToFind);
 
     $availableSlots = array_merge([], $slots);
 
-    $dayToQuery = Carbon::createFromFormat('Y-m-d', $apptsByDate->keys()->last());
-
     if (count($availableSlots) < $slotsToFind) {
+      $dayToQuery = Carbon::createFromFormat('Y-m-d', $apptsByDate->keys()->last());
       $remainingCount = $slotsToFind - count($availableSlots);
 
       $remaining = $this->fillRemainingSlots($remainingCount, $dayToQuery, $duration);
@@ -64,14 +69,18 @@ class CalendarAppointmentService
   private function findAvailableSlots($appointments, $duration, $slotsToFind = 3)
   {
     $availableSlots = [];
-
+    if ($appointments->isEmpty()) {
+    }
     // date helpers 
     // create from string
-    $firstDay = Carbon::createFromFormat('Y-m-d', $appointments->keys()->first());
-    $lastDay = Carbon::createFromFormat('Y-m-d', $appointments->keys()->last());
+    $firstDay = $appointments->isEmpty() ?
+      Carbon::now()->addDay() :
+      Carbon::createFromFormat('Y-m-d', $appointments->keys()->first());
+    $lastDay = $appointments->isEmpty() ?
+      $firstDay->copy()->addDays(5) :
+      Carbon::createFromFormat('Y-m-d', $appointments->keys()->last());
 
     while ($firstDay <= $lastDay) {
-
       $slots = $this->findSlotsForToday($firstDay, $appointments, $duration);
 
       if (!$slots) {

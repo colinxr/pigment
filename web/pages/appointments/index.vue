@@ -48,7 +48,10 @@ definePageMeta({
 
 <template>
 	<div class="layout-main p-4 w-full">
-		<h2 class="text-xl font-semibold mb-5">Appointments</h2>
+		<header class="mb-5">
+			<h2 class="text-xl font-semibold">Appointments</h2>
+			<nuxt-link to="/appointments/new"> New Appointment </nuxt-link>
+		</header>
 
 		<Card class="w-full">
 			<template v-if="!isLoading && appointments.length" #content>
