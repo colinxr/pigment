@@ -14,9 +14,9 @@ class Appointment extends Model
 
     protected $guarded = ['id'];
 
-    protected $casts = [
-        'startDateTime' => 'datetime',
-        'endDateTime' => 'datetime',
+    protected $dates = [
+        'startDateTime',
+        'endDateTime',
     ];
 
     protected $appended = [
@@ -47,6 +47,26 @@ class Appointment extends Model
         $end = Carbon::parse($this->endDateTime);
 
         return $end->diffInMinutes($start) / 60;
+    }
+
+    public function setStartDateTimeAttribute($value)
+    {
+        $this->attributes['startDateTime'] = Carbon::createFromFormat('Y-m-d\TH:i:sO', $value);
+    }
+
+    public function setEndDateTimeAttribute($value)
+    {
+        $this->attributes['endDateTime'] = Carbon::createFromFormat('Y-m-d\TH:i:sO', $value);
+    }
+
+    public function getStartDateTimeAttribute($value)
+    {
+        return Carbon::parse($value)->format('Y-m-d\TH:i:sO');
+    }
+
+    public function getEndDateTimeAttribute($value)
+    {
+        return Carbon::parse($value)->format('Y-m-d\TH:i:sO');
     }
 
     /// Scope

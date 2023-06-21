@@ -65,7 +65,7 @@ onMounted(async () => {
 						v-model:selection="appointments"
 						:value="appointments"
 						data-key="id"
-						stripedRows="true"
+						:stripedRows="true"
 						responsiveLayout="scroll"
 						paginator
 						:rows="50"

@@ -52,7 +52,7 @@ definePageMeta({ keepalive: true })
 					v-model:selection="clients"
 					:value="clients"
 					data-key="id"
-					stripedRows
+					:stripedRows="true"
 					responsiveLayout="scroll"
 					paginator
 					:rows="50"

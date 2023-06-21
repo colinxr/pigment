@@ -12,7 +12,6 @@ const isLoading = ref(true)
 const appointment = ref({})
 const initialValues = {}
 
-/* eslint-disable-next-line */
 onBeforeMount(async () => {
 	const { data } = await ApiService.appointments.show(route.params.id)
 
