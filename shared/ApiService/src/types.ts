@@ -33,8 +33,8 @@ export interface AppointmentRepositoryI {
 	index(): Promise<AxiosResponse>
 	show(appointmentId: string): Promise<AxiosResponse>
 	store(
-		submissionId: string | number,
-		formData: AppointmentFormData
+		formData: AppointmentFormData,
+		submissionId: string | number | null
 	): Promise<AxiosResponse>
 	update(
 		submissionId: string | number,

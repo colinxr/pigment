@@ -12,7 +12,7 @@ import {
 
 import useAppointmentSchema from '@/composables/useAppointmentSchema'
 
-const { schema } = useAppointmentSchema()
+const { appointmentForSubmission } = useAppointmentSchema()
 
 const route = useRoute()
 const {
@@ -92,7 +92,7 @@ const handleSubmit = async formData => {
 
 				<DynamicForm
 					formId="appointment-edit"
-					:schema="schema"
+					:schema="appointmentForSubmission"
 					:data="initialValues"
 					:errorState="errorState"
 					:disabled="true"

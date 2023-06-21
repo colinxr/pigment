@@ -35,7 +35,7 @@ class HasValidAccessToken
             return response()->json([
                 'status' => '403',
                 'message' => 'Google Calendar user is unauthenticated',
-                'data' => $this->apiClient->createAuthUrl(),
+                'redirectURL' => $this->apiClient->createAuthUrl(),
             ], 403);
         }
 
@@ -46,7 +46,7 @@ class HasValidAccessToken
                 return response()->json([
                     'status' => '403',
                     'message' => 'Google Calendar user is unauthenticated',
-                    'authUrl' => $this->apiClient->createAuthUrl(),
+                    'redirectURL' => $this->apiClient->createAuthUrl(),
                 ], 403);
             }
 

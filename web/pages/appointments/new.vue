@@ -7,7 +7,7 @@ import useAppointmentSchema from '@/composables/useAppointmentSchema'
 import DynamicForm from '@/components/Forms/DynamicForm.vue'
 import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'
 
-const { schema } = useAppointmentSchema()
+const { addPropsToSchema, startDateTime } = useAppointmentSchema()
 
 const {
 	errorState,
@@ -25,28 +25,49 @@ const initialValues = {
 	price: null,
 	deposit: null,
 }
+const schema = ref([])
+const modelToUpdate = ref({})
+
+onMounted(async () => {
+	const { data } = await ApiService.clients.index()
+
+	const clientNames = data.data
+
+	schema.value = addPropsToSchema('newAppointment', {
+		client: {
+			list: clientNames,
+			keysToSearch: ['full_name', 'email'],
+			valueToShow: 'email',
+		},
+	})
+})
+
+watch(startDateTime, newVal => {
+	console.log(newVal)
+
+	modelToUpdate.value = {
+		modelKey: 'startDateTime',
+		value: newVal,
+	}
+
+	console.log(modelToUpdate.value)
+})
 
 const handleSubmit = async formData => {
 	showFormAlert.value = false
-
-	authStore.setLastURL(route)
+	console.log(formData)
 
 	try {
 		const timezone = getTimeZoneOffset()
 		formData.startDateTime = `${formData.startDateTime}:00${timezone}`
 
-		const res = await ApiService.appointments.store(
-			props.submission.id,
-			formData
-		)
+		const res = await ApiService.appointments.store(formData)
 
 		if (res.status !== 200) handleResponseErrors(res)
 
 		showFormAlert.value = true
 		formStatus.value = 'success'
 		alertMessage.value = res.data.message || 'Appointment created'
-
-		triggerRefresh()
 
 		return
 	} catch (error) {
@@ -74,11 +95,12 @@ const handleSubmit = async formData => {
 				/>
 
 				<DynamicForm
+					v-if="schema.length"
 					formId="appointment-create"
 					:schema="schema"
 					:data="initialValues"
 					:errorState="errorState"
-					:disabled="true"
+					:modelToUpdate="modelToUpdate"
 					@form-submitted="handleSubmit"
 				/>
 			</template>

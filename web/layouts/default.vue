@@ -6,7 +6,9 @@ import ModalWindow from '@/components/Modal/ModalWindow.vue'
 <template>
 	<div class="dashboard h-screen overflow-hidden flex align-start">
 		<AppSidebar />
-		<slot />
+		<div class="overflow-scroll w-full">
+			<slot />
+		</div>
 		<ModalWindow />
 	</div>
 </template>

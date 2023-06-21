@@ -9,13 +9,14 @@ export default class AppointmentRepository implements AppointmentRepositoryI {
 	}
 
 	async store(
-		submissionId: string,
-		formData: AppointmentFormData
+		formData: AppointmentFormData,
+		submissionId: string | number | null
 	): Promise<AxiosResponse> {
-		const res = await this.apiClient.post(
-			`/submissions/${submissionId}/appointments`,
-			formData
-		)
+		const url = !submissionId
+			? '/appointments'
+			: `/appointments?submission_id=${submissionId}`
+
+		const res = await this.apiClient.post(url, formData)
 
 		return res
 	}

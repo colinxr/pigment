@@ -49,8 +49,6 @@
     }, {
       "usePrettierrc": false
     }],
-    "indent": [ "error", "tab" ],
-    "no-tabs": 0,
     "arrow-parens": ["error", "as-needed"],
     "quotes": [
       "error",
@@ -60,6 +58,8 @@
       "error",
       "never"
     ],
+    "indent": [2, "tab"],
+    "no-tabs": ["error", { "allowIndentationTabs": true }],
     "import/no-extraneous-dependencies": [
       "error",
       {

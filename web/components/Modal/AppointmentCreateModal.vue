@@ -14,7 +14,7 @@ const route = useRoute()
 const authStore = useAuthStore()
 const modalStore = useModalStore()
 
-const { schema } = useAppointmentSchema()
+const { appointmentForSubmission } = useAppointmentSchema()
 
 const { triggerRefresh } = useWatchForRefresh()
 
@@ -52,8 +52,8 @@ const handleSubmit = async formData => {
 		formData.startDateTime = `${formData.startDateTime}:00${timezone}`
 
 		const res = await ApiService.appointments.store(
-			props.submission.id,
-			formData
+			formData,
+			props.submission.id
 		)
 
 		if (res.status !== 200) handleResponseErrors(res)
@@ -96,7 +96,7 @@ const handleSubmit = async formData => {
 
 		<DynamicForm
 			formId="appointment-create"
-			:schema="schema"
+			:schema="appointmentForSubmission"
 			:data="initialValues"
 			:errorState="errorState"
 			@form-submitted="handleSubmit"

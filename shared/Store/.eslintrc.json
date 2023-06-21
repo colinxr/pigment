@@ -49,8 +49,8 @@
     }, {
       "usePrettierrc": false
     }],
-    "indent": [ "error", "tab" ],
-    "no-tabs": 0,
+    "indent": [2,"tab"],
+    "no-tabs": ["error", { "allowIndentationTabs": true }],
     "arrow-parens": ["error", "as-needed"],
     "quotes": [
       "error",

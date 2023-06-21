@@ -47,5 +47,21 @@ class ArtistClientTest extends TestCase
             'last_name' => $client->last_name
         ]);
     }
-}
 
+    public function test_user_can_fetch_their_client_lists(): void
+    {
+        $user = User::factory()->create();
+
+        $clients = Client::factory()->count(5)->create(['user_id' => $user->id,]);
+
+        $this->actingAs($user);
+        $response = $this->get('/api/clients');
+
+        $response->assertStatus(200);
+        $data = json_decode($response->getContent());
+
+        dump($data);
+
+        $this->assertCount(5, $data->data);
+    }
+}

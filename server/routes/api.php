@@ -64,10 +64,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
         // Appointment Routes
+        Route::post('/appointments', [AppointmentController::class, 'store']);
         Route::get('/appointments/{appointment}', [AppointmentController::class, 'show']);
         Route::put('/appointments/{appointment}', [AppointmentController::class, 'update']);
         Route::delete('/appointments/{appointment}', [AppointmentController::class, 'destroy']);
-        Route::post('/submissions/{submission}/appointments', [AppointmentController::class, 'store']);
     });
 
     // Client Routes

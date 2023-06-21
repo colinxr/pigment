@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from 'vue'
 import { FormKitSchema, setErrors } from '@formkit/vue'
+import { getNode } from '@formkit/core'
+
 import useFormErrors from '@/composables/useFormErrors'
 
 const { buildFormErrorBag } = useFormErrors()
@@ -31,6 +33,10 @@ const props = defineProps({
 	disabled: {
 		type: Boolean,
 		default: false,
+	},
+	modelToUpdate: {
+		type: Object,
+		default: () => {},
 	},
 })
 
@@ -75,6 +81,15 @@ watch(
 		const errorBag = buildFormErrorBag(newErrorState.validationErrs)
 
 		setErrors(props.formId, [props.errors.message], errorBag)
+	}
+)
+
+watch(
+	() => props.modelToUpdate,
+	({ modelKey, value }) => {
+		console.log('got here')
+		form.value[modelKey] = value
+		console.log(form.value)
 	}
 )
 

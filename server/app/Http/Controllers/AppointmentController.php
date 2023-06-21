@@ -47,14 +47,21 @@ class AppointmentController extends Controller
 
     public function store(NewAppointmentRequest $request, Submission $submission)
     {
-        Gate::allows('viewSubmission', Auth::user(), $submission);
-
-        $appt = $submission->appointments()->create(
-            array_merge(
-                $request->toArray(),
-                ['user_id' => $submission->user_id,]
-            )
+        $data =  array_merge(
+            $request->toArray(),
+            ['user_id' => Auth::user()->id,]
         );
+
+        if ($request->query('submission_id')) {
+            Gate::allows('viewSubmission', Auth::user(), $submission);
+
+            $data = array_merge(
+                $data,
+                ['submission_id' => $request->query('submission_id'),]
+            );
+        }
+
+        $appt = Appointment::create($data);
 
         $this->gCalService->setToken(Auth::user()->access_token);
 
@@ -67,7 +74,7 @@ class AppointmentController extends Controller
             'message' => 'Appointment saved successfully',
             'data' => [
                 'appointment' => $appt,
-                'event' => [],
+                'event' => $event,
             ]
         ], 201);
     }

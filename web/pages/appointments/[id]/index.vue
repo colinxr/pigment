@@ -4,7 +4,7 @@ import useAppointmentSchema from '@/composables/useAppointmentSchema'
 
 import DynamicForm from '@/components/Forms/DynamicForm.vue'
 
-const { schema } = useAppointmentSchema()
+const { appointmentForSubmission } = useAppointmentSchema()
 
 const route = useRoute()
 
@@ -14,6 +14,12 @@ const initialValues = {}
 
 onBeforeMount(async () => {
 	const { data } = await ApiService.appointments.show(route.params.id)
+
+	console.log(data)
+
+	if (data.status === 404) redirect('/404')
+
+	// return false
 
 	appointment.value = data.data
 
@@ -29,6 +35,10 @@ onBeforeMount(async () => {
 
 	isLoading.value = false
 })
+
+definePageMeta({
+	// validate: route => /^\d+$/.test(route.params.id),
+})
 </script>
 
 <template>
@@ -42,7 +52,7 @@ onBeforeMount(async () => {
 				<DynamicForm
 					formId="appointment-view"
 					disabled
-					:schema="schema"
+					:schema="appointmentForSubmission"
 					:data="initialValues"
 					:submitAttrs="{ wrapperClass: 'hidden' }"
 				/>
