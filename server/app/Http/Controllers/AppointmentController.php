@@ -21,7 +21,7 @@ class AppointmentController extends Controller
 
     public function index()
     {
-        if (!request()->query('client')) {
+        if (!request()->query('client_id')) {
             return response()->json(['data' => Auth::user()->appointments], 200);
         }
 

@@ -8,6 +8,7 @@ use App\Models\Calendar;
 use App\Models\Submission;
 use App\Models\Appointment;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Notifications\Notifiable;
 use App\Interfaces\GoogleCalendarInterface;
@@ -89,9 +90,20 @@ class User extends Authenticatable
 
     public function appointmentsForClient(int $client_id)
     {
-        return $this->appointments()->whereHas('client', function ($query) use ($client_id) {
-            $query->where('id', $client_id);
-        })->get();
+        return DB::select(
+            "
+            SELECT a.*
+            FROM appointments AS a
+            INNER JOIN submissions AS s ON a.submission_id = s.id
+            WHERE s.client_id = :client_id",
+            ['client_id' => $client_id]
+        );
+
+        // return Appointment::whereIn('submission_id', function ($query) use ($client_id) {
+        //     $query->select('id')
+        //         ->from('submissions')
+        //         ->where('client_id', $client_id);
+        // })->get();
     }
 
     public function calendar()

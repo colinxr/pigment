@@ -26,7 +26,7 @@ onBeforeMount(async () => {
 })
 
 onMounted(async () => {
-	const { data: appts } = await ApiService.appointments.index(client.value.id)
+	const { data: appts } = await ApiService.appointments.index(route.params.id)
 
 	appointments.value = appts.data
 })
