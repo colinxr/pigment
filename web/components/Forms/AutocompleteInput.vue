@@ -28,8 +28,11 @@ const handleSearch = () => {
 	showSearchResults.value = true
 }
 
+watch(inputVal, newVal => {
+	props.context.node.input(newVal)
+})
+
 const clear = () => {
-	console.log('inside of clear')
 	searchResults.value = []
 	showSearchResults.value = false
 }

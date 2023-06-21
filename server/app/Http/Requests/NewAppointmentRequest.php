@@ -34,7 +34,7 @@ class NewAppointmentRequest extends FormRequest
 
     protected function passedValidation(): void
     {
-        $endDateTime = Carbon::parse($this->startDateTime)->addHours(4);
+        $endDateTime = Carbon::parse($this->startDateTime)->addHours($this->duration);
         $this->merge(['endDateTime' => $endDateTime]);
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Submission;
 use App\Models\Appointment;
 use Illuminate\Support\Facades\Auth;
@@ -45,26 +46,30 @@ class AppointmentController extends Controller
         ], 200);
     }
 
-    public function store(NewAppointmentRequest $request, Submission $submission)
+    public function store(NewAppointmentRequest $request)
     {
         $data =  array_merge(
             $request->toArray(),
             ['user_id' => Auth::user()->id,]
         );
 
-        if ($request->query('submission_id')) {
-            Gate::allows('viewSubmission', Auth::user(), $submission);
+        if (!$request->query('submission_id')) {
+            $client = Auth::user()->clients()->firstOrCreate(['email' => $request->client]);
 
-            $data = array_merge(
-                $data,
-                ['submission_id' => $request->query('submission_id'),]
-            );
+            $submission = Submission::create([
+                'client_id' => $client->id,
+                'user_id' => Auth::user()->id,
+                'idea' => $request->description,
+            ]);
+
+            $data['submission_id'] = $submission->id;
+        } else {
+            $data['submission_id'] = $request->query('submission_id');
         }
 
         $appt = Appointment::create($data);
 
         $this->gCalService->setToken(Auth::user()->access_token);
-
         $event = $this->gCalService->saveEvent($appt);
 
         $appt->update(['event_id' => $event->getId()]);
