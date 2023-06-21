@@ -77,7 +77,7 @@ onMounted(async () => {
 								</NuxtLink>
 							</template>
 						</Column>
-						<Column field="description" header="description">
+						<Column field="description" header="Description">
 							<template #body="slotProps">
 								<NuxtLink :to="`/appointments/${slotProps.data.id}`">
 									{{ slotProps.data.description }}

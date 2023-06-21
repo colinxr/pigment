@@ -48,6 +48,7 @@ const handleSelect = slot => {
 			<input
 				id="duration"
 				v-model="duration"
+				:disabled="context.disabled"
 				class="formkit-input w-full rounded-md border border-[#e0e0e0] bg-white py-3 px-4 text-base font-mediumtext-[#6B7280] outline-none focus:border-[#6A64F1] focus:shadow-md"
 				type="number"
 				name="duration"

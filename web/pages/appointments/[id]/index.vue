@@ -51,7 +51,7 @@ definePageMeta({
 			<template v-if="!isLoading && appointment" #content>
 				<DynamicForm
 					formId="appointment-view"
-					disabled
+					:disabled="true"
 					:schema="appointmentForSubmission"
 					:data="initialValues"
 					:submitAttrs="{ wrapperClass: 'hidden' }"
