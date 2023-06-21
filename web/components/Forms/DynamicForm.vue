@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue'
 import { FormKitSchema, setErrors } from '@formkit/vue'
-import { getNode } from '@formkit/core'
 
 import useFormErrors from '@/composables/useFormErrors'
 

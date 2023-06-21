@@ -12,14 +12,11 @@ const isLoading = ref(true)
 const appointment = ref({})
 const initialValues = {}
 
+/* eslint-disable-next-line */
 onBeforeMount(async () => {
 	const { data } = await ApiService.appointments.show(route.params.id)
 
-	console.log(data)
-
-	if (data.status === 404) redirect('/404')
-
-	// return false
+	if (data.status === 404) return redirect('/not-found')
 
 	appointment.value = data.data
 
