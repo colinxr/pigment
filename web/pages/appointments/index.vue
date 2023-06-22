@@ -43,6 +43,7 @@ const handleEdit = ($event, apptID) => {
 
 definePageMeta({
 	keepalive: true,
+	middleware: 'user-is-authenticated',
 })
 </script>
 

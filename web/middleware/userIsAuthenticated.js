@@ -1,22 +1,22 @@
 import useAuthStore from '@/stores/auth'
+import ApiService from '@dayplanner/apiservice'
 
-export default defineNuxtRouteMiddleware((to) => {
-  if (process.server) return
+export default defineNuxtRouteMiddleware(async to => {
+	const store = useAuthStore()
 
-  const store = useAuthStore()
+	console.log(store.user)
+	if (!store.user) {
+		if (['login', 'register'].includes(to.name)) return
 
-  if (!store.user) {
-    const token = window.localStorage.getItem('authToken')
+		// setPageLayout('auth')
+		return navigateTo('/login')
+	}
+	console.log(ApiService.axios.defaults)
 
-    if (!token) {
-      if (['login', 'register'].includes(to.name)) return
+	ApiService.axios.defaults.headers.Authorization = `Bearer ${store.user.token}`
 
-      // return redirect('/login')
-      navigateTo('/login')
-    }
+	console.log(ApiService.axios.defaults)
 
-    navigateTo(to)
-  }
-
-  if (['login', 'register'].includes(to.name)) navigateTo('/')
+	setPageLayout('default')
+	if (['login', 'register'].includes(to.name)) return navigateTo('/')
 })

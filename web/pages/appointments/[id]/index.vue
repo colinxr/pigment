@@ -33,7 +33,7 @@ onBeforeMount(async () => {
 })
 
 definePageMeta({
-	// validate: route => /^\d+$/.test(route.params.id),
+	middleware: 'user-is-authenticated',
 })
 </script>
 

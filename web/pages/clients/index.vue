@@ -39,7 +39,10 @@ const handleEdit = ($event, clientID) => {
 	navigateTo(`/clients/${clientID}/edit`)
 }
 
-definePageMeta({ keepalive: true })
+definePageMeta({
+	keepalive: true,
+	middleware: 'user-is-authenticated',
+})
 </script>
 
 <template>

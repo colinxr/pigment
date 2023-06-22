@@ -2,7 +2,7 @@ import { AxiosInstance, AxiosResponse } from 'axios'
 import { AuthRepositoryI } from '../types'
 declare global {
 	interface Window {
-		localStorage: Storage
+		sessionStorage: Storage
 	}
 }
 
@@ -32,17 +32,13 @@ export default class AuthRepository implements AuthRepositoryI {
 		email: string
 		password: string
 	}): Promise<AxiosResponse> {
-		// const res = this.apiClient.get('/csrf-cookie').then(async (resp) => {
 		const response = await this.apiClient.post('/login', { email, password })
 
 		const { token } = response.data
+		console.log(token)
+
 		this.apiClient.defaults.headers.common.Authorization = `Bearer ${token}`
-		window.localStorage.setItem('authToken', token)
-
 		return response
-		// })
-
-		// return res
 	}
 
 	async logout(): Promise<AxiosResponse> {

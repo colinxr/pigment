@@ -1,11 +1,11 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import { ModalStateI, VueComponent } from './types'
+import { ModalStateI } from './types'
 
 const useModalStore = defineStore('modalStore', () => {
-	const state = ref<ModalStateI>({ component: null, props: {} })
+	const state = ref<ModalStateI>({ component: null, props: {}})
 
-	const openModal = (payload: { component: VueComponent; props: Object }) => {
+	const openModal = (payload: ModalStateI) => {
 		const { component, props } = payload
 
 		state.value.component = component

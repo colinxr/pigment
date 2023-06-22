@@ -1,3 +1,4 @@
+import { AxiosInstance } from 'axios'
 import createApiClient from './createApiClient'
 import {
 	ApiServiceInterface,
@@ -21,6 +22,8 @@ import {
 import CalendarRepository from './repositories/CalendarRepository'
 
 class ApiService implements ApiServiceInterface {
+	axios: AxiosInstance
+
 	appointments: AppointmentRepositoryI
 
 	auth: AuthRepositoryI
@@ -36,15 +39,15 @@ class ApiService implements ApiServiceInterface {
 	users: UserRepositoryI
 
 	constructor() {
-		const client = createApiClient('https://api.dayplanner.test/api')
+		this.axios = createApiClient('https://api.dayplanner.test/api')
 
-		this.appointments = new AppointmentRepository(client)
-		this.auth = new AuthRepository(client)
-		this.clients = new ClientRepository(client)
-		this.calendars = new CalendarRepository(client)
-		this.messages = new MessageRepository(client)
-		this.submissions = new SubmissionRepository(client)
-		this.users = new UserRepository(client)
+		this.appointments = new AppointmentRepository(this.axios)
+		this.auth = new AuthRepository(this.axios)
+		this.clients = new ClientRepository(this.axios)
+		this.calendars = new CalendarRepository(this.axios)
+		this.messages = new MessageRepository(this.axios)
+		this.submissions = new SubmissionRepository(this.axios)
+		this.users = new UserRepository(this.axios)
 	}
 }
 

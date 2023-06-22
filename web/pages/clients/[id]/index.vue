@@ -30,6 +30,11 @@ onMounted(async () => {
 
 	appointments.value = appts.data
 })
+
+definePageMeta({
+	keepalive: true,
+	middleware: 'user-is-authenticated',
+})
 </script>
 
 <template>

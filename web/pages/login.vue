@@ -1,9 +1,6 @@
 <script setup>
-import { ref } from 'vue'
 import ApiService from '@dayplanner/apiservice'
-
 import useAuthStore from '@/stores/auth'
-
 import TextInput from '@/components/Forms/TextInput.vue'
 
 const store = useAuthStore()
@@ -27,11 +24,13 @@ const handleSubmit = async () => {
 		if (response.status !== 200) {
 			return handleResponseErrors(response)
 		}
+		const { user, token } = response.data
 
-		store.setUser(response.data.user)
+		store.setUser({ ...user, token })
 
 		return navigateTo('/')
 	} catch (error) {
+		console.log(error)
 		errorState.isSet = true
 		errorState.message = 'something went wrong'
 		return false

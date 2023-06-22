@@ -54,6 +54,10 @@ const handleSubmit = async formData => {
 		showFormAlert.value = true
 	}
 }
+
+definePageMeta({
+	middleware: 'user-is-authenticated',
+})
 </script>
 
 <template>
