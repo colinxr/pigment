@@ -33,9 +33,6 @@ class Message extends Model implements HasMedia
 
     public function recipient(): string
     {
-        Log::info(json_encode($this->submission->client));
-        log::info($this->submission->client->email);
-
         return get_class($this->sender) === "App\Models\User" ?
             $this->submission->client->email :
             $this->submission->user->email;

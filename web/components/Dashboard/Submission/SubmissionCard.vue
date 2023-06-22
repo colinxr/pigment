@@ -45,7 +45,7 @@ const handleClick = () => {
 					<Badge :status="submission.status" />
 				</div>
 				<div class="text-xs truncate w-40">
-					{{ submission.last_message.preview }}
+					{{ submission.last_message?.preview }}
 				</div>
 			</div>
 

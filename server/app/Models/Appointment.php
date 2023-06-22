@@ -14,7 +14,7 @@ class Appointment extends Model
 
     protected $guarded = ['id'];
 
-    protected $dates = [
+    protected $dateTimes = [
         'startDateTime',
         'endDateTime',
     ];
@@ -57,12 +57,12 @@ class Appointment extends Model
 
     public function getStartDateTimeAttribute($value)
     {
-        return Carbon::parse($value)->format('Y-m-d\TH:i:sO');
+        return Carbon::parse($value);
     }
 
     public function getEndDateTimeAttribute($value)
     {
-        return Carbon::parse($value)->format('Y-m-d\TH:i:sO');
+        return Carbon::parse($value);
     }
 
     /// Scope

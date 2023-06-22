@@ -95,7 +95,6 @@ const handleSubmit = async formData => {
 					:schema="appointmentForSubmission"
 					:data="initialValues"
 					:errorState="errorState"
-					:disabled="true"
 					@form-submitted="handleSubmit"
 				/>
 			</template>

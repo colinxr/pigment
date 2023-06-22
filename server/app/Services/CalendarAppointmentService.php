@@ -57,8 +57,8 @@ class CalendarAppointmentService
       ->map(function ($grouped) {
         return [
           'totalTime' => $grouped->sum(function ($appt) {
-            $start = Carbon::parse($appt->startDateTime);
-            $end = Carbon::parse($appt->endDateTime);
+            $start = $appt->startDateTime;
+            $end = $appt->endDateTime;
             return $end->diffInMinutes($start) / 60;
           }),
           'appointments' => $grouped,
