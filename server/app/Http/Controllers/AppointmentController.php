@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use App\Models\Submission;
 use App\Models\Appointment;
+use Illuminate\Http\Request;
+use App\Events\AppointmentCreated;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Interfaces\GoogleCalendarInterface;
@@ -19,15 +21,29 @@ class AppointmentController extends Controller
         $this->gCalService = $gCalService;
     }
 
-    public function index()
+    public function index(Request $request)
     {
-        if (!request()->query('client_id')) {
-            return response()->json(['data' => Auth::user()->appointments], 200);
+        if ($request->query('client_id')) {
+            $client = Client::findOrFail($request->query('client_id'));
+
+            Gate::allows('viewSubmission', Auth::user(), $client);
+
+            return response()->json([
+                'data' => Auth::user()->appointmentsForClient($request->query('client_id'))
+            ], 200);
         }
 
-        return response()->json([
-            'data' => Auth::user()->appointmentsForClient(request()->query('client_id'))
-        ], 200);
+        if ($request->query('submission_id')) {
+            $submission = Submission::findOrFail($request->query('submission_id'));
+
+            Gate::allows('viewSubmission', Auth::user(), $submission);
+
+            return response()->json([
+                'data' => $submission->sortedAppointments(),
+            ], 200);
+        }
+
+        return response()->json(['data' => Auth::user()->appointments], 200);
     }
 
     public function show(Appointment $appointment)
@@ -69,17 +85,13 @@ class AppointmentController extends Controller
 
         $appt = Appointment::create($data);
 
-        $this->gCalService->setToken(Auth::user()->access_token);
-        $event = $this->gCalService->saveEvent($appt);
-
-        $appt->update(['event_id' => $event->getId()]);
+        AppointmentCreated::dispatch(Auth::user(), $appt);
 
         return response()->json([
             'status' => 'success',
             'message' => 'Appointment saved successfully',
             'data' => [
                 'appointment' => $appt,
-                'event' => $event,
             ]
         ], 201);
     }

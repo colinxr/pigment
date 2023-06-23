@@ -7,6 +7,7 @@ use App\Http\Controllers\OAuthController;
 use App\Interfaces\GoogleCalendarInterface;
 use App\Http\Controllers\UserClientController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\EventWebhookController;
 use App\Http\Controllers\CalendarScheduleController;
 use App\Http\Controllers\ArtistSubmissionsController;
 use App\Http\Controllers\SubmissionMessageController;
@@ -53,16 +54,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/users/{user}', [UserController::class, 'update']);
 
     Route::middleware('hasValidAccessToken')->group(function () {
-        Route::get('/user', function (GoogleCalendarInterface $gCalService) {
-            if (!request()->user()->calendar_id) {
-                $gCalService->setToken(request()->user()->access_token);
-                $gCalService->getCalendarId();
-            }
-
-            return request()->user();
-        });
-
-
         // Appointment Routes
         Route::post('/appointments', [AppointmentController::class, 'store']);
         Route::get('/appointments/{appointment}', [AppointmentController::class, 'show']);
@@ -78,4 +69,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::get('/calendars/slots', [CalendarScheduleController::class, 'index']);
     Route::post('/calendars/schedules', [CalendarScheduleController::class, 'store']);
+
+    Route::post('/webhook/events', [EventWebhookController::class, 'update']);
 });

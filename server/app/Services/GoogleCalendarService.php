@@ -151,13 +151,13 @@ class GoogleCalendarService implements GoogleCalendarInterface
     return $this->service->calendars->insert($calendar);
   }
 
-  public function watchCalendar(string $calendarId, $notificationUrl)
+  public function watchEvent(string $calendarId, $event_id)
   {
     // Set up the notification channel request
     $watchRequest = new Channel();
-    $watchRequest->setId(Str::random(10));
+    $watchRequest->setId($event_id);
     $watchRequest->setType('web_hook');
-    $watchRequest->setAddress($notificationUrl);
+    $watchRequest->setAddress(''); // build URL for notifcation ''
 
     $channel = $this->service->events->watch($calendarId, $watchRequest);
 

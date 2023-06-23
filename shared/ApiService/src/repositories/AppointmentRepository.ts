@@ -29,10 +29,10 @@ export default class AppointmentRepository implements AppointmentRepositoryI {
 		return res
 	}
 
-	async index(clientId = null): Promise<AxiosResponse> {
-		const url = !clientId
+	async index(param?: string, paramId?: string|number): Promise<AxiosResponse> {
+		const url = !param
 			? '/appointments'
-			: `/appointments?client_id=${clientId}`
+			: `/appointments?${param}=${paramId}`
 
 		const res = await this.apiClient.get(url)
 

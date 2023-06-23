@@ -95,15 +95,12 @@ class User extends Authenticatable
             SELECT a.*
             FROM appointments AS a
             INNER JOIN submissions AS s ON a.submission_id = s.id
-            WHERE s.client_id = :client_id",
-            ['client_id' => $client_id]
+            WHERE s.client_id = :client_id AND s.user_id = :user_id",
+            [
+                'client_id' => $client_id,
+                'user_id' => $this->id
+            ]
         );
-
-        // return Appointment::whereIn('submission_id', function ($query) use ($client_id) {
-        //     $query->select('id')
-        //         ->from('submissions')
-        //         ->where('client_id', $client_id);
-        // })->get();
     }
 
     public function calendar()

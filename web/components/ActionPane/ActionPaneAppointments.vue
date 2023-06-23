@@ -19,7 +19,8 @@ const pastAppointments = ref([])
 const { shouldRefreshData } = useWatchForRefresh()
 
 const fetchData = async () => {
-	const { data } = await ApiService.appointments.getForSubmission(
+	const { data } = await ApiService.appointments.index(
+		'submission_id',
 		activeSubmission.id
 	)
 

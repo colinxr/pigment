@@ -60,7 +60,7 @@ definePageMeta({
 					v-model:selection="appointments"
 					:value="appointments"
 					data-key="id"
-					:stripedRows="true"
+					:stripedRows="false"
 					responsiveLayout="scroll"
 					paginator
 					:rows="50"

@@ -30,7 +30,7 @@ export interface AppointmentFormData {
 
 export interface AppointmentRepositoryI {
 	apiClient: AxiosInstance
-	index(): Promise<AxiosResponse>
+	index(param?: string, paramId?: string | number): Promise<AxiosResponse>
 	show(appointmentId: string): Promise<AxiosResponse>
 	store(
 		formData: AppointmentFormData,
