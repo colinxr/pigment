@@ -45,6 +45,8 @@ class UserSubmissionsController extends Controller
 
     public function show(Submission $submission)
     {
+        $submission->update(['has_new_messages' => false]);
+
         return response()->json([
             'messages' => $submission->messages,
         ], 200);
@@ -53,6 +55,13 @@ class UserSubmissionsController extends Controller
     public function destroy(Submission $submission)
     {
         $submission->delete();
+
+        return response()->json(null, 204);
+    }
+
+    public function update(Submission $submission)
+    {
+        $submission->update(['has_new_messages' => false]);
 
         return response()->json(null, 204);
     }

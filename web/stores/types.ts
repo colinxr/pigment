@@ -41,6 +41,7 @@ export type SubmissionI = {
 	created_at: Date
 	updated_at: Date
 	client: ClientI
+	has_new_messages: boolean,
 }
 
 // We create blank component

@@ -19,6 +19,10 @@ export default defineStore('submissions', () => {
 
 	const setActiveSubmission = (subId: number) => {
 		activeSubmission.value = findSubmissionById(subId)
+
+		if (activeSubmission.value) {
+			activeSubmission.value.has_new_messages = false
+		}
 	}
 
 	const findSubmissionById = (activeSubId: number) =>

@@ -16,13 +16,13 @@ class SubmissionMessageController extends Controller
     {
         $message = $submission->newMessage(Auth::user(), $request->body);
 
+        $submission->update(['has_new_messages' => true]);
+
         if ($request->attachments) {
             foreach ($request->attachments as $attachment) {
                 $image = $message->addMedia($attachment)->toMediaCollection('attachments');
             }
         }
-
-        Log::info($message->recipient());
 
         Mail::to($message->recipient())->queue(new NewMessageAlert($message));
 

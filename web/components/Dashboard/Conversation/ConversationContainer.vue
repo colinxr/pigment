@@ -64,10 +64,12 @@ const scrollToLastMessage = () => {
 	nextTick(() => wrapper.value.scrollIntoView({ block: 'end' }))
 }
 
-watch(activeSubmission, newVal => {
+watch(activeSubmission, async newVal => {
 	messages.value = newVal.messages
 
 	scrollToLastMessage()
+
+	const res = await ApiService.submissions.markAsRead(newVal.id)
 })
 </script>
 

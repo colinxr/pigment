@@ -39,11 +39,17 @@ const handleClick = () => {
 
 			<!-- submission body -->
 			<div class="flex flex-col flex-grow ml-3">
-				<div class="text-sm font-medium">
+				<div
+					class="text-sm font-medium"
+					:class="{ 'font-bold': submission.has_new_messages }"
+				>
 					{{ submission.client.full_name }}
 					<Badge :status="submission.status" />
 				</div>
-				<div class="text-xs truncate w-40">
+				<div
+					class="text-xs truncate w-40"
+					:class="{ 'font-bold': submission.has_new_messages }"
+				>
 					{{ submission.last_message?.preview }}
 				</div>
 			</div>

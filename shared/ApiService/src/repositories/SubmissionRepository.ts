@@ -13,4 +13,10 @@ export default class SubmissionRepository implements SubmissionRepositoryI {
 
     return res
   }
+
+  async markAsRead(submissionId: string|number): Promise<AxiosResponse> {
+    const res = await this.apiClient.get(`/submissions/${submissionId}/read`)
+
+    return res
+  }
 }

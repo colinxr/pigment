@@ -12,6 +12,7 @@ export interface AuthRepositoryI {
 export interface SubmissionRepositoryI {
 	apiClient: AxiosInstance
 	index(page: number): Promise<AxiosResponse>
+	markAsRead(submissionId: string|number): Promise<AxiosResponse>
 }
 
 export interface CalendarRepositoryI {

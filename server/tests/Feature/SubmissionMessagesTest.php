@@ -10,10 +10,7 @@ use App\Mail\NewMessageAlert;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-
-use function PHPUnit\Framework\assertNotEmpty;
 
 class SubmissionMessagesTest extends TestCase
 {

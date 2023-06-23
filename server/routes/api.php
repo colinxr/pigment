@@ -44,6 +44,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/submissions', [UserSubmissionsController::class, 'index']);
     Route::get('/submissions/{submission}', [UserSubmissionsController::class, 'show']);
     Route::delete('/submissions/{submission}', [UserSubmissionsController::class, 'destroy']);
+    Route::get('/submissions/{submission}/read', [UserSubmissionsController::class, 'update']);
     Route::post('/submissions/{submission}/message', [SubmissionMessageController::class, 'store']);
     // refactor this action 
     Route::get('/submissions/{submission}/appointments', [AppointmentController::class, 'submissionIndex']);
