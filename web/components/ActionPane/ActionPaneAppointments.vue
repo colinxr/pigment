@@ -8,20 +8,23 @@ import useWatchForRefresh from '@/composables/useWatchForRefresh'
 import AppointmentCard from '@/components/Appointments/AppointmentCard.vue'
 import LoadingCard from '@/components/Appointments/LoadingCard.vue'
 import AppointmentCreateModal from '@/components/Modal/AppointmentCreateModal.vue'
+import { storeToRefs } from 'pinia'
 
 const modalStore = useModalStore()
-const { activeSubmission } = useDashboardStore()
+const dashboardStore = useDashboardStore()
+const { shouldRefreshData } = useWatchForRefresh()
+
+const { activeSubmission } = storeToRefs(dashboardStore)
 
 const isLoading = ref(true)
 const appointments = ref([])
 const pastAppointments = ref([])
 
-const { shouldRefreshData } = useWatchForRefresh()
-
-const fetchData = async () => {
+const fetchData = async submission => {
+	console.log(submission.value)
 	const { data } = await ApiService.appointments.index(
 		'submission_id',
-		activeSubmission.id
+		submission.value?.id ?? submission.id
 	)
 
 	if (!data) return
@@ -38,11 +41,17 @@ const clearState = () => {
 	pastAppointments.value = []
 }
 
-onMounted(async () => await fetchData())
+onMounted(async () => await fetchData(activeSubmission))
 
 watch(shouldRefreshData, async () => {
 	clearState()
 	await fetchData()
+})
+
+watch(activeSubmission, async newVal => {
+	clearState()
+
+	await fetchData(newVal)
 })
 
 const openModal = () => {

@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\AppointmentCreated;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Interfaces\GoogleCalendarInterface;
@@ -24,6 +25,8 @@ class CreateGCalEvent
     public function handle(AppointmentCreated $event): void
     {
         $this->gCalService->setToken($event->user->access_token);
+
+        Log::info('calling from create event');
 
         $cal_event = $this->gCalService->saveEvent($event->appointment);
 

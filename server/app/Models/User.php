@@ -118,18 +118,4 @@ class User extends Authenticatable
         $expires_at = Carbon::createFromTimestamp($this->access_token['created'] + $this->access_token['expires_in']);
         return $expires_at < Carbon::now();
     }
-
-    public function subscribeToCalendarUpdates()
-    {
-        # code...
-    }
-
-    public function updateCalendar(GoogleCalendarInterface $gCalService, string $calendarId)
-    {
-        $this->update(['calendar_id' => $calendarId]);
-
-        $webhookUrl = url("/api/users/{$this->id}/calendar/subscribe");
-
-        $watchRequest = $gCalService->watchCalendar($calendarId, $webhookUrl);
-    }
 }

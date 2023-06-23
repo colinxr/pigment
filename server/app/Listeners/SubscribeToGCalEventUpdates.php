@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\AppointmentCreated;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Queue\InteractsWithQueue;
 use App\Interfaces\GoogleCalendarInterface;
@@ -25,6 +26,10 @@ class SubscribeToGCalEventUpdates
     {
         $this->gCalService->setToken($event->user->access_token);
 
-        $this->gCalService->watchCalendar('primary', $event->appointment->event_id);
+        Log::info('calling from subcrine to gcal Listener');
+
+        $watcher = $this->gCalService->watchEvent('primary', $event->appointment->event_id);
+
+        Log::info(json_encode($watcher));
     }
 }

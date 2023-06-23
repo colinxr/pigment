@@ -3,11 +3,11 @@ import { defineStore } from 'pinia'
 import ApiService from '@dayplanner/apiservice'
 import { ClientI, SubmissionI } from './types'
 
-export default defineStore('dashboardStore', () => {
-	const submissions = ref<SubmissionI[]>([])
-	const activeSubmission = ref<SubmissionI>()
-	const nextPage = ref<number | null>(1)
+const activeSubmission = ref<SubmissionI>()
+const nextPage = ref<number | null>(1)
+const submissions = ref<SubmissionI[]>([])
 
+export default defineStore('dashboardStore', () => {
 	const getNextPageFromUrl = (url: string | null): number | null => {
 		if (!url) return null
 
@@ -17,6 +17,8 @@ export default defineStore('dashboardStore', () => {
 	}
 
 	const setActiveSubmission = (submission: SubmissionI) => {
+		console.log(submission);
+		
 		activeSubmission.value = submission
 	}
 

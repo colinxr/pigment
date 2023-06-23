@@ -9,7 +9,7 @@ use App\Http\Controllers\UserClientController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\EventWebhookController;
 use App\Http\Controllers\CalendarScheduleController;
-use App\Http\Controllers\ArtistSubmissionsController;
+use App\Http\Controllers\UserSubmissionsController;
 use App\Http\Controllers\SubmissionMessageController;
 
 /*
@@ -31,7 +31,7 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::post('/sanctum/token', [AuthController::class, 'store']);
 
-Route::post('/users/{user}/submissions', [ArtistSubmissionsController::class, 'store']);
+Route::post('/users/{user}/submissions', [UserSubmissionsController::class, 'store']);
 
 Route::middleware('auth:sanctum')->group(function () {
     // Auth Routes
@@ -41,9 +41,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/logout', [AuthController::class, 'logout']);
 
     // Submissions and Nested Resource
-    Route::get('/submissions', [ArtistSubmissionsController::class, 'index']);
-    Route::get('/submissions/{submission}', [ArtistSubmissionsController::class, 'show']);
-    Route::delete('/submissions/{submission}', [ArtistSubmissionsController::class, 'destroy']);
+    Route::get('/submissions', [UserSubmissionsController::class, 'index']);
+    Route::get('/submissions/{submission}', [UserSubmissionsController::class, 'show']);
+    Route::delete('/submissions/{submission}', [UserSubmissionsController::class, 'destroy']);
     Route::post('/submissions/{submission}/message', [SubmissionMessageController::class, 'store']);
     // refactor this action 
     Route::get('/submissions/{submission}/appointments', [AppointmentController::class, 'submissionIndex']);

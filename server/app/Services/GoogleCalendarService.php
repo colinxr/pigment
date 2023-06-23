@@ -157,7 +157,7 @@ class GoogleCalendarService implements GoogleCalendarInterface
     $watchRequest = new Channel();
     $watchRequest->setId($event_id);
     $watchRequest->setType('web_hook');
-    $watchRequest->setAddress(''); // build URL for notifcation ''
+    $watchRequest->setAddress(url('/api/webhook/events?event_id=' . $event_id));
 
     $channel = $this->service->events->watch($calendarId, $watchRequest);
 
@@ -181,17 +181,11 @@ class GoogleCalendarService implements GoogleCalendarInterface
   public function getCalendarId()
   {
     if (!Auth::user()->calendar_id) {
-      Log::info('no calendar id');
       $calendar = $this->getCalendarBySummary();
 
       if (!$calendar) {
-        Log::info('need to create calendar');
         $calendar = $this->createCalendar();
       }
-
-      Log::info('update the database');
-
-      Log::info($calendar->id);
 
       Auth::user()->calendar_id = $calendar->id;
       Auth::user()->save();

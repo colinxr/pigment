@@ -7,7 +7,7 @@ use App\Models\Submission;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\SubmissionRequest;
 
-class ArtistSubmissionsController extends Controller
+class UserSubmissionsController extends Controller
 {
     public function index()
     {
