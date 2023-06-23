@@ -5,9 +5,9 @@ import useFormErrors from '@/composables/useFormErrors'
 import DynamicForm from '@/components/Forms/DynamicForm.vue'
 import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'
 
-import useDashboardStore from '@/stores/dashboard'
+import useSubmissionsStore from '@/stores/submissions'
 
-const dashboardStore = useDashboardStore()
+const submissionsStore = useSubmissionsStore()
 
 const { errorState, handleResponseErrors } = useFormErrors()
 
@@ -59,7 +59,7 @@ const handleSubmit = async formData => {
 		formStatus.value = 'success'
 		alertMessage.value = res.data.message || 'Updated Successfully'
 
-		dashboardStore.updateSubmissionClient(res.data.data)
+		submissionsStore.updateSubmissionClient(res.data.data)
 
 		return
 	} catch (error) {
@@ -98,3 +98,4 @@ const handleSubmit = async formData => {
 		/>
 	</div>
 </template>
+@/stores/submissions

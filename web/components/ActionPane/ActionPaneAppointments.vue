@@ -1,7 +1,7 @@
 <script setup>
 import { markRaw } from 'vue'
 import ApiService from '@dayplanner/apiservice'
-import useDashboardStore from '@/stores/dashboard'
+import useSubmissionsStore from '@/stores/submissions'
 import useModalStore from '@/stores/modal'
 import useWatchForRefresh from '@/composables/useWatchForRefresh'
 
@@ -11,10 +11,10 @@ import AppointmentCreateModal from '@/components/Modal/AppointmentCreateModal.vu
 import { storeToRefs } from 'pinia'
 
 const modalStore = useModalStore()
-const dashboardStore = useDashboardStore()
+const submissionsStore = useSubmissionsStore()
 const { shouldRefreshData } = useWatchForRefresh()
 
-const { activeSubmission } = storeToRefs(dashboardStore)
+const { activeSubmission } = storeToRefs(submissionsStore)
 
 const isLoading = ref(true)
 const appointments = ref([])
@@ -89,3 +89,4 @@ const sanitizeResponseData = data => Object.values(data)
 		<Button label="Add Appointment" @click="openModal" />
 	</div>
 </template>
+@/stores/submissions

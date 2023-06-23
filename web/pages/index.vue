@@ -1,11 +1,5 @@
 <script setup>
-// import useDashboardStore from '@/stores/dashboard'
-
 definePageMeta({ middleware: 'user-is-authenticated' })
-
-onBeforeMount(async () => {
-	// await getUpcomingAppointments()
-})
 </script>
 
 <template>

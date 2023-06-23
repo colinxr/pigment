@@ -1,10 +1,9 @@
 <script setup>
-import useDashboardStore from '@/stores/dashboard'
+import useSubmissionsStore from '@/stores/submissions'
 import Badge from '@/components/Badge.vue'
 
 const router = useRouter()
-
-const dashboardStore = useDashboardStore()
+const submissionsStore = useSubmissionsStore()
 
 const props = defineProps({
 	submission: {
@@ -14,7 +13,7 @@ const props = defineProps({
 })
 
 const handleClick = () => {
-	dashboardStore.setActiveSubmission(props.submission)
+	submissionsStore.setActiveSubmission(props.submission.id)
 
 	router.push({ query: { as: props.submission.id } })
 }
@@ -65,3 +64,4 @@ const handleClick = () => {
 	@apply bg-slate-100;
 }
 </style>
+@/stores/submissions

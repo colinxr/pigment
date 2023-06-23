@@ -3,19 +3,19 @@ import { ref, nextTick } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import ApiService from '@dayplanner/apiservice'
-import useDashboardStore from '@/stores/dashboard'
+import useSubmissionsStore from '@/stores/submissions'
 import ActionPane from '@/components/ActionPane/ActionPane.vue'
 import MessageWrapper from '@/components/Dashboard/SubmissionMessages/Message/MessageWrapper.vue'
 import ConversationTextInput from '@/components/Dashboard/Conversation/ConversationTextInput.vue'
 import ConversationHeader from '@/components/Dashboard/Conversation/ConversationHeader.vue'
 
-const dashboardStore = useDashboardStore()
+const submissionsStore = useSubmissionsStore()
 
 const messages = ref([])
 const wrapper = ref(null)
 
-const { updateSubmissionsListOrder } = dashboardStore
-const { activeSubmission } = storeToRefs(dashboardStore)
+const { updateSubmissionsListOrder } = submissionsStore
+const { activeSubmission } = storeToRefs(submissionsStore)
 
 const buildMessageObject = ({ body, attachments }) => ({
 	body,
@@ -50,8 +50,6 @@ const postMessageToServer = async message => {
 	})
 
 	return res
-
-	return res.status === 201
 }
 
 const updateMessage = (messageWasSent, bodyText) => {
@@ -66,12 +64,8 @@ const scrollToLastMessage = () => {
 	nextTick(() => wrapper.value.scrollIntoView({ block: 'end' }))
 }
 
-watchEffect(() => {
-	if (!activeSubmission.value) {
-		return
-	}
-
-	messages.value = activeSubmission.value.messages
+watch(activeSubmission, newVal => {
+	messages.value = newVal.messages
 
 	scrollToLastMessage()
 })

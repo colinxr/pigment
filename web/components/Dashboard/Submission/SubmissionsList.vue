@@ -1,12 +1,12 @@
 <script setup>
 import { storeToRefs } from 'pinia'
 
-import useDashboardStore from '@/stores/dashboard'
+import useSubmissionsStore from '@/stores/submissions'
 import SubmissionCard from './SubmissionCard.vue'
 
-const dashboardStore = useDashboardStore()
-const { findSubmissionById } = dashboardStore
-const { submissionsList } = storeToRefs(dashboardStore)
+const submissionsStore = useSubmissionsStore()
+const { findSubmissionById } = submissionsStore
+const { submissionsList } = storeToRefs(submissionsStore)
 
 const hasSubmissions = computed(() => submissionsList.value.length)
 </script>
@@ -57,3 +57,4 @@ const hasSubmissions = computed(() => submissionsList.value.length)
 	</div>
 	<!-- </div> -->
 </template>
+@/stores/submissions

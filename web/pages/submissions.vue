@@ -1,28 +1,27 @@
 <script setup>
-import useDashboardStore from '@/stores/dashboard'
+import useSubmissionsStore from '@/stores/submissions'
 import SubmissionsList from '@/components/Dashboard/Submission/SubmissionsList.vue'
 import ConversationContainer from '@/components/Dashboard/Conversation/ConversationContainer.vue'
 
 const route = useRoute()
+const submissionsStore = useSubmissionsStore()
+
+const { getSubmissions, setActiveSubmission } = submissionsStore
+
+onBeforeMount(async () => {
+	console.log('testing')
+
+	if (route.query.as) {
+		setActiveSubmission(Number(route.query.as))
+	}
+
+	await getSubmissions()
+})
 
 definePageMeta({
 	middleware: 'user-is-authenticated',
 	keepalive: true,
 })
-
-const dashboardStore = useDashboardStore()
-const { getSubmissions, findSubmissionById, setActiveSubmission } =
-	dashboardStore
-
-onBeforeMount(async () => {
-	await getSubmissions()
-	if (route.query.as) {
-		const submission = findSubmissionById(Number(route.query.as))
-		setActiveSubmission(submission)
-	}
-})
-
-onMounted(() => {})
 </script>
 
 <template>
