@@ -21,11 +21,9 @@ const appointments = ref([])
 const pastAppointments = ref([])
 
 const fetchData = async submission => {
-	console.log(submission.value)
-	const { data } = await ApiService.appointments.index(
-		'submission_id',
-		submission.value?.id ?? submission.id
-	)
+	const subId = submission.value?.id ?? submission.id
+
+	const { data } = await ApiService.appointments.index('submission_id', subId)
 
 	if (!data) return
 
@@ -43,16 +41,13 @@ const clearState = () => {
 
 onMounted(async () => await fetchData(activeSubmission))
 
-watch(shouldRefreshData, async () => {
-	clearState()
-	await fetchData()
-})
-
-watch(activeSubmission, async newVal => {
-	clearState()
-
-	await fetchData(newVal)
-})
+watch(
+	[shouldRefreshData, activeSubmission],
+	async ([shouldRefresh, activeSubmission]) => {
+		clearState()
+		await fetchData(activeSubmission)
+	}
+)
 
 const openModal = () => {
 	modalStore.openModal({
@@ -82,7 +77,7 @@ const sanitizeResponseData = data => Object.values(data)
 				class="mb-2"
 			/>
 
-			<h5 v-if="pastAppointments">Past Appointments</h5>
+			<h5 v-if="pastAppointments.length">Past</h5>
 			<AppointmentCard
 				v-for="(appt, i) in pastAppointments"
 				:key="i"

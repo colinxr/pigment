@@ -19,7 +19,7 @@ class Message extends Model implements HasMedia
 
     protected $guarded = ['id'];
 
-    protected $appends = ['is_from_admin'];
+    protected $appends = ['is_from_admin', 'preview'];
 
     public function submission()
     {

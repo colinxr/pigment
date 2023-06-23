@@ -5,9 +5,10 @@ import useDashboardStore from '@/stores/dashboard'
 import SubmissionCard from './SubmissionCard.vue'
 
 const dashboardStore = useDashboardStore()
-const { submissions } = storeToRefs(dashboardStore)
+const { findSubmissionById } = dashboardStore
+const { submissionsList } = storeToRefs(dashboardStore)
 
-const hasSubmissions = computed(() => submissions.value.length)
+const hasSubmissions = computed(() => submissionsList.value.length)
 </script>
 
 <template>
@@ -48,9 +49,9 @@ const hasSubmissions = computed(() => submissions.value.length)
 
 		<div v-if="hasSubmissions" class="mt-2">
 			<SubmissionCard
-				v-for="(sub, i) in submissions"
+				v-for="(subId, i) in submissionsList"
 				:key="i"
-				:submission="sub"
+				:submission="findSubmissionById(subId)"
 			/>
 		</div>
 	</div>

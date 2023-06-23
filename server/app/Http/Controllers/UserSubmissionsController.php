@@ -15,6 +15,7 @@ class UserSubmissionsController extends Controller
 
         $subs = Auth::user()->submissions()
             ->with(['messages', 'lastMessage', 'client'])
+            ->orderByRaw('COALESCE((SELECT created_at FROM messages WHERE submission_id = submissions.id ORDER BY created_at DESC LIMIT 1), submissions.created_at) DESC')
             ->paginate($per_page);
 
         return response()->json(['submissions' => $subs], 200);

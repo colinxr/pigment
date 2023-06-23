@@ -29,7 +29,7 @@ class SubmissionMessageController extends Controller
         return response()->json([
             'status' => 'success',
             'message' => 'Message sent successfully',
-            'data' => [],
+            'data' => $message,
         ], 201);
     }
 }
