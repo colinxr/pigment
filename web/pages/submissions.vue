@@ -9,8 +9,6 @@ const submissionsStore = useSubmissionsStore()
 const { getSubmissions, setActiveSubmission } = submissionsStore
 
 onBeforeMount(async () => {
-	console.log('testing')
-
 	if (route.query.as) {
 		setActiveSubmission(Number(route.query.as))
 	}
