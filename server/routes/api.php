@@ -65,7 +65,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/clients/{client}', [UserClientController::class, 'destroy']);
 
     Route::get('/calendars/slots', [CalendarScheduleController::class, 'index']);
-    Route::post('/calendars/schedules', [CalendarScheduleController::class, 'store']);
+    Route::get('/calendars/schedule', [CalendarScheduleController::class, 'show']);
+    Route::post('/calendars/schedule', [CalendarScheduleController::class, 'store']);
 
     Route::post('/webhook/events', [EventWebhookController::class, 'update']);
 });

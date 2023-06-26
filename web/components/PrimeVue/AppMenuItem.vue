@@ -128,7 +128,7 @@ const checkActiveRoute = item => route.path === item.to
 			name="layout-submenu"
 		>
 			<ul v-show="root ? true : isActiveMenu" class="layout-submenu">
-				<app-menu-item
+				<AppMenuItem
 					v-for="(child, i) in item.items"
 					:key="child"
 					:index="i"

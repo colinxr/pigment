@@ -23,4 +23,10 @@ export default class CalendarRepository implements CalendarRepositoryI {
 
 		return res
 	}
+
+	async show(): Promise<AxiosResponse> {
+		const res = await this.apiClient.get(`/calendars/schedule`)
+
+		return res
+	}
 }

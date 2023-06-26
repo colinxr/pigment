@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosInstance } from 'axios'
+import Cookies from 'js-cookie'
 import handleApiErrors from './handleApiErrors'
 
 export default (baseURL: string): AxiosInstance => {
@@ -12,16 +13,20 @@ export default (baseURL: string): AxiosInstance => {
 		},
 	})
 
-	// if (typeof window !== 'undefined') {
-	// 	const token = await getToken()
+	if (typeof window !== 'undefined') {
+			client.interceptors.request.use(request => {
+				if (request.headers.Authorization) return request
 
-	// 	console.log(token)
+				const storeCookie = Cookies.get('authStore')
+				
+				if (!storeCookie) return request
 
-	// 	client.interceptors.request.use(request => {
-	// 		request.headers.set('Authorization', `Bearer ${token}`)
-	// 		return request
-	// 	})
-	// }
+				const authStore = JSON.parse(storeCookie)
+				
+				request.headers.set('Authorization', `Bearer ${authStore.user.token}`)
+				return request
+			})
+	}
 
 	client.interceptors.response.use(
 		response => response,

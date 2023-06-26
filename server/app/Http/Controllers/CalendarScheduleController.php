@@ -41,4 +41,12 @@ class CalendarScheduleController extends Controller
     function update(Request $request)
     {
     }
+
+    public function show()
+    {
+        return response()->json([
+            'message' => 'Resource updated successfully',
+            'data' => Auth::user()->calendar->schedule,
+        ], 201);
+    }
 }

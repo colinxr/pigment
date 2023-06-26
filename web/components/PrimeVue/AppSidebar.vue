@@ -226,7 +226,7 @@ const handleLogout = async () => {
 <template>
 	<div class="h-screen sticky top-0">
 		<div
-			class="flex flex-col items-center justify-between py-4 h-full flex-shrink-0 w-[240px] bg-indigo-800"
+			class="flex flex-col items-center justify-between py-4 px-4 h-full flex-shrink-0 w-[240px] bg-indigo-800"
 		>
 			<ul class="layout-menu self-start">
 				<template v-for="(item, i) in menu" :key="item">

@@ -42,6 +42,7 @@ export interface CalendarRepositoryI {
 	apiClient: AxiosInstance
 	getSlots(duration: number): Promise<AxiosResponse>
 	store(schedule: ScheduleDataI): Promise<AxiosResponse>
+	show(): Promise<AxiosResponse>
 }
 
 export interface AppointmentFormData {
