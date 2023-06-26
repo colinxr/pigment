@@ -11,30 +11,11 @@ const props = defineProps({
 const openRef = ref(null)
 const closeRef = ref(null)
 
-onMounted(() => {
-	const { open, close } = props.day.times
-
-	if (!open || !close) return
-
-	// openRef.value.node.input(formattedTime(open))
-	// closeRef.value.node.input(formattedTime(close))
-})
-
-// watch([open, close], ([newOpen, newClose]) => {
-// 	emit('time-set', {
-// 		model: newOpen ? 'open' : 'close',
-// 		value: newOpen ? newOpen.value : newClose.value,
-// 	})
-// })
-
 const formattedTime = timeString => {
 	if (!timeString) return null
 
 	const [time, meridiem] = timeString.split(' ')
 	let [hours, minutes] = time.split(':')
-
-	console.log(meridiem)
-	console.log(hours)
 
 	if (meridiem === 'pm') {
 		hours = (Number(hours) + 12).toString()
@@ -47,10 +28,7 @@ const labelText = computed(() => {
 	return props.day.key.charAt(0).toUpperCase() + props.day.key.slice(1) //capitalize
 })
 
-const handleevt = (value, input) => {
-	console.log(value)
-	console.log(input)
-
+const handleInput = (value, input) => {
 	emit('time-set', {
 		name: input.name,
 		value: value,
@@ -74,7 +52,7 @@ const handleevt = (value, input) => {
 				:name="`${props.day.key}_open`"
 				label="Opening"
 				:value="formattedTime(props.day.times.open)"
-				@input="handleevt"
+				@input="handleInput"
 			/>
 
 			<FormKit
@@ -87,7 +65,7 @@ const handleevt = (value, input) => {
 				:name="`${props.day.key}_close`"
 				label="Closing"
 				:value="formattedTime(props.day.times.close)"
-				@input="handleevt"
+				@input="handleInput"
 			/>
 		</div>
 	</div>

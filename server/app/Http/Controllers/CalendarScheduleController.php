@@ -33,7 +33,7 @@ class CalendarScheduleController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Resource updated successfully',
+            'message' => 'Schedule updated',
             'data' => Auth::user()->calendar->schedule,
         ], 201);
     }
@@ -45,7 +45,6 @@ class CalendarScheduleController extends Controller
     public function show()
     {
         return response()->json([
-            'message' => 'Resource updated successfully',
             'data' => Auth::user()->calendar->schedule,
         ], 201);
     }
