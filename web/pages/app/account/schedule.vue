@@ -12,7 +12,9 @@ import CalenderScheduleForm from '@/components/forms/CalendarScheduleForm'
 
 		<Card class="w-full">
 			<template #content>
-				<CalenderScheduleForm fetchSchedule class="w-full" />
+				<div class="flex justify-around">
+					<CalenderScheduleForm fetchSchedule class="lg:w-2/3 w-full" />
+				</div>
 			</template>
 		</Card>
 	</div>

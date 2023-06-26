@@ -31,7 +31,14 @@ const formattedTime = timeString => {
 	if (!timeString) return null
 
 	const [time, meridiem] = timeString.split(' ')
-	const [hours, minutes] = time.split(':')
+	let [hours, minutes] = time.split(':')
+
+	console.log(meridiem)
+	console.log(hours)
+
+	if (meridiem === 'pm') {
+		hours = (Number(hours) + 12).toString()
+	}
 
 	return `${hours.padStart(2, '0')}:${minutes}`
 }
@@ -53,13 +60,16 @@ const handleevt = (value, input) => {
 
 <template>
 	<div class="flex">
-		<div class="w-[130px] text-right font-bold">
+		<div class="w-[130px] text-right font-bold self-center">
 			<label class="mr-10" :for="props.day.key">{{ labelText }}</label>
 		</div>
-		<div class="flex">
+		<div class="flex flex-grow justify-between">
 			<FormKit
 				ref="openRef"
-				class="mr-5"
+				:classes="{
+					outer: 'w-1/2 mr-5 ',
+					label: 'text-xs',
+				}"
 				type="time"
 				:name="`${props.day.key}_open`"
 				label="Opening"
@@ -70,6 +80,10 @@ const handleevt = (value, input) => {
 			<FormKit
 				ref="closeRef"
 				type="time"
+				:classes="{
+					outer: 'w-1/2 mb-0',
+					label: 'text-xs',
+				}"
 				:name="`${props.day.key}_close`"
 				label="Closing"
 				:value="formattedTime(props.day.times.close)"

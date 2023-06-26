@@ -95,6 +95,7 @@ const handleSubmit = async formData => {
 			:day="day"
 			:key="i"
 			@time-set="updateModel"
+			class="ml-auto mr-auto"
 		/>
 
 		<button
