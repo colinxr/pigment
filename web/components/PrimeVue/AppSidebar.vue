@@ -1,21 +1,26 @@
 <script setup>
-import { ref } from 'vue'
+import Cookies from 'js-cookie'
+import ApiService from '@dayplanner/apiservice'
 import AppMenuItem from '@/components/PrimeVue/AppMenuItem.vue'
 
 const menu = ref([
 	{
 		items: [
-			{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' },
-			{ label: 'Submissions', icon: 'pi pi-fw pi-clone', to: '/submissions' },
+			{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/app' },
+			{
+				label: 'Submissions',
+				icon: 'pi pi-fw pi-clone',
+				to: '/app/submissions',
+			},
 			{
 				label: 'Appointments',
 				icon: 'pi pi-fw pi-list',
-				to: '/appointments',
+				to: '/app/appointments',
 			},
 			{
 				label: 'Clients',
 				icon: 'pi pi-fw pi-id-card',
-				to: '/clients',
+				to: '/app/clients',
 			},
 		],
 	},
@@ -209,18 +214,33 @@ const menu = ref([
 	//   ]
 	// }
 ])
+
+const handleLogout = async () => {
+	const res = await ApiService.auth.logout()
+	Cookies.remove('authStore')
+
+	return navigateTo('/', { external: true })
+}
 </script>
 
 <template>
 	<div class="h-screen sticky top-0">
 		<div
-			class="flex flex-col items-center py-4 h-full flex-shrink-0 w-[240px] bg-indigo-800"
+			class="flex flex-col items-center justify-between py-4 h-full flex-shrink-0 w-[240px] bg-indigo-800"
 		>
-			<ul class="layout-menu">
+			<ul class="layout-menu self-start">
 				<template v-for="(item, i) in menu" :key="item">
 					<AppMenuItem v-if="!item.separator" :item="item" :index="i" />
 					<li v-if="item.separator" class="menu-separator" />
 				</template>
+			</ul>
+
+			<ul class="layout-menu self-start">
+				<li class="layout-root-menuitem text-gray-200 pl-2">
+					<button @click="handleLogout" class="layout-menuitem-text">
+						Logout
+					</button>
+				</li>
 			</ul>
 		</div>
 	</div>

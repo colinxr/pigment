@@ -83,6 +83,11 @@ class User extends Authenticatable
         return $this->hasMany(Appointment::class);
     }
 
+    public function lastestAppointments()
+    {
+        return $this->hasMany(Appointment::class)->latest();
+    }
+
     function upcomingAppointsments()
     {
         return $this->appointments()->where(['startDateTime', '>', Carbon::now()]);

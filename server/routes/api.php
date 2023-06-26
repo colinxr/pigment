@@ -23,13 +23,9 @@ use App\Http\Controllers\SubmissionMessageController;
 |
 */
 
-// Route::post('/users', [UserController::class, 'store']);
-
-Route::post('/register', [AuthController::class, 'register']);
-
+Route::post('/register', [AuthController::class, 'store']);
 Route::post('/login', [AuthController::class, 'login']);
-
-Route::post('/sanctum/token', [AuthController::class, 'store']);
+Route::post('/sanctum/token', [AuthController::class, 'storeToken']);
 
 Route::post('/users/{user}/submissions', [UserSubmissionsController::class, 'store']);
 

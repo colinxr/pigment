@@ -39,9 +39,12 @@ definePageMeta({
 
 <template>
 	<div class="layout-main p-4 w-full">
-		<h2 class="text-xl font-semibold mb-5">
-			Appointment: {{ appointment.name }}
-		</h2>
+		<header class="mb-5">
+			<h2 class="text-xl font-semibold">Appointment: {{ appointment.name }}</h2>
+			<nuxt-link :to="`/appointments/${route.params.id}/edit`">
+				Edit
+			</nuxt-link>
+		</header>
 
 		<Card class="w-full">
 			<template v-if="!isLoading && appointment" #content>

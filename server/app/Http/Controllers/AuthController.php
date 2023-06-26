@@ -6,6 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use App\Http\Requests\NewUserRequest;
 
 class AuthController extends Controller
 {
@@ -15,15 +16,15 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-      
+
         $user = User::where('email', $request->input('email'))->first();
-  
+
         if (!$user || !Hash::check($request->input('password'), $user->password)) {
             return response()->json([
                 'error' => 'The provided credentials are incorrect.'
             ]);
         }
- 
+
         return response()->json([
             'user' => $user,
             'access_token' => $user->createToken('spa')->plainTextToken,
@@ -31,26 +32,23 @@ class AuthController extends Controller
         ]);
     }
 
-    public function register(Request $request)
+    public function store(NewUserRequest $request)
     {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:8',
-        ]);
-    
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
-        ]);
-    
-        $token = $user->createToken('spa')->plainTextToken;
-    
-        return response()->json([
-            'user' => $user,
-            'token' => $token
-        ]);
+        try {
+            $user = User::create($request->validated());
+
+            $token = $user->createToken('spa')->plainTextToken;
+
+            return response()->json([
+                'user' => $user,
+                'token' => $token,
+            ], 201);
+        } catch (\Throwable $th) {
+
+            return response()->json([
+                'error' => $th->getMessage(),
+            ], 500);
+        }
     }
 
     public function login(Request $request)
@@ -59,15 +57,15 @@ class AuthController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
-    
-        if ( Auth::attempt($request->only('email', 'password'))) {
+
+        if (Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
                 'user' => Auth::user(),
                 'token' => Auth::user()->createToken('spa')->plainTextToken,
 
             ]);
         }
-    
+
         return response()->json(['message' => 'Invalid credentials'], 401);
     }
 

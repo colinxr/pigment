@@ -1,5 +1,5 @@
 import { AxiosInstance, AxiosResponse } from 'axios'
-import { AuthRepositoryI } from '../types'
+import { AuthRepositoryI, RegisterFormDataI } from '../types'
 declare global {
 	interface Window {
 		sessionStorage: Storage
@@ -35,20 +35,19 @@ export default class AuthRepository implements AuthRepositoryI {
 		const response = await this.apiClient.post('/login', { email, password })
 
 		const { token } = response.data
-		console.log(token)
 
 		this.apiClient.defaults.headers.common.Authorization = `Bearer ${token}`
 		return response
 	}
 
 	async logout(): Promise<AxiosResponse> {
-		const res = await this.apiClient.get('/logout', {})
+		const res = await this.apiClient.get('/logout')
 
 		return res
 	}
 
-	async register(): Promise<AxiosResponse> {
-		const res = await this.apiClient.post('/register')
+	async register(formData: RegisterFormDataI): Promise<AxiosResponse> {
+		const res = await this.apiClient.post('/register', formData)
 
 		return res
 	}

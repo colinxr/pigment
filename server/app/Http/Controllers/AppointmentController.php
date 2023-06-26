@@ -43,7 +43,7 @@ class AppointmentController extends Controller
             ], 200);
         }
 
-        return response()->json(['data' => Auth::user()->appointments], 200);
+        return response()->json(['data' => Auth::user()->lastestAppointments], 200);
     }
 
     public function show(Appointment $appointment)

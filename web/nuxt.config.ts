@@ -13,19 +13,9 @@ export default defineNuxtConfig({
 		'@/assets/styles/main.scss',
 		'@/assets/styles/primevue/theme/theme.css',
 		'primeicons/primeicons.css',
-		'primeflex/primeflex.scss',
 		'primevue/resources/primevue.min.css',
 	],
 	modules: ['@pinia/nuxt', '@formkit/nuxt', '@pinia-plugin-persistedstate/nuxt'],
-	nitro: {
-		storage: {
-			'db': {
-				driver: 'sessionStorage',
-				sessionStorage: true,
-				window: true,
-			}
-		}
-	},
 	piniaPersistedstate: {
     cookieOptions: {
       sameSite: 'strict',

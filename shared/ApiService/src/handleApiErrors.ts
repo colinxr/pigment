@@ -1,6 +1,8 @@
 /* eslint-disable prettier/prettier */
 import { AxiosError } from 'axios'
 
+import Cookies from 'js-cookie'
+
 export default (error: AxiosError) => {
 	if (error.response) {
 		switch (error.response.status) {
@@ -12,6 +14,9 @@ export default (error: AxiosError) => {
 		case 401: {
 			// Handle Unauthorized errors
 			console.log('Unauthorized:', error.response.data)
+			Cookies.remove('authStore')
+			
+			window.location.href = '/'
 			break
 		}
 		case 403: {

@@ -46,7 +46,6 @@
     "primeicons": "^6.0.1",
     "primevue": "^3.29.2",
     "sass": "^1.62.1",
-    "unstorage": "^1.7.0",
     "vue": "^3.3.2",
     "vue-tailwindcss-typeahead": "^2.0.0"
   }

@@ -1,5 +1,7 @@
 import { AxiosInstance, AxiosResponse } from 'axios'
-import { CalendarRepositoryI } from '../types'
+import { CalendarRepositoryI, ScheduleDataI } from '../types'
+
+
 
 export default class CalendarRepository implements CalendarRepositoryI {
 	apiClient: AxiosInstance
@@ -8,10 +10,16 @@ export default class CalendarRepository implements CalendarRepositoryI {
 		this.apiClient = apiClient
 	}
 
-	async getSlots(duration: number): Promise<AxiosResponse<any, any>> {
+	async getSlots(duration: number): Promise<AxiosResponse> {
 		const res = await this.apiClient.get(
 			`/calendars/slots?duration=${duration}`
 		)
+
+		return res
+	}
+
+	async store(schedule: ScheduleDataI): Promise<AxiosResponse> {
+		const res = await this.apiClient.post(`/calendars/schedule`, schedule)
 
 		return res
 	}

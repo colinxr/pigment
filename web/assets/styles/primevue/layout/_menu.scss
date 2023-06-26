@@ -33,7 +33,7 @@
         }
     }
 
-    a {
+    a, button {
         user-select: none;
 
         &.active-menuitem {
@@ -56,7 +56,7 @@
         padding: 0;
         list-style-type: none;
 
-        a {
+        a, button {
             display: flex;
             align-items: center;
             position: relative;

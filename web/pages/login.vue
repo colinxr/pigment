@@ -28,11 +28,11 @@ const handleSubmit = async () => {
 
 		store.setUser({ ...user, token })
 
-		return navigateTo('/')
+		return navigateTo('/app')
 	} catch (error) {
 		console.log(error)
 		errorState.isSet = true
-		errorState.message = 'something went wrong'
+		errorState.message = 'Something went wrong'
 		return false
 	}
 }

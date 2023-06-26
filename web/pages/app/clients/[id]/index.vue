@@ -43,10 +43,13 @@ definePageMeta({
 <template>
 	<div class="layout-main p-4 w-full">
 		<section class="mb-10">
-			<h2 class="text-xl font-semibold mb-5">
-				Client:
-				<span v-if="client">{{ client.full_name }}</span>
-			</h2>
+			<header class="mb-5">
+				<h2 class="text-xl font-semibold">
+					Client:
+					<span v-if="client">{{ client.full_name }}</span>
+				</h2>
+				<nuxt-link :to="`/clients/${route.params.id}/edit`"> Edit </nuxt-link>
+			</header>
 
 			<Card class="w-full">
 				<template v-if="!isLoading && client" #content>
