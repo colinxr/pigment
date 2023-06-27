@@ -4,13 +4,8 @@ import ApiService from '@dayplanner/apiservice'
 import CalenderScheduleInput from './CalenderScheduleInput.vue'
 import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'
 
-const {
-	errorState,
-	showFormAlert,
-	formStatus,
-	alertMessage,
-	handleResponseErrors,
-} = useFormErrors()
+const { showFormAlert, formStatus, alertMessage, handleResponseErrors } =
+	useFormErrors()
 
 const props = defineProps({
 	fetchSchedule: {
@@ -50,14 +45,14 @@ const schedule = ref({
 	},
 })
 
+const errors = ref({})
+
 const days = ref(null)
 
 onBeforeMount(async () => {
 	if (!props.fetchSchedule) return
 
 	const res = await ApiService.calendars.show()
-
-	console.log(res.data.data)
 
 	if (res.data.data) {
 		schedule.value = { ...schedule.value, ...res.data.data }
@@ -70,13 +65,33 @@ const buildScheduleData = times => {
 	return Object.keys(times).map(day => ({
 		key: day,
 		times: times[day],
+		error: null,
 	}))
 }
 
 const updateModel = ({ name, value }) => {
 	const [day, key] = name.split('_')
-
 	schedule.value[day][key] = value
+
+	handleErrors(day, schedule.value[day])
+}
+
+const handleErrors = (dayName, scheduleDay) => {
+	const { open, close } = scheduleDay
+
+	const index = days.value.findIndex(({ key }) => key === dayName)
+
+	console.log(typeof open, typeof close)
+	if (
+		(open === null && close === null) ||
+		(typeof open === 'string' && typeof close === 'string')
+	) {
+		days.value[index].error = ''
+		return
+	}
+
+	days.value[index].error =
+		'Make sure to fill out both opening and closing hours.'
 }
 
 const handleSubmit = async formData => {
