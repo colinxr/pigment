@@ -1,5 +1,5 @@
 <script setup>
-import CalenderScheduleForm from '@/components/forms/CalendarScheduleForm'
+import CalendarScheduleForm from '@/components/Forms/CalendarScheduleForm.vue'
 </script>
 
 <template>

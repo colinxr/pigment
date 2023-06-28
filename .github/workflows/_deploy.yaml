@@ -100,14 +100,14 @@ jobs:
           new_release_dir="/var/www/pigment/releases/$(date +'%Y%m%d%H%M')"					
           app_dir="/var/www/pigment"
 
-          rm -rf {{ $new_release_dir }}/server/storage
-          ln -nfs {{ $app_dir }}/server/storage {{ $new_release_dir }}/server/storage
+          rm -rf "$new_release_dir/server/storage"
+          ln -nfs "$app_dir }}/server/storage" "$new_release_dir/server/storage"
 
           echo 'Linking .env file'
-          ln -nfs {{ $app_dir }}/.env {{ $new_release_dir }}/server/.env
+          ln -nfs "$app_dir }}/.env" "$new_release_dir }}/server/.env"
 
           echo 'Linking current release'
-          ln -nfs {{ $new_release_dir }} {{ $app_dir }}/active
+          ln -nfs "$new_release_dir" "$app_dir/active"
 
       - name: Clean up Old Releases
         run: |
