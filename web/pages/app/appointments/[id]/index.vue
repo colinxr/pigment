@@ -1,5 +1,5 @@
 <script setup>
-import ApiService from '@dayplanner/apiservice'
+import ApiService from '@dayplanner/ApiService'
 import useAppointmentSchema from '@/composables/useAppointmentSchema'
 
 import DynamicForm from '@/components/Forms/DynamicForm.vue'

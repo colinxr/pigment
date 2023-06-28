@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import ApiService from '@dayplanner/apiservice'
+import ApiService from '@dayplanner/ApiService'
 import { ClientI, SubmissionI } from './types'
 
 export default defineStore('dashboardStore', () => {
@@ -23,7 +23,7 @@ export default defineStore('dashboardStore', () => {
 	const findSubmissionById = (activeSubId: number) =>
 		submissions.value.find(({ id }) => id === activeSubId)
 
-	const getSubmissions = async() => {
+	const getSubmissions = async () => {
 		if (!nextPage.value) return
 
 		try {

@@ -1,5 +1,5 @@
 <script setup>
-import ApiService from '@dayplanner/apiservice'
+import ApiService from '@dayplanner/ApiService'
 
 import CalenderScheduleInput from './CalenderScheduleInput.vue'
 import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'

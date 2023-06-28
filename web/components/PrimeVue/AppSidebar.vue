@@ -1,6 +1,6 @@
 <script setup>
 import Cookies from 'js-cookie'
-import ApiService from '@dayplanner/apiservice'
+import ApiService from '@dayplanner/ApiService'
 import AppMenuItem from '@/components/PrimeVue/AppMenuItem.vue'
 
 const menu = ref([

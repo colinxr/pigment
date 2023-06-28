@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import ApiService from '@dayplanner/apiservice'
+import ApiService from '@dayplanner/ApiService'
 import { ClientI, SubmissionI } from './types'
 
 const activeSubmission = ref<SubmissionI>()

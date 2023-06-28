@@ -1,5 +1,5 @@
 <script setup>
-import ApiService from '@dayplanner/apiservice'
+import ApiService from '@dayplanner/ApiService'
 import useAuthStore from '@/stores/auth'
 import useRegistrationSchema from '@/composables/useRegistrationSchema'
 

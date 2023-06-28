@@ -1,5 +1,5 @@
 <script setup>
-import ApiService from '@dayplanner/apiservice'
+import ApiService from '@dayplanner/ApiService'
 import useFormErrors from '@/composables/useFormErrors'
 import useClientSchema from '@/composables/useClientSchema'
 

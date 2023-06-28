@@ -1,5 +1,5 @@
 <script setup>
-import ApiService from '@dayplanner/apiservice'
+import ApiService from '@dayplanner/ApiService'
 import useAuthStore from '@/stores/auth'
 import useModalStore from '@/stores/modal'
 import useFormErrors from '@/composables/useFormErrors'

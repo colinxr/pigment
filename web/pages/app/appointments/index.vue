@@ -1,5 +1,5 @@
 <script setup>
-import ApiService from '@dayplanner/apiservice'
+import ApiService from '@dayplanner/ApiService'
 import useModalStore from '@/stores/modal'
 import AppointmentDeleteModal from '@/components/Modal/AppointmentDeleteModal.vue'
 import LoadingCard from '@/components/Appointments/LoadingCard.vue'
