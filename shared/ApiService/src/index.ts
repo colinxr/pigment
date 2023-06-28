@@ -1,3 +1,6 @@
+import dotenv  from "dotenv"
+
+
 import { AxiosInstance } from 'axios'
 import createApiClient from './createApiClient'
 import {
@@ -21,6 +24,8 @@ import {
 } from './repositories'
 import CalendarRepository from './repositories/CalendarRepository'
 
+dotenv.config()
+
 class ApiService implements ApiServiceInterface {
 	axios: AxiosInstance
 
@@ -39,7 +44,7 @@ class ApiService implements ApiServiceInterface {
 	users: UserRepositoryI
 
 	constructor() {
-		this.axios = createApiClient('https://api.dayplanner.test/api')
+		this.axios = createApiClient(process.env.API_URL ?? '')
 
 		this.appointments = new AppointmentRepository(this.axios)
 		this.auth = new AuthRepository(this.axios)

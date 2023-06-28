@@ -69,7 +69,7 @@ jobs:
           echo "Install PHP Deps"
           new_release_dir="/var/www/pigment/releases/$(date +'%Y%m%d%H%M')"
           cd {{ $new_release_dir }}/server
-          composer install --prefer-dist --no-scripts -q -o
+          composer install --prefer-dist --no-scripts -o
 
       - name: Install & Build Shared Packages
         run: |

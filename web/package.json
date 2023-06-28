@@ -2,8 +2,8 @@
   "name": "web",
   "private": true,
   "scripts": {
-    "build": "nuxt build",
-    "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 nuxt dev --host dayplanner.com --https --port 3000 --ssl-cert dayplanner.test+1.pem --ssl-key dayplanner.test+1-key.pem",
+    "build": "API_URL=http://up.workingfrombed.org/api nuxt build",
+    "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 API_URL=https://api.dayplanner.test/api nuxt dev --host dayplanner.com --https --port 3000 --ssl-cert dayplanner.test+1.pem --ssl-key dayplanner.test+1-key.pem",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"

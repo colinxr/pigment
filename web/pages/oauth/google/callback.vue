@@ -1,6 +1,6 @@
 <script setup>
 import useAuthStore from '@/stores/auth'
-import ApiService from '@dayplanner/apiservice'
+import ApiService from '@dayplanner/ApiService'
 
 const route = useRoute()
 const { lastURL } = useAuthStore()

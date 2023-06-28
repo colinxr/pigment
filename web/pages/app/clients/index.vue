@@ -1,5 +1,5 @@
 <script setup>
-import ApiService from '@dayplanner/apiservice'
+import ApiService from '@dayplanner/ApiService'
 import { getReadableDate } from '@/composables/useDateService.js'
 // import AppointmentCard from '@/components/Appointments/AppointmentCard.vue'
 import LoadingCard from '@/components/Appointments/LoadingCard.vue'

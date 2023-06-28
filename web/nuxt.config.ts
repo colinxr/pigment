@@ -31,7 +31,3 @@ export default defineNuxtConfig({
 	},
 	ssr: false,
 })
-
-// "NODE_TLS_REJECT_UNAUTHORIZED=0 nuxt dev --host dayplanner.test --https  \
-// --ssl-cert ~/.config/valet/CA/LaravelValetCASelfSigned.pem \
-// --ssl-key ~/.config/valet/CA/LaravelValetCASelfSigned.key",

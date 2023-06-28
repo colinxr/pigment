@@ -1,5 +1,5 @@
 import useAuthStore from '@/stores/auth'
-import ApiService from '@dayplanner/apiservice'
+import ApiService from '@dayplanner/ApiService'
 
 export default defineNuxtRouteMiddleware(async to => {
 	const store = useAuthStore()
