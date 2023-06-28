@@ -1,6 +1,6 @@
 <script setup>
 import { markRaw } from 'vue'
-import ApiService from '@dayplanner/apiservice'
+import ApiService from '@dayplanner/ApiService'
 import useSubmissionsStore from '@/stores/submissions'
 import useModalStore from '@/stores/modal'
 import useWatchForRefresh from '@/composables/useWatchForRefresh'
