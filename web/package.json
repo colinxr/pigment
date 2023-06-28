@@ -38,6 +38,7 @@
     "@pinia/nuxt": "^0.4.10",
     "@tailwindcss/typography": "^0.5.9",
     "@vueuse/core": "^10.2.0",
+    "chart.js": "^4.3.0",
     "chartjs": "^0.3.24",
     "D": "^1.0.0",
     "daisyui": "^2.51.6",
