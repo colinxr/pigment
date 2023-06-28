@@ -1,0 +1,118 @@
+name: CI/CD
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # - name: Checkout repository
+      # uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18.6
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+
+      - name: Install dependencies and run tests for Laravel app
+        working-directory: ./server
+        run: |
+          composer install
+          php artisan test
+
+      - name: Install dependencies and run tests for Nuxt app
+        working-directory: ./
+        run: |
+          npm i -w web
+          npm run test -w web
+
+      - name: Build Shared Packages
+        working-directory: ./
+        run: |
+          npm install -w shared/ApiService
+          npm run compile -s shared/ApiService
+
+      - name: Build Nuxt app
+        run: |
+          npm run build -w web
+
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: SSH
+        run: |
+          ssh $SERVER_USER@$SERVER_HOST
+
+      - name: Clone Repo
+        run: |
+          echo 'Cloning repository'
+
+          release_dir="/var/www/pigment/releases"
+          new_release_dir="/var/www/pigment/releases/$(date +'%Y%m%d%H%M')"
+
+          [ -d "$release_dir" ] || mkdir "$release_dir"
+          git clone --depth 1 https://github.com/colinxr/dayplanner.git "$new_release_dir"
+          cd "$new_release_dir"
+          git reset --hard HEAD
+
+      - name: Install Composer Dependencies
+        run: |
+          echo "Install PHP Deps"
+          new_release_dir="/var/www/pigment/releases/$(date +'%Y%m%d%H%M')"
+          cd {{ $new_release_dir }}/server
+          composer install --prefer-dist --no-scripts -q -o
+
+      - name: Install & Build Shared Packages
+        run: |
+          cd ..
+          npm install -w shared/ApiService
+          npm run compile -w shared/ApiService
+
+      - name: Install Front-end
+        run: |
+          npm install -w web
+
+      - name: Run Nuxt Server
+        run: |
+          npm run build
+
+      - name: Run Laravel Server
+        run: |
+          cd /server
+          php artisan down 
+          php artisan migrate --force
+          php artisan cache:clear
+          php artisan serve
+
+      - name: Deploy New Release
+        run: |
+          echo "Linking storage directory"
+
+          new_release_dir="/var/www/pigment/releases/$(date +'%Y%m%d%H%M')"					
+          app_dir="/var/www/pigment"
+
+          rm -rf {{ $new_release_dir }}/server/storage
+          ln -nfs {{ $app_dir }}/server/storage {{ $new_release_dir }}/server/storage
+
+          echo 'Linking .env file'
+          ln -nfs {{ $app_dir }}/.env {{ $new_release_dir }}/server/.env
+
+          echo 'Linking current release'
+          ln -nfs {{ $new_release_dir }} {{ $app_dir }}/active
+
+      - name: Clean up Old Releases
+        run: |
+          directory="/var/www/pigment/releases/"
+          desired_name="$(date +'%Y%m%d%H%M')"
+
+          # Find and delete folders that don't match the desired name format
+          find "$directory" -type d ! -name "$desired_name" -exec rm -rf {} \;
