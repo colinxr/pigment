@@ -1,20 +1,19 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { ClientI, SubmissionI } from './types'
-// import ApiService from '@/services/ApiService'
 
 export default defineStore('dashboardStore', () => {
 	const submissions = ref<SubmissionI[]>([])
 	const activeSubmission = ref<SubmissionI>()
 	const nextPage = ref<number | null>(1)
 
-	const getNextPageFromUrl = (url: string | null): number | null => {
-		if (!url) return null
+	// const getNextPageFromUrl = (url: string | null): number | null => {
+	// if (!url) return null
 
-		const match = url.match(/page=(\d+)/)
+	// const match = url.match(/page=(\d+)/)
 
-		return match ? Number(match[1]) : null
-	}
+	// return match ? Number(match[1]) : null
+	// }
 
 	const setActiveSubmission = (submission: SubmissionI) => {
 		activeSubmission.value = submission
@@ -23,14 +22,13 @@ export default defineStore('dashboardStore', () => {
 	const findSubmissionById = (activeSubId: number) =>
 		submissions.value.find(({ id }) => id === activeSubId)
 
-	const getSubmissions = async () => {
+	const getSubmissions = () => {
 		if (!nextPage.value) return
 
 		try {
-			const { data } = await ApiService.submissions.index(nextPage.value)
-			submissions.value = [...submissions.value, ...data.submissions.data]
-
-			nextPage.value = getNextPageFromUrl(data.submissions.next_page_url)
+			// // const { data } = await ApiService.submissions.index(nextPage.value)
+			// submissions.value = [...submissions.value, ...data.submissions.data]
+			// nextPage.value = getNextPageFromUrl(data.submissions.next_page_url)
 		} catch (error) {
 			console.log(error)
 		}
