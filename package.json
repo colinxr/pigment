@@ -1,13 +1,11 @@
 {
-  "name": "dayplanner",
+  "name": "pigment",
   "version": "1.0.0",
   "description": "admin app for tattoo artists and other creative professionals",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "watch:shared": "npm run watch -w shared/ApiService && npm run watch -w shared/Store",
-    "web:dev": "npm run dev -w web",
-    "dev": "code . && concurrently \"npm run watch:shared\" \"npm run web:dev\""
+    "web:dev": "npm run dev -w web"
   },
   "repository": {
     "type": "git",
@@ -20,9 +18,7 @@
   },
   "homepage": "https://github.com/colinxr/dayplanner#readme",
   "workspaces": [
-    "shared/*",
-    "web",
-    "server"
+    "web"
   ],
   "devDependencies": {
     "@nuxt/typescript-runtime": "^3.0.1",

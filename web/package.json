@@ -3,10 +3,10 @@
   "private": true,
   "scripts": {
     "build": "",
-    "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 nuxt dev --host dayplanner.com --https --port 3000 --ssl-cert dayplanner.test+1.pem --ssl-key dayplanner.test+1-key.pem",
-    "generate": "nuxt generate",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 npx nuxi dev --host pigment.com --https --port 3000 --ssl-cert pigment.pem --ssl-key pigment-key.pem",
+    "generate": "npx nuxi generate",
+    "preview": "npx nuxi preview",
+    "postinstall": "npx nuxi prepare"
   },
   "devDependencies": {
     "@nuxt/eslint-config": "^0.1.1",

@@ -35,12 +35,6 @@ jobs:
           npm i -w web
           npm run test -w web
 
-      - name: Build Shared Packages
-        working-directory: ./
-        run: |
-          npm install -w shared/ApiService
-          npm run compile -s shared/ApiService
-
       - name: Build Nuxt app
         run: |
           npm run build -w web
