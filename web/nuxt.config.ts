@@ -4,7 +4,6 @@ import path from 'path'
 export default defineNuxtConfig({
 	alias: {
 		'@': path.resolve(__dirname),
-		'@dayplanner': path.resolve(__dirname, '..', 'shared'),
 	},
 	build: {
 		transpile: ['primevue'],
@@ -15,6 +14,14 @@ export default defineNuxtConfig({
 		'primeicons/primeicons.css',
 		'primevue/resources/primevue.min.css',
 	],
+	runtimeConfig: {
+    // The private keys which are only available server-side
+    apiSecret: '123',
+    // Keys within public are also exposed client-side
+    public: {
+			api_url: process.env.API_URL
+    }
+  },
 	modules: ['@pinia/nuxt', '@formkit/nuxt', '@pinia-plugin-persistedstate/nuxt'],
 	piniaPersistedstate: {
     cookieOptions: {

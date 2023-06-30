@@ -11,8 +11,5 @@
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
     "composite": true,
-    "paths": {
-      "@dayplanner/*": ["./shared/*/"]
-    }
   }
 }

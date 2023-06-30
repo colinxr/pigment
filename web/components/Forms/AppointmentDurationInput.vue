@@ -1,5 +1,5 @@
 <script setup>
-import ApiService from '@dayplanner/ApiService'
+import ApiService from '@/services/ApiService'
 import { getReadableDate } from '@/composables/useDateService.js'
 import useAppointmentSchema from '@/composables/useAppointmentSchema'
 const { setStartDateTime } = useAppointmentSchema()

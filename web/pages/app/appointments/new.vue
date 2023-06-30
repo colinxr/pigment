@@ -1,5 +1,5 @@
 <script setup>
-import ApiService from '@dayplanner/ApiService'
+import ApiService from '@/services/ApiService'
 import useFormErrors from '@/composables/useFormErrors'
 import { getTimeZoneOffset } from '@/composables/useDateService'
 import useAppointmentSchema from '@/composables/useAppointmentSchema'

@@ -1,5 +1,5 @@
 <script setup>
-import ApiService from '@dayplanner/ApiService'
+import ApiService from '@/services/ApiService'
 import useClientSchema from '@/composables/useClientSchema'
 
 import DynamicForm from '@/components/Forms/DynamicForm.vue'
@@ -48,7 +48,9 @@ definePageMeta({
 					Client:
 					<span v-if="client">{{ client.full_name }}</span>
 				</h2>
-				<nuxt-link :to="`/clients/${route.params.id}/edit`"> Edit </nuxt-link>
+				<nuxt-link :to="`/app/clients/${route.params.id}/edit`">
+					Edit
+				</nuxt-link>
 			</header>
 
 			<Card class="w-full">
@@ -83,14 +85,14 @@ definePageMeta({
 					>
 						<Column field="startDateTime" header="Date" sortable>
 							<template #body="slotProps">
-								<NuxtLink :to="`/appointments/${slotProps.data.id}`">
+								<NuxtLink :to="`/app/appointments/${slotProps.data.id}`">
 									{{ getReadableDate(slotProps.data.startDateTime) }}
 								</NuxtLink>
 							</template>
 						</Column>
 						<Column field="description" header="Description">
 							<template #body="slotProps">
-								<NuxtLink :to="`/appointments/${slotProps.data.id}`">
+								<NuxtLink :to="`/app/appointments/${slotProps.data.id}`">
 									{{ slotProps.data.description }}
 								</NuxtLink>
 							</template>

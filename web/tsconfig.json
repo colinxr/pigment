@@ -4,7 +4,10 @@
     "compilerOptions": {
       "baseUrl": ".",
       "paths": {
-        "@/*": ["./*"]
+        "@/*": ["./*"],
+        "#imports": [
+          ".nuxt/imports"
+        ],
       }
     }
 }

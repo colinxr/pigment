@@ -1,5 +1,5 @@
 <script setup>
-import ApiService from '@dayplanner/ApiService'
+import ApiService from '@/services/ApiService'
 import useFormErrors from '@/composables/useFormErrors'
 import DynamicForm from '@/components/Forms/DynamicForm.vue'
 import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'

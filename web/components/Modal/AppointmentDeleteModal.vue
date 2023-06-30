@@ -1,5 +1,5 @@
 <script setup>
-import ApiService from '@dayplanner/ApiService'
+import ApiService from '@/services/ApiService'
 import useModalStore from '@/stores/modal'
 import useWatchForRefresh from '@/composables/useWatchForRefresh'
 

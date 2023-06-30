@@ -1,5 +1,5 @@
 <script setup>
-import ApiService from '@dayplanner/ApiService'
+import ApiService from '@/services/ApiService'
 import useModalStore from '@/stores/modal'
 import AppointmentDeleteModal from '@/components/Modal/AppointmentDeleteModal.vue'
 import LoadingCard from '@/components/Appointments/LoadingCard.vue'
@@ -38,7 +38,7 @@ const handleDelete = ($event, apptID) => {
 
 /* eslint-disable-next-line */
 const handleEdit = ($event, apptID) => {
-	navigateTo(`/appointments/${apptID}/edit`)
+	navigateTo(`/app/appointments/${apptID}/edit`)
 }
 
 definePageMeta({
@@ -51,7 +51,7 @@ definePageMeta({
 	<div class="layout-main p-4 w-full">
 		<header class="mb-5">
 			<h2 class="text-xl font-semibold">Appointments</h2>
-			<nuxt-link to="/appointments/new"> New Appointment </nuxt-link>
+			<nuxt-link to="/app/appointments/new"> New Appointment </nuxt-link>
 		</header>
 
 		<Card class="w-full">
@@ -68,21 +68,21 @@ definePageMeta({
 					<!-- <Column selectionMode="multiple" headerStyle="width: 3em"></Column> -->
 					<Column field="id" header="ID" sortable>
 						<template #body="slotProps">
-							<NuxtLink :to="`/appointments/${slotProps.data.id}`">
+							<NuxtLink :to="`/app/appointments/${slotProps.data.id}`">
 								{{ slotProps.data.id }}
 							</NuxtLink>
 						</template>
 					</Column>
 					<Column field="name" header="Name">
 						<template #body="slotProps">
-							<NuxtLink :to="`/appointments/${slotProps.data.id}`">
+							<NuxtLink :to="`/app/appointments/${slotProps.data.id}`">
 								{{ slotProps.data.name }}
 							</NuxtLink>
 						</template>
 					</Column>
 					<Column field="description" header="description">
 						<template #body="slotProps">
-							<NuxtLink :to="`/appointments/${slotProps.data.id}`">
+							<NuxtLink :to="`/app/appointments/${slotProps.data.id}`">
 								{{ slotProps.data.description }}
 							</NuxtLink>
 						</template>

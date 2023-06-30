@@ -1,4 +1,6 @@
-import dotenv  from "dotenv"
+import { useRuntimeConfig } from "#imports";
+
+const config = useRuntimeConfig()
 
 
 import { AxiosInstance } from 'axios'
@@ -24,8 +26,6 @@ import {
 } from './repositories'
 import CalendarRepository from './repositories/CalendarRepository'
 
-dotenv.config()
-
 class ApiService implements ApiServiceInterface {
 	axios: AxiosInstance
 
@@ -44,7 +44,7 @@ class ApiService implements ApiServiceInterface {
 	users: UserRepositoryI
 
 	constructor() {
-		this.axios = createApiClient(process.env.API_URL ?? '')
+		this.axios = createApiClient(config.public.api_url)
 
 		this.appointments = new AppointmentRepository(this.axios)
 		this.auth = new AuthRepository(this.axios)

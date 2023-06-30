@@ -2,8 +2,8 @@
   "name": "web",
   "private": true,
   "scripts": {
-    "build": "API_URL=http://up.workingfrombed.org/api nuxt build",
-    "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 API_URL=https://api.dayplanner.test/api nuxt dev --host dayplanner.com --https --port 3000 --ssl-cert dayplanner.test+1.pem --ssl-key dayplanner.test+1-key.pem",
+    "build": "",
+    "dev": "NODE_TLS_REJECT_UNAUTHORIZED=0 nuxt dev --host dayplanner.com --https --port 3000 --ssl-cert dayplanner.test+1.pem --ssl-key dayplanner.test+1-key.pem",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -14,13 +14,17 @@
     "@nuxt/typescript-build": "^3.0.1",
     "@nuxtjs/eslint-config-typescript": "^12.0.0",
     "@pinia-plugin-persistedstate/nuxt": "^1.1.1",
+    "@types/js-cookie": "^3.0.3",
     "@types/node": "^18",
     "@vitejs/plugin-basic-ssl": "^1.0.1",
     "autoprefixer": "^10.4.14",
+    "axios": "^1.4.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.12.0",
+    "js-cookie": "^3.0.5",
+    "js-cookies": "^1.0.4",
     "nuxt": "^3.4.3",
     "postcss": "^8.4.23",
     "tailwindcss": "^3.3.2",
@@ -28,8 +32,6 @@
     "vue-eslint-parser": "^9.3.0"
   },
   "dependencies": {
-    "@dayplanner/ApiService": "file:../shared/ApiService",
-    "@dayplanner/store": "file:../shared/Store",
     "@formkit/core": "^0.17.3",
     "@formkit/nuxt": "^0.17.2",
     "@formkit/pro": "^0.112.5",
@@ -39,15 +41,10 @@
     "@tailwindcss/typography": "^0.5.9",
     "@vueuse/core": "^10.2.0",
     "chart.js": "^4.3.0",
-    "chartjs": "^0.3.24",
-    "D": "^1.0.0",
-    "daisyui": "^2.51.6",
     "pinia": "^2.1.1",
-    "primeflex": "^3.3.1",
     "primeicons": "^6.0.1",
     "primevue": "^3.29.2",
     "sass": "^1.62.1",
-    "vue": "^3.3.2",
-    "vue-tailwindcss-typeahead": "^2.0.0"
+    "vue": "^3.3.2"
   }
 }

@@ -1,5 +1,5 @@
 <script setup>
-import ApiService from '@dayplanner/ApiService'
+import ApiService from '@/services/ApiService'
 import { getReadableDate } from '@/composables/useDateService.js'
 // import AppointmentCard from '@/components/Appointments/AppointmentCard.vue'
 import LoadingCard from '@/components/Appointments/LoadingCard.vue'
@@ -63,21 +63,21 @@ definePageMeta({
 					<!-- <Column selectionMode="multiple" headerStyle="width: 3em"></Column> -->
 					<Column field="id" header="ID">
 						<template #body="slotProps">
-							<NuxtLink :to="`/clients/${slotProps.data.id}`">
+							<NuxtLink :to="`/app/clients/${slotProps.data.id}`">
 								{{ slotProps.data.id }}
 							</NuxtLink>
 						</template>
 					</Column>
 					<Column field="full_name" header="Name">
 						<template #body="slotProps">
-							<NuxtLink :to="`/clients/${slotProps.data.id}`">
+							<NuxtLink :to="`/app/clients/${slotProps.data.id}`">
 								{{ slotProps.data.full_name }}
 							</NuxtLink>
 						</template>
 					</Column>
 					<Column field="email" header="Email">
 						<template #body="slotProps">
-							<NuxtLink :to="`/clients/${slotProps.data.id}`">
+							<NuxtLink :to="`/app/clients/${slotProps.data.id}`">
 								{{ slotProps.data.email }}
 							</NuxtLink>
 						</template>
