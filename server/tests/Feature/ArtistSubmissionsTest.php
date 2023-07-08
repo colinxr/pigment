@@ -176,6 +176,8 @@ class ArtistSubmissionsTest extends TestCase
 
     public function test_can_show_upcoming_and_past_appointments(): void
     {
+        $this->app->bind(GoogleApiServiceInterface::class, FakeGoogleApiService::class);
+
         $user = User::factory()->create();
         $client = Client::factory()->create(['user_id' => $user->id]);
         $submission = Submission::factory()->create(['user_id' => $user->id, 'client_id' => $client->id]);
