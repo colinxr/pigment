@@ -9,27 +9,30 @@ on:
       - ".github/workflows/web.yaml"
 
 jobs:
-  deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
         uses: actions/checkout@v2
 
       - name: Install Dependencies
-        working-directory: /web
+        working-directory: ./web
         run: npm ci
 
       - name: Build App
-        working-directory: /web
+        working-directory: ./web
         run: npm run build
 
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
       - name: Configure SSH
         uses: webfactory/ssh-agent@v0.5.0
         with:
           ssh-private-key: ${{ secrets.SSH__PRIVATE_KEY }}
 
       - name: Deploy to Server
-        working-directory: /web
+        working-directory: ./web
         run: |
           scp -r .output/server/* {{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }}:/var/www/pigment/web/releases/$(date +'%Y%m%d%H%M')
           ssh {{ secrets.SERVER_USER }}@${{ secrets.SERVER_HOST }} "
