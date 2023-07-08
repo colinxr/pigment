@@ -4,6 +4,7 @@ namespace App\Services;
 
 use Google_Service_Calendar;
 use Google_Client as ApiClient;
+use Illuminate\Support\Facades\Log;
 use App\Exceptions\InvalidGCalConfiguration;
 use App\Interfaces\GoogleApiServiceInterface;
 
@@ -15,6 +16,7 @@ class GoogleApiService implements GoogleApiServiceInterface
 
   public function __construct(array $config)
   {
+    Log::info('testing');
     $this->config = $config;
   }
 
