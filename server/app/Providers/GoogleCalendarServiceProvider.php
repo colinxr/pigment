@@ -31,6 +31,8 @@ class GoogleCalendarServiceProvider extends ServiceProvider
 
     protected function guardAgainstInvalidConfiguration(array $config = null)
     {
+        if (app()->environment('testing')) return;
+
         $authProfile = $config['default_auth_profile'];
 
         if ($authProfile === 'service_account') {
