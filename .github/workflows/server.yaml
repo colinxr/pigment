@@ -1,0 +1,62 @@
+name: Laravel CI/CD
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "/server/**"
+      - ".github/workflows/server.yaml"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Install PHP dependencies
+        working-directory: ./server
+        run: composer install --no-scripts --prefer-dist --optimize-autoloader
+
+      - name: Run tests
+        working-directory: ./server
+        run: vendor/bin/phpunit --exclude-group google
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    env:
+      APP_DIR: /var/www/pigment/api
+      RELEASE_DIR: /var/www/pigment/api/releases/$(date +'%Y%m%d%H%M')
+      SERVER_USER: {{ secerts.SERVER_USER }}
+      SERVER_HOST: {{ secrets.SERVER_HOST }}
+
+    - name: Configure SSH
+      uses: webfactory/ssh-agent@v0.5.0
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    steps:
+      - name: Deploy to server
+        run: |
+          ssh $SERVER_USER@$SERVER_HOST
+          git clone --depth 1 https://github.com/colinxr/pigment.git $RELEASE_DIR
+          cd "$release_dir"
+          git reset --hard HEAD
+          cp .env $release_dir
+
+      - name: Run Migrations
+        run: |
+          ssh $SERVER_USER@$SERVER_HOST
+          cd $RELEASE_DIR 
+          composer install --no-dev
+          php artisan migrate --force
+          php artisan cache:clear
+          php artisan optimize
+
+      - name: Symlink Release
+        run: |
+          ssh $SERVER_USER@$SERVER_HOST
+          rm -rf /var/www/pigment/api/active
+          ln -s $RELEASE_DIR /var/www/pigment/api/active
