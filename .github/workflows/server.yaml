@@ -32,12 +32,12 @@ jobs:
       SERVER_USER: {{ secerts.SERVER_USER }}
       SERVER_HOST: {{ secrets.SERVER_HOST }}
 
-    - name: Configure SSH
-      uses: webfactory/ssh-agent@v0.5.0
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
     steps:
+      - name: Configure SSH
+        uses: webfactory/ssh-agent@v0.5.0
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
       - name: Deploy to server
         run: |
           ssh $SERVER_USER@$SERVER_HOST
