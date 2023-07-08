@@ -29,7 +29,7 @@ jobs:
     env:
       APP_DIR: /var/www/pigment/api
       RELEASE_DIR: /var/www/pigment/api/releases/$(date +'%Y%m%d%H%M')
-      SERVER_USER: ${{ secerts.SERVER_USER }}
+      SERVER_USER: ${{ secrets.SERVER_USER }}
       SERVER_HOST: ${{ secrets.SERVER_HOST }}
 
     steps:
