@@ -30,6 +30,8 @@ class AppointmentTest extends TestCase
 
         $submission = $client->submissions()->create(['user_id' => $this->user->id,]);
 
+        $this->app->bind(GoogleApiServiceInterface::class, FakeGoogleApiService::class);
+
         $this->gCalService = new FakeGoogleCalendarService;
         $gCal = $this->gCalService;
 

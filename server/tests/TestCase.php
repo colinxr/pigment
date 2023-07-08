@@ -20,7 +20,7 @@ abstract class TestCase extends BaseTestCase
 
         $this->initializeDirectory($this->getTempDirectory());
 
-        $this->app->bind(GoogleApiServiceInterface::class, function () {
+        $this->app->bind(GoogleApiServiceInterface::class, function ($app) {
             return new FakeGoogleApiService();
         });
     }
