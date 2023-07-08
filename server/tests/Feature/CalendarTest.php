@@ -36,8 +36,6 @@ class CalendarTest extends TestCase
 
         $auth_url = $service->client()->createAuthUrl();
 
-        dump($auth_url);
-
         $this->assertNotNull($auth_url);
         $this->assertTrue(Str::contains(
             $auth_url,
@@ -62,8 +60,6 @@ class CalendarTest extends TestCase
         $service = new GoogleApiService($config);
 
         $token = $service->client()->fetchAccessTokenWithAuthCode($request_code);
-
-        dump($token);
 
         $this->assertNotNull($token);
     }

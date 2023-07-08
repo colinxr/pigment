@@ -28,8 +28,6 @@ class CalendarTest extends TestCase
             'friday' => $this->buildShopHours('10:00 am', '5:00 pm')
         ];
 
-        dump(json_encode($this->schedule));
-
         $this->carbonDays = [
             'monday' => Carbon::MONDAY,
             'tuesday' => Carbon::TUESDAY,
@@ -58,7 +56,7 @@ class CalendarTest extends TestCase
 
     public function test_can_tell_if_user_works_today_using_carbon()
     {
-        $carbonDate = Carbon::now();
+        $carbonDate = Carbon::now()->next(Carbon::FRIDAY);
         $dateNotInSchedule = Carbon::now()->next(Carbon::SATURDAY);
 
         $this->assertTrue($this->calendar->userWorksToday($carbonDate));

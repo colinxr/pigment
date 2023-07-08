@@ -125,7 +125,7 @@ class ArtistSubmissionsTest extends TestCase
         $response->assertStatus(200);
 
         $submissions = json_decode($response->getContent())->submissions;
-        $this->assertCount(3, $submissions);
+        $this->assertCount(3, $submissions->data);
     }
 
     public function test_api_returns_validation_errors_if_request_is_incomplete()
@@ -187,7 +187,5 @@ class ArtistSubmissionsTest extends TestCase
         $this->actingAs($user);
         $response = $this->get("/api/submissions/{$submission->id}/appointments");
         $response->assertStatus(200);
-
-        dump(json_decode($response->getContent()));
     }
 }

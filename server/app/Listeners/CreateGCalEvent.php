@@ -26,8 +26,6 @@ class CreateGCalEvent
     {
         $this->gCalService->setToken($event->user->access_token);
 
-        Log::info('calling from create event');
-
         $cal_event = $this->gCalService->saveEvent($event->appointment);
 
         $event->appointment->update(['event_id' => $cal_event->getId()]);

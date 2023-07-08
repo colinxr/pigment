@@ -51,8 +51,9 @@ class Appointment extends Model
 
     public function setStartDateTimeAttribute($value)
     {
-        $timezone = substr($value, -5);
-        $this->attributes['startDateTime'] = Carbon::createFromFormat('Y-m-d\TH:i:sO', $value, $timezone);
+        // $timezone = substr($value, -5);
+        // $this->attributes['startDateTime'] = Carbon::createFromFormat('Y-m-d\TH:i:sO', $value, $timezone);
+        $this->attributes['startDateTime'] = $value; //Carbon::createFromFormat('Y-m-d\TH:i:sO', $value);
     }
 
     public function getStartDateTimeAttribute($value)

@@ -149,16 +149,10 @@ class AppontmentScheduleTest extends TestCase
 
         $hasSlotOnCorrectDate = false;
 
-        // dump($appt_a->endDateTime->toDateTimeString());
-
-
         $carbonDate = Carbon::parse($appt_a->startDateTime);
-        // dump($carbonDate->copy());
 
         $opening_hours = $carbonDate->setTimeFromTimeString($user->calendar->getHoursOpening($carbonDate))->toDateTimeString();
 
-        dump($opening_hours);
-        dump($nextSlots->data);
         foreach ($nextSlots->data as $item) {
             if (strpos($item->dateTime, $opening_hours) !== false) {
                 $hasSlotOnCorrectDate = true;
@@ -214,10 +208,6 @@ class AppontmentScheduleTest extends TestCase
         $this->assertCount(3, $nextSlots->data);
 
         $hasSlotOnCorrectDate = false;
-
-        dump($appt_a->endDateTime->toDateTimeString());
-        dump($nextSlots->data);
-
 
         foreach ($nextSlots->data as $item) {
             if (strpos($item->dateTime, $appt_a->endDateTime) !== false) {

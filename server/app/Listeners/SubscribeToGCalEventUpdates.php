@@ -26,10 +26,10 @@ class SubscribeToGCalEventUpdates
     {
         $this->gCalService->setToken($event->user->access_token);
 
-        Log::info('calling from subcrine to gcal Listener');
+        // Log::info('calling from subcrine to gcal Listener');
 
-        $watcher = $this->gCalService->watchEvent('primary', $event->appointment->event_id);
+        // $watcher = $this->gCalService->watchEvent('primary', $event->appointment->event_id);
 
-        Log::info(json_encode($watcher));
+        // Log::info(json_encode($watcher));
     }
 }

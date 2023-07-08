@@ -39,6 +39,7 @@ class AppointmentTest extends TestCase
 
     public function test_user_can_turn_submission_into_appointment()
     {
+        $this->withoutExceptionHandling();
         $submission = $this->user->submissions->first();
         $rfc_time = preg_replace('/\.\d+/', 'Z', fake()->iso8601());
         $data = [
@@ -48,11 +49,12 @@ class AppointmentTest extends TestCase
             'deposit' => fake()->randomNumber(2),
             'name' => fake()->name(),
             'description' => fake()->text(),
+            'client' => $submission->client->email,
         ];
 
         $this->actingAs($this->user);
 
-        $response = $this->post("/api/submissions/{$submission->id}/appointments", $data);
+        $response = $this->post("/api/appointments?submission_id={$submission->id}", $data);
 
         $response->assertStatus(201);
 
@@ -79,16 +81,15 @@ class AppointmentTest extends TestCase
 
         $this->assertNotEmpty($this->gCalService->listEvents());
 
-        $newStartTime = fake()->dateTime()->format('d-m-Y H:i:s');
-        $newEndTime = fake()->dateTime()->format('d-m-Y H:i:s');
+        $newStartTime = fake()->dateTime()->format('Y-m-d\TH:i:sO');
 
         $this->actingAs($appt->user);
-        $response = $this->post("/api/appointments/{$appt->id}", [
+        $response = $this->put("/api/appointments/{$appt->id}", [
             'name' => $appt->name,
             'price' => $appt->price,
             'description' => $appt->description,
             'startDateTime' => $newStartTime,
-            'endDateTime' => $newEndTime,
+            'duration' => 4,
         ]);
 
         $response->assertStatus(204);
@@ -100,7 +101,7 @@ class AppointmentTest extends TestCase
         ]);
 
         $event = $this->gCalService->listEvents()[0];
-        $this->assertEquals($newStartTime, $event->start['startDateTime']->format('d-m-Y H:i:s'));
+        $this->assertEquals($newStartTime, $event->start['startDateTime']->format('Y-m-d\TH:i:sO'));
     }
 
     public function test_user_can_view_their_appointments()

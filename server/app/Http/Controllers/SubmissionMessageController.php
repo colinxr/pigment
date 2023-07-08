@@ -22,6 +22,8 @@ class SubmissionMessageController extends Controller
             }
         }
 
+        $submission->update(['has_new_messages' => true]);
+
         Mail::to($message->recipient())->queue(new NewMessageAlert($message));
 
         return response()->json([
