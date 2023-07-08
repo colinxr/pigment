@@ -9,9 +9,9 @@ class FakeGoogleApiService implements GoogleApiServiceInterface
 {
   private $config;
 
-  public function __construct(array $config)
+  public function __construct()
   {
-    $this->config = $config;
+    $this->config = [];
   }
 
   public function client()

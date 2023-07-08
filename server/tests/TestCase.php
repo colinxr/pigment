@@ -3,6 +3,7 @@
 namespace Tests;
 
 use Illuminate\Support\Facades\File;
+use App\Services\FakeGoogleApiService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
@@ -19,10 +20,9 @@ abstract class TestCase extends BaseTestCase
 
         $this->initializeDirectory($this->getTempDirectory());
 
-        // Mock storage_path to return fake JSON files
-        Storage::fake('app/google');
-        Storage::disk('app/google')->put('ServiceAccountCredentials.json', '{"fake": "credentials"}');
-        Storage::disk('app/google')->put('OAuthAccountCredentials.json', '{"fake": "oauth credentials"}');
+        $this->app->bind(GoogleApiServiceInterface::class, function () {
+            return new FakeGoogleApiService();
+        });
     }
 
     protected function initializeDirectory($directory)
