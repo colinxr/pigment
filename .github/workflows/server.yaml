@@ -40,7 +40,8 @@ jobs:
           git clone --depth 1 https://github.com/colinxr/pigment.git $RELEASE_DIR
           cd "$release_dir"
           git reset --hard HEAD
-          cp .env $release_dir
+          cp /var/www/pigment/.env $release_dir
+          cp -r /var/www/pigment/current/storage "$RELEASE_DIR/storage"
 
       - name: Run Migrations
         run: |
@@ -54,5 +55,5 @@ jobs:
       - name: Symlink Release
         run: |
           ssh -i $SERVER_PRIVATE_KEY $SERVER_USER@$SERVER_HOST
-          rm -rf /var/www/pigment/api/active
-          ln -s $RELEASE_DIR /var/www/pigment/api/active
+          rm -rf /var/www/pigment/api/current
+          ln -s $RELEASE_DIR /var/www/pigment/api/current

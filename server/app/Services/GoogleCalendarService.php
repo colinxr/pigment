@@ -19,7 +19,7 @@ class GoogleCalendarService implements GoogleCalendarInterface
   private $client;
   private $service;
 
-  const CALENDAR_SUMMARY = 'DayPlanner';
+  const CALENDAR_SUMMARY = 'Pigment';
 
   public function __construct(GoogleApiService $api)
   {
