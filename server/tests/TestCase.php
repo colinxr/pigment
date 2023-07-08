@@ -18,6 +18,11 @@ abstract class TestCase extends BaseTestCase
         });
 
         $this->initializeDirectory($this->getTempDirectory());
+
+        // Mock storage_path to return fake JSON files
+        Storage::fake('app/google');
+        Storage::disk('app/google')->put('ServiceAccountCredentials.json', '{"fake": "credentials"}');
+        Storage::disk('app/google')->put('OAuthAccountCredentials.json', '{"fake": "oauth credentials"}');
     }
 
     protected function initializeDirectory($directory)
