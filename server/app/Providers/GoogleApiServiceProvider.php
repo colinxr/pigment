@@ -32,6 +32,8 @@ class GoogleApiServiceProvider extends ServiceProvider
 
     protected function guardAgainstInvalidConfiguration(array $config = null)
     {
+        dump(app()->environment('testing'));
+
         if (app()->environment('testing')) return;
 
         $authProfile = $config['default_auth_profile'];
