@@ -21,7 +21,7 @@ jobs:
 
       - name: Run tests
         working-directory: ./server
-        run: vendor/bin/phpunit --exclude-group google
+        run: APP_ENV=testing vendor/bin/phpunit --exclude-group google
 
   deploy:
     runs-on: ubuntu-latest
