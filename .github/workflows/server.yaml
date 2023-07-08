@@ -31,16 +31,12 @@ jobs:
       RELEASE_DIR: /var/www/pigment/api/releases/$(date +'%Y%m%d%H%M')
       SERVER_USER: ${{ secrets.SERVER_USER }}
       SERVER_HOST: ${{ secrets.SERVER_HOST }}
+      SERVER_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
     steps:
-      - name: Configure SSH
-        uses: webfactory/ssh-agent@v0.5.0
-        with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
       - name: Deploy to server
         run: |
-          ssh $SERVER_USER@$SERVER_HOST
+          ssh -i $SERVER_PRIVATE_KEY $SERVER_USER@$SERVER_HOST
           git clone --depth 1 https://github.com/colinxr/pigment.git $RELEASE_DIR
           cd "$release_dir"
           git reset --hard HEAD
@@ -48,7 +44,7 @@ jobs:
 
       - name: Run Migrations
         run: |
-          ssh $SERVER_USER@$SERVER_HOST
+          ssh -i $SERVER_PRIVATE_KEY $SERVER_USER@$SERVER_HOST
           cd $RELEASE_DIR 
           composer install --no-dev
           php artisan migrate --force
@@ -57,6 +53,6 @@ jobs:
 
       - name: Symlink Release
         run: |
-          ssh $SERVER_USER@$SERVER_HOST
+          ssh -i $SERVER_PRIVATE_KEY $SERVER_USER@$SERVER_HOST
           rm -rf /var/www/pigment/api/active
           ln -s $RELEASE_DIR /var/www/pigment/api/active
