@@ -5,8 +5,9 @@ namespace App\Services;
 use Google_Service_Calendar;
 use Google_Client as ApiClient;
 use App\Exceptions\InvalidGCalConfiguration;
+use App\Interfaces\GoogleApiServiceInterface;
 
-class GoogleApiService
+class GoogleApiService implements GoogleApiServiceInterface
 {
   const SCOPES = Google_Service_Calendar::CALENDAR;
 
@@ -22,7 +23,7 @@ class GoogleApiService
     return self::createAuthenticatedGoogleClient($this->config);
   }
 
-  public static function createAuthenticatedGoogleClient(array $config): ApiClient
+  public static function createAuthenticatedGoogleClient(array $config): object
   {
     $authProfile = $config['default_auth_profile'];
 
