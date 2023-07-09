@@ -28,6 +28,7 @@ jobs:
         with:
           name: app
           path: ./web/.output
+          if-no-files-found: exit
 
   deploy:
     runs-on: ubuntu-latest
