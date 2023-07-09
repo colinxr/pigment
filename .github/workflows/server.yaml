@@ -34,6 +34,12 @@ jobs:
       SERVER_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
     steps:
+      - name: Decrypt private key
+        run: echo "${{ secrets.SSH_PRIVATE_KEY }}" | base64 --decode > ./id_rsa
+      
+      - name: Set private key environment variable
+        run: echo "SSH_PRIVATE_KEY=$(cat ./id_rsa)" >> $GITHUB_ENV
+      
       - name: Deploy to server
         run: |
           ssh -i $SERVER_PRIVATE_KEY $SERVER_USER@$SERVER_HOST
