@@ -49,7 +49,7 @@ jobs:
 
       - name: Deploy to Server
         run: |
-          scp -r app $SERVER_USER@$SERVER_HOST:$RELEASE_DIR
+          scp -r app $SERVER_USER@$SERVER_HOST:$RELEASE_DIR -o StrictHostKeyChecking=no
 
       - name: Symlink and Reload PM2
         uses: appleboy/ssh-action@master
