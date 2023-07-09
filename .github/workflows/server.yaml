@@ -34,31 +34,38 @@ jobs:
       SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
 
     steps:
-      - name: Decrypt private key
-        run: echo "$SSH_PRIVATE_KEY" | base64 --decode > ./id_rsa
-      - name: Set private key environment variable
-        run: echo "PRIVATE_KEY=$(cat ./id_rsa)" >> $GITHUB_ENV
-
       - name: Deploy to server
-        run: |
-          ssh -i $PRIVATE_KEY $SERVER_USER@$SERVER_HOST
-          git clone --depth 1 https://github.com/colinxr/pigment.git $RELEASE_DIR
-          cd "$release_dir"
-          git reset --hard HEAD
-          cp /var/www/pigment/.env $release_dir
-          cp -r /var/www/pigment/current/storage "$RELEASE_DIR/storage"
+        uses: appleboy/ssh-action@master
+        with:
+          host: $SERVER_HOST
+          username: $SERVER_USER
+          key: $SSH_PRIVATE_KEY
+          script: |
+            git clone --depth 1 https://github.com/colinxr/pigment.git $RELEASE_DIR
+            cd "$release_dir"
+            git reset --hard HEAD
+            cp /var/www/pigment/.env $release_dir
+            cp -r /var/www/pigment/current/storage "$RELEASE_DIR/storage"
 
       - name: Run Migrations
-        run: |
-          ssh -i $SERVER_PRIVATE_KEY $SERVER_USER@$SERVER_HOST
-          cd $RELEASE_DIR 
-          composer install --no-dev
-          php artisan migrate --force
-          php artisan cache:clear
-          php artisan optimize
+        uses: appleboy/ssh-action@master
+        with:
+          host: $SERVER_HOST
+          username: $SERVER_USER
+          key: $SSH_PRIVATE_KEY
+          script: |
+            cd $RELEASE_DIR 
+            composer install --no-dev
+            php artisan migrate --force
+            php artisan cache:clear
+            php artisan optimize
 
       - name: Symlink Release
-        run: |
-          ssh -i $SERVER_PRIVATE_KEY $SERVER_USER@$SERVER_HOST
-          rm -rf /var/www/pigment/api/current
-          ln -s $RELEASE_DIR /var/www/pigment/api/current
+        uses: appleboy/ssh-action@master
+        with:
+          host: $SERVER_HOST
+          username: $SERVER_USER
+          key: $SSH_PRIVATE_KEY
+          script: |
+            rm -rf /var/www/pigment/api/current
+            ln -s $RELEASE_DIR /var/www/pigment/api/current
