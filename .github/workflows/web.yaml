@@ -27,7 +27,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: app
-          path: web/.output
+          path: ./web/.output
 
   deploy:
     runs-on: ubuntu-latest
