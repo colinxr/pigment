@@ -49,11 +49,12 @@ jobs:
             git clone --depth 1 https://github.com/colinxr/pigment.git repo
             cd repo
             git reset --hard HEAD
-            cp /var/www/pigment/.env "$REPO_DIR/server/.env"
+            cp /var/www/pigment/.env server/.env
             if [ -d "/var/www/pigment/api/current/storage" ]; then
                 cp -r /var/www/pigment/api/current/storage "$RELEASE_DIR/storage" 
             fi
-            cp -r "$REPO_DIR/server"/* "$RELEASE_DIR"
+            mkdir -p "$RELEASE_DIR"
+            cp -rpa "$REPO_DIR/server/*" "$RELEASE_DIR"
 
       - name: Run Migrations
         uses: appleboy/ssh-action@master
