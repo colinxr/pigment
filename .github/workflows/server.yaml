@@ -44,7 +44,10 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
+          envs: ROOT_DIR,RELEASE_DIR,APP_DIR
           script: |
+            export ROOT_DIR=$ROOT_DIR
+            export RELEASE_DIR=$RELEASE_DIR
             cd $ROOT_DIR
             echo "$RELEASE_DIR"
             git clone --depth 1 https://github.com/colinxr/pigment.git repo
@@ -54,8 +57,8 @@ jobs:
             if [ -d "/var/www/pigment/api/current/storage" ]; then
                 cp -r /var/www/pigment/api/current/storage "$RELEASE_DIR/storage" 
             fi
-            mkdir -p "$RELEASE_DIR"
-            cp -rpa "server/*" "$RELEASE_DIR"
+            mkdir -p $RELEASE_DIR
+            cp -rpa server/* $RELEASE_DIR
             rm -rf repo
 
       - name: Run Migrations
