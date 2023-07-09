@@ -23,6 +23,12 @@ jobs:
         working-directory: ./web
         run: npm run build
 
+      - name: Archive artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: app
+          path: .output
+
   deploy:
     runs-on: ubuntu-latest
     needs: build
@@ -35,12 +41,14 @@ jobs:
       RELEASE_DIR: /var/www/pigment/web/releases/${{ github.sha }}
 
     steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: app
+
       - name: Deploy to Server
         run: |
-          ls -la
-          cd web
-          ls 
-          scp -r .output/server/* $SERVER_USER@$SERVER_HOST:$RELEASE_DIR
+          scp -r app $SERVER_USER@$SERVER_HOST:$RELEASE_DIR
 
       - name: Symlink and Reload PM2
         uses: appleboy/ssh-action@master
