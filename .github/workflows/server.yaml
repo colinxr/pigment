@@ -55,6 +55,7 @@ jobs:
             fi
             mkdir -p "$RELEASE_DIR"
             cp -rpa "$REPO_DIR/server/*" "$RELEASE_DIR"
+            rm -rf repo
 
       - name: Run Migrations
         uses: appleboy/ssh-action@master
