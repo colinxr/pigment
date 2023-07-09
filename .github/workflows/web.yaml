@@ -36,8 +36,8 @@ jobs:
     env:
       ROOT_DIR: /var/www/pigment
       APP_DIR: /var/www/pigment/web
-      SERVER_USER: ${{ secrets.SERVER_USER }}
       SERVER_HOST: ${{ secrets.SERVER_HOST }}
+      SERVER_USER: ${{ secrets.SERVER_USER }}
       SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       RELEASE_DIR: /var/www/pigment/web/releases/${{ github.sha }}
 
@@ -49,11 +49,16 @@ jobs:
 
       - name: Deploy to Server
         run: |
-          pwd
-          ls
-          ls app
-          echo "$SERVER_USER@$SERVER_HOST:$RELEASE_DIR"
-          scp -r app $SERVER_USER@$SERVER_HOST:$RELEASE_DIR -o StrictHostKeyChecking=no
+          scp -r * $SERVER_USER@$SERVER_HOST:$RELEASE_DIR -o StrictHostKeyChecking=no
+
+      - name: Upload via SCP
+        uses: appleboy/scp-action@v0.1.4
+        with:
+          host: $SERVER_HOST
+          username: $SERVER_USER
+          key: $SSH_PRIVATE_KEY
+          source: "*"
+          target: $RELEASE_DIR
 
       - name: Symlink and Reload PM2
         uses: appleboy/ssh-action@master
