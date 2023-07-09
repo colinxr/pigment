@@ -7,6 +7,7 @@ use App\Services\GoogleCalendarService;
 use Illuminate\Support\ServiceProvider;
 use App\Interfaces\GoogleCalendarInterface;
 use App\Exceptions\InvalidGCalConfiguration;
+use App\Interfaces\GoogleApiServiceInterface;
 use Illuminate\Contracts\Foundation\Application;
 
 class GoogleCalendarServiceProvider extends ServiceProvider
