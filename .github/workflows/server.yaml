@@ -64,15 +64,15 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd $RELEASE_DIR 
+            echo $RELEASE_DIR
+            cd $RELEASE_DIR/server 
+            pwd
             composer install --no-dev
             php artisan migrate --force
             php artisan cache:clear
             php artisan optimize
 
       - name: Symlink Release
-        env:
-          RELEASE_DIR: /var/www/pigment/api/releases/$(date +'%Y%m%d%H%M')
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER_HOST }}
@@ -80,4 +80,4 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             rm -rf /var/www/pigment/api/current
-            ln -s $RELEASE_DIR /var/www/pigment/api/current
+            ln -s $RELEASE_DIR/server /var/www/pigment/api/current
