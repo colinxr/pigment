@@ -46,6 +46,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
             cd $ROOT_DIR
+            echo "$RELEASE_DIR"
             git clone --depth 1 https://github.com/colinxr/pigment.git repo
             cd repo
             git reset --hard HEAD
@@ -54,7 +55,7 @@ jobs:
                 cp -r /var/www/pigment/api/current/storage "$RELEASE_DIR/storage" 
             fi
             mkdir -p "$RELEASE_DIR"
-            cp -rpa "$REPO_DIR/server/*" "$RELEASE_DIR"
+            cp -rpa "server/*" "$RELEASE_DIR"
             rm -rf repo
 
       - name: Run Migrations
