@@ -5,8 +5,7 @@ on:
     branches:
       - main
     paths:
-      - "/server/**"
-      - "/server/**.*"
+      - "server/**"
       - ".github/workflows/server.yaml"
 
 jobs:
