@@ -17,11 +17,11 @@ jobs:
 
       - name: Install Dependencies
         working-directory: ./web
-        run: yarn install --frozen-lockfile
+        run: npm ci
 
       - name: Build App
         working-directory: ./web
-        run: yarn run build
+        run: npm run build
 
   deploy:
     runs-on: ubuntu-latest
