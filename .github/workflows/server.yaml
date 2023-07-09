@@ -36,7 +36,7 @@ jobs:
     steps:
       - name: Deploy to server
         env:
-          REPO_DIR: /var/www/pigment/repo
+          ROOT_DIR: /var/www/pigment
           RELEASE_DIR: /var/www/pigment/api/releases/$(date +'%Y%m%d%H%M')
           APP_DIR: /var/www/pigment/api
         uses: appleboy/ssh-action@master
@@ -45,15 +45,15 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            rm -rf "$REPO_DIR"
-            git clone --depth 1 https://github.com/colinxr/pigment.git "$REPO_DIR"
+            cd $ROOT_DIR
+            git clone --depth 1 https://github.com/colinxr/pigment.git repo
             cd repo
             git reset --hard HEAD
-            cp /var/www/pigment/.env "$REPO_DIR/server"
+            cp /var/www/pigment/.env "$REPO_DIR/server/.env"
             if [ -d "/var/www/pigment/api/current/storage" ]; then
                 cp -r /var/www/pigment/api/current/storage "$RELEASE_DIR/storage" 
             fi
-            cp "$REPO_DIR/server" "$RELEASE_DIR"
+            cp -r "$REPO_DIR/server"/* "$RELEASE_DIR"
 
       - name: Run Migrations
         uses: appleboy/ssh-action@master
