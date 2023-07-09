@@ -36,6 +36,7 @@ jobs:
     steps:
       - name: Deploy to server
         env:
+          REPO_DIR: /var/www/pigment/repo
           RELEASE_DIR: /var/www/pigment/api/releases/$(date +'%Y%m%d%H%M')
           APP_DIR: /var/www/pigment/api
         uses: appleboy/ssh-action@master
@@ -44,11 +45,15 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            git clone --depth 1 https://github.com/colinxr/pigment.git $RELEASE_DIR
-            cd "$RELEASE_DIR"
+            rm -rf "$REPO_DIR"
+            git clone --depth 1 https://github.com/colinxr/pigment.git "$REPO_DIR"
+            cd repo
             git reset --hard HEAD
-            cp /var/www/pigment/.env "$RELEASE_DIR"
-            cp -r /var/www/pigment/current/storage "$RELEASE_DIR/storage"
+            cp /var/www/pigment/.env "$REPO_DIR/server"
+            if [ -d "/var/www/pigment/api/current/storage" ]; then
+                cp -r /var/www/pigment/api/current/storage "$RELEASE_DIR/storage" 
+            fi
+            cp "$REPO_DIR/server" "$RELEASE_DIR"
 
       - name: Run Migrations
         uses: appleboy/ssh-action@master
@@ -65,7 +70,7 @@ jobs:
 
       - name: Symlink Release
         env:
-            RELEASE_DIR: /var/www/pigment/api/releases/$(date +'%Y%m%d%H%M')
+          RELEASE_DIR: /var/www/pigment/api/releases/$(date +'%Y%m%d%H%M')
         uses: appleboy/ssh-action@master
         with:
           host: ${{ secrets.SERVER_HOST }}
