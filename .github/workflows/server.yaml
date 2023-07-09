@@ -68,12 +68,10 @@ jobs:
           script: |
             export ROOT_DIR=$ROOT_DIR
             export RELEASE_DIR=$RELEASE_DIR
-            echo $RELEASE_DIR
             cd $RELEASE_DIR 
-            pwd
             composer install --no-dev
+            php artisan config:cache
             php artisan migrate --force
-            php artisan cache:clear
             php artisan optimize
 
       - name: Symlink Release
