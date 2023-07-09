@@ -13,18 +13,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 class CalendarTest extends TestCase
 {
     use RefreshDatabase;
-    /**
-     * @group google
-     */
-    public function test_example(): void
-    {
-        $user = User::factory()->create();
-
-        $this->actingAs($user);
-        $response = $this->get('/oauth/google/callback');
-
-        $this->assertFalse(true);
-    }
 
     /**
      * @group google

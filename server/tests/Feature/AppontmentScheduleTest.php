@@ -192,12 +192,6 @@ class AppontmentScheduleTest extends TestCase
             'endDateTime' => $nextFriday->copy()->setTimeFromTimeString('1:00 pm'),
         ]);
 
-        // $appt_b = Appointment::factory()->create([
-        //     'user_id' => $user->id,
-        //     'startDateTime' => $nextFriday->copy()->setTimeFromTimeString('01:00 pm'),
-        //     'endDateTime' => $nextFriday->copy()->setTimeFromTimeString('05:00 pm'),
-        // ]);
-
         $this->actingAs($user);
         $response = $this->get('/api/calendars/slots?duration=3');
 

@@ -5,6 +5,7 @@ namespace App\Services;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Appointment;
+use Carbon\CarbonPeriod;
 
 class CalendarAppointmentService
 {
@@ -23,7 +24,7 @@ class CalendarAppointmentService
   public function getNextAvailableSlots(int $duration, $dayToQuery = null)
   {
     $slotsToFind = 3;
-    $apptsByDate = $this->appointsmentsGroupedByDate();
+    $apptsByDate = $this->appointmentsGroupedByDate();
 
     if (!$this->calendar->schedule) {
       return [
@@ -46,7 +47,7 @@ class CalendarAppointmentService
     return $availableSlots;
   }
 
-  private function appointsmentsGroupedByDate($dateTime = null, $offset = 0)
+  private function appointmentsGroupedByDate($dateTime = null, $offset = 0)
   {
     return $this->user->appointments()->upcoming($dateTime)
       ->offset($offset)
@@ -69,8 +70,6 @@ class CalendarAppointmentService
   private function findAvailableSlots($appointments, $duration, $slotsToFind = 3)
   {
     $availableSlots = [];
-    if ($appointments->isEmpty()) {
-    }
     // date helpers 
     // create from string
     $firstDay = $appointments->isEmpty() ?
@@ -80,19 +79,16 @@ class CalendarAppointmentService
       $firstDay->copy()->addDays(5) :
       Carbon::createFromFormat('Y-m-d', $appointments->keys()->last());
 
-    while ($firstDay <= $lastDay) {
-      $slots = $this->findSlotsForToday($firstDay, $appointments, $duration);
 
-      if (!$slots) {
-        $firstDay->addDay();
-        continue;
-      }
+    $period = CarbonPeriod::create($firstDay, $lastDay);
+
+    foreach ($period as $day) {
+      $slots = $this->findSlotsForToday($day, $appointments, $duration);
+
+      if (!$slots) continue;
 
       $availableSlots[] = $slots;
-
       if (count($availableSlots) === $slotsToFind) break;
-
-      $firstDay->addDay();
     }
 
     return $availableSlots;
@@ -108,6 +104,7 @@ class CalendarAppointmentService
     $date = $day->format('Y-m-d'); // date helpers -- convert to string
 
     if (!$appointments->has($date)) {
+      dump('user works today but has nothing scheduled');
       return [
         'dateTime' => $this->calendar->getHoursOpening($day, true),
         'message' => 'Nothing scheduled this day',
@@ -115,20 +112,15 @@ class CalendarAppointmentService
     }
 
     ['totalTime' => $totalTime, 'appointments' => $apptsForToday] = $appointments[$date];
-
     // today won't work if
     // the total number of hours booked is greater 
     // than the duration of the new appointment
     $scheduledHours = $this->calendar->hoursFor($day);
 
-    if ($duration > ($scheduledHours - $totalTime)) return null;
+    if ($duration > ($scheduledHours - $totalTime)) return [];
 
     // if there's only one appointment booked,
-    // let's return the first availability. 
-
-    // this doesn't make sense. 
-    // doesn't accomodate an appointment booked at 3pm.
-    // well need to compare the duration against the gaps between open and close hours...
+    // let's fund based on store hours
     if ($apptsForToday->count() === 1) {
       $slot = [];
 
@@ -178,7 +170,7 @@ class CalendarAppointmentService
     $slots = [];
 
     while (count($slots) <= $remaining) {
-      $apptsByDate = $this->appointsmentsGroupedByDate($dayToQuery);
+      $apptsByDate = $this->appointmentsGroupedByDate($dayToQuery);
 
       if ($apptsByDate->isEmpty()) {
         $dayToQuery->addDay();
@@ -194,6 +186,7 @@ class CalendarAppointmentService
 
         if (count($slots) === $remaining) break;
       } else {
+        $apptsByDate = $this->appointmentsGroupedByDate($dayToQuery);
         $newSlots = $this->findAvailableSlots($apptsByDate, $duration, $remaining);
         $slots = array_merge($slots, $newSlots);
 

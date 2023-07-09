@@ -3,8 +3,7 @@
 namespace Tests;
 
 use Illuminate\Support\Facades\File;
-use App\Services\FakeGoogleApiService;
-use Illuminate\Support\Facades\Storage;
+use App\Providers\TestServiceProvider;
 use Illuminate\Foundation\Testing\TestCase as BaseTestCase;
 
 abstract class TestCase extends BaseTestCase
@@ -20,9 +19,7 @@ abstract class TestCase extends BaseTestCase
 
         $this->initializeDirectory($this->getTempDirectory());
 
-        $this->app->bind(GoogleApiServiceInterface::class, function ($app) {
-            return new FakeGoogleApiService();
-        });
+        $this->app->register(TestServiceProvider::class);
     }
 
     protected function initializeDirectory($directory)
