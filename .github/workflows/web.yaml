@@ -23,7 +23,7 @@ jobs:
         working-directory: ./web
         run: | 
           npm run build
-          tar -czf .output.tar.gz .output
+          tar -czf .output.tar.gz .output ecosystem.config.js
 
       - name: Archive artifact
         uses: actions/upload-artifact@v2
