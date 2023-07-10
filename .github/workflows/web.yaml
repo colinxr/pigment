@@ -48,7 +48,7 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: app
-          path: my_files.tar 
+          path: .output.tar 
           
       - name: Upload via SCP
         uses: appleboy/scp-action@v0.1.4
@@ -69,7 +69,7 @@ jobs:
           script: |
             export ROOT_DIR=$ROOT_DIR
             export RELEASE_DIR=$RELEASE_DIR
-            tar -xzf $RELEASE_DIR/output.tar.gz
+            tar -xzf $RELEASE_DIR/.output.tar.gz
             rm -rf /var/www/pigment/web/current
             ln -s $RELEASE_DIR /var/www/pigment/web/current
             cd /var/www/pigment/web/current
