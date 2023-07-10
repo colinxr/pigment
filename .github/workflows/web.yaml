@@ -23,7 +23,7 @@ jobs:
         working-directory: ./web
         run: | 
           npm run build
-          tar -czf .output output.tar.gz
+          tar -czf .output.tar.gz .output
 
       - name: Archive artifact
         uses: actions/upload-artifact@v2
