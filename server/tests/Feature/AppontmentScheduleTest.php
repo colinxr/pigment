@@ -76,7 +76,6 @@ class AppontmentScheduleTest extends TestCase
             'schedule' => json_encode($schedule),
         ]);
 
-
         $this->setAppointmentsTotallyFull($user);
 
         $nextFriday = Carbon::now()->next(Carbon::FRIDAY);

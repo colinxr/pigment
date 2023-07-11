@@ -40,7 +40,7 @@ class CalendarAppointmentService
       $dayToQuery = Carbon::createFromFormat('Y-m-d', $apptsByDate->keys()->last());
       $remainingCount = $slotsToFind - count($availableSlots);
 
-      $remaining = $this->fillRemainingSlots($remainingCount, $dayToQuery, $duration);
+      $remaining = $this->fillRemainingSlots($dayToQuery, $duration, $remainingCount);
       $availableSlots = array_merge($availableSlots, $remaining);
     }
 
@@ -104,7 +104,6 @@ class CalendarAppointmentService
     $date = $day->format('Y-m-d'); // date helpers -- convert to string
 
     if (!$appointments->has($date)) {
-      dump('user works today but has nothing scheduled');
       return [
         'dateTime' => $this->calendar->getHoursOpening($day, true),
         'message' => 'Nothing scheduled this day',
@@ -165,32 +164,37 @@ class CalendarAppointmentService
     return $slots;
   }
 
-  private function fillRemainingSlots($remaining, $dayToQuery, $duration,)
+  private function fillRemainingSlots($dayToQuery, $duration, $remaining,)
   {
     $slots = [];
 
     while (count($slots) <= $remaining) {
       $apptsByDate = $this->appointmentsGroupedByDate($dayToQuery);
 
+      // if user has no appointments today
       if ($apptsByDate->isEmpty()) {
-        $dayToQuery->addDay();
-
+        // skip today if the user doesn't work today 
         if (!$this->calendar->userWorksToday($dayToQuery)) continue;
 
-        // if today is a working day, but doesn't have any appointments scheduled
+        // if today is a working day,
         // then lets return when the user starts work for the day.  
         $slots[] = [
           'dateTime' => $this->calendar->getHoursOpening($dayToQuery, true),
           'message' => 'Nothing scheduled this day',
         ];
-
         if (count($slots) === $remaining) break;
+        $dayToQuery->addDay();
       } else {
+        // get all the appointments for today
         $apptsByDate = $this->appointmentsGroupedByDate($dayToQuery);
+
+        // find an available slot based on today's appointments
         $newSlots = $this->findAvailableSlots($apptsByDate, $duration, $remaining);
         $slots = array_merge($slots, $newSlots);
 
-        $dayToQuery = Carbon::createFromFormat('Y-m-d', $apptsByDate->keys()->last());
+        if (count($slots) === $remaining) break;
+
+        $dayToQuery->addDay();
       }
     }
 
