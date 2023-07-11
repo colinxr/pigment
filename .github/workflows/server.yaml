@@ -46,16 +46,15 @@ jobs:
             export ROOT_DIR=$ROOT_DIR
             export RELEASE_DIR=$RELEASE_DIR
             cd $ROOT_DIR
-            echo "$RELEASE_DIR"
+            mkdir -p $RELEASE_DIR
             git clone --depth 1 https://github.com/colinxr/pigment.git repo
             cd repo
             git reset --hard HEAD
-            cp /var/www/pigment/.env server/.env
-            if [ -d "/var/www/pigment/api/current/storage" ]; then
-                cp -r /var/www/pigment/api/current/storage "$RELEASE_DIR/storage" 
-            fi
-            mkdir -p $RELEASE_DIR
             cp -rpa server/* $RELEASE_DIR
+            ln -s /var/www/pigment/.env $RELEASE_DIR/.env 
+            if [ -d "/var/www/pigment/storage" ]; then
+              ln -s /var/www/pigment/storage "$RELEASE_DIR/storage" 
+            fi
             cd $ROOT_DIR && rm -rf repo
 
       - name: Run Migrations
