@@ -6,7 +6,8 @@ import ConversationContainer from '@/components/Dashboard/Conversation/Conversat
 const route = useRoute()
 const submissionsStore = useSubmissionsStore()
 
-const { getSubmissions, setActiveSubmission } = submissionsStore
+const { getSubmissions, setActiveSubmission, activeSubmission } =
+	submissionsStore
 
 onBeforeMount(async () => {
 	if (route.query.as) {
@@ -24,7 +25,12 @@ definePageMeta({
 
 <template>
 	<div class="flex grow">
-		<SubmissionsList class="w-1/4" />
-		<ConversationContainer class="grow h-screen w-2/3" />
+		<SubmissionsList
+			class="md:w-1/4"
+			:class="{ 'hidden md:block': activeSubmission }"
+		/>
+		<ConversationContainer class="grow h-screen md:w-2/3" />
 	</div>
 </template>
+
+on mobile // if active submisison, hide the submissions list,

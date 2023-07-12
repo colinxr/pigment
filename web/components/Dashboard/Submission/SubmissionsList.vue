@@ -14,18 +14,18 @@ const hasSubmissions = computed(() => submissionsList.value.length)
 <template>
 	<!-- <div class="sidebar h-screen w-96 flex-shrink-0 bg-gray-100 p-4"> -->
 	<div
-		class="submissions_list bg-white flex flex-col w-1/3 h-full pl-4 pr-4 py-4"
+		class="submissions_list bg-white flex flex-col md:w-1/3 h-full p-2 md:p-4"
 	>
 		<!-- Submissions Headers -->
 		<div class="flex flex-row items-center">
 			<div class="flex flex-row items-center">
-				<div class="text-xl font-semibold">Messages</div>
+				<div class="hidden md:block text-xl font-semibold">Messages</div>
 				<!-- <div class="flex items-center justify-center ml-2 text-xs h-5 w-5 text-white bg-red-500
           rounded-full font-medium"> -->
 				<!-- 5</div> -->
 			</div>
 
-			<div class="ml-auto">
+			<div class="md:ml-auto">
 				<button
 					class="flex items-center justify-center h-7 w-7 bg-gray-200 text-gray-500 rounded-full"
 				>

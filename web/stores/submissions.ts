@@ -25,6 +25,10 @@ export default defineStore('submissions', () => {
 		}
 	}
 
+	const clearActiveSubmission = () => {
+		activeSubmission.value = undefined
+	}
+
 	const findSubmissionById = (activeSubId: number) =>
 		submissions.value.find(({ id }) => id === activeSubId)
 
@@ -80,6 +84,8 @@ export default defineStore('submissions', () => {
 		
 	}
 
+
+
 	return {
 		submissions,
 		nextPage,
@@ -87,6 +93,7 @@ export default defineStore('submissions', () => {
 		submissionsList,
 		getSubmissions,
 		setActiveSubmission,
+		clearActiveSubmission,
 		updateSubmissionClient,
 		findSubmissionById,
 		setSubmssionListOrder,
