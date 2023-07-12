@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\Services\GoogleApiService;
 use Illuminate\Support\ServiceProvider;
 use App\Exceptions\InvalidGCalConfiguration;
+use App\Interfaces\GoogleApiServiceInterface;
 use Illuminate\Contracts\Foundation\Application;
 
 class GoogleApiServiceProvider extends ServiceProvider
@@ -14,7 +15,7 @@ class GoogleApiServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(GoogleApiServiceInterface::class, function ($app) {
+        $this->app->bind(GoogleApiServiceInterface::class, function (Application $app) {
             $config = config('google-client');
 
             $this->guardAgainstInvalidConfiguration($config);

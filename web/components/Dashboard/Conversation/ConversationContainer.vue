@@ -11,11 +11,18 @@ import ConversationHeader from '@/components/Dashboard/Conversation/Conversation
 
 const submissionsStore = useSubmissionsStore()
 
+const props = defineProps({
+	submission: {
+		type: Object,
+		required: true,
+	},
+})
+
 const messages = ref([])
 const wrapper = ref(null)
 
 const { updateSubmissionsListOrder } = submissionsStore
-const { activeSubmission, showActionPane } = storeToRefs(submissionsStore)
+const { showActionPane } = storeToRefs(submissionsStore)
 
 const buildMessageObject = ({ body, attachments }) => ({
 	body,
@@ -24,27 +31,27 @@ const buildMessageObject = ({ body, attachments }) => ({
 	is_from_admin: true,
 })
 
-const handleNewMessage = async message => {
-	const msgObject = buildMessageObject(message)
+// const handleNewMessage = async message => {
+// 	const msgObject = buildMessageObject(message)
 
-	messages.value = [...messages.value, msgObject]
+// 	messages.value = [...messages.value, msgObject]
 
-	scrollToLastMessage()
+// 	scrollToLastMessage()
 
-	const res = await postMessageToServer(msgObject)
+// 	const res = await postMessageToServer(msgObject)
 
-	const messageWasSent = res.status === 201
+// 	const messageWasSent = res.status === 201
 
-	updateMessage(messageWasSent, message.body)
+// 	updateMessage(messageWasSent, message.body)
 
-	if (messageWasSent) {
-		activeSubmission.value.last_message = res.data.data
-		updateSubmissionsListOrder(activeSubmission.value.id)
-	}
-}
+// 	if (messageWasSent) {
+// 		activeSubmission.value.last_message = res.data.data
+// 		updateSubmissionsListOrder(activeSubmission.value.id)
+// 	}
+// }
 
 const postMessageToServer = async message => {
-	const res = await ApiService.messages.post(activeSubmission.value.id, {
+	const res = await ApiService.messages.post(props.submission.value.id, {
 		body: message.body,
 		files: message.files,
 	})
@@ -64,19 +71,20 @@ const scrollToLastMessage = () => {
 	nextTick(() => wrapper.value.scrollIntoView({ block: 'end' }))
 }
 
-watch(activeSubmission, async newVal => {
-	messages.value = newVal.messages
-
+watchEffect(async () => {
+	messages.value = props.submission.messages
 	scrollToLastMessage()
 
-	const res = await ApiService.submissions.markAsRead(newVal.id)
+	if (props.submission.has_new_messages) {
+		ApiService.submissions.markAsRead(props.submission.id)
+	}
 })
 </script>
 
 <template>
 	<main class="relative md:flex">
 		<div class="flex flex-col h-full w-full bg-white pb-6">
-			<!-- <ConversationHeader :client="activeSubmission.client" /> -->
+			<ConversationHeader :client="props.submission.client" />
 
 			<div class="h-full overflow-hidden py-4">
 				<div class="h-full overflow-y-auto">
@@ -96,9 +104,9 @@ watch(activeSubmission, async newVal => {
 		</div>
 
 		<ActionPane
-			class="absolute top-0 right-0 b-0 w-[88vw] h-full transform translate-x-full"
-			:class="{ 'translate-x-0': showActionPane }"
-			:submission="activeSubmission"
+			class="absolute top-0 right-0 b-0 w-full h-full transform translate-x-full"
+			:class="{ 'translate-x-0  w-[88vw]': showActionPane }"
+			:submission="props.submission"
 		/>
 	</main>
 </template>

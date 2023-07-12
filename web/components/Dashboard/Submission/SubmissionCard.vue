@@ -21,10 +21,10 @@ const handleClick = () => {
 
 <template>
 	<div
-		class="sub-card md:flex flex-col md:-mx-4 hover:cursor-pointer hover:bg-slate-100 border-gray-100 border-b"
+		class="sub-card flex flex-col md:-mx-4 hover:cursor-pointer hover:bg-slate-100 border-gray-100 border-b"
 		@click="handleClick"
 	>
-		<div class="relative flex flex-row items-center py-2 md:p-4">
+		<div class="relative flex flex-row items-center p-4">
 			<!-- timestamp -->
 			<!-- <div class="absolute text-xs text-gray-500 right-0 top-0 mr-4 mt-3">
 				{{ timestamp }}
@@ -38,7 +38,7 @@ const handleClick = () => {
 			</div>
 
 			<!-- submission body -->
-			<div class="hidden md:flex flex-col flex-grow ml-3">
+			<div class="flex flex-col flex-grow ml-3">
 				<div
 					class="text-sm font-medium"
 					:class="{ 'font-bold': submission.has_new_messages }"

@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use Exception;
 use Google_Client;
 use App\Models\Appointment;
 use Illuminate\Support\Str;
@@ -12,7 +13,7 @@ use Google\Service\Calendar\Channel;
 use Illuminate\Support\Facades\Auth;
 use Google\Service\Calendar\Calendar;
 use App\Interfaces\GoogleCalendarInterface;
-use Exception;
+use App\Interfaces\GoogleApiServiceInterface;
 
 class GoogleCalendarService implements GoogleCalendarInterface
 {
@@ -21,7 +22,7 @@ class GoogleCalendarService implements GoogleCalendarInterface
 
   const CALENDAR_SUMMARY = 'Pigment';
 
-  public function __construct(GoogleApiService $api)
+  public function __construct(GoogleApiServiceInterface $api)
   {
     $this->client = $api->client();
     $this->service = new Google_Service_Calendar($this->client);

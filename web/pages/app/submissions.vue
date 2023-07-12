@@ -8,7 +8,8 @@ import { storeToRefs } from 'pinia'
 const route = useRoute()
 const submissionsStore = useSubmissionsStore()
 
-const { getSubmissions, setActiveSubmission } = submissionsStore
+const { getSubmissions, setActiveSubmission, clearActiveSubmission } =
+	submissionsStore
 
 const { activeSubmission } = storeToRefs(submissionsStore)
 
@@ -20,6 +21,10 @@ onBeforeMount(async () => {
 	await getSubmissions()
 })
 
+watchEffect(() => {
+	if (!route.query.as) clearActiveSubmission()
+})
+
 definePageMeta({
 	middleware: 'user-is-authenticated',
 	keepalive: true,
@@ -29,14 +34,24 @@ definePageMeta({
 <template>
 	<div class="flex grow h-full">
 		<SubmissionsList
-			class="md:w-1/4"
+			class="w-full md:w-1/4"
 			:class="{ 'hidden md:block': activeSubmission }"
 		/>
 
-		<div class="chat-container border border-gray-300 border-l">
+		<div
+			class="chat-container border border-gray-300 border-l"
+			:class="{
+				block: actionSubmission,
+				'hidden md:block': !activeSubmission,
+			}"
+		>
 			<EmptyConversation v-if="!activeSubmission" />
 
-			<ConversationContainer v-else class="grow h-screen md:w-2/3" />
+			<ConversationContainer
+				v-else
+				:submission="activeSubmission"
+				class="grow h-screen md:w-2/3"
+			/>
 		</div>
 	</div>
 </template>
