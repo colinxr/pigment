@@ -2,12 +2,15 @@
 import useSubmissionsStore from '@/stores/submissions'
 import SubmissionsList from '@/components/Dashboard/Submission/SubmissionsList.vue'
 import ConversationContainer from '@/components/Dashboard/Conversation/ConversationContainer.vue'
+import EmptyConversation from '@/components/Dashboard/Conversation/EmptyConversation.vue'
+import { storeToRefs } from 'pinia'
 
 const route = useRoute()
 const submissionsStore = useSubmissionsStore()
 
-const { getSubmissions, setActiveSubmission, activeSubmission } =
-	submissionsStore
+const { getSubmissions, setActiveSubmission } = submissionsStore
+
+const { activeSubmission } = storeToRefs(submissionsStore)
 
 onBeforeMount(async () => {
 	if (route.query.as) {
@@ -24,13 +27,16 @@ definePageMeta({
 </script>
 
 <template>
-	<div class="flex grow">
+	<div class="flex grow h-full">
 		<SubmissionsList
 			class="md:w-1/4"
 			:class="{ 'hidden md:block': activeSubmission }"
 		/>
-		<ConversationContainer class="grow h-screen md:w-2/3" />
+
+		<div class="chat-container border border-gray-300 border-l">
+			<EmptyConversation v-if="!activeSubmission" />
+
+			<ConversationContainer v-else class="grow h-screen md:w-2/3" />
+		</div>
 	</div>
 </template>
-
-on mobile // if active submisison, hide the submissions list,

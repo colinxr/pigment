@@ -7,6 +7,7 @@ const activeSubmission = ref<SubmissionI>()
 const nextPage = ref<number | null>(1)
 const submissions = ref<SubmissionI[]>([])
 const submissionsList = ref<number[]>([])
+const showActionPane = ref<boolean>(false)
 
 export default defineStore('submissions', () => {
 	const getNextPageFromUrl = (url: string | null): number | null => {
@@ -84,6 +85,8 @@ export default defineStore('submissions', () => {
 		
 	}
 
+	const toggleActionPane = () => showActionPane.value = !showActionPane.value
+
 
 
 	return {
@@ -97,6 +100,7 @@ export default defineStore('submissions', () => {
 		updateSubmissionClient,
 		findSubmissionById,
 		setSubmssionListOrder,
-		updateSubmissionsListOrder
+		updateSubmissionsListOrder,
+		toggleActionPane,
 	}
 })

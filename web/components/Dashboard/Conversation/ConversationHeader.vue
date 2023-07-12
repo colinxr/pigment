@@ -7,7 +7,7 @@ import useSubmissionsStore from '@/stores/submissions'
 const modalStore = useModalStore()
 const submissionsStore = useSubmissionsStore()
 
-const { clearActiveSubmission } = submissionsStore
+const { clearActiveSubmission, toggleActionPane } = submissionsStore
 
 const props = defineProps({
 	client: {
@@ -33,6 +33,6 @@ const openModal = () => {
 		</span>
 		<!-- <button class="text-sm" @click="openModal">Edit Client</button> -->
 
-		<button><i class="pi pi-fw pi-bars"></i></button>
+		<button @click="toggleActionPane"><i class="pi pi-fw pi-bars"></i></button>
 	</header>
 </template>

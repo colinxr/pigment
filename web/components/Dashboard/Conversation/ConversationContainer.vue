@@ -15,7 +15,7 @@ const messages = ref([])
 const wrapper = ref(null)
 
 const { updateSubmissionsListOrder } = submissionsStore
-const { activeSubmission } = storeToRefs(submissionsStore)
+const { activeSubmission, showActionPane } = storeToRefs(submissionsStore)
 
 const buildMessageObject = ({ body, attachments }) => ({
 	body,
@@ -74,22 +74,9 @@ watch(activeSubmission, async newVal => {
 </script>
 
 <template>
-	<div
-		class="chat-container border border-gray-300 border-l"
-		:class="{ flex: activeSubmission }"
-	>
-		<main v-if="!activeSubmission" class="h-full w-full bg-white px-4 py-6">
-			<div class="h-full overflow-hidden py-4">
-				<div class="h-full overflow-y-auto">
-					<h1 v-if="!activeSubmission">
-						Select a conversation or send a new message
-					</h1>
-				</div>
-			</div>
-		</main>
-
-		<main v-else class="flex flex-col h-full w-full bg-white pb-6">
-			<ConversationHeader :client="activeSubmission.client" />
+	<main class="relative md:flex">
+		<div class="flex flex-col h-full w-full bg-white pb-6">
+			<!-- <ConversationHeader :client="activeSubmission.client" /> -->
 
 			<div class="h-full overflow-hidden py-4">
 				<div class="h-full overflow-y-auto">
@@ -106,8 +93,12 @@ watch(activeSubmission, async newVal => {
 			<div class="px-4">
 				<ConversationTextInput @send-msg="handleNewMessage" />
 			</div>
-		</main>
+		</div>
 
-		<ActionPane v-if="activeSubmission" :submission="activeSubmission" />
-	</div>
+		<ActionPane
+			class="absolute top-0 right-0 b-0 w-[88vw] h-full transform translate-x-full"
+			:class="{ 'translate-x-0': showActionPane }"
+			:submission="activeSubmission"
+		/>
+	</main>
 </template>
