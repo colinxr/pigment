@@ -39,7 +39,7 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-	<form class="w-1/4" @submit.prevent="handleSubmit">
+	<form class="w-full px-5 md:w-1/4 md:px-0" @submit.prevent="handleSubmit">
 		<div class="form-control mb-5">
 			<TextInput id="email" v-model="email" labelText="Email" />
 		</div>
@@ -54,7 +54,7 @@ const handleSubmit = async () => {
 		</div>
 
 		<button
-			class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 text-base font-semibold text-white outline-none"
+			class="hover:shadow-form rounded-md bg-[#6A64F1] py-3 px-8 w-full text-base font-semibold text-white outline-none"
 			type="submit"
 		>
 			Login
