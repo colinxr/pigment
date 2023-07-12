@@ -85,7 +85,7 @@ watchEffect(async () => {
 
 <template>
 	<main class="relative block md:flex overflow-none">
-		<div class="flex flex-col h-full w-full bg-white pb-6">
+		<div class="flex flex-col h-full grow bg-white pb-6">
 			<ConversationHeader :client="props.submission.client" />
 
 			<div class="h-full overflow-hidden py-4">
@@ -99,7 +99,6 @@ watchEffect(async () => {
 					</div>
 				</div>
 			</div>
-			{{ showActionPane }}
 
 			<div class="px-4">
 				<ConversationTextInput @send-msg="handleNewMessage" />

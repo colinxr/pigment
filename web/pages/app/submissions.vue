@@ -52,7 +52,7 @@ definePageMeta({
 			<ConversationContainer
 				v-else
 				:submission="activeSubmission"
-				class="grow h-screen w-full md:w-2/3"
+				class="grow h-screen"
 			/>
 		</div>
 	</div>

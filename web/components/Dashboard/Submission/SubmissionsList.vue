@@ -14,18 +14,20 @@ const hasSubmissions = computed(() => submissionsList.value.length)
 <template>
 	<!-- <div class="sidebar h-screen w-96 flex-shrink-0 bg-gray-100 p-4"> -->
 	<div
-		class="submissions_list bg-white flex flex-col md:w-1/3 h-full p-2 md:p-4"
+		class="submissions_list bg-white flex flex-col md:w-auto lg:w-1/3 h-full"
 	>
 		<!-- Submissions Headers -->
-		<div class="flex flex-row items-center">
-			<div class="flex flex-row items-center px-1">
+		<div
+			class="flex flex-row items-center pt-4 px-2 md:px-4 sm:block md:hidden lg:block"
+		>
+			<div class="flex flex-row items-center">
 				<div class="text-xl font-semibold">Messages</div>
 				<!-- <div class="flex items-center justify-center ml-2 text-xs h-5 w-5 text-white bg-red-500
           rounded-full font-medium"> -->
 				<!-- 5</div> -->
 			</div>
 
-			<div class="ml-auto">
+			<!-- <div class="lg:ml-auto">
 				<button
 					class="flex items-center justify-center h-7 w-7 bg-gray-200 text-gray-500 rounded-full"
 				>
@@ -44,10 +46,10 @@ const hasSubmissions = computed(() => submissionsList.value.length)
 						/>
 					</svg>
 				</button>
-			</div>
+			</div> -->
 		</div>
 
-		<div v-if="hasSubmissions" class="md:mt-2 px-1">
+		<div v-if="hasSubmissions" class="mt-2">
 			<SubmissionCard
 				v-for="(subId, i) in submissionsList"
 				:key="i"

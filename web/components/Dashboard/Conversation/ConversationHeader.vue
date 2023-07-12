@@ -1,5 +1,6 @@
 <script setup>
 import { markRaw } from 'vue'
+import { storeToRefs } from 'pinia'
 import useModalStore from '@/stores/modal'
 import ClientEditModal from '@/components/Modal/ClientEditModal.vue'
 import useSubmissionsStore from '@/stores/submissions'
@@ -8,6 +9,8 @@ const modalStore = useModalStore()
 const submissionsStore = useSubmissionsStore()
 
 const { clearActiveSubmission, toggleActionPane } = submissionsStore
+
+const { showActionPane } = storeToRefs(submissionsStore)
 
 const props = defineProps({
 	client: {
@@ -25,14 +28,18 @@ const openModal = () => {
 	<header
 		class="border-gray-100 border-b py-3 px-1 md:px-4 flex justify-between"
 	>
-		<button @click="clearActiveSubmission">
-			<i class="pi pi-fw pi-chevron-left"></i>
-		</button>
-		<span class="font-bold md:text-lg">
-			{{ client.full_name }}
-		</span>
+		<div>
+			<button @click="clearActiveSubmission">
+				<i class="pi pi-fw pi-chevron-left"></i>
+			</button>
+			<span class="font-bold md:text-lg">
+				{{ client.full_name }}
+			</span>
+		</div>
 		<!-- <button class="text-sm" @click="openModal">Edit Client</button> -->
 
-		<button @click="toggleActionPane"><i class="pi pi-fw pi-bars"></i></button>
+		<button @click="toggleActionPane" v-if="!showActionPane" class="self-end">
+			<i class="pi pi-fw pi-angle-double-left"></i>
+		</button>
 	</header>
 </template>

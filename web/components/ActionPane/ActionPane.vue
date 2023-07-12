@@ -14,14 +14,16 @@ const currentView = ref('appointments')
 
 <template>
 	<aside
-		class="p-4 bg-slate-100 border-gray-200 border-l absolute top-0 right-0 left-0 bottom-0 w-full h-full transform md:transform-x-none md:w-0 z-50"
+		class="p-4 bg-slate-100 border-gray-200 border-l absolute top-0 right-0 left-0 bottom-0 w-full h-full transform lg:transform-x-none z-50 lg:relative"
 		:class="{
-			'translate-x-full': !showActionPane,
-			'translate-x-0 w-[88vw] md:w-1/3 md:relative': showActionPane,
+			'translate-x-full md:hidden': !showActionPane,
+			'translate-x-0 w-[88vw] lg:w-1/3 lg:relative lg:block': showActionPane,
 		}"
 	>
 		<header class="flex justify-end absolute top-6 right-3">
-			<span @click="toggleActionPane">Close</span>
+			<button @click="toggleActionPane">
+				<i class="pi pi-fw pi-angle-double-right"></i>
+			</button>
 		</header>
 
 		<div class="h-full">
