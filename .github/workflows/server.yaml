@@ -43,6 +43,7 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           envs: ROOT_DIR,RELEASE_DIR,APP_DIR
           script: |
+            set -e
             export ROOT_DIR=$ROOT_DIR
             export RELEASE_DIR=$RELEASE_DIR
             cd $ROOT_DIR
@@ -68,7 +69,7 @@ jobs:
             export ROOT_DIR=$ROOT_DIR
             export RELEASE_DIR=$RELEASE_DIR
             cd $RELEASE_DIR 
-            composer install --no-dev
+            composer install --prefer-dist --no-scripts --no-dev -q -o;
             php artisan config:cache
             php artisan migrate --force
             php artisan optimize
