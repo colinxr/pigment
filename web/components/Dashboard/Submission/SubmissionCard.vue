@@ -26,9 +26,9 @@ const handleClick = () => {
 	>
 		<div class="relative flex md:block lg:flex flex-row items-center py-3">
 			<!-- timestamp -->
-			<!-- <div class="absolute text-xs text-gray-500 right-0 top-0 mr-4 mt-3">
+			<div class="absolute text-xs text-gray-500 right-0 top-0 mr-4 mt-3">
 				{{ timestamp }}
-			</div> -->
+			</div>
 
 			<!-- client avatar -->
 			<div

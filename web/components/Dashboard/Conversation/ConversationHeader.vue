@@ -29,7 +29,7 @@ const openModal = () => {
 		class="border-gray-100 border-b py-3 px-1 md:px-4 flex justify-between"
 	>
 		<div>
-			<button @click="clearActiveSubmission">
+			<button class="md:hidden" @click="clearActiveSubmission">
 				<i class="pi pi-fw pi-chevron-left"></i>
 			</button>
 			<span class="font-bold md:text-lg">
