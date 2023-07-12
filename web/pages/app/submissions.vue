@@ -20,10 +20,12 @@ onBeforeMount(async () => {
 
 	await getSubmissions()
 })
-
-watchEffect(() => {
-	if (!route.query.as) clearActiveSubmission()
-})
+watch(
+	() => route.query,
+	newQueryObj => {
+		if (!newQueryObj.as) clearActiveSubmission()
+	}
+)
 
 definePageMeta({
 	middleware: 'user-is-authenticated',
@@ -39,9 +41,9 @@ definePageMeta({
 		/>
 
 		<div
-			class="chat-container border border-gray-300 border-l"
+			class="chat-container w-full border border-gray-300 border-l"
 			:class="{
-				block: actionSubmission,
+				block: activeSubmission,
 				'hidden md:block': !activeSubmission,
 			}"
 		>
@@ -50,7 +52,7 @@ definePageMeta({
 			<ConversationContainer
 				v-else
 				:submission="activeSubmission"
-				class="grow h-screen md:w-2/3"
+				class="grow h-screen w-full md:w-2/3"
 			/>
 		</div>
 	</div>

@@ -2,6 +2,7 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import ApiService from '@/services/ApiService'
 import { ClientI, SubmissionI } from './types'
+import { useRoute, useRouter } from 'vue-router';
 
 const activeSubmission = ref<SubmissionI>()
 const nextPage = ref<number | null>(1)
@@ -10,6 +11,8 @@ const submissionsList = ref<number[]>([])
 const showActionPane = ref<boolean>(false)
 
 export default defineStore('submissions', () => {
+	const router = useRouter();
+
 	const getNextPageFromUrl = (url: string | null): number | null => {
 		if (!url) return null
 
@@ -28,6 +31,9 @@ export default defineStore('submissions', () => {
 
 	const clearActiveSubmission = () => {
 		activeSubmission.value = undefined
+		showActionPane.value = false
+
+		router.push({ path: router.currentRoute.value.path });
 	}
 
 	const findSubmissionById = (activeSubId: number) =>
@@ -94,6 +100,7 @@ export default defineStore('submissions', () => {
 		nextPage,
 		activeSubmission,
 		submissionsList,
+		showActionPane,
 		getSubmissions,
 		setActiveSubmission,
 		clearActiveSubmission,

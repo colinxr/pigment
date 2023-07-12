@@ -8,20 +8,19 @@ import useWatchForRefresh from '@/composables/useWatchForRefresh'
 import AppointmentCard from '@/components/Appointments/AppointmentCard.vue'
 import LoadingCard from '@/components/Appointments/LoadingCard.vue'
 import AppointmentCreateModal from '@/components/Modal/AppointmentCreateModal.vue'
-import { storeToRefs } from 'pinia'
 
 const modalStore = useModalStore()
-const submissionsStore = useSubmissionsStore()
 const { shouldRefreshData } = useWatchForRefresh()
 
-const { activeSubmission } = storeToRefs(submissionsStore)
+const submission = inject('submission')
 
 const isLoading = ref(true)
 const appointments = ref([])
 const pastAppointments = ref([])
 
-const fetchData = async submission => {
-	const subId = submission.value?.id ?? submission.id
+const fetchData = async sub => {
+	if (!sub) return null
+	const subId = sub.value?.id ?? sub.id
 
 	const { data } = await ApiService.appointments.index('submission_id', subId)
 
@@ -39,20 +38,17 @@ const clearState = () => {
 	pastAppointments.value = []
 }
 
-onMounted(async () => await fetchData(activeSubmission))
+onMounted(async () => await fetchData(submission))
 
-watch(
-	[shouldRefreshData, activeSubmission],
-	async ([shouldRefresh, activeSubmission]) => {
-		clearState()
-		await fetchData(activeSubmission)
-	}
-)
+watch([shouldRefreshData, submission], async ([shouldRefresh, submission]) => {
+	clearState()
+	await fetchData(submission)
+})
 
 const openModal = () => {
 	modalStore.openModal({
 		component: markRaw(AppointmentCreateModal),
-		props: { submission: activeSubmission },
+		props: { submission },
 	})
 }
 
@@ -89,4 +85,3 @@ const sanitizeResponseData = data => Object.values(data)
 		<Button label="Add Appointment" @click="openModal" />
 	</div>
 </template>
-@/stores/submissions

@@ -18,6 +18,8 @@ const props = defineProps({
 	},
 })
 
+provide('submission', props.submission)
+
 const messages = ref([])
 const wrapper = ref(null)
 
@@ -31,24 +33,24 @@ const buildMessageObject = ({ body, attachments }) => ({
 	is_from_admin: true,
 })
 
-// const handleNewMessage = async message => {
-// 	const msgObject = buildMessageObject(message)
+const handleNewMessage = async message => {
+	const msgObject = buildMessageObject(message)
 
-// 	messages.value = [...messages.value, msgObject]
+	messages.value = [...messages.value, msgObject]
 
-// 	scrollToLastMessage()
+	scrollToLastMessage()
 
-// 	const res = await postMessageToServer(msgObject)
+	const res = await postMessageToServer(msgObject)
 
-// 	const messageWasSent = res.status === 201
+	const messageWasSent = res.status === 201
 
-// 	updateMessage(messageWasSent, message.body)
+	updateMessage(messageWasSent, message.body)
 
-// 	if (messageWasSent) {
-// 		activeSubmission.value.last_message = res.data.data
-// 		updateSubmissionsListOrder(activeSubmission.value.id)
-// 	}
-// }
+	if (messageWasSent) {
+		props.submission.value.last_message = res.data.data
+		updateSubmissionsListOrder(props.submission.value.id)
+	}
+}
 
 const postMessageToServer = async message => {
 	const res = await ApiService.messages.post(props.submission.value.id, {
@@ -82,7 +84,7 @@ watchEffect(async () => {
 </script>
 
 <template>
-	<main class="relative md:flex">
+	<main class="relative md:flex overflow-x-none">
 		<div class="flex flex-col h-full w-full bg-white pb-6">
 			<ConversationHeader :client="props.submission.client" />
 
@@ -104,9 +106,10 @@ watchEffect(async () => {
 		</div>
 
 		<ActionPane
-			class="absolute top-0 right-0 b-0 w-full h-full transform translate-x-full"
-			:class="{ 'translate-x-0  w-[88vw]': showActionPane }"
-			:submission="props.submission"
+			class="absolute top-0 right-0 b-0 w-full h-full transform translate-x-full md:w-0"
+			:class="{
+				'translate-x-0 w-[88vw] md:w-1/3 md:relative': showActionPane,
+			}"
 		/>
 	</main>
 </template>

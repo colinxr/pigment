@@ -1,19 +1,21 @@
 <script setup>
 import { ref } from 'vue'
 import ActionPaneAppointments from './ActionPaneAppointments.vue'
+import useSubmissionsStore from '@/stores/submissions'
 
-const props = defineProps({
-	submission: {
-		type: Object,
-		required: true,
-	},
-})
+const { toggleActionPane } = useSubmissionsStore()
+
+const submission = inject('submission')
 
 const currentView = ref('appointments')
 </script>
 
 <template>
 	<aside class="w-1/2 p-4 bg-slate-100 border-gray-200 border-l">
+		<header class="flex justify-end absolute top-6 right-3">
+			<span @click="toggleActionPane">Close</span>
+		</header>
+
 		<div class="h-full">
 			<nav class="flex space-x-2" aria-label="Tabs" role="tablist">
 				<button
