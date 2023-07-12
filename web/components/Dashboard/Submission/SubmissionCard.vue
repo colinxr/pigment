@@ -21,10 +21,10 @@ const handleClick = () => {
 
 <template>
 	<div
-		class="sub-card flex flex-col md:-mx-4 hover:cursor-pointer hover:bg-slate-100 border-gray-100 border-b"
+		class="sub-card flex flex-col hover:cursor-pointer hover:bg-slate-100 border-gray-100 border-b"
 		@click="handleClick"
 	>
-		<div class="relative flex flex-row items-center p-4">
+		<div class="relative flex flex-row items-center py-3">
 			<!-- timestamp -->
 			<!-- <div class="absolute text-xs text-gray-500 right-0 top-0 mr-4 mt-3">
 				{{ timestamp }}

@@ -84,7 +84,7 @@ watchEffect(async () => {
 </script>
 
 <template>
-	<main class="relative md:flex overflow-x-none">
+	<main class="relative block md:flex overflow-none">
 		<div class="flex flex-col h-full w-full bg-white pb-6">
 			<ConversationHeader :client="props.submission.client" />
 
@@ -99,17 +99,13 @@ watchEffect(async () => {
 					</div>
 				</div>
 			</div>
+			{{ showActionPane }}
 
 			<div class="px-4">
 				<ConversationTextInput @send-msg="handleNewMessage" />
 			</div>
 		</div>
 
-		<ActionPane
-			class="absolute top-0 right-0 b-0 w-full h-full transform translate-x-full md:w-0"
-			:class="{
-				'translate-x-0 w-[88vw] md:w-1/3 md:relative': showActionPane,
-			}"
-		/>
+		<ActionPane />
 	</main>
 </template>
