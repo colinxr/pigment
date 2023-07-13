@@ -14,7 +14,7 @@ const hasSubmissions = computed(() => submissionsList.value.length)
 <template>
 	<!-- <div class="sidebar h-screen w-96 flex-shrink-0 bg-gray-100 p-4"> -->
 	<div
-		class="submissions_list bg-white flex flex-col md:w-auto lg:w-1/3 h-full"
+		class="submissions_list bg-white-100 flex flex-col md:w-auto lg:w-1/3 h-full"
 	>
 		<!-- Submissions Headers -->
 		<div
@@ -49,7 +49,17 @@ const hasSubmissions = computed(() => submissionsList.value.length)
 			</div> -->
 		</div>
 
-		<div v-if="hasSubmissions" class="mt-2">
+		<div v-if="!hasSubmissions">
+			<Card class="m-5 ml-2">
+				<template #content>
+					<div class="md:px-4 mt-2">
+						<h2>No submissions Yet.</h2>
+					</div>
+				</template>
+			</Card>
+		</div>
+
+		<div v-else class="mt-2">
 			<SubmissionCard
 				v-for="(subId, i) in submissionsList"
 				:key="i"

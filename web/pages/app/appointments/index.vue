@@ -120,6 +120,12 @@ definePageMeta({
 				</DataTable>
 			</template>
 
+			<template v-else="!isLoading && !appointments.length" #content>
+				<div class="w-full md:max-w-1/2">
+					<h2>No appointments scheduled yet</h2>
+				</div>
+			</template>
+
 			<template v-else #content>
 				<div class="w-full md:max-w-1/2">
 					<LoadingCard v-for="i in 3" :key="i" />

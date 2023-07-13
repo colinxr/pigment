@@ -7,7 +7,7 @@ import DynamicForm from '@/components/Forms/DynamicForm.vue'
 import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'
 
 const authStore = useAuthStore()
-const { errorState, handleResponseErrors } = useFormErrors()
+const { errorState, handleResponseErrors, showFormAlert } = useFormErrors()
 const { schema } = useRegistrationSchema()
 
 definePageMeta({
@@ -47,10 +47,10 @@ const handleSubmit = async formData => {
 </script>
 
 <template>
-	<div class="px-5 md:w-1/2 w-full">
+	<div class="px-5 mt-5 md:w-1/2 w-full">
 		<header>
-			<div class="flex justify-between mb-2">
-				<h1>Register</h1>
+			<div class="flex justify-between mb-5">
+				<h1 class="text-4xl font-bold">Register</h1>
 			</div>
 
 			<AlertWrapper
