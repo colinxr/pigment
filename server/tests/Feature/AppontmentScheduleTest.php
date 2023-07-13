@@ -60,7 +60,7 @@ class AppontmentScheduleTest extends TestCase
 
     private function clearAppointmentsOnThisDate($user, $nextDay)
     {
-        $appointments = $user->appointments()->where('startDateTime', 'LIKE',  "{$nextDay}%")->get();
+        $appointments = $user->appointments()->where('startDateTime', 'LIKE', '%' . $nextDay . '%')->get();
         $appointments->each->delete();
     }
 
@@ -84,7 +84,7 @@ class AppontmentScheduleTest extends TestCase
         $this->clearAppointmentsOnThisDate($user, $nextFridayDate);
 
         $this->assertDatabaseMissing('appointments', [
-            'startDateTime' => $nextFridayDate . '%'
+            'startDateTime', 'LIKE', '%' . $nextFridayDate . '%'
         ]);
 
         $this->actingAs($user);

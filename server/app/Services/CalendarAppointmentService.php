@@ -72,13 +72,10 @@ class CalendarAppointmentService
     $availableSlots = [];
     // date helpers 
     // create from string
-    $firstDay = $appointments->isEmpty() ?
-      Carbon::now()->addDay() :
-      Carbon::createFromFormat('Y-m-d', $appointments->keys()->first());
+    $firstDay = Carbon::now()->addDay();
     $lastDay = $appointments->isEmpty() ?
       $firstDay->copy()->addDays(5) :
       Carbon::createFromFormat('Y-m-d', $appointments->keys()->last());
-
 
     $period = CarbonPeriod::create($firstDay, $lastDay);
 
@@ -88,6 +85,7 @@ class CalendarAppointmentService
       if (!$slots) continue;
 
       $availableSlots[] = $slots;
+
       if (count($availableSlots) === $slotsToFind) break;
     }
 
@@ -168,20 +166,23 @@ class CalendarAppointmentService
   {
     $slots = [];
 
-    while (count($slots) <= $remaining) {
+    while (count($slots) < $remaining) {
       $apptsByDate = $this->appointmentsGroupedByDate($dayToQuery);
 
       // if user has no appointments today
       if ($apptsByDate->isEmpty()) {
         // skip today if the user doesn't work today 
-        if (!$this->calendar->userWorksToday($dayToQuery)) continue;
-
+        if (!$this->calendar->userWorksToday($dayToQuery)) {
+          $dayToQuery->addDay();
+          continue;
+        }
         // if today is a working day,
         // then lets return when the user starts work for the day.  
         $slots[] = [
           'dateTime' => $this->calendar->getHoursOpening($dayToQuery, true),
           'message' => 'Nothing scheduled this day',
         ];
+
         if (count($slots) === $remaining) break;
         $dayToQuery->addDay();
       } else {
