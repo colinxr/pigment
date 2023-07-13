@@ -23,8 +23,6 @@ const initialValues = {
 	password_confirm: '',
 }
 
-console.log(schema)
-
 const handleSubmit = async formData => {
 	try {
 		const response = await ApiService.auth.register(formData)
@@ -50,7 +48,7 @@ const handleSubmit = async formData => {
 	<div class="px-5 mt-5 md:w-1/2 w-full">
 		<header>
 			<div class="flex justify-between mb-5">
-				<h1 class="text-4xl font-bold">Register</h1>
+				<h1 class="text-3xl font-bold">Register</h1>
 			</div>
 
 			<AlertWrapper

@@ -39,6 +39,18 @@ const handleSubmit = async () => {
 </script>
 
 <template>
+	<header>
+		<div class="flex justify-between mb-5">
+			<h1 class="text-3xl font-bold">Login</h1>
+		</div>
+
+		<AlertWrapper
+			v-if="showFormAlert"
+			:status="formStatus"
+			:msg="alertMessage"
+		/>
+	</header>
+
 	<form class="w-full px-5 md:w-1/4 md:px-0" @submit.prevent="handleSubmit">
 		<div class="form-control mb-5">
 			<TextInput id="email" v-model="email" labelText="Email" />
