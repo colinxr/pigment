@@ -44,6 +44,8 @@ class ApiService implements ApiServiceInterface {
 	users: UserRepositoryI
 
 	constructor() {
+		console.log(config.public.api_url);
+		
 		this.axios = createApiClient(config.public.api_url)
 
 		this.appointments = new AppointmentRepository(this.axios)
