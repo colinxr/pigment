@@ -203,7 +203,7 @@ class AppontmentScheduleTest extends TestCase
         $hasSlotOnCorrectDate = false;
 
         foreach ($nextSlots->data as $item) {
-            if (strpos($item->dateTime, $appt_a->endDateTime) !== false) {
+            if (strpos($item->dateTime, $nextFridayDate) !== false) {
                 $hasSlotOnCorrectDate = true;
                 break;
             }

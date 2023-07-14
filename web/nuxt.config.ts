@@ -19,7 +19,7 @@ export default defineNuxtConfig({
     apiSecret: '123',
     // Keys within public are also exposed client-side
     public: {
-			api_url: process.env.NUXT_API_URL
+			api_url: process.env.NUXT_PUBLIC_API_URL
     }
   },
 	modules: ['@pinia/nuxt', '@formkit/nuxt', '@pinia-plugin-persistedstate/nuxt'],
