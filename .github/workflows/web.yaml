@@ -68,7 +68,7 @@ jobs:
           script: |
             export ROOT_DIR=$ROOT_DIR
             export RELEASE_DIR=$RELEASE_DIR
-            export NUXT_PUBLIC_API_URL= ${{ secrets.NUXT_PUBLIC_API_URL }}
+            export NUXT_PUBLIC_API_URL=${{ secrets.NUXT_PUBLIC_API_URL }}
             npm i -g pm2
             tar -xzf $RELEASE_DIR/.output.tar.gz
             rm -rf /var/www/pigment/web/current
