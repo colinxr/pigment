@@ -4,17 +4,17 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use App\Services\GoogleApiService;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use App\Services\GoogleCalendarService;
+use App\Interfaces\GoogleApiServiceInterface;
 
 class OAuthController extends Controller
 {
     protected $googleApi;
 
-    public function __construct(GoogleApiService $googleApi)
+    public function __construct(GoogleApiServiceInterface $googleApi)
     {
         $this->googleApi = $googleApi;
     }

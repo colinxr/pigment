@@ -4,6 +4,7 @@ use App\Models\User;
 use App\Services\GoogleApiService;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Route;
+use App\Interfaces\GoogleApiServiceInterface;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +31,7 @@ Route::get('/csrf-token', function () {
     ]);
 });
 
-Route::get('/oauth/google/callback', function (GoogleApiService $apiClient) {
+Route::get('/oauth/google/callback', function (GoogleApiServiceInterface $apiClient) {
     if (!request()->code) {
 
         $auth_url = $apiClient->client()->createAuthUrl();
