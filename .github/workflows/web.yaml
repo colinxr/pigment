@@ -22,7 +22,7 @@ jobs:
       - name: Build App
         working-directory: ./web
         run: | 
-          NUXT_API_URL=${{ secrets.API_URL }} npm run build
+          NUXT_PUBLIC_API_URL=${{ secrets.NUXT_PUBLIC_API_URL }} npm run build
           tar -czf .output.tar.gz .output ecosystem.config.js
 
       - name: Archive artifact
