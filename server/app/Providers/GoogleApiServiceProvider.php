@@ -35,6 +35,8 @@ class GoogleApiServiceProvider extends ServiceProvider
     {
         if (app()->environment('testing')) return;
 
+        if (!$config) throw InvalidGCalConfiguration::credentialsJsonDoesNotExist('');
+
         $authProfile = $config['default_auth_profile'];
 
         if ($authProfile === 'service_account') {
