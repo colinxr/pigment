@@ -68,9 +68,10 @@ jobs:
           script: |
             export ROOT_DIR=$ROOT_DIR
             export RELEASE_DIR=$RELEASE_DIR
-            export PM2_PATH="/home/pigment/.nvm/versions/node/v20.3.1/bin/pm2"
+            export NUXT_PUBLIC_API_URL= ${{ secrets.NUXT_PUBLIC_API_URL }}
+            npm i -g pm2
             tar -xzf $RELEASE_DIR/.output.tar.gz
             rm -rf /var/www/pigment/web/current
             ln -s $RELEASE_DIR /var/www/pigment/web/current
             cd /var/www/pigment/web/current
-            $PM2_PATH reload ecosystem.config.js --env production
+            pm2 reload ecosystem.config.js --env production
