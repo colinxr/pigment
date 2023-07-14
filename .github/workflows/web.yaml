@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Install Dependencies
         working-directory: ./web
@@ -26,7 +26,7 @@ jobs:
           tar -czf .output.tar.gz .output ecosystem.config.js
 
       - name: Archive artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: app
           path: ./web/.output.tar.gz
@@ -45,7 +45,7 @@ jobs:
 
     steps:
       - name: Download artifact
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: app
           
@@ -59,7 +59,7 @@ jobs:
           target: /var/www/pigment/web/releases/${{ github.sha }}
 
       - name: Symlink and Reload PM2
-        uses: appleboy/ssh-action@master
+        uses: appleboy/ssh-action@v0.1.10
         with:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
@@ -69,9 +69,9 @@ jobs:
             export ROOT_DIR=$ROOT_DIR
             export RELEASE_DIR=$RELEASE_DIR
             export NUXT_PUBLIC_API_URL=${{ secrets.NUXT_PUBLIC_API_URL }}
-            npm i -g pm2
             tar -xzf $RELEASE_DIR/.output.tar.gz
             rm -rf /var/www/pigment/web/current
             ln -s $RELEASE_DIR /var/www/pigment/web/current
             cd /var/www/pigment/web/current
+            lsa
             pm2 reload ecosystem.config.js --env production
