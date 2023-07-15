@@ -27,8 +27,8 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
-            $api_prefix = in_array(app()->environment(), ['local', 'testing']) ? 'api' : '';
-            $web_prefix = app()->environment() === 'local' ? '' : 'w';
+            $api_prefix = in_array(app()->environment(), ['local', 'testing']) ? 'api' : 'v1';
+            $web_prefix = in_array(app()->environment(), ['local', 'testing']) ? '' : 'w';
 
             Route::middleware('api')
                 ->prefix($api_prefix)
