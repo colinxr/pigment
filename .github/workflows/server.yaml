@@ -53,7 +53,8 @@ jobs:
             git reset --hard HEAD
             cp -rpa server/* $RELEASE_DIR
             ln -s /var/www/pigment/.env $RELEASE_DIR/.env 
-            ln -s /var/www/pigment/storage "$RELEASE_DIR/storage" 
+            ln -s /var/www/pigment/storage $RELEASE_DIR/
+            lsa $RELEASE_DIR/storage
             cd $ROOT_DIR && rm -rf repo
 
       - name: Run Migrations
@@ -81,6 +82,6 @@ jobs:
           envs: ROOT_DIR,RELEASE_DIR,APP_DIR
           script: |
             export RELEASE_DIR=$RELEASE_DIR
-            export APP_DIR=$RELEASE_DIR
-            rm -rf $APP_DIR/current
+            rm -rf /var/www/pigment/api/current
             ln -s $RELEASE_DIR /var/www/pigment/api/current
+            lsa /var/www/pigment/api/current
