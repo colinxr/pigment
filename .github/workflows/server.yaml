@@ -55,7 +55,7 @@ jobs:
             cp -rpa server/* $RELEASE_DIR
             ln -s /var/www/pigment/.env $RELEASE_DIR/.env 
             ln -s /var/www/pigment/storage $RELEASE_DIR/
-            lsa $RELEASE_DIR/storage
+            ls -la $RELEASE_DIR/storage
             cd $ROOT_DIR && rm -rf repo
 
       - name: Run Migrations
@@ -85,4 +85,4 @@ jobs:
             export RELEASE_DIR=$RELEASE_DIR
             rm -rf /var/www/pigment/api/current
             ln -s $RELEASE_DIR /var/www/pigment/api/current
-            lsa /var/www/pigment/api/current
+            ls -la /var/www/pigment/api/current
