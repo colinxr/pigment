@@ -15,7 +15,7 @@ class GoogleApiServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->bind(GoogleApiServiceInterface::class, function (Application $app) {
+        $this->app->singleton(GoogleApiServiceInterface::class, function (Application $app) {
             $config = config('google-client');
 
             $this->guardAgainstInvalidConfiguration($config);
