@@ -3,9 +3,7 @@
 namespace App\Services;
 
 use Exception;
-use Google_Client;
 use App\Models\Appointment;
-use Illuminate\Support\Str;
 use Google_Service_Calendar;
 use Google\Service\Calendar\Event;
 use Illuminate\Support\Facades\Log;
@@ -26,8 +24,6 @@ class GoogleCalendarService implements GoogleCalendarInterface
   {
     $this->client = $api->client();
     $this->service = new Google_Service_Calendar($this->client);
-
-    // $this->client->setAccessToken(request()->user()->access_token);
   }
 
   public function getService()

@@ -53,9 +53,7 @@ jobs:
             git reset --hard HEAD
             cp -rpa server/* $RELEASE_DIR
             ln -s /var/www/pigment/.env $RELEASE_DIR/.env 
-            if [ -d "/var/www/pigment/storage" ]; then
-              ln -s /var/www/pigment/storage "$RELEASE_DIR/storage" 
-            fi
+            ln -s /var/www/pigment/storage "$RELEASE_DIR/storage" 
             cd $ROOT_DIR && rm -rf repo
 
       - name: Run Migrations
