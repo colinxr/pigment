@@ -81,7 +81,6 @@ class AppointmentTest extends TestCase
         $event = $this->gCalService->saveEvent($appt);
         $event->id = fake()->uuid();
         $appt->update(['event_id' => $event->id]);
-        dump('wtf');
 
         $this->assertNotEmpty($this->gCalService->listEvents());
 
