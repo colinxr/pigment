@@ -27,11 +27,15 @@ class RouteServiceProvider extends ServiceProvider
         $this->configureRateLimiting();
 
         $this->routes(function () {
+            $api_prefix = app()->environment() === 'local' ? 'api' : '';
+            $web_prefix = app()->environment() === 'local' ? '' : 'w';
+
             Route::middleware('api')
-                ->prefix('api')
+                ->prefix($api_prefix)
                 ->group(base_path('routes/api.php'));
 
             Route::middleware('web')
+                ->prefix($web_prefix)
                 ->group(base_path('routes/web.php'));
         });
     }
