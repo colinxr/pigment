@@ -19,12 +19,12 @@ import {
 import {
 	AppointmentRepository,
 	AuthRepository,
+	CalendarRepository,
 	ClientRepository,
 	MessageRepository,
 	SubmissionRepository,
 	UserRepository,
 } from './repositories'
-import CalendarRepository from './repositories/CalendarRepository'
 
 class ApiService implements ApiServiceInterface {
 	axios: AxiosInstance
@@ -44,8 +44,6 @@ class ApiService implements ApiServiceInterface {
 	users: UserRepositoryI
 
 	constructor() {
-		console.log(config.public.api_url);
-		
 		this.axios = createApiClient(config.public.api_url)
 
 		this.appointments = new AppointmentRepository(this.axios)
@@ -54,7 +52,7 @@ class ApiService implements ApiServiceInterface {
 		this.clients = new ClientRepository(this.axios)
 		this.messages = new MessageRepository(this.axios)
 		this.submissions = new SubmissionRepository(this.axios)
-		this.users = new UserRepository(this.axios)
+		this.users = new UserRepository(this.axios)	
 	}
 }
 

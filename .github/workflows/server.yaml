@@ -76,6 +76,7 @@ jobs:
           envs: ROOT_DIR,RELEASE_DIR,APP_DIR,SERVER_PASS
           script: |
             cd $ROOT_DIR && rm -rf repo
+            exit 1
 
       - name: Run Migrations
         uses: appleboy/ssh-action@v0.1.10

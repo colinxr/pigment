@@ -69,6 +69,7 @@ jobs:
             export ROOT_DIR=$ROOT_DIR
             export RELEASE_DIR=$RELEASE_DIR
             export NUXT_PUBLIC_API_URL=${{ secrets.NUXT_PUBLIC_API_URL }}
+            
             tar -xzf $RELEASE_DIR/.output.tar.gz -C $RELEASE_DIR/
             rm -rf /var/www/pigment/web/current
             ln -s $RELEASE_DIR /var/www/pigment/web/current

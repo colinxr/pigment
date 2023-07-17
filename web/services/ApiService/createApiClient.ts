@@ -27,7 +27,6 @@ export default (baseURL: string): AxiosInstance => {
 				return request
 			})
 	}
-
 	client.interceptors.response.use(
 		response => response,
 		error => {
