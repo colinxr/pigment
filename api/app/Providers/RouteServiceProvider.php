@@ -28,14 +28,12 @@ class RouteServiceProvider extends ServiceProvider
 
         $this->routes(function () {
             // $api_prefix = in_array(app()->environment(), ['local', 'testing']) ? 'api' : 'v1';
-            $web_prefix = in_array(app()->environment(), ['local', 'testing']) ? '' : 'w';
 
             Route::middleware('api')
                 ->prefix('v1')
                 ->group(base_path('routes/api.php'));
 
             Route::middleware('web')
-                ->prefix($web_prefix)
                 ->group(base_path('routes/web.php'));
         });
     }
