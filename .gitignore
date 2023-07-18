@@ -6,3 +6,4 @@ vendor
 .tsbuildinfo
 dist
 tsconfig.tsbuildinfo
+api.pigment
