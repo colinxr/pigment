@@ -57,7 +57,7 @@ class AppointmentTest extends TestCase
 
         $this->actingAs($this->user);
 
-        $response = $this->post("/v1/appointments?submission_id={$submission->id}", $data);
+        $response = $this->post("/api/appointments?submission_id={$submission->id}", $data);
 
         $response->assertStatus(201);
 
@@ -87,7 +87,7 @@ class AppointmentTest extends TestCase
         $newStartTime = fake()->dateTime()->format('Y-m-d\TH:i:sO');
 
         $this->actingAs($appt->user);
-        $response = $this->put("/v1/appointments/{$appt->id}", [
+        $response = $this->put("/api/appointments/{$appt->id}", [
             'name' => $appt->name,
             'price' => $appt->price,
             'description' => $appt->description,
@@ -124,7 +124,7 @@ class AppointmentTest extends TestCase
 
         $this->actingAs($this->user);
 
-        $response = $this->get("/v1/appointments/");
+        $response = $this->get("/api/appointments/");
 
         $content = json_decode($response->getContent());
 
@@ -145,7 +145,7 @@ class AppointmentTest extends TestCase
         $this->assertNotEmpty($this->gCalService->listEvents());
 
         $this->actingAs($appt->user);
-        $response = $this->delete("/v1/appointments/{$appt->id}");
+        $response = $this->delete("/api/appointments/{$appt->id}");
 
         $response->assertStatus(204);
         $this->assertDatabaseMissing('appointments', ['id' => $appt->id]);

@@ -41,7 +41,7 @@ class UserSubmissionsMessagesTest extends TestCase
         ]);
 
         $this->actingAs($this->user);
-        $response = $this->get("/v1/submissions/{$submission->id}");
+        $response = $this->get("/api/submissions/{$submission->id}");
         $response->assertStatus(200);
 
 
@@ -56,7 +56,7 @@ class UserSubmissionsMessagesTest extends TestCase
         $submission->update(['has_new_messages' => true]);
 
         $this->actingAs($this->user);
-        $response = $this->get("/v1/submissions/{$submission->id}/read");
+        $response = $this->get("/api/submissions/{$submission->id}/read");
         $response->assertStatus(204);
 
         $this->assertDatabaseHas('submissions', [
@@ -71,7 +71,7 @@ class UserSubmissionsMessagesTest extends TestCase
 
         $this->actingAs($this->user);
         $body = fake()->text();
-        $response = $this->post("/v1/submissions/{$submission->id}/message", [
+        $response = $this->post("/api/submissions/{$submission->id}/message", [
             'sender_id' => $this->user->id,
             'body' => $body,
         ]);

@@ -43,7 +43,7 @@ class UserTest extends TestCase
         $new_username = fake()->userName();
 
         $this->actingAs($user);
-        $response = $this->post('/v1/users/' . $user->id, [
+        $response = $this->post('/api/users/' . $user->id, [
             'username' => $new_username,
         ]);
 
@@ -58,7 +58,7 @@ class UserTest extends TestCase
         $user = User::factory()->create();
 
         $this->actingAs($user);
-        $response = $this->post('/v1/users/' . $user->id, [
+        $response = $this->post('/api/users/' . $user->id, [
             'password' => 'secret',
             'password_confirmation' => 'secret',
         ]);
@@ -98,7 +98,7 @@ class UserTest extends TestCase
             'friday' => $this->buildShopHours('10:00 am', '5:00 pm')
         ];
 
-        $response = $this->post('/v1/calendars/schedule', [
+        $response = $this->post('/api/calendars/schedule', [
             'schedule' => $schedule,
         ]);
 

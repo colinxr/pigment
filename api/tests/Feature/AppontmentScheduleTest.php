@@ -88,7 +88,7 @@ class AppontmentScheduleTest extends TestCase
         ]);
 
         $this->actingAs($user);
-        $response = $this->get('/v1/calendars/slots?duration=3');
+        $response = $this->get('/api/calendars/slots?duration=3');
 
         $response->assertStatus(200);
 
@@ -138,7 +138,7 @@ class AppontmentScheduleTest extends TestCase
         ]);
 
         $this->actingAs($user);
-        $response = $this->get('/v1/calendars/slots?duration=3');
+        $response = $this->get('/api/calendars/slots?duration=3');
 
         $response->assertStatus(200);
 
@@ -192,7 +192,7 @@ class AppontmentScheduleTest extends TestCase
         ]);
 
         $this->actingAs($user);
-        $response = $this->get('/v1/calendars/slots?duration=3');
+        $response = $this->get('/api/calendars/slots?duration=3');
 
         $response->assertStatus(200);
 
@@ -248,7 +248,7 @@ class AppontmentScheduleTest extends TestCase
         ]);
 
         $this->actingAs($user);
-        $response = $this->get('/v1/calendars/slots?duration=2');
+        $response = $this->get('/api/calendars/slots?duration=2');
 
         $response->assertStatus(200);
 

@@ -33,7 +33,7 @@ class ArtistSubmissionsTest extends TestCase
             'idea' => fake()->text(),
         ];
 
-        $response = $this->post("/v1/users/{$user->id}/submissions", $submission);
+        $response = $this->post("/api/users/{$user->id}/submissions", $submission);
 
         $response->assertStatus(201);
         $response->assertJsonFragment(['message' => 'Your message has been successfully submitted.']);
@@ -62,7 +62,7 @@ class ArtistSubmissionsTest extends TestCase
             'idea' => fake()->text(),
         ];
 
-        $response = $this->post("/v1/users/{$user->id}/submissions", $new_submission_data);
+        $response = $this->post("/api/users/{$user->id}/submissions", $new_submission_data);
 
         $response->assertStatus(201);
         $response->assertJsonFragment(['message' => 'Your message has been successfully submitted.']);
@@ -93,7 +93,7 @@ class ArtistSubmissionsTest extends TestCase
             'idea' => fake()->text(),
         ];
 
-        $response = $this->post("/v1/users/{$user_b->id}/submissions", $new_submission_data);
+        $response = $this->post("/api/users/{$user_b->id}/submissions", $new_submission_data);
 
         $response->assertStatus(201);
         $response->assertJsonFragment(['message' => 'Your message has been successfully submitted.']);
@@ -120,7 +120,7 @@ class ArtistSubmissionsTest extends TestCase
         });
 
         $this->actingAs($user);
-        $response = $this->get("/v1/submissions");
+        $response = $this->get("/api/submissions");
 
         $response->assertStatus(200);
 
@@ -132,7 +132,7 @@ class ArtistSubmissionsTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->post("/v1/users/{$user->id}/submissions", [
+        $response = $this->post("/api/users/{$user->id}/submissions", [
             'email' => fake()->unique()->safeEmail(),
             'first_name' => fake()->firstName(),
         ]);
@@ -162,7 +162,7 @@ class ArtistSubmissionsTest extends TestCase
         ];
 
 
-        $response = $this->post("/v1/users/{$user->id}/submissions", $data);
+        $response = $this->post("/api/users/{$user->id}/submissions", $data);
         $response->assertStatus(201);
 
         $this->assertDatabaseHas('submissions', [
@@ -187,7 +187,7 @@ class ArtistSubmissionsTest extends TestCase
         $this->assertCount(3, $submission->appointments);
 
         $this->actingAs($user);
-        $response = $this->get("/v1/submissions/{$submission->id}/appointments");
+        $response = $this->get("/api/submissions/{$submission->id}/appointments");
         $response->assertStatus(200);
     }
 }
