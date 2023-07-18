@@ -15,11 +15,11 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'v1/*', 'sanctum/*', '/login', '/logout', '/register'],
+    'paths' => ['v1/*', '/login', '/logout', '/register'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+    'allowed_origins' => [env('WEB_URL')],
 
     'allowed_origins_patterns' => [],
 
