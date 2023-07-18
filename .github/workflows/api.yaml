@@ -57,8 +57,8 @@ jobs:
             
             git reset --hard HEAD
             
-            rm -rf server/storage
-            cp -rpa server/* $RELEASE_DIR
+            rm -rf api/storage
+            cp -rpa api/* $RELEASE_DIR
             
             ln -s /var/www/pigment/.env $RELEASE_DIR/.env 
             ln -s /var/www/pigment/storage $RELEASE_DIR/
