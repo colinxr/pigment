@@ -1,5 +1,5 @@
 {
-  "name": "web",
+  "name": "client",
   "private": true,
   "scripts": {
     "build": "npx nuxi build",

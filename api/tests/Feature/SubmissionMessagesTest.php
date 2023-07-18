@@ -51,7 +51,7 @@ class SubmissionMessagesTest extends TestCase
 
         $this->actingAs($this->user);
         $body = fake()->text();
-        $response = $this->post("/api/submissions/{$submission->id}/message", [
+        $response = $this->post("/v1/submissions/{$submission->id}/message", [
             'sender_id' => $this->user->id,
             'body' => $body,
         ]);
@@ -74,7 +74,7 @@ class SubmissionMessagesTest extends TestCase
         $this->actingAs($this->user);
 
         $body = fake()->text();
-        $response = $this->post("/api/submissions/{$submission->id}/message", [
+        $response = $this->post("/v1/submissions/{$submission->id}/message", [
             'sender_id' => $this->user->id,
             'body' => $body,
             'attachments' => [
@@ -109,7 +109,7 @@ class SubmissionMessagesTest extends TestCase
 
         $submission->newMessage($this->user, 'body text');
 
-        $response = $this->delete("/api/submissions/{$submission->id}");
+        $response = $this->delete("/v1/submissions/{$submission->id}");
 
         $response->assertStatus(204);
 

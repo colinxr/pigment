@@ -24,7 +24,7 @@ class ArtistClientTest extends TestCase
 
         $this->actingAs($user);
         $newEmail = fake()->email();
-        $response = $this->put("/api/clients/{$client->id}", [
+        $response = $this->put("/v1/clients/{$client->id}", [
             'email' => $newEmail,
             'first_name' => $client->first_name,
             'last_name' => $client->last_name
@@ -47,7 +47,7 @@ class ArtistClientTest extends TestCase
         $clients = Client::factory()->count(5)->create(['user_id' => $user->id,]);
 
         $this->actingAs($user);
-        $response = $this->get('/api/clients');
+        $response = $this->get('/v1/clients');
 
         $response->assertStatus(200);
         $data = json_decode($response->getContent());

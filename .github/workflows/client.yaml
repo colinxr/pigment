@@ -17,12 +17,12 @@ jobs:
 
       - name: Install Dependencies
         working-directory: ./client
-        run: npm ci
+        run: yarn install --frozen-lockfile
 
       - name: Build App
         working-directory: ./client
         run: | 
-          NUXT_PUBLIC_API_URL=${{ secrets.NUXT_PUBLIC_API_URL }} npm run build
+          NUXT_PUBLIC_API_URL=${{ secrets.NUXT_PUBLIC_API_URL }} yarn run build
           tar -czf .output.tar.gz .output ecosystem.config.js
 
       - name: Archive artifact
