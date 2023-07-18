@@ -23,6 +23,11 @@ use App\Http\Controllers\SubmissionMessageController;
 |
 */
 
+header('Access-Control-Allow-Methods: GET, POST, PATCH, PUT, DELETE, OPTIONS');
+header('Access-Control-Allow-Headers: Origin, Content-Type, X-Auth-Token, Authorization, Accept,charset,boundary,Content-Length');
+header('Access-Control-Allow-Origin:' . env('WEB_URL'));
+
+
 Route::post('/register', [AuthController::class, 'store']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/sanctum/token', [AuthController::class, 'storeToken']);
