@@ -24,7 +24,7 @@ const messages = ref([])
 const wrapper = ref(null)
 
 const { updateSubmissionsListOrder } = submissionsStore
-const { showActionPane } = storeToRefs(submissionsStore)
+const { showActionPane, activeSubmission } = storeToRefs(submissionsStore)
 
 const buildMessageObject = ({ body, attachments }) => ({
 	body,
@@ -40,20 +40,18 @@ const handleNewMessage = async message => {
 
 	scrollToLastMessage()
 
+	activeSubmission.value.last_message = res.data.data.preview
+	updateSubmissionsListOrder(activeSubmission.value.id)
+
 	const res = await postMessageToServer(msgObject)
 
 	const messageWasSent = res.status === 201
 
 	updateMessage(messageWasSent, message.body)
-
-	if (messageWasSent) {
-		props.submission.value.last_message = res.data.data
-		updateSubmissionsListOrder(props.submission.value.id)
-	}
 }
 
 const postMessageToServer = async message => {
-	const res = await ApiService.messages.post(props.submission.value.id, {
+	const res = await ApiService.messages.post(props.submission.id, {
 		body: message.body,
 		files: message.files,
 	})

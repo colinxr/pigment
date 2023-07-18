@@ -35,7 +35,7 @@ class NewMessageAlert extends Mailable
     {
         return new Envelope(
             subject: "You've received a new message",
-            from: $this->message->sender->email,
+            from: config('mail.from.email'), //$this->message->sender->email,
             metadata: [
                 'submission' => $this->message->submission_id,
             ]
