@@ -5,8 +5,8 @@ on:
     branches:
       - main
     paths:
-      - "server/**"
-      - ".github/workflows/server.yaml"
+      - "api/**"
+      - ".github/workflows/api.yaml"
 
 jobs:
   build:
@@ -16,11 +16,11 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Install PHP dependencies
-        working-directory: ./server
+        working-directory: ./api
         run: composer install --no-scripts --prefer-dist --optimize-autoloader
 
       - name: Run tests
-        working-directory: ./server
+        working-directory: ./api
         run: vendor/bin/phpunit --exclude-group google
 
   deploy:
