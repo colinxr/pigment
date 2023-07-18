@@ -15,11 +15,13 @@ return [
     |
     */
 
+    'url' => env('WEB_URL'),
+
     'paths' => ['v1/*', '/login', '/logout', '/register'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [env('WEB_URL')],
+    'allowed_origins' => ['*'],
 
     'allowed_origins_patterns' => [],
 
