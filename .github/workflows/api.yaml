@@ -64,7 +64,7 @@ jobs:
             cp -rpa api/* $RELEASE_DIR
             
             ln -s /var/www/pigment/.env $RELEASE_DIR/.env 
-            echo $SERVER_PASS | sudo -S chown www-data:www-data .env
+            echo $SERVER_PASS | sudo -S chown www-data:www-data $RELEASE_DIR/.env
             ln -s /var/www/pigment/storage $RELEASE_DIR/
             echo $SERVER_PASS | sudo -S chown www-data:www-data storage
             echo $SERVER_PASS | sudo -S chown www-data:www-data storage/*
