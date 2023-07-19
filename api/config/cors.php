@@ -19,13 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [function ($origin) {
-        // Check if the origin is allowed
-        $allowedOrigins = ['https://app.usepigment.com', 'https://app.pigment.biz:3000'];
-        if (!in_array($origin, $allowedOrigins)) return null;
-
-        return $origin;
-    },],
+    'allowed_origins' => ['https://app.pigment.biz:3000', 'https://app.usepigment.com',],
 
     'allowed_origins_patterns' => [],
 
