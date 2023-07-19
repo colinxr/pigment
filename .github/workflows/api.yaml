@@ -121,6 +121,7 @@ jobs:
             rm -rf /var/www/pigment/api/current
             ln -s $RELEASE_DIR /var/www/pigment/api/current
             ls -la /var/www/pigment/api/current
+
             echo $SERVER_PASS | sudo -S chown www-data:www-data /var/www/pigment/api/current
             echo $SERVER_PASS | sudo -S chown www-data:www-data /var/www/pigment/api/current/*
             echo $SERVER_PASS | sudo -S chown www-data:www-data /var/www/pigment/api/current/.env
