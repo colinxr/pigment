@@ -125,3 +125,7 @@ jobs:
             echo $SERVER_PASS | sudo -S chown www-data:www-data /var/www/pigment/api/current/*
             echo $SERVER_PASS | sudo -S chown www-data:www-data /var/www/pigment/api/current/.env
             echo $SERVER_PASS | sudo -S chown www-data:www-data /var/www/pigment/api/current/bootstrap/*
+            echo $SERVER_PASS | sudo -S chown www-data:www-data /var/www/pigment/api/current/storage
+            echo $SERVER_PASS | sudo -S chown www-data:www-data /var/www/pigment/api/current/storage/*
+            echo $SERVER_PASS | sudo chmod -R 775 /var/www/pigment/api/current/storage
+            echo $SERVER_PASS | sudo chmod -R 775 /var/www/pigment/api/current/storage/*
