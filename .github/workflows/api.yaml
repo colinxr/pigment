@@ -122,11 +122,6 @@ jobs:
             ln -s $RELEASE_DIR /var/www/pigment/api/current
             ls -la /var/www/pigment/api/current
 
-            echo $SERVER_PASS | sudo -S chown www-data:www-data /var/www/pigment/api/current
-            echo $SERVER_PASS | sudo -S chown www-data:www-data /var/www/pigment/api/current/*
-            echo $SERVER_PASS | sudo -S chown www-data:www-data /var/www/pigment/api/current/.env
-            echo $SERVER_PASS | sudo -S chown www-data:www-data /var/www/pigment/api/current/bootstrap/*
-            echo $SERVER_PASS | sudo -S chown www-data:www-data /var/www/pigment/api/current/storage
-            echo $SERVER_PASS | sudo -S chown www-data:www-data /var/www/pigment/api/current/storage/*
-            echo $SERVER_PASS | sudo chmod -R 775 /var/www/pigment/api/current/storage
-            echo $SERVER_PASS | sudo chmod -R 775 /var/www/pigment/api/current/storage/*
+            echo $SERVER_PASS | sudo -S chown -R www-data:www-data /var/www/pigment/api/current
+            echo $SERVER_PASS | sudo find /var/www/pigment/api/current -type d -exec chmod 775 {} \;
+            echo $SERVER_PASS | sudo find /var/www/pigment/api/current -type f -exec chmod 644 {} \;
