@@ -64,5 +64,5 @@ return [
         'encrypt_cookies' => App\Http\Middleware\EncryptCookies::class,
     ],
 
-    'prefix' => 'v1', //$api_prefix = in_array(env('APP_ENV'), ['local', 'testing']) ? 'api' : 'v1',
+    'prefix' => 'api',
 ];

@@ -17,11 +17,11 @@ return [
 
     'url' => env('WEB_URL'),
 
-    'paths' => ['v1/*', '/login', '/logout', '/register'],
+    'paths' => ['api/*', '/login', '/logout', '/register'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://app.usepigment.com', 'https://app.pigment.biz:3000'],
+    'allowed_origins' => ['https://app.usepigment.com', 'https://app.pigment.com:3000'],
 
     'allowed_origins_patterns' => [],
 
