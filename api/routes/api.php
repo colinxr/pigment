@@ -28,6 +28,7 @@ Route::post('/login', [AuthController::class, 'login']);
 Route::post('/sanctum/token', [AuthController::class, 'storeToken']);
 
 Route::post('/users/{user}/submissions', [UserSubmissionsController::class, 'store']);
+Route::post('/messages/parse', [IncomingMessagesController::class, 'store']);
 
 Route::middleware('auth:sanctum')->group(function () {
     // Auth Routes
