@@ -21,8 +21,8 @@ class AuthController extends Controller
 
         if (!$user || !Hash::check($request->input('password'), $user->password)) {
             return response()->json([
-                'error' => 'The provided credentials are incorrect.'
-            ]);
+                'error' => 'The email and password provided don\'t match out records'
+            ], 422);
         }
 
         return response()->json([
@@ -58,15 +58,17 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        if (Auth::attempt($request->only('email', 'password'))) {
+        if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
-                'user' => Auth::user(),
-                'token' => Auth::user()->createToken('spa')->plainTextToken,
-
-            ]);
+                'error' => 'The email and password provided don\'t match out records'
+            ], 422);
         }
 
-        return response()->json(['message' => 'Invalid credentials'], 401);
+        return response()->json([
+            'user' => Auth::user(),
+            'token' => Auth::user()->createToken('spa')->plainTextToken,
+
+        ]);
     }
 
     public function logout(Request $request)
