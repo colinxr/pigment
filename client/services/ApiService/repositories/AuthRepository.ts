@@ -32,7 +32,7 @@ export default class AuthRepository implements AuthRepositoryI {
 		email: string
 		password: string
 	}): Promise<AxiosResponse> {
-		const csrfResponse = await this.apiClient.get('/csrf-cookie')
+		const csrfResponse = await this.apiClient.get('/sanctum/csrf-cookie')
 		
 		const response = await this.apiClient.post('/login', { email, password })
 
