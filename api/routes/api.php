@@ -8,8 +8,9 @@ use App\Interfaces\GoogleCalendarInterface;
 use App\Http\Controllers\UserClientController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\EventWebhookController;
-use App\Http\Controllers\CalendarScheduleController;
 use App\Http\Controllers\UserSubmissionsController;
+use App\Http\Controllers\CalendarScheduleController;
+use App\Http\Controllers\IncomingMessagesController;
 use App\Http\Controllers\SubmissionMessageController;
 
 /*
