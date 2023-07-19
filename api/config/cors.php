@@ -15,13 +15,17 @@ return [
     |
     */
 
-    'url' => env('WEB_URL'),
-
     'paths' => ['api/*', '/login', '/logout', '/register'],
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://app.usepigment.com', 'https://app.pigment.com:3000'],
+    'allowed_origins' => [function ($origin) {
+        // Check if the origin is allowed
+        $allowedOrigins = ['https://app.usepigment.com', 'https://app.pigment.biz:3000'];
+        if (!in_array($origin, $allowedOrigins)) return null;
+
+        return $origin;
+    },],
 
     'allowed_origins_patterns' => [],
 

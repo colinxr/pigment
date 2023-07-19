@@ -54,7 +54,7 @@ jobs:
             
             cd $ROOT_DIR
             mkdir -p $RELEASE_DIR
-            echo $SERVER_PASS | sudo -S chown www-data:www-data $RELEASE_DIR
+
             git clone --depth 1 https://github.com/colinxr/pigment.git repo
             cd repo
             
@@ -64,7 +64,10 @@ jobs:
             cp -rpa api/* $RELEASE_DIR
             
             ln -s /var/www/pigment/.env $RELEASE_DIR/.env 
+            echo $SERVER_PASS | sudo -S chown www-data:www-data .env
             ln -s /var/www/pigment/storage $RELEASE_DIR/
+            echo $SERVER_PASS | sudo -S chown www-data:www-data storage
+            echo $SERVER_PASS | sudo -S chown www-data:www-data storage/*
             ls -la $RELEASE_DIR/storage
             
             cd $ROOT_DIR && rm -rf repo
@@ -118,3 +121,7 @@ jobs:
             rm -rf /var/www/pigment/api/current
             ln -s $RELEASE_DIR /var/www/pigment/api/current
             ls -la /var/www/pigment/api/current
+            echo $SERVER_PASS | sudo -S chown www-data:www-data /var/www/pigment/api/current
+            echo $SERVER_PASS | sudo -S chown www-data:www-data /var/www/pigment/api/current/*
+            echo $SERVER_PASS | sudo -S chown www-data:www-data /var/www/pigment/api/current/.env
+            echo $SERVER_PASS | sudo -S chown www-data:www-data /var/www/pigment/api/current/bootstrap/*
