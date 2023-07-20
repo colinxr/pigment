@@ -2,17 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Services\IncomingMessageService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class IncomingMessagesController extends Controller
 {
+    private $messageService;
+
+    public function __construct(IncomingMessageService $messageService)
+    {
+        $this->messageService = $messageService;
+    }
+
     public function store(Request $request)
     {
-        Log::info(json_encode($request->json()->all()));
-        // Do whatever you need with the email data, such as saving it to the database or sending a response.
+        try {
+            $message = $this->messageService->handleInboundMessage($request->all());
 
-        // Log::info(json_encode($request->payload));
-        return response()->json(['message' => 'Email processed successfully']);
+            return response()->json([], 204);
+        } catch (\Throwable $th) {
+            return response()->json([], 500);
+        }
     }
 }

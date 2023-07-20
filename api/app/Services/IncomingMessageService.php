@@ -4,6 +4,10 @@ namespace App\Services;
 
 use App\Models\User;
 use App\Models\Client;
+use App\Models\Message;
+use App\Mail\NewMessageAlert;
+use PhpParser\Node\Stmt\TryCatch;
+use Illuminate\Support\Facades\Mail;
 
 class IncomingMessageService
 {
@@ -11,34 +15,28 @@ class IncomingMessageService
   {
   }
 
-  public function getUsername($payload)
+  public function getUsername($inboundToEmail)
   {
-    $toEmail = $payload['envelope']['to'];
-
-    if (!preg_match('/^(.*?)@parse\.usepigment\.com/', $toEmail, $matches)) return null;
+    if (!preg_match('/^(.*?)@parse\.usepigment\.com/', $inboundToEmail, $matches)) return null;
 
     return $matches[1];
   }
 
-  public function findUser($payload)
+  public function findUser($inboundToEmail)
   {
-    $username = $this->getUsername($payload);
+    $username = $this->getUsername($inboundToEmail);
 
     $user = User::where('username', $username)->first();
 
     return $user;
   }
 
-  public function findClient($payload)
+  public function findClient(User $user, $fromEmail, $fromName)
   {
-    $user = $this->findUser($payload);
+    $client_name = $this->getClientName($fromName);
 
-    if (!$user) return null;
-
-    $client_name = $this->getClientName($payload);
-    dump($client_name);
     $client = Client::firstOrCreate(
-      ['email' =>  $payload['envelope']['from']],
+      ['email' =>  $fromEmail],
       [
         'user_id' => $user->id,
         'first_name' => $client_name[0],
@@ -49,18 +47,17 @@ class IncomingMessageService
     return $client;
   }
 
-  public function getClientName($payload)
+  public function getClientName($inboundName)
   {
+    if (!$inboundName)  return [' ', ' '];
 
-    if (!preg_match('/^(.*?)(?=<)/', $payload['from'], $matches)) return [' ', ' '];
+    if (!preg_match('/^(.*?)(?=<)/', $inboundName, $matches)) return [' ', ' '];
 
     return explode(' ', $matches[1], 2);
   }
 
-  public function extractReply($payload)
+  public function extractReply($text)
   {
-    $text = $payload['text'];
-
     $regexArr = [
       // (GMAIL, Apple Mail, thunderbird, Yahoo Mail) Add capture group to find everything before On ... wrote:
       '/^(.*?)(?=\s*On.*(\n)?wrote:)/i',
@@ -88,5 +85,39 @@ class IncomingMessageService
     }
 
     return trim($match);
+  }
+
+  public function storeMessage($payload)
+  {
+    $message = Message::create([
+      'submission_id' => '',
+      'sender_id' => '',
+      'sender_type' => '',
+      'body' => $this->extractReply($payload['text'])
+    ]);
+  }
+
+  public function handleInboundMessage($payload)
+  {
+    try {
+      $user = $this->findUser($payload['envelope']['to']);
+      $client = $this->findClient($user, $payload['envelope']['from'], $payload['from']);
+
+      $submission = $user->submissions()->create([
+        'client_id' => $client->id,
+      ]);
+
+      $message = $submission->messages()->create([
+        'sender_id' => $client->id,
+        'sender_type' => get_class($client),
+        'body' => $this->extractReply($payload['text']),
+      ]);
+
+      Mail::to($message->recipient())->queue(new NewMessageAlert($message));
+
+      return $message;
+    } catch (\Throwable $th) {
+      throw $th;
+    }
   }
 }
