@@ -77,7 +77,7 @@ class InboundMessagesTest extends TestCase
     {
         // $resp = $this->post('/api/messages/parse', $this->inboundPayload);
 
-        $username = $this->incomingMessageService->getUsername($this->inboundPayload);
+        $username = $this->incomingMessageService->getUsername($this->inboundPayload['envelope']['to']);
 
         $this->assertEquals($username, 'colinxr');
         // inbound message service 
@@ -92,7 +92,7 @@ class InboundMessagesTest extends TestCase
 
     public function test_can_find_user_from_payload_from_address(): void
     {
-        $user = $this->incomingMessageService->findUser($this->inboundPayload);
+        $user = $this->incomingMessageService->findUser($this->inboundPayload['envelope']['to']);
 
         $this->assertNotNull($user);
         $this->assertEquals($user->email, $this->user->email);
@@ -108,7 +108,8 @@ class InboundMessagesTest extends TestCase
 
     public function test_can_find_the_client(): void
     {
-        $client = $this->incomingMessageService->findClient($this->inboundPayload);
+        $user = $this->user;
+        $client = $this->incomingMessageService->findClient($user, $this->inboundPayload['envelope']['from'], $this->inboundPayload['from']);
 
         $this->assertNotNull($client);
         $this->assertEquals($client->email, $this->client->email);
@@ -117,8 +118,8 @@ class InboundMessagesTest extends TestCase
     public function test_can_create_a_new_client(): void
     {
         $this->inboundPayload['envelope']['from'] = 'newclient@gmail.com';
-
-        $client = $this->incomingMessageService->findClient($this->inboundPayload);
+        $user = $this->user;
+        $client = $this->incomingMessageService->findClient($user, $this->inboundPayload['envelope']['from'], $this->inboundPayload['from']);
 
         $this->assertNotNull($client);
         $this->assertEquals($client->email, 'newclient@gmail.com');
@@ -126,7 +127,7 @@ class InboundMessagesTest extends TestCase
 
     public function test_can_get_only_new_text_from_email(): void
     {
-        $text = $this->incomingMessageService->extractReply($this->inboundPayload);
+        $text = $this->incomingMessageService->extractReply($this->inboundPayload['text']);
 
         $this->assertNotNull($text);
         $this->assertEquals($text, 'testing testing testing');
