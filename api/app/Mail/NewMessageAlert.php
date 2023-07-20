@@ -3,14 +3,11 @@
 namespace App\Mail;
 
 use App\Models\Message;
-use App\Models\Conversation;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
-use Illuminate\Mail\Mailables\Headers;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Envelope;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailables\Attachment;
 
 class NewMessageAlert extends Mailable
@@ -33,9 +30,13 @@ class NewMessageAlert extends Mailable
      */
     public function envelope(): Envelope
     {
+        $fromEmail = get_class($this->message->sender_type) === 'App\Models\User' ?
+            $this->message->sender->username . '@parse.usepigment.com' :
+            $this->message->sender->email;
+
         return new Envelope(
             subject: "You've received a new message",
-            from: config('mail.from.email'), //$this->message->sender->email,
+            from: $fromEmail, //config('mail.from.email'), //$this->message->sender->email,
             metadata: [
                 'submission' => $this->message->submission_id,
             ]
