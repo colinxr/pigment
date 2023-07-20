@@ -102,8 +102,8 @@ class IncomingMessageService
     try {
       $envelope = json_decode($payload['envelope']);
 
-      $user = $this->findUser($envelope['to']);
-      $client = $this->findClient($user, $envelope['from'], $payload['from']);
+      $user = $this->findUser($envelope->to);
+      $client = $this->findClient($user, $envelope->from, $payload['from']);
 
       $submission = $user->submissions()->create([
         'client_id' => $client->id,

@@ -37,10 +37,10 @@ class InboundMessagesTest extends TestCase
         ]);
 
         $this->inboundPayload = [
-            "envelope" => [
+            "envelope" => json_encode([
                 "from" => "colinxr+client@gmail.com",
                 "to" => "colinxr@parse.usepigment.com"
-            ],
+            ]),
             "subject" => "Test Email",
             "text" => "testing testing testing
 
@@ -77,7 +77,8 @@ class InboundMessagesTest extends TestCase
     {
         // $resp = $this->post('/api/messages/parse', $this->inboundPayload);
 
-        $username = $this->incomingMessageService->getUsername($this->inboundPayload['envelope']['to']);
+        $envelope = json_decode($this->inboundPayload['envelope']);
+        $username = $this->incomingMessageService->getUsername($envelope->to);
 
         $this->assertEquals($username, 'colinxr');
         // inbound message service 
@@ -92,7 +93,8 @@ class InboundMessagesTest extends TestCase
 
     public function test_can_find_user_from_payload_from_address(): void
     {
-        $user = $this->incomingMessageService->findUser($this->inboundPayload['envelope']['to']);
+        $envelope = json_decode($this->inboundPayload['envelope']);
+        $user = $this->incomingMessageService->findUser($envelope->to);
 
         $this->assertNotNull($user);
         $this->assertEquals($user->email, $this->user->email);
@@ -109,7 +111,8 @@ class InboundMessagesTest extends TestCase
     public function test_can_find_the_client(): void
     {
         $user = $this->user;
-        $client = $this->incomingMessageService->findClient($user, $this->inboundPayload['envelope']['from'], $this->inboundPayload['from']);
+        $envelope = json_decode($this->inboundPayload['envelope']);
+        $client = $this->incomingMessageService->findClient($user, $envelope->from, $this->inboundPayload['from']);
 
         $this->assertNotNull($client);
         $this->assertEquals($client->email, $this->client->email);
@@ -117,9 +120,9 @@ class InboundMessagesTest extends TestCase
 
     public function test_can_create_a_new_client(): void
     {
-        $this->inboundPayload['envelope']['from'] = 'newclient@gmail.com';
+        // $this->inboundPayload['envelope']['from'] = 'newclient@gmail.com';
         $user = $this->user;
-        $client = $this->incomingMessageService->findClient($user, $this->inboundPayload['envelope']['from'], $this->inboundPayload['from']);
+        $client = $this->incomingMessageService->findClient($user, 'newclient@gmail.com', 'New Client <newclient@gmail.com>');
 
         $this->assertNotNull($client);
         $this->assertEquals($client->email, 'newclient@gmail.com');
