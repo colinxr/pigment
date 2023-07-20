@@ -77,4 +77,4 @@ jobs:
             rm -rf /var/www/pigment/client/current
             ln -s $RELEASE_DIR /var/www/pigment/client/current
             cd /var/www/pigment/client/current
-            pm2 reload ecosystem.config.js --env production
+            pm2 reload ecosystem.config.js
