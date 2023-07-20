@@ -30,7 +30,7 @@ class NewMessageAlert extends Mailable
      */
     public function envelope(): Envelope
     {
-        $fromEmail = get_class($this->message->sender_type) === 'App\Models\User' ?
+        $fromEmail = $this->message->sender_type === 'App\Models\User' ?
             $this->message->sender->username . '@parse.usepigment.com' :
             $this->message->sender->email;
 
