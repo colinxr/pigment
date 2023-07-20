@@ -84,7 +84,7 @@ class IncomingMessageService
       break;
     }
 
-    return trim($match);
+    return $match ? trim($match) : $text;
   }
 
   public function storeMessage($payload)

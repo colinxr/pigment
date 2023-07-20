@@ -128,9 +128,17 @@ class InboundMessagesTest extends TestCase
         $this->assertEquals($client->email, 'newclient@gmail.com');
     }
 
-    public function test_can_get_only_new_text_from_email(): void
+    public function test_can_get_only_new_text_from_email_with_reply(): void
     {
         $text = $this->incomingMessageService->extractReply($this->inboundPayload['text']);
+
+        $this->assertNotNull($text);
+        $this->assertEquals($text, 'testing testing testing');
+    }
+
+    public function test_can_get_only_new_text_from_email(): void
+    {
+        $text = $this->incomingMessageService->extractReply('testing testing testing');
 
         $this->assertNotNull($text);
         $this->assertEquals($text, 'testing testing testing');
