@@ -101,6 +101,7 @@ class IncomingMessageService
   {
     try {
       $data = json_decode($payload);
+
       $user = $this->findUser($data['envelope']['to']);
       $client = $this->findClient($user, $data['envelope']['from'], $data['from']);
 
