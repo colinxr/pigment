@@ -100,10 +100,10 @@ class IncomingMessageService
   public function handleInboundMessage($payload)
   {
     try {
-      $data = json_decode($payload);
+      $envelope = json_decode($payload['envelope']);
 
-      $user = $this->findUser($data['envelope']['to']);
-      $client = $this->findClient($user, $data['envelope']['from'], $data['from']);
+      $user = $this->findUser($envelope['to']);
+      $client = $this->findClient($user, $envelope['from'], $payload['from']);
 
       $submission = $user->submissions()->create([
         'client_id' => $client->id,
@@ -112,7 +112,7 @@ class IncomingMessageService
       $message = $submission->messages()->create([
         'sender_id' => $client->id,
         'sender_type' => get_class($client),
-        'body' => $this->extractReply($data['text']),
+        'body' => $this->extractReply($payload['text']),
       ]);
 
       Mail::to($message->recipient())->queue(new NewMessageAlert($message));
