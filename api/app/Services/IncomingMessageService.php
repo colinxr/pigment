@@ -6,7 +6,6 @@ use App\Models\User;
 use App\Models\Client;
 use App\Models\Message;
 use App\Mail\NewMessageAlert;
-use PhpParser\Node\Stmt\TryCatch;
 use Illuminate\Support\Facades\Mail;
 
 class IncomingMessageService

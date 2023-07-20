@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\IncomingMessageService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use App\Services\IncomingMessageService;
 
 class IncomingMessagesController extends Controller
 {
@@ -16,6 +17,8 @@ class IncomingMessagesController extends Controller
 
     public function store(Request $request)
     {
+        Log::info(json_encode($request->all()));
+
         try {
             $message = $this->messageService->handleInboundMessage($request->all());
 

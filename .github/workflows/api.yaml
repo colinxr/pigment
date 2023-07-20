@@ -35,8 +35,8 @@ jobs:
       SERVER_USER: ${{ secrets.SERVER_USER }}
       SERVER_HOST: ${{ secrets.SERVER_HOST }}
       SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      SERVER_PASS: ${{ secrets.SERVER_USER_PASS }}
       RELEASE_DIR: /var/www/pigment/api/releases/${{ github.sha }}
+      SERVER_PASS: ${{ secrets.SERVER_USER_PASS }}
 
     steps:
       - name: Deploy to server
@@ -126,5 +126,5 @@ jobs:
             ls -la /var/www/pigment/api/current
 
             echo $SERVER_PASS | sudo -S chown -R www-data:www-data /var/www/pigment/api/current
-            echo $SERVER_PASS | sudo find /var/www/pigment/api/current -type d -exec chmod 775 {} \;
-            echo $SERVER_PASS | sudo find /var/www/pigment/api/current -type f -exec chmod 644 {} \;
+            echo $SERVER_PASS | sudo -S find /var/www/pigment/api/current -type d -exec chmod 775 {} \;
+            echo $SERVER_PASS | sudo -S find /var/www/pigment/api/current -type f -exec chmod 644 {} \;
