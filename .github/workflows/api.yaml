@@ -98,6 +98,9 @@ jobs:
             cd $RELEASE_DIR 
             
             composer install --prefer-dist --no-scripts --no-dev -q -o;
+            composer require laravel/telescope
+            
+            php artisan telescope:install
             
             php artisan config:cache
             php artisan migrate --force
