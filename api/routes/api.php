@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OAuthController;
-use App\Interfaces\GoogleCalendarInterface;
 use App\Http\Controllers\UserClientController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\EventWebhookController;
