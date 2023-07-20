@@ -6,6 +6,7 @@ use App\Models\User;
 use App\Models\Client;
 use App\Models\Message;
 use App\Mail\NewMessageAlert;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class IncomingMessageService
@@ -116,6 +117,7 @@ class IncomingMessageService
 
       return $message;
     } catch (\Throwable $th) {
+      Log::info($th);
       throw $th;
     }
   }

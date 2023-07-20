@@ -24,6 +24,7 @@ class IncomingMessagesController extends Controller
 
             return response()->json([], 204);
         } catch (\Throwable $th) {
+            \Log::info($th);
             return response()->json([], 500);
         }
     }
