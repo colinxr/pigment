@@ -72,7 +72,6 @@ jobs:
             ln -s /var/www/pigment/storage $RELEASE_DIR/
             echo $SERVER_PASS | sudo -S chown www-data:www-data $RELEASE_DIR/storage
             echo $SERVER_PASS | sudo -S chown www-data:www-data $RELEASE_DIR/storage/*
-            echo $SERVER_PASS | sudo -S chown www-data:www-data $RELEASE_DIR/boostrap/cache
             ls -la $RELEASE_DIR/storage
             
             cd $ROOT_DIR && rm -rf repo
