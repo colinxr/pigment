@@ -19,7 +19,9 @@ class AppServiceProvider extends ServiceProvider
             $this->app->register(TelescopeServiceProvider::class);
         }
 
-        $this->app->register(IncomingMessageService::class);
+        $this->app->bind(IncomingMessageService::class, function ($app) {
+            return new IncomingMessageService();
+        });
     }
 
     /**
