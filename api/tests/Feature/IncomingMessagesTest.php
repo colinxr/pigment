@@ -42,7 +42,7 @@ class IncomingMessagesTest extends TestCase
         $this->inboundPayload = [
             "envelope" => json_encode([
                 "from" => "colinxr+client@gmail.com",
-                "to" => "colinxr@parse.usepigment.com"
+                "to" => ["colinxr@parse.usepigment.com"]
             ]),
             "subject" => "Test Email",
             "text" => "testing testing testing

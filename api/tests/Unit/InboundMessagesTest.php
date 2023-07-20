@@ -39,7 +39,7 @@ class InboundMessagesTest extends TestCase
         $this->inboundPayload = [
             "envelope" => json_encode([
                 "from" => "colinxr+client@gmail.com",
-                "to" => "colinxr@parse.usepigment.com"
+                "to" => ["colinxr@parse.usepigment.com"]
             ]),
             "subject" => "Test Email",
             "text" => "testing testing testing
@@ -78,7 +78,7 @@ class InboundMessagesTest extends TestCase
         // $resp = $this->post('/api/messages/parse', $this->inboundPayload);
 
         $envelope = json_decode($this->inboundPayload['envelope']);
-        $username = $this->incomingMessageService->getUsername($envelope->to);
+        $username = $this->incomingMessageService->getUsername($envelope->to[0]);
 
         $this->assertEquals($username, 'colinxr');
         // inbound message service 
@@ -94,7 +94,7 @@ class InboundMessagesTest extends TestCase
     public function test_can_find_user_from_payload_from_address(): void
     {
         $envelope = json_decode($this->inboundPayload['envelope']);
-        $user = $this->incomingMessageService->findUser($envelope->to);
+        $user = $this->incomingMessageService->findUser($envelope->to[0]);
 
         $this->assertNotNull($user);
         $this->assertEquals($user->email, $this->user->email);
