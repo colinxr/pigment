@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://app.usepigment.com'],
+    'allowed_origins' => [env('WEB_URL')],
 
     'allowed_origins_patterns' => [],
 
