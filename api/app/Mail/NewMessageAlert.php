@@ -50,6 +50,9 @@ class NewMessageAlert extends Mailable
     {
         return new Content(
             view: 'mail.new-message',
+            with: [
+                'body' => $this->message->body,
+            ],
         );
     }
 
