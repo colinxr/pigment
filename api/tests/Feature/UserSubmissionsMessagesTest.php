@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Client;
 use App\Models\Message;
 use App\Models\Submission;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class UserSubmissionsMessagesTest extends TestCase
@@ -67,6 +68,7 @@ class UserSubmissionsMessagesTest extends TestCase
 
     public function test_marked_unread_when_new_message_submitted()
     {
+        Mail::fake();
         $submission = $this->user->submissions->first();
 
         $this->actingAs($this->user);

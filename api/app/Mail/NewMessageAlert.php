@@ -75,10 +75,10 @@ class NewMessageAlert extends Mailable
     {
         return new Headers(
             messageId: $this->message->id,
-            references: $this->message->id,
+            references: [$this->message->id],
             text: [
                 'X-SMTPAPI' => json_encode([
-                    'X-SUBMISSION-ID' => $this->message->submission->id,
+                    'X-SUBMISSION-ID' => [$this->message->submission->id],
                 ]),
             ],
         );
