@@ -73,4 +73,12 @@ class NewMessageAlert extends Mailable
             return Attachment::fromPath($file->getPath());
         })->toArray();
     }
+
+    public function headers(): Headers
+    {
+        return new Headers(
+            // messageId: 'custom-message-id@example.com',
+            references: $this->message->reference_id,
+        );
+    }
 }

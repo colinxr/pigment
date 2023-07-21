@@ -89,13 +89,23 @@ class IncomingMessageService
     return $match ? trim($match) : $text;
   }
 
-  public function storeMessage(Submission $submission, Client $sender, string $text)
+  public function getMessageId($headers)
+  {
+    if (!$headers) return '';
+
+    if (!preg_match('/Message-ID: <(.*?)>/i', $headers, $matches)) return '';
+
+    return $matches[1];
+  }
+
+  public function storeMessage(Submission $submission, Client $sender, $payload)
   {
     return Message::create([
       'submission_id' => $submission->id,
       'sender_id' => $sender->id,
       'sender_type' => get_class($sender),
-      'body' => $this->extractReply($text),
+      'body' => $this->extractReply($payload['text']),
+      'reference_id' => $this->getMessageId($payload['headers']),
     ]);
   }
 
@@ -118,7 +128,7 @@ class IncomingMessageService
         $user->submissions()->where('client_id', $client->id)->latest()->first() :
         $user->submissions()->create(['client_id' => $client->id,]);
 
-      $message = $this->storeMessage($submission, $client, $payload['text']);
+      $message = $this->storeMessage($submission, $client, $payload);
 
       Mail::to($message->recipient())->queue(new NewMessageAlert($message));
 
