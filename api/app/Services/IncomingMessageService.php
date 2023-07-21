@@ -17,16 +17,16 @@ class IncomingMessageService
   {
   }
 
-  public function getUsername($inboundToEmail)
+  public function getUsername($toEmail)
   {
-    if (!preg_match('/^(.*?)@parse\.usepigment\.com/', $inboundToEmail, $matches)) return null;
+    if (!preg_match('/^(.*?)@mail\.usepigment\.com/', $toEmail, $matches)) return null;
 
     return $matches[1];
   }
 
-  public function findUser($inboundToEmail)
+  public function findUser($toEmail)
   {
-    $username = $this->getUsername($inboundToEmail);
+    $username = $this->getUsername($toEmail);
 
     $user = User::where('username', $username)->first();
 
@@ -115,7 +115,7 @@ class IncomingMessageService
       $client = $this->findClient($user, $envelope->from, $payload['from']);
 
       $submission = $is_reply ?
-        $user->submissions()->where('client_id', $client->id)->latest() :
+        $user->submissions()->where('client_id', $client->id)->latest()->first() :
         $user->submissions()->create(['client_id' => $client->id,]);
 
       $message = $this->storeMessage($submission, $client, $payload['text']);

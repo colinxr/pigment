@@ -42,7 +42,7 @@ class IncomingMessagesTest extends TestCase
         $this->inboundPayload = [
             "envelope" => json_encode([
                 "from" => "colinxr+client@gmail.com",
-                "to" => ["colinxr@parse.usepigment.com"]
+                "to" => ["colinxr@mail.usepigment.com"]
             ]),
             "subject" => "Test Email",
             "text" => "testing testing testing
@@ -79,6 +79,7 @@ class IncomingMessagesTest extends TestCase
 
     public function test_can_parse_incoming_message(): void
     {
+        $this->withoutExceptionHandling();
         Mail::fake();
 
         $incomingMessageService = new IncomingMessageService();

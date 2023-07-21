@@ -39,7 +39,7 @@ class InboundMessagesTest extends TestCase
         $this->inboundPayload = [
             "envelope" => json_encode([
                 "from" => "colinxr+client@gmail.com",
-                "to" => ["colinxr@parse.usepigment.com"]
+                "to" => ["colinxr@mail.usepigment.com"]
             ]),
             "subject" => "Test Email",
             "text" => "testing testing testing
@@ -81,14 +81,6 @@ class InboundMessagesTest extends TestCase
         $username = $this->incomingMessageService->getUsername($envelope->to[0]);
 
         $this->assertEquals($username, 'colinxr');
-        // inbound message service 
-
-        // find the user with the same username. 
-        // identify  the from sender, find or create 
-        // can get the message text and store it in a new messsage 
-        // can deal with the attachments 
-
-        // submission has a new 
     }
 
     public function test_can_find_user_from_payload_from_address(): void
@@ -98,14 +90,6 @@ class InboundMessagesTest extends TestCase
 
         $this->assertNotNull($user);
         $this->assertEquals($user->email, $this->user->email);
-        // find the user with the same username. 
-        // identify  the from sender, find or create 
-
-        // can get the message text and store it in a new messsage 
-
-        // can deal with the attachments 
-
-        // submission has a new 
     }
 
     public function test_can_find_the_client(): void
