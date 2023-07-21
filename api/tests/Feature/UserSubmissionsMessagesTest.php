@@ -60,8 +60,6 @@ class UserSubmissionsMessagesTest extends TestCase
         $response = $this->get("/api/submissions/{$submission->id}/read");
         $response->assertStatus(204);
 
-        $this->assertFalse(true);
-
         $this->assertDatabaseHas('submissions', [
             'id' => $submission->id,
             'has_new_messages' => false,
