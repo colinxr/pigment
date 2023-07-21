@@ -1,1 +1,1 @@
-yo
+{{ $message->body }}
