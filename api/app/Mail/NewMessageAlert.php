@@ -40,12 +40,6 @@ class NewMessageAlert extends Mailable
             $this->message->sender->username . '@mail.usepigment.com' :
             $this->message->sender->email; //uuid@usepigment.com
 
-
-
-        Log::info('from email');
-        Log::info($this->message->sender_type);
-        Log::info($fromEmail);
-
         return new Envelope(
             subject: "You've received a new message",
             from: $fromEmail,

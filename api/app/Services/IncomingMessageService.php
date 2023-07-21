@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Exceptions\InboundMsgNoUserFound;
 use App\Models\User;
 use App\Models\Client;
 use App\Models\Message;
@@ -105,7 +106,12 @@ class IncomingMessageService
 
       $is_reply = str_contains($envelope->to[0], '@mail.'); // if to email is @mail.usepigment.com
 
+      Log::info($payload['envelope']);
+
       $user = $this->findUser($envelope->to[0]);
+
+      throw_if(!$user, new InboundMsgNoUserFound());
+
       $client = $this->findClient($user, $envelope->from, $payload['from']);
 
       $submission = $is_reply ?

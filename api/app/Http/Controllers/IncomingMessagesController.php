@@ -17,13 +17,15 @@ class IncomingMessagesController extends Controller
 
     public function store(Request $request)
     {
+        Log::info('payload request', $request->all());
+
         try {
             $message = $this->messageService->handleInboundMessage($request->all());
 
             return response()->json([], 204);
         } catch (\Throwable $th) {
             \Log::info($th);
-            return response()->json([], 500);
+            return response()->json([], 204);
         }
     }
 }
