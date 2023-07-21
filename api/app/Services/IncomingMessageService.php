@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\User;
 use App\Models\Client;
 use App\Models\Message;
+use App\Models\Submission;
 use App\Mail\NewMessageAlert;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
@@ -87,13 +88,13 @@ class IncomingMessageService
     return $match ? trim($match) : $text;
   }
 
-  public function storeMessage($payload)
+  public function storeMessage(Submission $submission, Client $sender, string $text)
   {
-    $message = Message::create([
-      'submission_id' => '',
-      'sender_id' => '',
-      'sender_type' => '',
-      'body' => $this->extractReply($payload['text'])
+    return Message::create([
+      'submission_id' => $submission->id,
+      'sender_id' => $sender->id,
+      'sender_type' => get_class($sender),
+      'body' => $this->extractReply($text),
     ]);
   }
 
@@ -102,18 +103,16 @@ class IncomingMessageService
     try {
       $envelope = json_decode($payload['envelope']);
 
+      $is_reply = str_contains($envelope->to[0], '@mail.'); // if to email is @mail.usepigment.com
+
       $user = $this->findUser($envelope->to[0]);
       $client = $this->findClient($user, $envelope->from, $payload['from']);
 
-      $submission = $user->submissions()->create([
-        'client_id' => $client->id,
-      ]);
+      $submission = $is_reply ?
+        $user->submissions()->where('client_id', $client->id)->latest() :
+        $user->submissions()->create(['client_id' => $client->id,]);
 
-      $message = $submission->messages()->create([
-        'sender_id' => $client->id,
-        'sender_type' => get_class($client),
-        'body' => $this->extractReply($payload['text']),
-      ]);
+      $message = $this->storeMessage($submission, $client, $payload['text']);
 
       Mail::to($message->recipient())->queue(new NewMessageAlert($message));
 

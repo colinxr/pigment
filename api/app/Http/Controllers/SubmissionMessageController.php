@@ -35,7 +35,7 @@ class SubmissionMessageController extends Controller
                 'status' => 'error',
                 'message' => $th->getMessage(),
                 'data' => $th,
-            ], 201);
+            ], 500);
         }
     }
 }

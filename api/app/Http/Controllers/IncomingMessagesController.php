@@ -17,8 +17,6 @@ class IncomingMessagesController extends Controller
 
     public function store(Request $request)
     {
-        Log::info(json_encode($request->all()));
-
         try {
             $message = $this->messageService->handleInboundMessage($request->all());
 
