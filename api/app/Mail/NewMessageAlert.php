@@ -78,7 +78,7 @@ class NewMessageAlert extends Mailable
     {
         return new Headers(
             // messageId: 'custom-message-id@example.com',
-            references: $this->message->reference_id,
+            references: [$this->message->reference_id],
         );
     }
 }
