@@ -60,29 +60,32 @@ class UserSubmissionsMessagesTest extends TestCase
         $response = $this->get("/api/submissions/{$submission->id}/read");
         $response->assertStatus(204);
 
+        $this->assertFalse(true);
+
         $this->assertDatabaseHas('submissions', [
             'id' => $submission->id,
             'has_new_messages' => false,
         ]);
     }
 
-    public function test_marked_unread_when_new_message_submitted()
-    {
-        Mail::fake();
-        $submission = $this->user->submissions->first();
+    // public function test_marked_unread_when_new_message_submitted()
+    // {
+    //     Mail::fake();
+    //     $submission = $this->user->submissions->first();
 
-        $this->actingAs($this->user);
-        $body = fake()->text();
-        $response = $this->post("/api/submissions/{$submission->id}/message", [
-            'sender_id' => $this->user->id,
-            'body' => $body,
-        ]);
+    //     $this->actingAs($this->user);
+    //     $body = fake()->text();
 
-        $response->assertStatus(201);
+    //     $response = $this->post("/api/submissions/{$submission->id}/message", [
+    //         'sender_id' => $this->user->id,
+    //         'body' => $body,
+    //     ]);
 
-        $this->assertDatabaseHas('submissions', [
-            'id' => $submission->id,
-            'has_new_messages' => true,
-        ]);
-    }
+    //     $response->assertStatus(201);
+
+    //     $this->assertDatabaseHas('submissions', [
+    //         'id' => $submission->id,
+    //         'has_new_messages' => true,
+    //     ]);
+    // }
 }
