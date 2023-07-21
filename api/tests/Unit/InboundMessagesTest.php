@@ -42,17 +42,7 @@ class InboundMessagesTest extends TestCase
                 "to" => ["colinxr@mail.usepigment.com"]
             ]),
             "subject" => "Test Email",
-            "text" => "testing testing testing
-
-
-
-            On Wed, Jul 19, 2023 at 2:04 PM Colin Rabyniuk <colinxr+client@gmail.com> wrote:
-            
-            
-            
-            >
-            
-            >",
+            "text" => "testing testing testing > On 07/21/2023 2:05 PM PDT colinxr@usepigment.com wrote: > > > sending an email in response > Cheers, Colin ----- workingfrombed.org https://workingfrombed.org",
             "html" => "<div dir=\"ltr\">testing testing testing</div><br><div class=\"gmail_quote\"><div dir=\"ltr\" class=\"gmail_attr\">On Wed, Jul 19, 2023 at 2:04 PM Colin Rabyniuk &lt;<a href=\"mailto:colinxr@gmail.com\">colinxr@gmail.com</a>&gt; wrote:<br></div><blockquote class=\"gmail_quote\" style=\"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex\"><div dir=\"ltr\"><br></div></blockquote></div>",
             "from" => "Sender Name <example@example.com>",
             "attachments" => [
@@ -117,7 +107,7 @@ class InboundMessagesTest extends TestCase
         $text = $this->incomingMessageService->extractReply($this->inboundPayload['text']);
 
         $this->assertNotNull($text);
-        $this->assertEquals($text, 'testing testing testing');
+        $this->assertEquals($text, 'testing testing testing >');
     }
 
     public function test_can_get_only_new_text_from_email(): void

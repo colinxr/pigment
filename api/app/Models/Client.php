@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Client extends Model
 {
@@ -12,6 +13,16 @@ class Client extends Model
     protected $guarded = ['id'];
 
     protected $appends = ['initials', 'full_name'];
+
+    protected static function boot()
+    {
+        // Boot other traits on the Model
+        parent::boot();
+
+        static::creating(function ($model) {
+            $model->setAttribute('uuid', Str::uuid()->toString());
+        });
+    }
 
     ///
     // Relationships

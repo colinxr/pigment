@@ -134,12 +134,18 @@ jobs:
 
             echo $SERVER_PASS | sudo -S setfacl -d -m u:www-data:rwx /var/www/pigment/api/current
             echo $SERVER_PASS | sudo -S setfacl -d -m u:pigment:rwx /var/www/pigment/api/current
+
+            echo $SERVER_PASS | sudo -S setfacl -d -m u:www-data:rwx /var/www/pigment/storage
+            echo $SERVER_PASS | sudo -S setfacl -d -m u:pigment:rwx /var/www/pigment/storage
             
 
             echo $SERVER_PASS | sudo -S find /var/www/pigment/api/current -type d -exec chmod 775 {} \;
             echo $SERVER_PASS | sudo -S find /var/www/pigment/api/current -type f -exec chmod 644 {} \;   
+            
+            echo $SERVER_PASS | sudo -S find /var/www/pigment/storage -type d -exec chmod 775 {} \;
+            echo $SERVER_PASS | sudo -S find /var/www/pigment/storage -type f -exec chmod 644 {} \;   
 
-            echo 'resetarting php and nginx'
+            echo 'restarting php and nginx'
 
             echo $SERVER_PASS | sudo -S service php8.1-fpm restart
             echo $SERVER_PASS | sudo -S service nginx restart

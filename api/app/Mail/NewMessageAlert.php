@@ -38,7 +38,7 @@ class NewMessageAlert extends Mailable
 
         $replyTo = $this->message->sender_type === 'App\Models\User' ?
             $this->message->sender->username . '@mail.usepigment.com' :
-            $this->message->sender->email; //uuid@usepigment.com
+            $this->message->sender->uuid . '@client.usepigment.com';
 
         return new Envelope(
             subject: "You've received a new message",
