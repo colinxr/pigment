@@ -5,6 +5,7 @@ namespace App\Mail;
 use App\Models\Message;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Headers;
 use Illuminate\Queue\SerializesModels;
@@ -34,6 +35,10 @@ class NewMessageAlert extends Mailable
         $fromEmail = $this->message->sender_type === 'App\Models\User' ?
             $this->message->sender->username . '@mail.usepigment.com' :
             $this->message->sender->email; //uuid@client.usepigment.com
+
+        Log::info('from email');
+        Log::info($this->message->sender_type);
+        Log::info($fromEmail);
 
         return new Envelope(
             subject: "You've received a new message",
