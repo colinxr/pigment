@@ -100,13 +100,11 @@ class IncomingMessageService
 
   public function storeMessage(Submission $submission, Client $sender, $payload)
   {
-    return Message::create([
-      'submission_id' => $submission->id,
-      'sender_id' => $sender->id,
-      'sender_type' => get_class($sender),
-      'body' => $this->extractReply($payload['text']),
-      'reference_id' => $this->getMessageId($payload['headers']),
-    ]);
+    return $submission->newMessage(
+      $sender,
+      $this->extractReply($payload['text']),
+      $this->getMessageId($payload['headers'])
+    );
   }
 
   public function handleInboundMessage($payload)

@@ -77,7 +77,7 @@ class NewMessageAlert extends Mailable
     public function headers(): Headers
     {
         return new Headers(
-            // messageId: 'custom-message-id@example.com',
+            messageId: $this->message->message_id,
             references: [$this->message->reference_id],
         );
     }

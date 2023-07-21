@@ -107,7 +107,7 @@ X-Virus-Scanned: ClamAV using ClamSMTP",
             'sender_id' => $this->client->id,
             'sender_type' => get_class($this->client),
             'body' => $incomingMessageService->extractReply($this->inboundPayload['text']),
-            'reference_id' => $incomingMessageService->getMessageId($this->inboundPayload['headers']),
+            'message_id' => $incomingMessageService->getMessageId($this->inboundPayload['headers']),
         ]);
 
         Mail::assertQueued(NewMessageAlert::class);

@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Illuminate\Support\Str;
 use Illuminate\Support\Carbon;
 use Spatie\Image\Manipulations;
 use Spatie\MediaLibrary\HasMedia;
@@ -66,12 +67,16 @@ class Submission extends Model implements HasMedia
         ];
     }
 
-    public function newMessage(User|Client $sender, string $body)
+    public function newMessage(User|Client $sender, string $body, $message_id = null)
     {
+        $domain = get_class($sender) === 'App\Models\User' ? '@mail.usepigment.com' : '@client.usepigment.com';
+
         return $this->messages()->create([
             'sender_id' => $sender->id,
             'sender_type' => get_class($sender),
             'body' => $body,
+            'message_id' => $message_id ?? Str::random(10) . $domain,
+            'reference_id' => $this->messages()->latest()->value('message_id'),
         ]);
     }
 
