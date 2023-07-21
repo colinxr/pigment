@@ -6,6 +6,7 @@ use App\Models\Message;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Headers;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Mail\Mailables\Attachment;
@@ -31,15 +32,12 @@ class NewMessageAlert extends Mailable
     public function envelope(): Envelope
     {
         $fromEmail = $this->message->sender_type === 'App\Models\User' ?
-            $this->message->sender->username . '@usepigment.com' :
-            $this->message->sender->email;
+            $this->message->sender->username . '@mail.usepigment.com' :
+            $this->message->sender->email; //uuid@client.usepigment.com
 
         return new Envelope(
             subject: "You've received a new message",
-            from: $fromEmail, //config('mail.from.email'), //$this->message->sender->email,
-            metadata: [
-                'submission' => $this->message->submission_id,
-            ]
+            from: $fromEmail,
         );
     }
 
@@ -68,5 +66,21 @@ class NewMessageAlert extends Mailable
         return $files->map(function ($file) {
             return Attachment::fromPath($file->getPath());
         })->toArray();
+    }
+
+    /**
+     * Get the message headers.
+     */
+    public function headers(): Headers
+    {
+        return new Headers(
+            messageId: $this->message->id,
+            references: $this->message->id,
+            text: [
+                'X-SMTPAPI' => json_encode([
+                    'X-SUBMISSION-ID' => $this->message->submission->id,
+                ]),
+            ],
+        );
     }
 }
