@@ -60,7 +60,7 @@ class UserSubmissionsMessagesTest extends TestCase
         $response = $this->get("/api/submissions/{$submission->id}/read");
         $response->assertStatus(204);
 
-        $this->assertFalse(true);
+        $this->assertTrue(false);
 
         $this->assertDatabaseHas('submissions', [
             'id' => $submission->id,
