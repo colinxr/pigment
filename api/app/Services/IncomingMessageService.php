@@ -111,20 +111,18 @@ class IncomingMessageService
   {
     try {
       $envelope = json_decode($payload['envelope']);
-
-      $is_reply = str_contains($envelope->to[0], '@mail.'); // if to email is @mail.usepigment.com
-
-      Log::info($payload['envelope']);
-
       $user = $this->findUser($envelope->to[0]);
 
       throw_if(!$user, new InboundMsgNoUserFound());
 
       $client = $this->findClient($user, $envelope->from, $payload['from']);
 
-      $submission = $is_reply ?
-        $user->submissions()->where('client_id', $client->id)->latest()->first() :
-        $user->submissions()->create(['client_id' => $client->id,]);
+      // $is_reply = !$client->wasRecentlyCreated() && str_contains($envelope->to[0], '@mail.'); // if to email is @mail.usepigment.com
+
+      $submission = $user->submissions()->latest()->firstOrCreate([
+        'client_id' => $client->id,
+        'user_id' => $user->id,
+      ]);
 
       $message = $this->storeMessage($submission, $client, $payload);
 
