@@ -1,10 +1,11 @@
 <script setup>
-import ApiService from '@pigment/api-service'
 import useFormErrors from '@/composables/useFormErrors'
 import useClientSchema from '@/composables/useClientSchema'
 
 import DynamicForm from '@/components/Forms/DynamicForm.vue'
 import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'
+
+const { $apiService } = useNuxtApp()
 
 const { schema } = useClientSchema()
 
@@ -22,7 +23,7 @@ const client = ref({})
 const initialValues = {}
 
 onBeforeMount(async () => {
-	const { data } = await ApiService.clients.show(route.params.id)
+	const { data } = await $apiService.clients.show(route.params.id)
 
 	client.value = data.data
 
@@ -36,7 +37,7 @@ onBeforeMount(async () => {
 const handleSubmit = async formData => {
 	showFormAlert.value = false
 	try {
-		const res = await ApiService.clients.update(client.value.id, formData)
+		const res = await $apiService.clients.update(client.value.id, formData)
 
 		if (res.status !== 200) handleResponseErrors(res)
 

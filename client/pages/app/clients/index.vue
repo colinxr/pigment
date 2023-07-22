@@ -1,16 +1,16 @@
 <script setup>
-import ApiService from '@pigment/api-service'
 import { getReadableDate } from '@/composables/useDateService.js'
 // import AppointmentCard from '@/components/Appointments/AppointmentCard.vue'
 import LoadingCard from '@/components/Appointments/LoadingCard.vue'
 
+const { $apiService } = useNuxtApp()
+const { shouldRefreshData } = useWatchForRefresh()
+
 const clients = ref([])
 const isLoading = ref(true)
 
-const { shouldRefreshData } = useWatchForRefresh()
-
 const fetchData = async () => {
-	const { data } = await ApiService.clients.index()
+	const { data } = await $apiService.clients.index()
 
 	clients.value = data.data
 	isLoading.value = false

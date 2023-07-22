@@ -1,8 +1,8 @@
 <script setup>
-import ApiService from '@pigment/api-service'
-
 import CalenderScheduleInput from './CalenderScheduleInput.vue'
 import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'
+
+const { $apiService } = useNuxtApp()
 
 const { showFormAlert, formStatus, alertMessage, handleResponseErrors } =
 	useFormErrors()
@@ -52,7 +52,7 @@ const days = ref(null)
 onBeforeMount(async () => {
 	if (!props.fetchSchedule) return
 
-	const res = await ApiService.calendars.show()
+	const res = await $apiService.calendars.show()
 
 	if (res.data.data) {
 		schedule.value = { ...schedule.value, ...res.data.data }
@@ -98,7 +98,7 @@ const handleSubmit = async formData => {
 	showFormAlert.value = false
 
 	try {
-		const res = await ApiService.calendars.store({ schedule: schedule.value })
+		const res = await $apiService.calendars.store({ schedule: schedule.value })
 		if (res.status !== 201) handleResponseErrors(res)
 
 		console.log(res)

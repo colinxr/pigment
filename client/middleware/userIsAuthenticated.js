@@ -1,5 +1,5 @@
 import useAuthStore from '@/stores/auth'
-import ApiService from '@pigment/api-service'
+const { $apiService } = useNuxtApp()
 
 export default defineNuxtRouteMiddleware(async to => {
 	const store = useAuthStore()
@@ -13,7 +13,7 @@ export default defineNuxtRouteMiddleware(async to => {
 		return navigateTo('/login')
 	}
 
-	ApiService.axios.defaults.headers.Authorization = `Bearer ${store.user.token}`
+	$apiService.axios.defaults.headers.Authorization = `Bearer ${store.user.token}`
 
 	setPageLayout('default')
 	if (['login', 'register'].includes(to.name)) return navigateTo('/app')

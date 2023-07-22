@@ -1,7 +1,8 @@
 <script setup>
-import ApiService from '@pigment/api-service'
 import { getReadableDate } from '@/composables/useDateService.js'
 import useAppointmentSchema from '@/composables/useAppointmentSchema'
+
+const { $apiService } = useNuxtApp()
 const { setStartDateTime } = useAppointmentSchema()
 
 const props = defineProps({
@@ -22,7 +23,7 @@ watch(duration, async newValue => {
 		return
 	}
 
-	const { data: payload } = await ApiService.calendars.getSlots(newValue)
+	const { data: payload } = await $apiService.calendars.getSlots(newValue)
 
 	if (payload.data.warning) {
 		warning.value = payload.data.warning

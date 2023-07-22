@@ -1,4 +1,8 @@
 <script setup>
+const runtimeConfig = useRuntimeConfig()
+
+console.log(runtimeConfig.public)
+
 definePageMeta({ middleware: 'user-is-authenticated' })
 </script>
 

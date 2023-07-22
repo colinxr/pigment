@@ -1,5 +1,4 @@
 <script setup>
-import ApiService from '@pigment/api-service'
 import useAuthStore from '@/stores/auth'
 import useModalStore from '@/stores/modal'
 import useFormErrors from '@/composables/useFormErrors'
@@ -9,6 +8,8 @@ import useWatchForRefresh from '@/composables/useWatchForRefresh'
 
 import DynamicForm from '@/components/Forms/DynamicForm.vue'
 import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'
+
+const { $apiService } = useNuxtApp()
 
 const route = useRoute()
 const authStore = useAuthStore()
@@ -51,7 +52,7 @@ const handleSubmit = async formData => {
 		const timezone = getTimeZoneOffset()
 		formData.startDateTime = `${formData.startDateTime}:00${timezone}`
 
-		const res = await ApiService.appointments.store(
+		const res = await $apiService.appointments.store(
 			formData,
 			props.submission.id
 		)

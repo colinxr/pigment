@@ -14,6 +14,7 @@ export default defineNuxtConfig({
 		'primeicons/primeicons.css',
 		'primevue/resources/primevue.min.css',
 	],
+	
 	runtimeConfig: {
     // The private keys which are only available server-side
     apiSecret: '123',
@@ -22,7 +23,9 @@ export default defineNuxtConfig({
 			api_url: process.env.NUXT_PUBLIC_API_URL
     }
   },
-	modules: ['@pinia/nuxt', '@formkit/nuxt', '@pinia-plugin-persistedstate/nuxt'],
+	
+	modules: ['@pinia/nuxt', '@formkit/nuxt', '@pinia-plugin-persistedstate/nuxt', '@pigment/api-service'],
+	
 	piniaPersistedstate: {
     cookieOptions: {
       sameSite: 'strict',
@@ -30,11 +33,17 @@ export default defineNuxtConfig({
 		debug: true,
     storage: 'cookies'
   },
+
+	apiService: {
+		apiUrl: process.env.NUXT_ENV_API_URL!
+	},
+
 	postcss: {
 		plugins: {
 			tailwindcss: {},
 			autoprefixer: {},
 		},
 	},
+
 	ssr: false,
 })

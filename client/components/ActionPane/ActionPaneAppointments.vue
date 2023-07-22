@@ -1,6 +1,5 @@
 <script setup>
 import { markRaw } from 'vue'
-import ApiService from '@pigment/api-service'
 import useSubmissionsStore from '@/stores/submissions'
 import useModalStore from '@/stores/modal'
 import useWatchForRefresh from '@/composables/useWatchForRefresh'
@@ -9,6 +8,7 @@ import AppointmentCard from '@/components/Appointments/AppointmentCard.vue'
 import LoadingCard from '@/components/Appointments/LoadingCard.vue'
 import AppointmentCreateModal from '@/components/Modal/AppointmentCreateModal.vue'
 
+const { $apiService } = useNuxtApp()
 const modalStore = useModalStore()
 const { shouldRefreshData } = useWatchForRefresh()
 
@@ -22,7 +22,7 @@ const fetchData = async sub => {
 	if (!sub) return null
 	const subId = sub.value?.id ?? sub.id
 
-	const { data } = await ApiService.appointments.index('submission_id', subId)
+	const { data } = await $apiService.appointments.index('submission_id', subId)
 
 	if (!data) return
 

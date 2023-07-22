@@ -1,8 +1,8 @@
 <script setup>
-import ApiService from '@pigment/api-service'
 import useClientSchema from '@/composables/useClientSchema'
-
 import DynamicForm from '@/components/Forms/DynamicForm.vue'
+
+const { $apiService } = useNuxtApp()
 
 const { schema } = useClientSchema()
 
@@ -15,7 +15,7 @@ const clientValues = {}
 const appointments = ref({})
 
 onBeforeMount(async () => {
-	const { data } = await ApiService.clients.show(route.params.id)
+	const { data } = await $apiService.clients.show(route.params.id)
 	client.value = data.data
 
 	clientValues.first_name = data.data.first_name
@@ -26,7 +26,7 @@ onBeforeMount(async () => {
 })
 
 onMounted(async () => {
-	const { data: appts } = await ApiService.appointments.index(
+	const { data: appts } = await $apiService.appointments.index(
 		'client_id',
 		route.params.id
 	)

@@ -2,7 +2,6 @@
   "compilerOptions": {
     "incremental": true,
     "target": "es2020",
-    "module": "es6",
     "declaration": true,
     "sourceMap": true,
     "strict": true,

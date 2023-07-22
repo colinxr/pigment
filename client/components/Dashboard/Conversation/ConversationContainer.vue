@@ -2,13 +2,13 @@
 import { ref, nextTick } from 'vue'
 import { storeToRefs } from 'pinia'
 
-import ApiService from '@pigment/api-service'
 import useSubmissionsStore from '@/stores/submissions'
 import ActionPane from '@/components/ActionPane/ActionPane.vue'
 import MessageWrapper from '@/components/Dashboard/SubmissionMessages/Message/MessageWrapper.vue'
 import ConversationTextInput from '@/components/Dashboard/Conversation/ConversationTextInput.vue'
 import ConversationHeader from '@/components/Dashboard/Conversation/ConversationHeader.vue'
 
+const { $apiService } = useNuxtApp()
 const submissionsStore = useSubmissionsStore()
 
 const props = defineProps({
@@ -52,7 +52,7 @@ const handleNewMessage = async message => {
 }
 
 const postMessageToServer = async message => {
-	const res = await ApiService.messages.post(props.submission.id, {
+	const res = await $apiService.messages.post(props.submission.id, {
 		body: message.body,
 		files: message.files,
 	})
@@ -77,7 +77,7 @@ watchEffect(async () => {
 	scrollToLastMessage()
 
 	if (props.submission.has_new_messages) {
-		ApiService.submissions.markAsRead(props.submission.id)
+		$apiService.submissions.markAsRead(props.submission.id)
 	}
 })
 </script>

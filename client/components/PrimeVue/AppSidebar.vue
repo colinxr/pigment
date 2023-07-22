@@ -1,7 +1,7 @@
 <script setup>
 import Cookies from 'js-cookie'
-import ApiService from '@pigment/api-service'
 import AppMenuItem from '@/components/PrimeVue/AppMenuItem.vue'
+const { $apiService } = useNuxtApp()
 
 const menu = ref([
 	{
@@ -216,7 +216,7 @@ const menu = ref([
 ])
 
 const handleLogout = async () => {
-	const res = await ApiService.auth.logout()
+	const res = await $apiService.auth.logout()
 	Cookies.remove('authStore')
 
 	return navigateTo('/', { external: true })

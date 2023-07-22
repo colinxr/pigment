@@ -1,11 +1,12 @@
 <script setup>
-import ApiService from '@pigment/api-service'
 import useFormErrors from '@/composables/useFormErrors'
 import { getTimeZoneOffset } from '@/composables/useDateService'
 import useAppointmentSchema from '@/composables/useAppointmentSchema'
 
 import DynamicForm from '@/components/Forms/DynamicForm.vue'
 import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'
+
+const { $apiService } = useNuxtApp()
 
 const { addPropsToSchema, startDateTime } = useAppointmentSchema()
 
@@ -29,7 +30,7 @@ const schema = ref([])
 const modelToUpdate = ref({})
 
 onMounted(async () => {
-	const { data } = await ApiService.clients.index()
+	const { data } = await $apiService.clients.index()
 
 	const clientNames = data.data
 

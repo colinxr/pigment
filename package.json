@@ -8,7 +8,7 @@
     "dev:client": "cd client && yarn dev",
     "dev:api-service": "cd packages/ApiService && yarn dev",
     "build:api-service": "cd packages/ApiService && yarn build",
-    "dev": "concurrently \"yarn dev:client\" \"yarn dev:api-service\""
+    "dev": "concurrently \"yarn dev:client\" "
   },
   "repository": {
     "type": "git",

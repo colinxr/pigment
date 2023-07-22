@@ -1,6 +1,6 @@
 <script setup>
-import ApiService from '@pigment/api-service'
 import useAuthStore from '@/stores/auth'
+const { $apiService } = useNuxtApp()
 
 const { handleResponseErrors } = useFormErrors()
 
@@ -8,7 +8,7 @@ const store = useAuthStore()
 
 const handleLogOut = async () => {
 	try {
-		const response = await ApiService.auth.logout()
+		const response = await $apiService.auth.logout()
 
 		if (response.status !== 204) {
 			return handleResponseErrors(response)

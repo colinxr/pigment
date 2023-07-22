@@ -1,7 +1,5 @@
-import dotenv from 'dotenv';
-dotenv.config({ path: '../.env' });
-
-
+// import * as dotenv from 'dotenv';
+// dotenv.config({ path: '../.env'})
 import { AxiosInstance } from 'axios'
 import createApiClient from './createApiClient'
 import {
@@ -25,8 +23,6 @@ import {
 	UserRepository,
 } from './repositories'
 
-const apiUrl = process.env.API_URL!
-
 class ApiService implements ApiServiceInterface {
 	axios: AxiosInstance
 
@@ -44,9 +40,9 @@ class ApiService implements ApiServiceInterface {
 
 	users: UserRepositoryI
 
-	constructor() {
-		console.log(apiUrl);
-		
+	constructor(apiUrl: string) {
+		if (!apiUrl) throw Error('No Api URl Provided')
+
 		this.axios = createApiClient(apiUrl)
 
 		this.appointments = new AppointmentRepository(this.axios)
@@ -59,4 +55,4 @@ class ApiService implements ApiServiceInterface {
 	}
 }
 
-export default new ApiService()
+export default ApiService

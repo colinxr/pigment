@@ -1,9 +1,10 @@
 <script setup>
-import ApiService from '@pigment/api-service'
 import useModalStore from '@/stores/modal'
 import useWatchForRefresh from '@/composables/useWatchForRefresh'
 
 import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'
+
+const { $apiService } = useNuxtApp()
 
 const { showFormAlert, formStatus, alertMessage, handleResponseErrors } =
 	useFormErrors()
@@ -21,7 +22,7 @@ const props = defineProps({
 
 const handleConfirm = async () => {
 	try {
-		const res = await ApiService.clients.delete(props.client.id)
+		const res = await $apiService.clients.delete(props.client.id)
 
 		if (res.status !== 200) handleResponseErrors(res)
 

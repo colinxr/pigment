@@ -1,8 +1,9 @@
 <script setup>
-import ApiService from '@pigment/api-service'
 import useModalStore from '@/stores/modal'
 import AppointmentDeleteModal from '@/components/Modal/AppointmentDeleteModal.vue'
 import LoadingCard from '@/components/Appointments/LoadingCard.vue'
+
+const { $apiService } = useNuxtApp()
 
 const modalStore = useModalStore()
 
@@ -12,7 +13,7 @@ const isLoading = ref(true)
 const { shouldRefreshData } = useWatchForRefresh()
 
 const fetchData = async () => {
-	const { data } = await ApiService.appointments.index()
+	const { data } = await $apiService.appointments.index()
 
 	appointments.value = data.data
 	isLoading.value = false

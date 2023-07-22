@@ -1,10 +1,11 @@
 <script setup>
-import ApiService from '@pigment/api-service'
 import useAuthStore from '@/stores/auth'
 import useRegistrationSchema from '@/composables/useRegistrationSchema'
 
 import DynamicForm from '@/components/Forms/DynamicForm.vue'
 import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'
+
+const { $apiService } = useNuxtApp()
 
 const authStore = useAuthStore()
 const { errorState, handleResponseErrors, showFormAlert } = useFormErrors()
@@ -25,7 +26,7 @@ const initialValues = {
 
 const handleSubmit = async formData => {
 	try {
-		const response = await ApiService.auth.register(formData)
+		const response = await $apiService.auth.register(formData)
 
 		if (response.status !== 200) {
 			return handleResponseErrors(response)

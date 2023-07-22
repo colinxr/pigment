@@ -1,8 +1,9 @@
 <script setup>
-import ApiService from '@pigment/api-service'
 import useAppointmentSchema from '@/composables/useAppointmentSchema'
 
 import DynamicForm from '@/components/Forms/DynamicForm.vue'
+
+const { $apiService } = useNuxtApp()
 
 const { appointmentForSubmission } = useAppointmentSchema()
 
@@ -13,7 +14,7 @@ const appointment = ref({})
 const initialValues = {}
 
 onBeforeMount(async () => {
-	const { data } = await ApiService.appointments.show(route.params.id)
+	const { data } = await $apiService.appointments.show(route.params.id)
 
 	if (data.status === 404) return redirect('/not-found')
 

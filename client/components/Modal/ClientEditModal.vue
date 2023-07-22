@@ -1,11 +1,12 @@
 <script setup>
-import ApiService from '@pigment/api-service'
 import useModalStore from '@/stores/modal'
 import useFormErrors from '@/composables/useFormErrors'
 import DynamicForm from '@/components/Forms/DynamicForm.vue'
 import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'
 
 import useSubmissionsStore from '@/stores/submissions'
+
+const { $apiService } = useNuxtApp()
 
 const submissionsStore = useSubmissionsStore()
 
@@ -49,7 +50,7 @@ const handleSubmit = async formData => {
 	showFormAlert.value = false
 
 	try {
-		const res = await ApiService.clients.update(formData)
+		const res = await $apiService.clients.update(formData)
 
 		if (res.status !== 200) {
 			handleResponseErrors(res)

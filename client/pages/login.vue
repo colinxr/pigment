@@ -1,8 +1,8 @@
 <script setup>
-import ApiService from '@pigment/api-service'
 import useAuthStore from '@/stores/auth'
 import TextInput from '@/components/Forms/TextInput.vue'
 
+const { $apiService } = useNuxtApp()
 const store = useAuthStore()
 const { errorState, handleResponseErrors } = useFormErrors()
 
@@ -16,7 +16,7 @@ const password = ref('')
 
 const handleSubmit = async () => {
 	try {
-		const response = await ApiService.auth.login({
+		const response = await $apiService.auth.login({
 			email: email.value,
 			password: password.value,
 		})

@@ -1,5 +1,4 @@
 <script setup>
-import ApiService from '@pigment/api-service'
 import useFormErrors from '@/composables/useFormErrors'
 import DynamicForm from '@/components/Forms/DynamicForm.vue'
 import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'
@@ -11,6 +10,8 @@ import {
 } from '@/composables/useDateService.js'
 
 import useAppointmentSchema from '@/composables/useAppointmentSchema'
+
+const { $apiService } = useNuxtApp()
 
 const { appointmentForSubmission } = useAppointmentSchema()
 
@@ -28,7 +29,7 @@ const appointment = ref({})
 const initialValues = {}
 
 onBeforeMount(async () => {
-	const { data } = await ApiService.appointments.show(route.params.id)
+	const { data } = await $apiService.appointments.show(route.params.id)
 
 	appointment.value = data.data
 

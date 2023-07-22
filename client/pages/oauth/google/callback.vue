@@ -1,7 +1,7 @@
 <script setup>
-import ApiService from '@pigment/api-service'
 import useAuthStore from '@/stores/auth'
 
+const { $apiService } = useNuxtApp()
 const route = useRoute()
 const { lastURL } = useAuthStore()
 
@@ -11,7 +11,7 @@ definePageMeta({
 })
 
 onMounted(async () => {
-	const res = await ApiService.auth.setOAuthToken(route.query.code)
+	const res = await $apiService.auth.setOAuthToken(route.query.code)
 
 	if (res.data.status === 'error') {
 		console.log(res.data)
