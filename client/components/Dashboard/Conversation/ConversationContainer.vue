@@ -40,12 +40,13 @@ const handleNewMessage = async message => {
 
 	scrollToLastMessage()
 
-	activeSubmission.value.last_message = res.data.data.preview
 	updateSubmissionsListOrder(activeSubmission.value.id)
 
 	const res = await postMessageToServer(msgObject)
 
 	const messageWasSent = res.status === 201
+
+	activeSubmission.value.last_message = res.data?.data?.preview
 
 	updateMessage(messageWasSent, message.body)
 }

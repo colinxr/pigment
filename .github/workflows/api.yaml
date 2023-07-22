@@ -35,8 +35,8 @@ jobs:
       SERVER_USER: ${{ secrets.SERVER_USER }}
       SERVER_HOST: ${{ secrets.SERVER_HOST }}
       SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      SERVER_PASS: ${{ secrets.SERVER_USER_PASS }}
       RELEASE_DIR: /var/www/pigment/api/releases/${{ github.sha }}
+      SERVER_PASS: ${{ secrets.SERVER_USER_PASS }}
 
     steps:
       - name: Deploy to server
@@ -62,12 +62,17 @@ jobs:
             
             rm -rf api/storage
             cp -rpa api/* $RELEASE_DIR
+
+            echo $SERVER_PASS | sudo -S setfacl -d -m u:www-data:rwx $RELEASE_DIR
+            echo $SERVER_PASS | sudo -S setfacl -d -m u:pigment:rwx $RELEASE_DIR
             
             ln -s /var/www/pigment/.env $RELEASE_DIR/.env 
-            echo $SERVER_PASS | sudo -S chown www-data:www-data $RELEASE_DIR/.env
             ln -s /var/www/pigment/storage $RELEASE_DIR/
+            echo $SERVER_PASS | sudo -S chown www-data:www-data $RELEASE_DIR/.env
+            echo $SERVER_PASS | sudo -S chmod 665 $RELEASE_DIR/.env
             echo $SERVER_PASS | sudo -S chown www-data:www-data $RELEASE_DIR/storage
             echo $SERVER_PASS | sudo -S chown www-data:www-data $RELEASE_DIR/storage/*
+            echo $SERVER_PASS | sudo -S chmod 775 $RELEASE_DIR/storage/*
             ls -la $RELEASE_DIR/storage
             
             cd $ROOT_DIR && rm -rf repo
@@ -98,6 +103,9 @@ jobs:
             cd $RELEASE_DIR 
             
             composer install --prefer-dist --no-scripts --no-dev -q -o;
+            composer require laravel/telescope
+            
+            php artisan telescope:install
             
             php artisan config:cache
             php artisan migrate --force
@@ -109,19 +117,36 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          envs: ROOT_DIR,RELEASE_DIR,APP_DIR,SERVER_PASS
+          envs: RELEASE_DIR,SERVER_PASS
           script: |
             export RELEASE_DIR=$RELEASE_DIR
             export SERVER_PASS=$SERVER_PASS
+            echo $SERVER_PASS
             
-            echo $SERVER_PASS | sudo -S chmod -R 755 $RELEASE_DIR
-            echo $SERVER_PASS | sudo -S find $RELEASE_DIR -type f -exec chmod 644 {} \;
-            echo $SERVER_PASS | sudo -S chmod 600 $RELEASE_DIR/.env
+            echo 'removing old release'
 
             rm -rf /var/www/pigment/api/current
+            
+            echo 'linking new release'
             ln -s $RELEASE_DIR /var/www/pigment/api/current
-            ls -la /var/www/pigment/api/current
 
-            echo $SERVER_PASS | sudo -S chown -R www-data:www-data /var/www/pigment/api/current
-            echo $SERVER_PASS | sudo find /var/www/pigment/api/current -type d -exec chmod 775 {} \;
-            echo $SERVER_PASS | sudo find /var/www/pigment/api/current -type f -exec chmod 644 {} \;
+            echo 'setting correct file permissions'
+
+            echo $SERVER_PASS | sudo -S setfacl -d -m u:www-data:rwx /var/www/pigment/api/current
+            echo $SERVER_PASS | sudo -S setfacl -d -m u:pigment:rwx /var/www/pigment/api/current
+
+            echo $SERVER_PASS | sudo -S setfacl -d -m u:www-data:rwx /var/www/pigment/storage
+            echo $SERVER_PASS | sudo -S setfacl -d -m u:pigment:rwx /var/www/pigment/storage
+            
+
+            echo $SERVER_PASS | sudo -S find /var/www/pigment/api/current -type d -exec chmod 775 {} \;
+            echo $SERVER_PASS | sudo -S find /var/www/pigment/api/current -type f -exec chmod 644 {} \;   
+            
+            echo $SERVER_PASS | sudo -S find /var/www/pigment/storage -type d -exec chmod 775 {} \;
+            echo $SERVER_PASS | sudo -S find /var/www/pigment/storage -type f -exec chmod 644 {} \;   
+
+            echo 'restarting php and nginx'
+
+            echo $SERVER_PASS | sudo -S service php8.1-fpm restart
+            echo $SERVER_PASS | sudo -S service nginx restart
+

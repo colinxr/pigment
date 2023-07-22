@@ -2,11 +2,13 @@
 
 namespace App\Services;
 
+use App\Exceptions\InboundMsgNoUserFound;
 use App\Models\User;
 use App\Models\Client;
 use App\Models\Message;
+use App\Models\Submission;
 use App\Mail\NewMessageAlert;
-use PhpParser\Node\Stmt\TryCatch;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 
 class IncomingMessageService
@@ -15,16 +17,16 @@ class IncomingMessageService
   {
   }
 
-  public function getUsername($inboundToEmail)
+  public function getUsername($toEmail)
   {
-    if (!preg_match('/^(.*?)@parse\.usepigment\.com/', $inboundToEmail, $matches)) return null;
+    if (!preg_match('/^(.*?)@mail\.usepigment\.com/', $toEmail, $matches)) return null;
 
     return $matches[1];
   }
 
-  public function findUser($inboundToEmail)
+  public function findUser($toEmail)
   {
-    $username = $this->getUsername($inboundToEmail);
+    $username = $this->getUsername($toEmail);
 
     $user = User::where('username', $username)->first();
 
@@ -84,39 +86,51 @@ class IncomingMessageService
       break;
     }
 
-    return trim($match);
+    return $match ? trim($match) : $text;
   }
 
-  public function storeMessage($payload)
+  public function getMessageId($headers)
   {
-    $message = Message::create([
-      'submission_id' => '',
-      'sender_id' => '',
-      'sender_type' => '',
-      'body' => $this->extractReply($payload['text'])
-    ]);
+    if (!$headers) return '';
+
+    if (!preg_match('/Message-ID: <(.*?)>/i', $headers, $matches)) return '';
+
+    return $matches[1];
+  }
+
+  public function storeMessage(Submission $submission, Client $sender, $payload)
+  {
+    return $submission->newMessage(
+      $sender,
+      $this->extractReply($payload['text']),
+      $this->getMessageId($payload['headers'])
+    );
   }
 
   public function handleInboundMessage($payload)
   {
     try {
-      $user = $this->findUser($payload['envelope']['to']);
-      $client = $this->findClient($user, $payload['envelope']['from'], $payload['from']);
+      $envelope = json_decode($payload['envelope']);
+      $user = $this->findUser($envelope->to[0]);
 
-      $submission = $user->submissions()->create([
+      throw_if(!$user, new InboundMsgNoUserFound());
+
+      $client = $this->findClient($user, $envelope->from, $payload['from']);
+
+      // $is_reply = !$client->wasRecentlyCreated() && str_contains($envelope->to[0], '@mail.'); // if to email is @mail.usepigment.com
+
+      $submission = $user->submissions()->latest()->firstOrCreate([
         'client_id' => $client->id,
+        'user_id' => $user->id,
       ]);
 
-      $message = $submission->messages()->create([
-        'sender_id' => $client->id,
-        'sender_type' => get_class($client),
-        'body' => $this->extractReply($payload['text']),
-      ]);
+      $message = $this->storeMessage($submission, $client, $payload);
 
       Mail::to($message->recipient())->queue(new NewMessageAlert($message));
 
       return $message;
     } catch (\Throwable $th) {
+      Log::info($th);
       throw $th;
     }
   }
