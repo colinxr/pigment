@@ -1,5 +1,5 @@
 import useAuthStore from '@/stores/auth'
-import ApiService from '@/services/ApiService'
+import ApiService from '@pigment/api-service'
 
 export default defineNuxtRouteMiddleware(async to => {
 	const store = useAuthStore()

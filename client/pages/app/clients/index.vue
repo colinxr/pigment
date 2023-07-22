@@ -1,5 +1,5 @@
 <script setup>
-import ApiService from '@/services/ApiService'
+import ApiService from '@pigment/api-service'
 import { getReadableDate } from '@/composables/useDateService.js'
 // import AppointmentCard from '@/components/Appointments/AppointmentCard.vue'
 import LoadingCard from '@/components/Appointments/LoadingCard.vue'

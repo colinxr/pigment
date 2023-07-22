@@ -1,5 +1,5 @@
 <script setup>
-import ApiService from '@/services/ApiService'
+import ApiService from '@pigment/api-service'
 
 import CalenderScheduleInput from './CalenderScheduleInput.vue'
 import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'

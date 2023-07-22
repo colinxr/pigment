@@ -1,0 +1,7 @@
+{
+  "name": "@pigment/form-helpers",
+  "version": "1.0.0",
+  "description": "form components for pigment",
+  "main": "index.js",
+  "license": "MIT"
+}

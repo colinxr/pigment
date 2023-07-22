@@ -1,5 +1,7 @@
 {
+    "name": "api",
     "private": true,
+    "version": "1.0.0",
     "scripts": {
         "server:dev": "vite",
         "server:serve": "php artisan serve",

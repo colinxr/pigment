@@ -1,5 +1,5 @@
 <script setup>
-import ApiService from '@/services/ApiService'
+import ApiService from '@pigment/api-service'
 import useClientSchema from '@/composables/useClientSchema'
 
 import DynamicForm from '@/components/Forms/DynamicForm.vue'

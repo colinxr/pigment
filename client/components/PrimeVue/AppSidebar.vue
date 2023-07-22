@@ -1,6 +1,6 @@
 <script setup>
 import Cookies from 'js-cookie'
-import ApiService from '@/services/ApiService'
+import ApiService from '@pigment/api-service'
 import AppMenuItem from '@/components/PrimeVue/AppMenuItem.vue'
 
 const menu = ref([

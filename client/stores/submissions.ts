@@ -1,6 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-import ApiService from '@/services/ApiService'
+import ApiService from '@pigment/api-service'
 import { ClientI, SubmissionI } from './types'
 import { useRoute, useRouter } from 'vue-router';
 

@@ -1,5 +1,5 @@
 <script setup>
-import ApiService from '@/services/ApiService'
+import ApiService from '@pigment/api-service'
 import useFormErrors from '@/composables/useFormErrors'
 import { getTimeZoneOffset } from '@/composables/useDateService'
 import useAppointmentSchema from '@/composables/useAppointmentSchema'

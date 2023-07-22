@@ -1,5 +1,5 @@
 <script setup>
-import ApiService from '@/services/ApiService'
+import ApiService from '@pigment/api-service'
 import useAuthStore from '@/stores/auth'
 import useRegistrationSchema from '@/composables/useRegistrationSchema'
 

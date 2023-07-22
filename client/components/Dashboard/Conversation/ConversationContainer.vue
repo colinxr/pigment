@@ -2,7 +2,7 @@
 import { ref, nextTick } from 'vue'
 import { storeToRefs } from 'pinia'
 
-import ApiService from '@/services/ApiService'
+import ApiService from '@pigment/api-service'
 import useSubmissionsStore from '@/stores/submissions'
 import ActionPane from '@/components/ActionPane/ActionPane.vue'
 import MessageWrapper from '@/components/Dashboard/SubmissionMessages/Message/MessageWrapper.vue'

@@ -5,23 +5,33 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "web:dev": "npm run dev -w web"
+    "dev:client": "cd client && yarn dev",
+    "dev:api-service": "cd packages/ApiService && yarn dev",
+    "build:api-service": "cd packages/ApiService && yarn build",
+    "dev": "concurrently \"yarn dev:client\" \"yarn dev:api-service\""
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/colinxr/dayplanner.git"
+    "url": "git+https://github.com/colinxr/pigment.git"
   },
   "author": "Colin Rabyniuk",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/colinxr/dayplanner/issues"
+    "url": "https://github.com/colinxr/pigment/issues"
   },
-  "homepage": "https://github.com/colinxr/dayplanner#readme",
+  "private": true,
+  "workspaces": [
+    "packages/*",
+    "client",
+    "web",
+    "api"
+  ],
+  "homepage": "https://github.com/colinxr/pigment#readme",
   "devDependencies": {
     "@nuxt/typescript-runtime": "^3.0.1",
     "@typescript-eslint/eslint-plugin": "^5.59.6",
     "@typescript-eslint/parser": "^5.59.6",
-    "concurrently": "^8.0.1",
+    "concurrently": "^8.2.0",
     "eslint": "^8.40.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-airbnb-typescript": "^17.0.0",

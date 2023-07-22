@@ -1,6 +1,6 @@
 <script setup>
 import { markRaw } from 'vue'
-import ApiService from '@/services/ApiService'
+import ApiService from '@pigment/api-service'
 import useSubmissionsStore from '@/stores/submissions'
 import useModalStore from '@/stores/modal'
 import useWatchForRefresh from '@/composables/useWatchForRefresh'
