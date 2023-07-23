@@ -16,9 +16,6 @@ export default defineNuxtConfig({
 	],
 	
 	runtimeConfig: {
-    // The private keys which are only available server-side
-    apiSecret: '123',
-    // Keys within public are also exposed client-side
     public: {
 			api_url: process.env.NUXT_PUBLIC_API_URL
     }

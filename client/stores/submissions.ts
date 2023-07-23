@@ -46,7 +46,10 @@ export default defineStore('submissions', () => {
 		try {
 			console.log($apiService);
 			
+
 			const { data } = await $apiService.submissions.index(nextPage.value)
+			console.log(data);
+			
 			
 			submissions.value = [...submissions.value, ...data.submissions.data]
 
@@ -54,7 +57,6 @@ export default defineStore('submissions', () => {
 
 			setSubmssionListOrder(submissions.value)
 			console.log(submissionsList.value);
-			
 		} catch (error) {
 			console.log(error)
 		}
