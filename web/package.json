@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "nuxt build",
-    "dev": "NUXT_ENV_API_URL=https://api.pigment.biz/api NUXT_NODE_TLS_REJECT_UNAUTHORIZED=0 npx nuxi dev --host pigment.biz --https --port 3001 --ssl-cert _wildcard.pigment.biz.pem --ssl-key _wildcard.pigment.biz-key.pem",
+    "dev": "NUXT_ENV_API_URL=https://api.pigment.biz/api NODE_TLS_REJECT_UNAUTHORIZED=0 npx nuxi dev --host pigment.biz --https --port 3001 --ssl-cert pigment.biz.pem  --ssl-key pigment.biz-key.pem",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
     "postinstall": "nuxt prepare"
@@ -12,7 +12,7 @@
   "devDependencies": {
     "@nuxt/devtools": "latest",
     "@types/node": "^18.17.0",
-    "nuxt": "^3.6.5",
+    "nuxt": "^3.4.3",
     "@nuxt/eslint-config": "^0.1.1",
     "@nuxt/types": "^2.16.3",
     "@nuxt/typescript-build": "^3.0.1",
