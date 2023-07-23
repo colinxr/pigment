@@ -2,6 +2,7 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { ClientI, SubmissionI } from './types'
 import { useRoute, useRouter } from 'vue-router';
+const { $apiService } = useNuxtApp() 
 
 const activeSubmission = ref<SubmissionI>()
 const nextPage = ref<number | null>(1)
@@ -10,8 +11,6 @@ const submissionsList = ref<number[]>([])
 const showActionPane = ref<boolean>(false)
 
 export default defineStore('submissions', () => {
-	const { $apiService } = useNuxtApp() 
-
 	const router = useRouter();
 
 	const getNextPageFromUrl = (url: string | null): number | null => {
@@ -46,7 +45,6 @@ export default defineStore('submissions', () => {
 		try {
 			console.log($apiService);
 			
-
 			const { data } = await $apiService.submissions.index(nextPage.value)
 			console.log(data);
 			
