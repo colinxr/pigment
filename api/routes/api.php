@@ -11,6 +11,7 @@ use App\Http\Controllers\UserSubmissionsController;
 use App\Http\Controllers\CalendarScheduleController;
 use App\Http\Controllers\IncomingMessagesController;
 use App\Http\Controllers\SubmissionMessageController;
+use App\Http\Controllers\UserExistsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,6 +28,7 @@ Route::post('/register', [AuthController::class, 'store']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/sanctum/token', [AuthController::class, 'storeToken']);
 
+Route::get('/users/{username}', UserExistsController::class);
 Route::post('/users/{user}/submissions', [UserSubmissionsController::class, 'store']);
 Route::post('/messages/parse', [IncomingMessagesController::class, 'store']);
 

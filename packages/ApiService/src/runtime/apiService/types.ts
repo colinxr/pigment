@@ -77,6 +77,7 @@ export interface MessageRepositoryI {
 
 export interface UserRepositoryI {
 	apiClient: AxiosInstance
+	exists(username: string): Promise<AxiosResponse>
 }
 
 export interface ClientFormData {
