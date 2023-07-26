@@ -10,49 +10,48 @@ export default defineNuxtModule<ModuleOptions>({
     configKey: 'formModule'
   },
   async setup (options, nuxt) {
-    const resolver = createResolver(import.meta.url)
+    const { resolve } = createResolver(import.meta.url)
 
-    addImportsDir(resolver.resolve('runtime/composables'))
+    addImportsDir(resolve('runtime/composables'))
 
     addComponent({
       name: 'DynamicForm', 
-      filePath: resolver.resolve('runtime/components/DyanmicForm.vue')
+      filePath: resolve('runtime/components/DynamicForm.vue')
     })
 
     addComponent({
       name: 'AutoCompleteInput', 
-      filePath: resolver.resolve('runtime/components/AutoCompleteInput.vue')
+      filePath: resolve('runtime/components/AutoCompleteInput.vue')
     })
 
     addComponent({
       name: 'TextInput', 
-      filePath: resolver.resolve('runtime/components/TextInput.vue')
+      filePath: resolve('runtime/components/TextInput.vue')
     })
 
 
     // Alert Components 
     addComponent({
       name: 'AlertWrapper', 
-      filePath: resolver.resolve('runtime/components/Alerts/AlertWrapper.vue')
+      filePath: resolve('runtime/components/Alerts/AlertWrapper.vue')
     })
 
     addComponent({
       name: 'ErrorAlert', 
-      filePath: resolver.resolve('runtime/components/Alerts/ErrorAlert.vue')
+      filePath: resolve('runtime/components/Alerts/ErrorAlert.vue')
     })
 
     addComponent({
       name: 'SuccessAlert', 
-      filePath: resolver.resolve('runtime/components/Alerts/SuccessAlert.vue')
+      filePath: resolve('runtime/components/Alerts/SuccessAlert.vue')
     })
 
     addComponent({
       name: 'WarningAlert', 
-      filePath: resolver.resolve('runtime/components/Alerts/WarningAlert.vue')
+      filePath: resolve('runtime/components/Alerts/WarningAlert.vue')
     })
 
     await installModule('@formkit/nuxt', {
-      // module configuration
       exposeConfig: true,
       config: {
         classes: generateClasses({
@@ -65,7 +64,20 @@ export default defineNuxtModule<ModuleOptions>({
       }
     })
 
-    // const { resolve } = createResolver(import.meta.url);
+    await installModule('@nuxtjs/tailwindcss', {
+      // module configuration
+      exposeConfig: true,
+      config: {
+        content: {
+          files: [
+            resolve('./runtime/components/**/*.{vue,mjs,ts}'),
+            resolve('./runtime/*.{mjs,js,ts}'),
+          ]
+        }
+      }
+    })
+
+    // const { resolve } = createimport.meta.url);
     // const runtimeDir = fileURLToPath(new URL('./runtime', import.meta.url));
 
     // nuxt.hook('nitro:config', (nitroConfig) => {

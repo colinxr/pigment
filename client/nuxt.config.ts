@@ -5,9 +5,11 @@ export default defineNuxtConfig({
 	alias: {
 		'@': path.resolve(__dirname),
 	},
+	
 	build: {
 		transpile: ['primevue'],
 	},
+
 	css: [
 		'@/assets/styles/main.scss',
 		'@/assets/styles/primevue/theme/theme.css',

@@ -10,7 +10,7 @@ const {
 	handleResponseErrors,
 } = useFormErrors()
 
-const formSchema = useSubmissionSchema()
+const { schema } = useSubmissionSchema()
 
 const initialValues = {
 	first_name: null,
@@ -61,7 +61,7 @@ const handleSubmit = async () => {
 
 		<DynamicForm
 			formId="submission-create"
-			:schema="formSchema"
+			:schema="schema"
 			:data="initialValues"
 			:errorState="[]"
 			@form-submitted="handleSubmit"
