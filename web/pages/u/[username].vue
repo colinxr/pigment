@@ -2,13 +2,13 @@
 const route = useRoute()
 const { $apiService } = useNuxtApp()
 
-// const {
-// 	errorState,
-// 	showFormAlert,
-// 	formStatus,
-// 	alertMessage,
-// 	handleResponseErrors,
-// } = useFormErrors()
+const {
+	errorState,
+	showFormAlert,
+	formStatus,
+	alertMessage,
+	handleResponseErrors,
+} = useFormErrors()
 
 const formSchema = useSubmissionSchema()
 
@@ -19,10 +19,6 @@ const initialValues = {
 	phone: null,
 	idea: null,
 }
-
-onBeforeMount(async () => {
-	// const res = await $apiService.users.exists(route.params.username)
-})
 
 definePageMeta({
 	middleware: 'user-exists',
@@ -36,9 +32,9 @@ const handleSubmit = async () => {
 
 		if (res.status !== 200) handleResponseErrors(res)
 
-		// showFormAlert.value = true
-		// formStatus.value = 'success'
-		// alertMessage.value = res.data.message || 'Request submitted'
+		showFormAlert.value = true
+		formStatus.value = 'success'
+		alertMessage.value = res.data.message || 'Request submitted'
 
 		return
 	} catch (error) {
@@ -46,9 +42,9 @@ const handleSubmit = async () => {
 
 		if (error.response?.status === 403) return
 
-		// alertMessage.value = 'Something went wrong'
-		// formStatus.value = 'error'
-		// showFormAlert.value = true
+		alertMessage.value = 'Something went wrong'
+		formStatus.value = 'error'
+		showFormAlert.value = true
 	}
 }
 </script>

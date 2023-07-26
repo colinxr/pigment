@@ -1,3 +1,9 @@
 {
-  "extends": "./playground/.nuxt/tsconfig.json"
+  "extends": "./playground/.nuxt/tsconfig.json",
+  "compilerOptions": {
+    "target": "esnext",
+    "module": "esnext",
+    "moduleResolution": "nodenext",
+    "outDir": "./dist" // Specify the output directory
+  }
 }

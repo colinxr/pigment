@@ -618,7 +618,7 @@
     "@formkit/core" "0.17.5"
     "@formkit/utils" "0.17.5"
 
-"@formkit/nuxt@^0.17.2":
+"@formkit/nuxt@^0.17.2", "@formkit/nuxt@^0.17.5":
   version "0.17.5"
   resolved "https://registry.yarnpkg.com/@formkit/nuxt/-/nuxt-0.17.5.tgz#6d5054d17c36db25ad318ec4f32220d6f685e6d3"
   integrity sha512-pYTHxVw+IE6r3pQEMMeva1SW9xynzN1ahvJMbPfKHCRpTJy+lxdQyA2a6vdB5TTsHWhn7i74X/o4MmF03diToQ==
@@ -654,7 +654,7 @@
     "@formkit/utils" "0.17.5"
     "@formkit/validation" "0.17.5"
 
-"@formkit/themes@0.17.5", "@formkit/themes@^0.17.2":
+"@formkit/themes@0.17.5", "@formkit/themes@^0.17.2", "@formkit/themes@^0.17.5":
   version "0.17.5"
   resolved "https://registry.yarnpkg.com/@formkit/themes/-/themes-0.17.5.tgz#c56c44fa9b0c09c6fe2dea00286178dd49703b79"
   integrity sha512-LzAoV2JAbP7HzgdDAqO2/FgNYFqcDmceaBkzME+MIWDcDSCwHHS81bVHejIkuWm3p5oGiinnqL1UnoCddzIrjg==
@@ -675,7 +675,7 @@
     "@formkit/observer" "0.17.5"
     "@formkit/utils" "0.17.5"
 
-"@formkit/vue@0.17.5", "@formkit/vue@^0.17.2":
+"@formkit/vue@0.17.5", "@formkit/vue@^0.17.2", "@formkit/vue@^0.17.5":
   version "0.17.5"
   resolved "https://registry.yarnpkg.com/@formkit/vue/-/vue-0.17.5.tgz#cc0d92720640767bd3071c603eb7b507280700f9"
   integrity sha512-jqGSoScC5rc/zcOj2VEjqvKq8z1X1vJmqm78efLlCydwRZP/e82EZGYebQAiOFIto+KIrIvd+iOFM+greuQPGg==
@@ -2140,7 +2140,7 @@
   resolved "https://registry.yarnpkg.com/@vue/shared/-/shared-3.3.4.tgz#06e83c5027f464eef861c329be81454bc8b70780"
   integrity sha512-7OjdcV8vQ74eiz1TZLzZP4JwqM5fA94K6yntPS5Z25r9HDuGNzaGdgvwKYq6S+MxwF0TFRwe50fIR/MYnakdkQ==
 
-"@vueuse/core@^10.2.0":
+"@vueuse/core@^10.2.0", "@vueuse/core@^10.2.1":
   version "10.2.1"
   resolved "https://registry.yarnpkg.com/@vueuse/core/-/core-10.2.1.tgz#a62b54cdaf1496138a9f8a7df7f9d644892b421f"
   integrity sha512-c441bfMbkAwTNwVRHQ0zdYZNETK//P84rC01aP2Uy/aRFCiie9NE/k9KdIXbno0eDYP5NPUuWv0aA/I4Unr/7w==

@@ -7,3 +7,5 @@ vendor
 dist
 tsconfig.tsbuildinfo
 api.pigment
+playground
+_playground

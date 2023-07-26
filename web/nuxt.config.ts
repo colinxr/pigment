@@ -8,7 +8,7 @@ export default defineNuxtConfig({
 
   devtools: { enabled: true },
 
-  modules: ['@pigment/api-service'],
+  modules: ['@pigment/api-service', '@pigment/form-helpers'],
 
 	apiService: {
 		apiUrl: process.env.NUXT_ENV_API_URL!
