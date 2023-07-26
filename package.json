@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev:client": "cd client && yarn dev",
     "dev:api-service": "cd packages/ApiService && yarn dev",
-    "build:api-service": "cd packages/ApiService && yarn build",
+    "build:api-service": "cd packages/ApiService && yarn prepack",
     "dev": "concurrently \"yarn dev:client\" "
   },
   "repository": {

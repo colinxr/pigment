@@ -1,6 +1,18 @@
+import path from 'path'
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  alias: {
+		'@': process.cwd(),
+	},
+
   devtools: { enabled: true },
+
+  modules: ['@pigment/api-service'],
+
+	apiService: {
+		apiUrl: process.env.NUXT_ENV_API_URL!
+	},
 })
 
 

@@ -19,7 +19,7 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => [env('WEB_URL')],
+    'allowed_origins' =>  explode(',', env('CORS_ORIGINS')), //['https://pigment.biz:3000', 'https://pigment.biz:3001'], //[env('CORS_ORIGINS')],
 
     'allowed_origins_patterns' => [],
 

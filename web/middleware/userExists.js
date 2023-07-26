@@ -1,13 +1,13 @@
-const { $apiService } = useNuxtApp()
-const route = useRoute()
-
 export default defineNuxtRouteMiddleware(async to => {
-	const userExists = await $apiService.users.exists(route.params.username)
+	const route = useRoute()
+	const { $apiService } = useNuxtApp()
 
-	if (!userExists) {
+	const res = await $apiService.users.exists(route.params.username)
+
+	if (!res) {
 		setPageLayout('default')
 		return navigateTo('/')
 	}
 
-	return to
+	return
 })
