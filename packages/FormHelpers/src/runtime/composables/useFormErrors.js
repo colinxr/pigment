@@ -1,29 +1,25 @@
-import { reactive } from 'vue'
+import { reactive, ref } from 'vue'
 
 export default () => {
-	const errorState = reactive({
-		isSet: false,
-		message: '',
-		validationErrs: null,
-		errors: [],
-	})
-
 	const showFormAlert = ref(false)
 	const formStatus = ref('')
 	const alertMessage = ref('')
+	const validationErrs = ref({})
 
 	const handleResponseErrors = ({ status, data }) => {
-		const newErrorState = {
-			isSet: true,
-			message: data.message,
-			validationErrs: null,
-		}
+		showFormAlert.value = true
+		formStatus.value = 'error'
+		alertMessage.value = data.message
 
 		if (status === 422) {
-			newErrorState.validationErrs = data.errors
+			validationErrs.value = buildFormErrorBag(data.errors)
+			return
 		}
 
-		Object.assign(errorState, newErrorState)
+		if (status === 500) {
+			// flash error
+			alertMessage.value = 'Something went wrong'
+		}
 	}
 
 	const buildFormErrorBag = validationErrs => {
@@ -37,7 +33,7 @@ export default () => {
 	}
 
 	return {
-		errorState,
+		validationErrs,
 		showFormAlert,
 		formStatus,
 		alertMessage,

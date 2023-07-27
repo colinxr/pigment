@@ -101,6 +101,7 @@ jobs:
             export RELEASE_DIR=$RELEASE_DIR
 
             cd $APP_DIR/releases
+            php artisan backup:clean
             php artisan backup:run
             
             cd $RELEASE_DIR 

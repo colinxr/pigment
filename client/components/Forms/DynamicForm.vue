@@ -1,10 +1,6 @@
 <script setup>
 import { ref } from 'vue'
-import { FormKitSchema, setErrors } from '@formkit/vue'
-
-import useFormErrors from '@/composables/useFormErrors'
-
-const { buildFormErrorBag } = useFormErrors()
+import { FormKit, FormKitSchema, setErrors } from '@formkit/vue'
 
 const emit = defineEmits(['form-submitted'])
 
@@ -25,7 +21,7 @@ const props = defineProps({
 		type: String,
 		default: '',
 	},
-	errorState: {
+	validationErrs: {
 		type: Object,
 		default: () => {},
 	},
@@ -75,21 +71,15 @@ watch(
 )
 
 watch(
-	() => props.errorState,
-	newErrorState => {
-		const errorBag = buildFormErrorBag(newErrorState.validationErrs)
-
-		setErrors(props.formId, [props.errors.message], errorBag)
+	() => props.validationErrs,
+	newErrs => {
+		setErrors(props.formId, [props.errors.message], newErrs)
 	}
 )
 
 watch(
 	() => props.modelToUpdate,
-	({ modelKey, value }) => {
-		console.log('got here')
-		form.value[modelKey] = value
-		console.log(form.value)
-	}
+	({ modelKey, value }) => (form.value[modelKey] = value)
 )
 
 const submitHandler = values => emit('form-submitted', values)

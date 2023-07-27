@@ -36,21 +36,6 @@ export default defineNuxtModule<ModuleOptions>({
       filePath: resolve('runtime/components/Alerts/AlertWrapper.vue')
     })
 
-    addComponent({
-      name: 'ErrorAlert', 
-      filePath: resolve('runtime/components/Alerts/ErrorAlert.vue')
-    })
-
-    addComponent({
-      name: 'SuccessAlert', 
-      filePath: resolve('runtime/components/Alerts/SuccessAlert.vue')
-    })
-
-    addComponent({
-      name: 'WarningAlert', 
-      filePath: resolve('runtime/components/Alerts/WarningAlert.vue')
-    })
-
     await installModule('@formkit/nuxt', {
       exposeConfig: true,
       config: {

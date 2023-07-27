@@ -1,6 +1,6 @@
 <script setup>
-import { ref } from 'vue'
-import { FormKitSchema, setErrors } from '@formkit/vue'
+import { ref, watch } from 'vue'
+import { FormKit, FormKitSchema, setErrors } from '@formkit/vue'
 
 const { buildFormErrorBag } = useFormErrors()
 
@@ -98,7 +98,7 @@ const submitHandler = values => emit('form-submitted', values)
 		:id="formId"
 		v-model="form"
 		type="form"
-		:disabled="props.disabled"
+		:disabled="disabled"
 		:submitAttrs="{
 			inputClass:
 				'p-button p-component form__submit flex align-center justify-center',

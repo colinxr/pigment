@@ -7,7 +7,8 @@
     "dev": "NUXT_ENV_API_URL=https://api.pigment.biz/api NODE_TLS_REJECT_UNAUTHORIZED=0 npx nuxi dev --host pigment.biz --https --port 3001 --ssl-cert pigment.biz.pem  --ssl-key pigment.biz-key.pem",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "test": "jest"
   },
   "devDependencies": {
     "@nuxt/devtools": "latest",
@@ -20,19 +21,24 @@
     "@types/js-cookie": "^3.0.3",
     "@types/node": "^18.17.0",
     "@vitejs/plugin-basic-ssl": "^1.0.1",
+    "@vue/test-utils": "^2.4.1",
     "autoprefixer": "^10.4.14",
     "axios": "^1.4.0",
+    "babel-jest": "^29.6.2",
     "eslint-config-prettier": "^8.8.0",
     "eslint-import-resolver-alias": "^1.1.2",
     "eslint-plugin-prettier": "^4.2.1",
     "eslint-plugin-vue": "^9.12.0",
+    "jest": "^29.6.2",
     "js-cookie": "^3.0.5",
     "js-cookies": "^1.0.4",
     "nuxt": "^3.4.3",
     "tailwindcss": "^3.3.2",
+    "vite": "*",
     "vue-eslint-parser": "^9.3.0"
   },
   "dependencies": {
+    "@babel/core": "^7.8.0",
     "@formkit/core": "^0.17.3",
     "@formkit/nuxt": "^0.17.2",
     "@formkit/pro": "^0.112.5",

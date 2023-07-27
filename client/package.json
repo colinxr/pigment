@@ -17,7 +17,6 @@
     "@pinia-plugin-persistedstate/nuxt": "^1.1.1",
     "@types/js-cookie": "^3.0.3",
     "@types/node": "^18",
-    "@vitejs/plugin-basic-ssl": "^1.0.1",
     "autoprefixer": "^10.4.14",
     "axios": "^1.4.0",
     "eslint-config-prettier": "^8.8.0",
@@ -29,8 +28,8 @@
     "nuxt": "^3.4.3",
     "postcss": "^8.4.23",
     "tailwindcss": "^3.3.2",
-    "vite-plugin-mkcert": "^1.15.0",
-    "vue-eslint-parser": "^9.3.0"
+    "vue-eslint-parser": "^9.3.0",
+    "webpack": "*"
   },
   "dependencies": {
     "@formkit/core": "^0.17.3",
