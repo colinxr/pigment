@@ -27,10 +27,10 @@ definePageMeta({
 
 const handleSubmit = async formData => {
 	try {
-		const { username } = route.params
-		const res = await $apiService.submissions.store(username, formData)
+		// const { username } = route.params
+		// const res = await $apiService.submissions.store(username, formData)
 
-		if (res.status !== 201) handleResponseErrors(res)
+		// if (res.status !== 201) handleResponseErrors(res)
 
 		showFormAlert.value = true
 		formStatus.value = 'success'
@@ -51,7 +51,7 @@ const handleSubmit = async formData => {
 
 <template>
 	<div class="">
-		<div class="px-5 md:w-[75%] md:px-0 lg:w-[50%] mx-auto mt-0">
+		<div class="px-5 md:w-[50%] md:px-0 lg:w-2/5 mx-auto mt-0">
 			<header class="pt-10 mb-10">
 				<div class="align-center">
 					<h1 class="text-3xl font-bold">Appointment Submission Form</h1>
@@ -59,7 +59,7 @@ const handleSubmit = async formData => {
 
 				<AlertWrapper
 					v-if="showFormAlert"
-					:status="true"
+					:status="formStatus"
 					:msg="'alertMessage'"
 				/>
 			</header>

@@ -78,3 +78,31 @@ jobs:
             ln -s $RELEASE_DIR /var/www/pigment/client/current
             cd /var/www/pigment/client/current
             pm2 reload ecosystem.config.js
+
+      - name: Remove Old Releases 
+        uses: appleboy/ssh-action@v0.1.10
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          envs: ROOT_DIR,RELEASE_DIR,APP_DIR
+          script: |
+            export APP_DIR=$APP_DIR
+            
+            cd $APP_DIR/releases 
+            ls -t | tail -n +6 | xargs rm -rf
+       
+      - name: Send Success Notification
+        uses: rjstone/discord-webhook-notify@v1
+        with: 
+          severity: info
+          details: 'Deploy of https://github.com/${{ github.repository }} succeeded'
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}
+      
+      - name: Send Failure Notification
+        uses: rjstone/discord-webhook-notify@v1
+        if: failure()
+        with:
+          severity: error
+          details: 'Deploy Failed. https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}'
+          webhookUrl: ${{ secrets.DISCORD_WEBHOOK }}

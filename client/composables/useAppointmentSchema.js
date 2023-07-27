@@ -3,7 +3,7 @@ import { createInput } from '@formkit/vue'
 import { convertToIsoString } from './useDateService'
 import AppointmentDurationInput from '@/components/Forms/AppointmentDurationInput.vue'
 
-import AutocompleteInput from '@/components/Forms/AutocompleteInput.vue'
+import AutocompleteInput from '#imports'
 
 const startDateTime = ref('')
 
