@@ -113,6 +113,34 @@ const submitHandler = values => emit('form-submitted', values)
 
 <style>
 .form__submit {
-	background-color: inherit !important;
+	background-color: #6a64f1;
+	text-align: center;
+	justify-content: center;
+}
+
+.formkit-messages {
+	color: red;
+	font-weight: 300;
+	margin-top: 5px;
+}
+
+.p-button {
+	color: #ffffff;
+	background: #4f46e5;
+	border: 1px solid #4f46e5;
+	padding: 0.75rem 1rem;
+	font-size: 1rem;
+	transition: none;
+	border-radius: 0.375rem;
+}
+.p-button:enabled:hover {
+	background: #4338ca;
+	color: #ffffff;
+	border-color: #4338ca;
+}
+.p-button:enabled:active {
+	background: #4338ca;
+	color: #ffffff;
+	border-color: #4338ca;
 }
 </style>
