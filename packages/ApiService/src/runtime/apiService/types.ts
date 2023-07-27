@@ -86,6 +86,14 @@ export interface ClientFormData {
 	email: string
 }
 
+export interface SubmissionFormData {
+	first_name: string
+	last_name: string
+	email: string
+	phone: string, 
+	idea: string,
+}
+
 export interface ClientRepositoryI {
 	apiClient: AxiosInstance
 	index(): Promise<AxiosResponse>

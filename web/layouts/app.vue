@@ -1,5 +1,7 @@
 <template>
-	<div>
-		<slot />
-	</div>
+	<BackgroundGradient>
+		<div>
+			<slot />
+		</div>
+	</BackgroundGradient>
 </template>

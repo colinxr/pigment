@@ -21,9 +21,19 @@ class UserSubmissionsController extends Controller
         return response()->json(['submissions' => $subs], 200);
     }
 
-    public function store(SubmissionRequest $request, User $user)
+    public function store(SubmissionRequest $request, String $username)
     {
-        $client = $user->clients()->firstOrCreate(['email' => $request->email], $request->except('email'));
+        $user = User::where('username', $username)->first();
+
+        if (!$user) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'User not found.',
+                'data' => [],
+            ], 404);
+        }
+
+        $client = $user->clients()->firstOrCreate(['email' => $request->email], $request->except('idea'));
 
         $submission = $user->submissions()->create([
             'client_id' => $client->id,

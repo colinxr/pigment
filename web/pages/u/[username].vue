@@ -25,12 +25,12 @@ definePageMeta({
 	layout: 'app',
 })
 
-const handleSubmit = async () => {
+const handleSubmit = async formData => {
 	try {
 		const { username } = route.params
 		const res = await $apiService.submissions.store(username, formData)
 
-		if (res.status !== 200) handleResponseErrors(res)
+		if (res.status !== 201) handleResponseErrors(res)
 
 		showFormAlert.value = true
 		formStatus.value = 'success'
@@ -50,21 +50,27 @@ const handleSubmit = async () => {
 </script>
 
 <template>
-	<div>
-		<header>
-			<div class="flex justify-between mb-2">
-				<h1>Appointment Submission Form</h1>
-			</div>
+	<div class="">
+		<div class="px-5 md:w-[75%] md:px-0 lg:w-[50%] mx-auto mt-0">
+			<header class="pt-10 mb-10">
+				<div class="align-center">
+					<h1 class="text-3xl font-bold">Appointment Submission Form</h1>
+				</div>
 
-			<AlertWrapper v-if="showFormAlert" :status="true" :msg="'alertMessage'" />
-		</header>
+				<AlertWrapper
+					v-if="showFormAlert"
+					:status="true"
+					:msg="'alertMessage'"
+				/>
+			</header>
 
-		<DynamicForm
-			formId="submission-create"
-			:schema="schema"
-			:data="initialValues"
-			:errorState="[]"
-			@form-submitted="handleSubmit"
-		/>
+			<DynamicForm
+				formId="submission-create"
+				:schema="schema"
+				:data="initialValues"
+				:errorState="[]"
+				@form-submitted="handleSubmit"
+			/>
+		</div>
 	</div>
 </template>
