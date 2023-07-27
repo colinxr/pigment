@@ -141,6 +141,7 @@ class ArtistSubmissionsTest extends TestCase
         $response->assertJsonFragment([
             'message' => 'Validation errors occurred',
             'errors' => [
+                'idea' => ['The idea field is required.'],
                 'last_name' => ["The last name field is required."]
             ]
         ]);
