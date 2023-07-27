@@ -23,9 +23,11 @@ class SubmissionRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
+            'email' => 'required|email',
+            'idea' => 'required',
+            'phone' => 'sometimes',
             'attachments.*' => [
                 'nullable',
                 File::image(),

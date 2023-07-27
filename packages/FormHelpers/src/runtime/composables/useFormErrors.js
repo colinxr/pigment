@@ -22,11 +22,12 @@ export default () => {
 		}
 	}
 
-	const buildFormErrorBag = validationErrs => {
+	const buildFormErrorBag = errors => {
+		console.log(errors)
 		const errorBag = {}
 
-		Object.keys(validationErrs).forEach(field => {
-			errorBag[field] = validationErrs[field]
+		Object.keys(errors).forEach(field => {
+			errorBag[field] = errors[field]
 		})
 
 		return errorBag

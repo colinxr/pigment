@@ -38,9 +38,19 @@ export default (error: AxiosError) => {
 			break
 			// Add more cases for other error status codes as needed
 		}
+
+		case 422: {
+			// Handle Not Found errors
+			console.log('Validation Errors:', error.response.data)
+
+			return error.response.data
+			break
+			// Add more cases for other error status codes as needed
+		}
 		default: {
 			// Handle other error status codes
 			console.log('Server Error:', error.response.data)
+
 			break
 		}
 		}

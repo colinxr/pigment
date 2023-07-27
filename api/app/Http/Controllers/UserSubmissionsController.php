@@ -30,7 +30,7 @@ class UserSubmissionsController extends Controller
                 'status' => 'error',
                 'message' => 'User not found.',
                 'data' => [],
-            ], 404);
+            ], 401);
         }
 
         $client = $user->clients()->firstOrCreate(['email' => $request->email], $request->except('idea'));

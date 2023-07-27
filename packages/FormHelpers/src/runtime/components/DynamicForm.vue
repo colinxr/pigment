@@ -23,7 +23,7 @@ const props = defineProps({
 		type: String,
 		default: '',
 	},
-	errorState: {
+	validationErrs: {
 		type: Object,
 		default: () => {},
 	},
@@ -73,11 +73,12 @@ watch(
 )
 
 watch(
-	() => props.errorState,
-	newErrorState => {
-		const errorBag = buildFormErrorBag(newErrorState.validationErrs)
+	() => props.validationErrs,
+	newErrors => {
+		const errorBag = buildFormErrorBag(newErrors)
 
-		setErrors(props.formId, [props.errors.message], errorBag)
+		console.log(errorBag)
+		setErrors(props.formId, errorBag)
 	}
 )
 

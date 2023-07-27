@@ -3,7 +3,7 @@ const route = useRoute()
 const { $apiService } = useNuxtApp()
 
 const {
-	errorState,
+	validationErrs,
 	showFormAlert,
 	formStatus,
 	alertMessage,
@@ -27,10 +27,13 @@ definePageMeta({
 
 const handleSubmit = async formData => {
 	try {
-		// const { username } = route.params
-		// const res = await $apiService.submissions.store(username, formData)
+		const { username } = route.params
+		const res = await $apiService.submissions.store(username, formData)
 
-		// if (res.status !== 201) handleResponseErrors(res)
+		if (res.status !== 201) {
+			handleResponseErrors(res)
+			return
+		}
 
 		showFormAlert.value = true
 		formStatus.value = 'success'
@@ -38,13 +41,9 @@ const handleSubmit = async formData => {
 
 		return
 	} catch (error) {
-		console.log(error)
+		const { response } = error.message
 
-		if (error.response?.status === 403) return
-
-		alertMessage.value = 'Something went wrong'
-		formStatus.value = 'error'
-		showFormAlert.value = true
+		return handleResponseErrors(response)
 	}
 }
 </script>
@@ -53,14 +52,14 @@ const handleSubmit = async formData => {
 	<div class="">
 		<div class="px-5 md:w-[50%] md:px-0 lg:w-2/5 mx-auto mt-0">
 			<header class="pt-10 mb-10">
-				<div class="align-center">
+				<div class="align-center mb-5">
 					<h1 class="text-3xl font-bold">Appointment Submission Form</h1>
 				</div>
 
 				<AlertWrapper
 					v-if="showFormAlert"
 					:status="formStatus"
-					:msg="'alertMessage'"
+					:msg="alertMessage"
 				/>
 			</header>
 
@@ -68,7 +67,7 @@ const handleSubmit = async formData => {
 				formId="submission-create"
 				:schema="schema"
 				:data="initialValues"
-				:errorState="[]"
+				:validationErrs="validationErrs"
 				@form-submitted="handleSubmit"
 			/>
 		</div>
