@@ -5,10 +5,15 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev:client": "cd client && yarn dev",
-    "dev:api-service": "cd packages/ApiService && yarn dev",
-    "build:api-service": "cd packages/ApiService && yarn prepack",
-    "dev": "concurrently \"yarn dev:client\" "
+    "dev": "concurrently \"yarn dev:client\" \"yarn dev:web\" ",
+    "client:dev": "yarn workspace client dev",
+    "client:build": "yarn workspace client build",
+    "api-service:dev": "yarn workspace packages/ApiService dev",
+    "api-service:build": "yarn workspace packages/ApiService prepack",
+    "form-helpers:dev": "yarn workspace packages/FormHelpers dev",
+    "form-helpers:build": "yarn workspace packages/FormHelpers prepack",
+    "web:dev": "yarn workspace web dev",
+    "web:build": "yarn workspace web build"
   },
   "repository": {
     "type": "git",
@@ -21,7 +26,7 @@
   },
   "private": true,
   "workspaces": [
-    "packages/*",
+    "packages/**/*",
     "client",
     "web",
     "api"

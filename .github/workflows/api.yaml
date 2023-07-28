@@ -100,7 +100,7 @@ jobs:
             export APP_DIR=$APP_DIR
             export RELEASE_DIR=$RELEASE_DIR
 
-            cd $APP_DIR/releases
+            cd $APP_DIR/current
             php artisan backup:clean
             php artisan backup:run
             

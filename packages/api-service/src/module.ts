@@ -22,7 +22,7 @@ declare module '@nuxt/schema' {
 
 export default defineNuxtModule<ApiServiceOptions>({
   meta: {
-    name: '@pigment/api-service',
+    name: 'api-service',
     configKey: 'apiService'
   },
 

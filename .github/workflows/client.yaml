@@ -9,7 +9,7 @@ on:
       - ".github/workflows/client.yaml"
 
 jobs:
-  build:
+  buildPackages: 
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -17,16 +17,34 @@ jobs:
         with:
           fetch-depth: 0
           ref: main
+      
+      - name: Build ApiService
+        working-directory: ./packages/ApiService
+        run: | 
+          yarn install --frozen-lockfile
+          yarn prepack
+      
+      - name: Build App
+        working-directory: ./packages/FromHelpers
+        run: | 
+          yarn install --frozen-lockfile
+          yarn prepack
 
+  build:
+    runs-on: ubuntu-latest
+    steps:
       - name: Install Dependencies
-        working-directory: ./client
-        run: yarn install --frozen-lockfile
+        run: yarn workspaces foreach --exclude api --exclude web run install --frozen-lockfile
 
       - name: Build App
-        working-directory: ./client
         run: | 
-          NUXT_PUBLIC_API_URL=${{ secrets.NUXT_PUBLIC_API_URL }} yarn run build
-          tar -czf .output.tar.gz .output ecosystem.config.js
+          yarn workspace foreach -pt packages/* run prepack 
+          NUXT_PUBLIC_API_URL=${{ secrets.NUXT_PUBLIC_API_URL }} yarn workspace client build
+          
+
+      - name: Compress Nuxt App 
+        working-directory: ./client
+        run: tar -czf .output.tar.gz .output ecosystem.config.js
 
       - name: Archive artifact
         uses: actions/upload-artifact@v3

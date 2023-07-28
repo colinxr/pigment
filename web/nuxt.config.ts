@@ -17,7 +17,7 @@ export default defineNuxtConfig({
 
   devtools: { enabled: true },
 
-  modules: ['@nuxtjs/tailwindcss', '@pigment/api-service', '@pigment/form-helpers'],
+  modules: ['@nuxtjs/tailwindcss', 'api-service', 'form-helpers'],
 
 	postcss: {
 		plugins: {

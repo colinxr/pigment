@@ -23,7 +23,7 @@ export default defineNuxtConfig({
     }
   },
 	
-	modules: ['@pinia/nuxt', '@formkit/nuxt', '@pinia-plugin-persistedstate/nuxt', '@pigment/api-service'],
+	modules: ['@pinia/nuxt', '@formkit/nuxt', '@pinia-plugin-persistedstate/nuxt', 'api-service', 'form-helpers'],
 	
 	piniaPersistedstate: {
     cookieOptions: {
