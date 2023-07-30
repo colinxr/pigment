@@ -15,14 +15,16 @@ class CalendarScheduleController extends Controller
             return response()->json([
                 'error' => 'Missing Duration query parameter.',
                 'status' => 'error'
-            ], 501);
+            ], 422);
         }
 
-        $calService = new CalendarAppointmentService(Auth::user());
-
-        return response()->json([
-            'data' => $calService->getNextAvailableSlots($request->query('duration')),
-        ], 200);
+        try {
+            $calService = new CalendarAppointmentService(Auth::user());
+            $slots = $calService->getNextAvailableSlots($request->query('duration'));
+            return response()->json(['data' => $slots,], 200);
+        } catch (\Throwable $th) {
+            return response()->json(['error' => $th->getMessage,]);
+        }
     }
 
 

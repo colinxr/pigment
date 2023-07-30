@@ -9,7 +9,7 @@ use App\Models\Appointment;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class AppontmentScheduleTest extends TestCase
+class AppointmentScheduleTest extends TestCase
 {
 
     use RefreshDatabase;
@@ -104,13 +104,13 @@ class AppontmentScheduleTest extends TestCase
                 break;
             }
         }
-
         // should have an appointment on friday. on next friday date 
         $this->assertTrue($hasSlotOnCorrectDate);
     }
 
     public function test_can_find_slot_when_a_day_has_one_thing_scheduled_recommend_start_of_day(): void
     {
+        $this->withoutExceptionHandling();
         $user = User::factory()->withCalendar()->create();
         $schedule = $this->schedule->toArray();
 
@@ -215,6 +215,7 @@ class AppontmentScheduleTest extends TestCase
 
     public function test_can_find_slot_when_there_is_gap_between_appointments(): void
     {
+        $this->withoutExceptionHandling();
         $user = User::factory()->withCalendar()->create();
         $schedule = $this->schedule->toArray();
 

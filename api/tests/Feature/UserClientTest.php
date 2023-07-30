@@ -8,7 +8,7 @@ use App\Models\Client;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ArtistClientTest extends TestCase
+class UserClientTest extends TestCase
 {
 
     use RefreshDatabase;

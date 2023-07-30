@@ -9,7 +9,7 @@ on:
       - ".github/workflows/client.yaml"
 
 jobs:
-  buildPackages: 
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Code
@@ -17,24 +17,9 @@ jobs:
         with:
           fetch-depth: 0
           ref: main
-      
-      - name: Build ApiService
-        working-directory: ./packages/ApiService
-        run: | 
-          yarn install --frozen-lockfile
-          yarn prepack
-      
-      - name: Build App
-        working-directory: ./packages/FromHelpers
-        run: | 
-          yarn install --frozen-lockfile
-          yarn prepack
 
-  build:
-    runs-on: ubuntu-latest
-    steps:
       - name: Install Dependencies
-        run: yarn workspaces foreach --exclude api --exclude web run install --frozen-lockfile
+        run: yarn workspace foreach --exclude api --exclude web  run install --frozen-lockfile
 
       - name: Build App
         run: | 

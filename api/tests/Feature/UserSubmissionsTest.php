@@ -11,7 +11,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-class ArtistSubmissionsTest extends TestCase
+class UserSubmissionsTest extends TestCase
 {
     use RefreshDatabase;
 
