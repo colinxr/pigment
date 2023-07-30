@@ -19,11 +19,14 @@ jobs:
           ref: main
 
       - name: Install Dependencies
-        run: yarn workspace foreach --exclude api --exclude web  run install --frozen-lockfile
+        run: | 
+          yarn set version berry
+          yarn plugin import workspace-tools
+          yarn workspaces foreach --exclude api --exclude web run install --frozen-lockfile
 
       - name: Build App
         run: | 
-          yarn workspace foreach -pt packages/* run prepack 
+          yarn workspaces foreach -pt packages/* run prepack 
           NUXT_PUBLIC_API_URL=${{ secrets.NUXT_PUBLIC_API_URL }} yarn workspace client build
           
 

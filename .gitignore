@@ -9,3 +9,12 @@ tsconfig.tsbuildinfo
 api.pigment
 playground
 _playground
+.pnp.*
+.yarn/*
+.yarn/cache
+
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
