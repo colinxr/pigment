@@ -20,6 +20,7 @@ jobs:
 
       - name: Install Dependencies
         run: | 
+          node -v
           yarn set version berry
           yarn plugin import workspace-tools
           yarn workspaces foreach --exclude api --exclude web run install --frozen-lockfile
