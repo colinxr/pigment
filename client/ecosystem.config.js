@@ -7,7 +7,7 @@ module.exports = {
 			instances: 'max',
 			script: '.output/server/index.mjs',
 			env: {
-				NUXT_ENV_API_URL: process.env.NUXT_PUBLIC_API_URL,
+				NUXT_ENV_API_URL: 'https://api.usepigment.com/api',
 			},
 		},
 	],

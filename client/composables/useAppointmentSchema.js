@@ -3,12 +3,12 @@ import { createInput } from '@formkit/vue'
 import { convertToIsoString } from './useDateService'
 import AppointmentDurationInput from '@/components/Forms/AppointmentDurationInput.vue'
 
-import AutocompleteInput from '#imports'
+import AutoCompleteInput from '#imports'
 
 const startDateTime = ref('')
 
 const DurationInput = createInput(AppointmentDurationInput)
-const AutocompleteComponent = createInput(AutocompleteInput, {
+const AutocompleteComponent = createInput(AutoCompleteInput, {
 	props: ['list', 'keysToSearch', 'valueToShow'],
 })
 
