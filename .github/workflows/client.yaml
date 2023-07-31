@@ -28,7 +28,7 @@ jobs:
       - name: Build App
         run: | 
           npm ci -w client
-          NUXT_PUBLIC_API_URL=${{ secrets.NUXT_PUBLIC_API_URL }} yarn client:build
+          NUXT_PUBLIC_API_URL=${{ secrets.NUXT_PUBLIC_API_URL }} npm run build -w client
           
 
       - name: Compress Nuxt App 
