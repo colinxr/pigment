@@ -1,4 +1,4 @@
-import { defineNuxtPlugin, useRuntimeConfig } from '#imports'
+import { defineNuxtPlugin, useRuntimeConfig } from '../../_playground/.nuxt/imports'
 import ApiService from './apiService'
 
 export default defineNuxtPlugin((nuxtApp) => {
