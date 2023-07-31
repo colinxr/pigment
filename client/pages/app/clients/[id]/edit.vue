@@ -1,8 +1,8 @@
 <script setup>
 import useClientSchema from '@/composables/useClientSchema'
 
-import DynamicForm from '@/components/Forms/DynamicForm.vue'
-import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'
+import { DynamicForm } from '#components'
+import { AlertWrapper } from '#components'
 
 const { $apiService } = useNuxtApp()
 

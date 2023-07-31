@@ -1,10 +1,11 @@
 <script setup>
 import useAuthStore from '@/stores/auth'
-import TextInput from '@/components/Forms/TextInput.vue'
+import { TextInput } from '#components'
 
 const { $apiService } = useNuxtApp()
 const store = useAuthStore()
-const { showFormAlert, alertMessage, formStatus, handleResponseErrors } = useFormErrors()
+const { showFormAlert, alertMessage, formStatus, handleResponseErrors } =
+	useFormErrors()
 
 definePageMeta({
 	middleware: 'user-is-authenticated',

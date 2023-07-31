@@ -2,8 +2,8 @@
 import useAuthStore from '@/stores/auth'
 import useRegistrationSchema from '@/composables/useRegistrationSchema'
 
-import DynamicForm from '@/components/Forms/DynamicForm.vue'
-import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'
+import { DynamicForm } from '#components'
+import { AlertWrapper } from '#components'
 
 const { $apiService } = useNuxtApp()
 

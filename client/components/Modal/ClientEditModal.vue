@@ -1,9 +1,9 @@
 <script setup>
 import useModalStore from '@/stores/modal'
-import DynamicForm from '@/components/Forms/DynamicForm.vue'
-import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'
-
 import useSubmissionsStore from '@/stores/submissions'
+
+import { DynamicForm } from '#components'
+import { AlertWrapper } from '#components'
 
 const { $apiService } = useNuxtApp()
 

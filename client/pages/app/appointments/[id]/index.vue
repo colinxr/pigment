@@ -1,7 +1,7 @@
 <script setup>
 import useAppointmentSchema from '@/composables/useAppointmentSchema'
 
-import DynamicForm from '@/components/Forms/DynamicForm.vue'
+import { DynamicForm } from '#components'
 
 const { $apiService } = useNuxtApp()
 

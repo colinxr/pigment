@@ -1,6 +1,6 @@
 <script setup>
-import DynamicForm from '@/components/Forms/DynamicForm.vue'
-import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'
+import { DynamicForm } from '#components'
+import { AlertWrapper } from '#components'
 
 import {
 	getTimeZoneOffset,

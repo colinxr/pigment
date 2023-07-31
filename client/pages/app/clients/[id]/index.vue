@@ -1,6 +1,6 @@
 <script setup>
 import useClientSchema from '@/composables/useClientSchema'
-import DynamicForm from '@/components/Forms/DynamicForm.vue'
+import { DynamicForm } from '#components'
 
 const { $apiService } = useNuxtApp()
 

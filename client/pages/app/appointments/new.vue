@@ -2,8 +2,8 @@
 import { getTimeZoneOffset } from '@/composables/useDateService'
 import useAppointmentSchema from '@/composables/useAppointmentSchema'
 
-import DynamicForm from '@/components/Forms/DynamicForm.vue'
-import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'
+import { DynamicForm } from '#components'
+import { AlertWrapper } from '#components'
 
 const { $apiService } = useNuxtApp()
 
