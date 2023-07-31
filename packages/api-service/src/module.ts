@@ -31,14 +31,12 @@ export default defineNuxtModule<ApiServiceOptions>({
   },
 
   setup (options, nuxt) {
-    console.log(nuxt.options.apiService);
-    
-    nuxt.options.runtimeConfig.public.apiService = defu(nuxt.options.runtimeConfig.public.apiService, {
+    nuxt.options.runtimeConfig.public.apiService = defu({}, {
       apiUrl: options.apiUrl
     })
     
     const { resolve } = createResolver(import.meta.url)
-    // Do not add the extension since the `.ts` will be transpiled to `.mjs` after `npm run prepack`
+    
     addPlugin(resolve('./runtime/apiService.plugin'))
   }
 })
