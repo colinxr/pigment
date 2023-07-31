@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "npx nuxi build",
-    "dev": "NUXT_PUBLIC_API_URL=https://api.pigment.biz/api NUXT_NODE_TLS_REJECT_UNAUTHORIZED=0 npx nuxi dev --host app.pigment.biz --https --port 3000 --ssl-cert _wildcard.pigment.biz.pem --ssl-key _wildcard.pigment.biz-key.pem",
+    "dev": "NUXT_ENV_API_URL=https://api.pigment.biz/api NUXT_NODE_TLS_REJECT_UNAUTHORIZED=0 npx nuxi dev --host app.pigment.biz --https --port 3000 --ssl-cert _wildcard.pigment.biz.pem --ssl-key _wildcard.pigment.biz-key.pem",
     "generate": "npx nuxi generate",
     "preview": "npx nuxi preview",
     "postinstall": "npx nuxi prepare"

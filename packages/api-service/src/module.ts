@@ -27,7 +27,7 @@ export default defineNuxtModule<ApiServiceOptions>({
   },
 
   defaults: {
-    apiUrl: process.env.NUXT_PUBLIC_API_URL || ''
+    apiUrl: process.env.NUXT_ENV_API_URL || ''
   },
 
   setup (options, nuxt) {

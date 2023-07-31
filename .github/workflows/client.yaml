@@ -28,7 +28,7 @@ jobs:
       - name: Build App
         run: | 
           npm ci -w client
-          NUXT_PUBLIC_API_URL=${{ secrets.NUXT_PUBLIC_API_URL }} npm run build -w client
+          NUXT_ENV_API_URL=${{ secrets.NUXT_PUBLIC_API_URL }} npm run build -w client
           
 
       - name: Compress Nuxt App 
@@ -78,7 +78,6 @@ jobs:
           script: |
             export ROOT_DIR=$ROOT_DIR
             export RELEASE_DIR=$RELEASE_DIR
-            export NUXT_PUBLIC_API_URL=${{ secrets.NUXT_PUBLIC_API_URL }}
             
             tar -xzf $RELEASE_DIR/.output.tar.gz -C $RELEASE_DIR/
             rm -rf /var/www/pigment/client/current
