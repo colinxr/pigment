@@ -1,7 +1,6 @@
 <script setup>
 import useAuthStore from '@/stores/auth'
 import useModalStore from '@/stores/modal'
-import useFormErrors from '@/composables/useFormErrors'
 import { getTimeZoneOffset } from '@/composables/useDateService'
 import useAppointmentSchema from '@/composables/useAppointmentSchema'
 import useWatchForRefresh from '@/composables/useWatchForRefresh'

@@ -5,9 +5,6 @@
       "baseUrl": ".",
       "paths": {
         "@/*": ["./*"],
-        "#imports": [
-          ".nuxt/imports"
-        ],
       }
     }
 }

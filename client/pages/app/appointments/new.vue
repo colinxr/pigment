@@ -1,5 +1,4 @@
 <script setup>
-import useFormErrors from '@/composables/useFormErrors'
 import { getTimeZoneOffset } from '@/composables/useDateService'
 import useAppointmentSchema from '@/composables/useAppointmentSchema'
 

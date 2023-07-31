@@ -1,5 +1,4 @@
 <script setup>
-import useFormErrors from '@/composables/useFormErrors'
 import useClientSchema from '@/composables/useClientSchema'
 
 import DynamicForm from '@/components/Forms/DynamicForm.vue'
