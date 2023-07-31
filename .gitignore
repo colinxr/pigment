@@ -10,7 +10,6 @@ api.pigment
 playground
 .pnp.*
 .yarn/*
-.yarn/cache
 
 !.yarn/patches
 !.yarn/plugins
