@@ -50,6 +50,7 @@ jobs:
       APP_DIR: /var/www/pigment/client
       SERVER_HOST: ${{ secrets.SERVER_HOST }}
       SERVER_USER: ${{ secrets.SERVER_USER }}
+      SERVER_PASS: ${{ secrets.SERVER_USER_PASS }}
       SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
       RELEASE_DIR: /var/www/pigment/client/releases/${{ github.sha }}
 
@@ -74,16 +75,21 @@ jobs:
           host: ${{ secrets.SERVER_HOST }}
           username: ${{ secrets.SERVER_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          envs: ROOT_DIR,RELEASE_DIR,APP_DIR
+          envs: ROOT_DIR,RELEASE_DIR,APP_DIR,SERVER_PASS
           script: |
             export ROOT_DIR=$ROOT_DIR
             export RELEASE_DIR=$RELEASE_DIR
+            export SERVER_PASS=$SERVER_PASS
             
             tar -xzf $RELEASE_DIR/.output.tar.gz -C $RELEASE_DIR/
             rm -rf /var/www/pigment/client/current
+
             ln -s $RELEASE_DIR /var/www/pigment/client/current
-            cd /var/www/pigment/client/current
-            pm2 reload ecosystem.config.js
+
+            echo $SERVER_PASS | sudo -S setfacl -d -m u:www-data:rwx /var/www/pigment/api/current
+            echo $SERVER_PASS | sudo -S setfacl -d -m u:pigment:rwx /var/www/pigment/api/current
+
+            pm2 reload all
 
       - name: Remove Old Releases 
         uses: appleboy/ssh-action@v0.1.10

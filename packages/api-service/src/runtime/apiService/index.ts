@@ -1,5 +1,3 @@
-// import * as dotenv from 'dotenv';
-// dotenv.config({ path: '../.env'})
 import { AxiosInstance } from 'axios'
 import createApiClient from './createApiClient'
 import {
@@ -25,19 +23,12 @@ import {
 
 class ApiService implements ApiServiceInterface {
 	axios: AxiosInstance
-
 	appointments: AppointmentRepositoryI
-
 	auth: AuthRepositoryI
-
-	clients: ClientRepositoryI
-
 	calendars: CalendarRepositoryI
-
+	clients: ClientRepositoryI
 	messages: MessageRepositoryI
-
 	submissions: SubmissionRepositoryI
-
 	users: UserRepositoryI
 
 	constructor(apiUrl: string) {
