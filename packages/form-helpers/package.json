@@ -29,9 +29,10 @@
   },
   "dependencies": {
     "@formkit/nuxt": "^0.17.5",
-    "@formkit/themes": "^0.17.5",
+    "@formkit/themes": "^0.17.2",
     "@formkit/vue": "^0.17.5",
     "@nuxt/kit": "^3.6.5",
+    "@nuxtjs/tailwindcss": "^6.8.0",
     "@vueuse/core": "^10.2.1",
     "vue": "^3.3.2"
   },
@@ -41,7 +42,6 @@
     "@nuxt/module-builder": "^0.4.0",
     "@nuxt/schema": "^3.6.5",
     "@nuxt/test-utils": "^3.6.5",
-    "@nuxtjs/tailwindcss": "^6.8.0",
     "@types/node": "^18.17.0",
     "@vitejs/plugin-vue": "^4.2.3",
     "changelogen": "^0.5.4",
