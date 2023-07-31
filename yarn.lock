@@ -11411,7 +11411,7 @@ __metadata:
     eslint-plugin-promise: ^6.1.1
     eslint-plugin-vue: ^9.12.0
     eslint-plugin-workspaces: ^0.8.0
-    typescript: ^4.9.5
+    typescript: ^5.1.6
     vue-eslint-parser: ^9.3.0
   languageName: unknown
   linkType: soft
@@ -14264,7 +14264,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^4.9.3, typescript@npm:^4.9.5":
+"typescript@npm:^4.9.3":
   version: 4.9.5
   resolution: "typescript@npm:4.9.5"
   bin:
@@ -14284,7 +14284,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@^4.9.3#~builtin<compat/typescript>, typescript@patch:typescript@^4.9.5#~builtin<compat/typescript>":
+"typescript@patch:typescript@^4.9.3#~builtin<compat/typescript>":
   version: 4.9.5
   resolution: "typescript@patch:typescript@npm%3A4.9.5#~builtin<compat/typescript>::version=4.9.5&hash=289587"
   bin:
