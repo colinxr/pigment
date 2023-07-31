@@ -19,13 +19,14 @@ jobs:
           ref: main
 
       - name: Install Dependencies
-        run: yarn workspaces foreach --exclude api --exclude web run install --frozen-lockfile --no-immutable
+        run: |
+          yarn install
+          yarn workspaces foreach --exclude api --exclude web run install --frozen-lockfile --no-immutable
 
       - name: Build App
         run: | 
-          yarn install
           yarn workspaces foreach -pt packages/* run prepack 
-          NUXT_PUBLIC_API_URL=${{ secrets.NUXT_PUBLIC_API_URL }} yarn workspace client build
+          NUXT_PUBLIC_API_URL=${{ secrets.NUXT_PUBLIC_API_URL }} yarn client:build
           
 
       - name: Compress Nuxt App 
