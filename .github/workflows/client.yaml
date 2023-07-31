@@ -23,6 +23,7 @@ jobs:
 
       - name: Build App
         run: | 
+          yarn install
           yarn workspaces foreach -pt packages/* run prepack 
           NUXT_PUBLIC_API_URL=${{ secrets.NUXT_PUBLIC_API_URL }} yarn workspace client build
           
