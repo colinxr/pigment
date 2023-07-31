@@ -2,7 +2,6 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { ClientI, SubmissionI } from './types'
 import { useRoute, useRouter } from 'vue-router';
-const { $apiService } = useNuxtApp() 
 
 const activeSubmission = ref<SubmissionI>()
 const nextPage = ref<number | null>(1)
@@ -40,21 +39,18 @@ export default defineStore('submissions', () => {
 		submissions.value.find(({ id }) => id === activeSubId)
 
 	const getSubmissions = async() => {
+		const { $apiService } = useNuxtApp() 
+
 		if (!nextPage.value) return
 
 		try {
-			console.log($apiService);
-			
 			const { data } = await $apiService.submissions.index(nextPage.value)
-			console.log(data);
-			
 			
 			submissions.value = [...submissions.value, ...data.submissions.data]
 
 			nextPage.value = getNextPageFromUrl(data.submissions.next_page_url)
 
 			setSubmssionListOrder(submissions.value)
-			console.log(submissionsList.value);
 		} catch (error) {
 			console.log(error)
 		}
