@@ -41,7 +41,7 @@ class ApiService implements ApiServiceInterface {
 	users: UserRepositoryI
 
 	constructor(apiUrl: string) {
-		if (!apiUrl) throw Error('No Api URl Provided')
+		if (!apiUrl) throw Error('No API URL Provided...')
 
 		this.axios = createApiClient(apiUrl)
 
