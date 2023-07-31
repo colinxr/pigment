@@ -1,9 +1,18 @@
 {
-  "extends": "./playground/.nuxt/tsconfig.json",
-  "compilerOptions": {
-    "target": "esnext",
-    "module": "esnext",
-    "moduleResolution": "nodenext",
-    "outDir": "./dist" // Specify the output directory
-  }
+    "compilerOptions": {
+      "forceConsistentCasingInFileNames": true,
+      "jsx": "preserve",
+      "target": "ESNext",
+      "module": "ESNext",
+      "moduleResolution": "Node",
+      "skipLibCheck": true,
+      "strict": true,
+      "allowJs": true,
+      "noEmit": true,
+      "resolveJsonModule": true,
+      "allowSyntheticDefaultImports": true,
+      "types": [
+        "node"
+      ],
+    }
 }
