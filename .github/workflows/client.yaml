@@ -18,16 +18,17 @@ jobs:
           fetch-depth: 0
           ref: main
 
-      - name: Install Dependencies
+      - name: build packages
         run: |
-          npm install -w form-helpers
-          npm install -w api-service
-          npm install -w client
+          npm ci -w form-helpers
+          npm ci -w api-service
+          npm run api-service:build
+          npm run form-helpers:build
+         
 
       - name: Build App
         run: | 
-          npm run api-service:build
-          npm run form-helpers:build
+          npm ci -w client
           NUXT_PUBLIC_API_URL=${{ secrets.NUXT_PUBLIC_API_URL }} yarn client:build
           
 
