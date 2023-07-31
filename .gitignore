@@ -7,7 +7,6 @@ vendor
 dist
 tsconfig.tsbuildinfo
 api.pigment
-playground
 .pnp.*
 .yarn/*
 
