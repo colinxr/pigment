@@ -19,9 +19,7 @@ jobs:
           ref: main
 
       - name: Install Dependencies
-        run: | 
-          yarn install
-          yarn workspaces foreach --exclude api --exclude web run install --frozen-lockfile
+        run: yarn workspaces foreach --exclude api --exclude web run install --frozen-lockfile
 
       - name: Build App
         run: | 
