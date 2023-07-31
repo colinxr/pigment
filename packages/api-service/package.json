@@ -19,7 +19,7 @@
   ],
   "scripts": {
     "prepack": "nuxt-module-build",
-    "dev": "NUXT_ENV_API_URL=https://app.pigment.biz:3000/api nuxi dev playground",
+    "dev": "NUXT_PUBLIC_API_URL=https://app.pigment.biz:3000/api nuxi dev playground",
     "dev:build": "nuxi build playground",
     "dev:prepare": "nuxt-module-build --stub && nuxi prepare playground",
     "release": "npm run lint && npm run test && npm run prepack && changelogen --release && npm publish && git push --follow-tags",

@@ -1,5 +1,7 @@
 import path from 'path'
 
+console.log(process.env.NUXT_PUBLIC_API_URL);
+
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
 	alias: {
@@ -34,7 +36,7 @@ export default defineNuxtConfig({
   },
 
 	apiService: {
-		apiUrl: process.env.NUXT_ENV_API_URL!
+		apiUrl: process.env.NUXT_PUBLIC_API_URL!
 	},
 
 	postcss: {

@@ -27,11 +27,11 @@ export default defineNuxtModule<ApiServiceOptions>({
   },
 
   defaults: {
-    apiUrl: process.env.NUXT_ENV_API_URL || ''
+    apiUrl: process.env.NUXT_PUBLIC_API_URL || ''
   },
 
   setup (options, nuxt) {
-    nuxt.options.runtimeConfig.public.apiService = defu({}, {
+    nuxt.options.runtimeConfig.public.apiService = defu(nuxt.options.runtimeConfig.public.apiService as ApiServiceOptions, {
       apiUrl: options.apiUrl
     })
     
