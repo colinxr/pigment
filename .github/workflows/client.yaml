@@ -18,10 +18,10 @@ jobs:
           fetch-depth: 0
           ref: main
 
-      - name: build packages
+      - name: Build Packages
         run: |
-          npm ci -w form-helpers
-          npm ci -w api-service
+          npm install -w form-helpers
+          npm install -w api-service
           npm run form-helpers:build
           npm run api-service:build
          
