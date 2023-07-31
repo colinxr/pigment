@@ -22,10 +22,9 @@ jobs:
         run: |
           npm ci -w form-helpers
           npm ci -w api-service
-          npm run api-service:build
           npm run form-helpers:build
+          npm run api-service:build
          
-
       - name: Build App
         run: | 
           npm ci -w client

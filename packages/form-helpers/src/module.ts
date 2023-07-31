@@ -87,22 +87,5 @@ export default defineNuxtModule<ModuleOptions>({
         ],
       }
     })
-
-    // const { resolve } = createimport.meta.url);
-    // const runtimeDir = fileURLToPath(new URL('./runtime', import.meta.url));
-
-    // nuxt.hook('nitro:config', (nitroConfig) => {
-    //   if (!nitroConfig.imports) {
-    //     nitroConfig.imports = {
-    //       imports: [],
-    //     };
-    //   }
-
-    //   nitroConfig.imports.imports?.push({
-    //     name: 'useFormErrors',
-    //     as: 'useFormErrors',
-    //     from: join(runtimeDir, 'composables/useFormErrors'),
-    //   });
-    // });
   }
 })

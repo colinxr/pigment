@@ -2,7 +2,6 @@ import { shallowMount } from '@vue/test-utils'
 import { vi, describe, it, expect } from 'vitest'
 import TestWrapper from '../src/runtime/components/TestWrapper.vue'
 import AlertWrapper from '../src/runtime/components/Alerts/AlertWrapper.vue'
-import DynamicForm from '../src/runtime/components/DynamicForm.vue'
 
 const $apiService = {
 	submissions: {
