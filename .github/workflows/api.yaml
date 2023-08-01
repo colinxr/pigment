@@ -161,9 +161,8 @@ jobs:
             export APP_DIR=$APP_DIR
             export SERVER_PASS=$SERVER_PASS
             
-            echo $SERVER_PASS | sudo -S find $APP_DIR/releases -type d -exec chmod 755 {} \;
-            echo $SERVER_PASS | sudo -S find $APP_DIR/releases -type f -exec chmod 644 {} \;
             cd $APP_DIR/releases
+            ls -t | tail -n +6 | xargs echo $SERVER_PASS | sudo -S chown pigment:pigment 
             ls -t | tail -n +6 | xargs rm -rf
      
       -   name: Send Success Notification
