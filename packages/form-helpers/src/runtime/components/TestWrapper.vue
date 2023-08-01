@@ -90,22 +90,13 @@ const handleSubmit = async (formData, resData) => {
 	try {
 		const res = resData
 
-		if (res.status !== 201) {
-			handleResponseErrors(res)
-			return
-		}
-
 		formStatus.value = 'success'
 		showFormAlert.value = true
 		alertMessage.value = res.data.message || 'Request submitted'
 	} catch (error) {
-		showFormAlert.value = true
-		formStatus.value = 'error'
-		alertMessage.value = 'Something went wrong'
+		console.log(error.message.response)
 
-		if (error.response?.status === 403) {
-			alertMessage.value = "You're not authorized for that action."
-		}
+		handleResponseErrors(error.message.response)
 	}
 }
 </script>

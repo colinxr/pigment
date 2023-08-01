@@ -49,21 +49,13 @@ const handleSubmit = async () => {
 		const { username } = route.params
 		const res = await $apiService.submissions.store(username, formData)
 
-		if (res.status !== 200) handleResponseErrors(res)
-
 		showFormAlert.value = true
 		formStatus.value = 'success'
 		alertMessage.value = res.data.message || 'Request submitted'
-
-		return
 	} catch (error) {
-		console.log(error)
+		console.log(error.message.response)
 
-		if (error.response?.status === 403) return
-
-		alertMessage.value = 'Something went wrong'
-		formStatus.value = 'error'
-		showFormAlert.value = true
+		handleResponseErrors(error.message.response)
 	}
 }
 </script>

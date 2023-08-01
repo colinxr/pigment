@@ -52,10 +52,6 @@ const handleSubmit = async formData => {
 	try {
 		const res = await $apiService.clients.update(formData)
 
-		if (res.status !== 200) {
-			handleResponseErrors(res)
-		}
-
 		showFormAlert.value = true
 		formStatus.value = 'success'
 		alertMessage.value = res.data.message || 'Updated Successfully'
@@ -64,11 +60,9 @@ const handleSubmit = async formData => {
 
 		return
 	} catch (error) {
-		console.log(error)
+		console.log(error.message.response)
 
-		alertMessage.value = 'something went wrong'
-		formStatus.value = 'error'
-		showFormAlert.value = true
+		handleResponseErrors(error.message.response)
 	}
 }
 </script>

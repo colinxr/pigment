@@ -34,19 +34,15 @@ const handleSubmit = async formData => {
 	try {
 		const response = await $apiService.auth.register(formData)
 
-		if (response.status !== 200) {
-			return handleResponseErrors(response)
-		}
 		const { user, token } = response.data
 
 		authStore.setUser({ ...user, token })
 
 		return navigateTo('/calendar')
 	} catch (error) {
-		console.log(error)
-		alertMessage.value = 'something went wrong'
-		formStatus.value = 'error'
-		showFormAlert.value = true
+		console.log(error.message.response)
+
+		handleResponseErrors(error.message.response)
 	}
 }
 </script>

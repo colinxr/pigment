@@ -43,8 +43,7 @@ const handleSubmit = async formData => {
 
 		return navigateTo('/app')
 	} catch (error) {
-		console.log('error')
-		console.log(error)
+		console.log(error.message.response)
 
 		handleResponseErrors(error.message.response)
 

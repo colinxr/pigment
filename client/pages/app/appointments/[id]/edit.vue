@@ -59,20 +59,13 @@ const handleSubmit = async formData => {
 			formData
 		)
 
-		if (res.status !== 200) handleResponseErrors(res)
-
 		showFormAlert.value = true
 		formStatus.value = 'success'
 		alertMessage.value = res.data.message || 'Appointment Updated'
 		return
 	} catch (error) {
-		console.log(error)
-
-		if (error.response?.status === 403) return
-
-		alertMessage.value = 'Something went wrong'
-		formStatus.value = 'error'
-		showFormAlert.value = true
+		console.log(error.message.response)
+		handleResponseErrors(error.message.response)
 	}
 }
 

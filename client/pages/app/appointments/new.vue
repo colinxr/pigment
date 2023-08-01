@@ -62,21 +62,15 @@ const handleSubmit = async formData => {
 
 		const res = await ApiService.appointments.store(formData)
 
-		if (res.status !== 200) handleResponseErrors(res)
-
 		showFormAlert.value = true
 		formStatus.value = 'success'
 		alertMessage.value = res.data.message || 'Appointment created'
 
 		return
 	} catch (error) {
-		console.log(error)
+		console.log(error.message.response)
 
-		if (error.response?.status === 403) return
-
-		alertMessage.value = 'something went wrong'
-		formStatus.value = 'error'
-		showFormAlert.value = true
+		handleResponseErrors(error.message.response)
 	}
 }
 
