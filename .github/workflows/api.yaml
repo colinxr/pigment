@@ -162,7 +162,7 @@ jobs:
             export SERVER_PASS=$SERVER_PASS
             
             cd $APP_DIR/releases
-            ls -t | tail -n +6 | xargs echo $SERVER_PASS | sudo -S chown pigment:pigment 
+            ls -t | tail -n +6 | xargs -I {} sh -c 'echo $SERVER_PASS | sudo -S chown pigment:pigment {}'
             ls -t | tail -n +6 | xargs rm -rf
      
       -   name: Send Success Notification
