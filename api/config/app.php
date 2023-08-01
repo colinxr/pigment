@@ -197,7 +197,6 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         App\Providers\FortifyServiceProvider::class,
-        App\Providers\TelescopeServiceProvider::class,
 
         App\Providers\GoogleApiServiceProvider::class,
         App\Providers\GoogleCalendarServiceProvider::class,
