@@ -44,7 +44,6 @@ export default (error: AxiosError) => {
 			console.log('Validation Errors:', error.response.data)
 
 			return error.response.data
-			break
 			// Add more cases for other error status codes as needed
 		}
 		default: {

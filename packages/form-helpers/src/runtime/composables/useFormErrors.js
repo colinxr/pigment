@@ -9,10 +9,17 @@ export default () => {
 	const handleResponseErrors = ({ status, data }) => {
 		showFormAlert.value = true
 		formStatus.value = 'error'
-		alertMessage.value = data.message
 
 		if (status === 422) {
+			if (!data.message) {
+				alertMessage.value = data.error
+				return
+			}
+
+			alertMessage.value = 'Please fix the errors below'
 			validationErrs.value = buildFormErrorBag(data.errors)
+			console.log(validationErrs.value)
+
 			return
 		}
 
@@ -20,10 +27,11 @@ export default () => {
 			// flash error
 			alertMessage.value = 'Something went wrong'
 		}
+
+		alertMessage.value = data.message
 	}
 
 	const buildFormErrorBag = errors => {
-		console.log(errors)
 		const errorBag = {}
 
 		Object.keys(errors).forEach(field => {

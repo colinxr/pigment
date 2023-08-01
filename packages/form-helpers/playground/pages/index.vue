@@ -3,14 +3,12 @@ const route = useRoute()
 const { $apiService } = useNuxtApp()
 
 const {
-	errorState,
 	showFormAlert,
 	formStatus,
 	alertMessage,
+	validationErrs,
 	handleResponseErrors,
 } = useFormErrors()
-
-console.log(useFormErrors());
 
 const formSchema = [
 	{
@@ -77,14 +75,18 @@ const handleSubmit = async () => {
 				<h1>Appointment Submission Form</h1>
 			</div>
 
-			<AlertWrapper v-if="showFormAlert" :status="formStatus" :msg="alertMessage" />
+			<AlertWrapper
+				v-if="showFormAlert"
+				:status="formStatus"
+				:msg="alertMessage"
+			/>
 		</header>
 
 		<DynamicForm
 			formId="client-create"
 			:schema="formSchema"
 			:data="initialValues"
-			:errorState="{}"
+			:validationErrs="validationErrs"
 			:disabled="false"
 		/>
 	</div>

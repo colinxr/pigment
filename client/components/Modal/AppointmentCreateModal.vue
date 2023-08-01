@@ -1,12 +1,13 @@
 <script setup>
 import useAuthStore from '@/stores/auth'
 import useModalStore from '@/stores/modal'
-import { getTimeZoneOffset } from '@/composables/useDateService'
-import useAppointmentSchema from '@/composables/useAppointmentSchema'
-import useWatchForRefresh from '@/composables/useWatchForRefresh'
 
 import { DynamicForm } from '#components'
 import { AlertWrapper } from '#components'
+
+import { getTimeZoneOffset } from '@/composables/useDateService'
+import useAppointmentSchema from '@/composables/useAppointmentSchema'
+import useWatchForRefresh from '@/composables/useWatchForRefresh'
 
 const { $apiService } = useNuxtApp()
 
@@ -19,10 +20,10 @@ const { appointmentForSubmission } = useAppointmentSchema()
 const { triggerRefresh } = useWatchForRefresh()
 
 const {
-	errorState,
 	showFormAlert,
 	formStatus,
 	alertMessage,
+	validationErrs,
 	handleResponseErrors,
 } = useFormErrors()
 
@@ -98,7 +99,7 @@ const handleSubmit = async formData => {
 			formId="appointment-create"
 			:schema="appointmentForSubmission"
 			:data="initialValues"
-			:errorState="errorState"
+			:validationErrs="validationErrs"
 			@form-submitted="handleSubmit"
 		/>
 	</div>

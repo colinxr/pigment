@@ -2,18 +2,17 @@
 import { getTimeZoneOffset } from '@/composables/useDateService'
 import useAppointmentSchema from '@/composables/useAppointmentSchema'
 
-import { DynamicForm } from '#components'
-import { AlertWrapper } from '#components'
+import { DynamicForm, AlertWrapper } from '#components'
 
 const { $apiService } = useNuxtApp()
 
 const { addPropsToSchema, startDateTime } = useAppointmentSchema()
 
 const {
-	errorState,
 	showFormAlert,
 	formStatus,
 	alertMessage,
+	validationErrs,
 	handleResponseErrors,
 } = useFormErrors()
 
@@ -103,7 +102,7 @@ definePageMeta({
 					formId="appointment-create"
 					:schema="schema"
 					:data="initialValues"
-					:errorState="errorState"
+					:validationErrs="validationErrs"
 					:modelToUpdate="modelToUpdate"
 					@form-submitted="handleSubmit"
 				/>

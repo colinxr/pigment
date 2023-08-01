@@ -21,7 +21,7 @@ class AuthController extends Controller
 
         if (!$user || !Hash::check($request->input('password'), $user->password)) {
             return response()->json([
-                'error' => 'The email and password provided don\'t match out records'
+                'error' => 'The email and password provided don\'t match our records'
             ], 422);
         }
 
@@ -60,7 +60,7 @@ class AuthController extends Controller
 
         if (!Auth::attempt($request->only('email', 'password'))) {
             return response()->json([
-                'error' => 'The email and password provided don\'t match out records'
+                'error' => 'The email and password provided don\'t match our records'
             ], 422);
         }
 

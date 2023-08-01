@@ -1,8 +1,7 @@
 <script setup>
 import useClientSchema from '@/composables/useClientSchema'
 
-import { DynamicForm } from '#components'
-import { AlertWrapper } from '#components'
+import { DynamicForm, AlertWrapper } from '#components'
 
 const { $apiService } = useNuxtApp()
 
@@ -10,10 +9,10 @@ const { schema } = useClientSchema()
 
 const route = useRoute()
 const {
-	errorState,
 	showFormAlert,
 	formStatus,
 	alertMessage,
+	validationErrs,
 	handleResponseErrors,
 } = useFormErrors()
 
@@ -76,7 +75,7 @@ definePageMeta({
 					formId="client-edit"
 					:schema="schema"
 					:data="initialValues"
-					:errorState="errorState"
+					:validationErrs="validationErrs"
 					@form-submitted="handleSubmit"
 				/>
 			</template>

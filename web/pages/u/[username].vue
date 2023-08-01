@@ -1,6 +1,5 @@
 <script setup>
-import { DynamicForm } from '#components'
-import { AlertWrapper } from '#components'
+import { DynamicForm, AlertWrapper } from '#components'
 
 const route = useRoute()
 const { $apiService } = useNuxtApp()

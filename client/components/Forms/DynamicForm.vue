@@ -70,12 +70,12 @@ watch(
 	{ immediate: true }
 )
 
-watch(
-	() => props.validationErrs,
-	newErrs => {
-		setErrors(props.formId, [props.errors.message], newErrs)
-	}
-)
+// watch(
+// 	() => props.validationErrs,
+// 	newErrs => {
+// 		setErrors(props.formId, [props.errors.message], newErrs)
+// 	}
+// )
 
 watch(
 	() => props.modelToUpdate,
@@ -91,6 +91,7 @@ const submitHandler = values => emit('form-submitted', values)
 		v-model="form"
 		type="form"
 		:disabled="props.disabled"
+		:errors="validationErrs"
 		:submitAttrs="{
 			inputClass:
 				'p-button p-component form__submit flex align-center justify-center',

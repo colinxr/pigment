@@ -1,6 +1,5 @@
 <script setup>
-import { DynamicForm } from '#components'
-import { AlertWrapper } from '#components'
+import { DynamicForm, AlertWrapper } from '#components'
 
 import {
 	getTimeZoneOffset,
@@ -16,10 +15,10 @@ const { appointmentForSubmission } = useAppointmentSchema()
 
 const route = useRoute()
 const {
-	errorState,
 	showFormAlert,
 	formStatus,
 	alertMessage,
+	validationErrs,
 	handleResponseErrors,
 } = useFormErrors()
 
@@ -98,7 +97,7 @@ definePageMeta({
 					formId="appointment-edit"
 					:schema="appointmentForSubmission"
 					:data="initialValues"
-					:errorState="errorState"
+					:validationErrs="validationErrs"
 					@form-submitted="handleSubmit"
 				/>
 			</template>

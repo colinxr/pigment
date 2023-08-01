@@ -2,14 +2,20 @@
 import useAuthStore from '@/stores/auth'
 import useRegistrationSchema from '@/composables/useRegistrationSchema'
 
-import { DynamicForm } from '#components'
-import { AlertWrapper } from '#components'
+import { DynamicForm, AlertWrapper } from '#components'
 
 const { $apiService } = useNuxtApp()
 
 const authStore = useAuthStore()
-const { errorState, handleResponseErrors, showFormAlert } = useFormErrors()
 const { schema } = useRegistrationSchema()
+
+const {
+	showFormAlert,
+	formStatus,
+	alertMessage,
+	validationErrs,
+	handleResponseErrors,
+} = useFormErrors()
 
 definePageMeta({
 	middleware: 'user-is-authenticated',
@@ -38,9 +44,9 @@ const handleSubmit = async formData => {
 		return navigateTo('/calendar')
 	} catch (error) {
 		console.log(error)
-		errorState.isSet = true
-		errorState.message = 'Something went wrong'
-		return false
+		alertMessage.value = 'something went wrong'
+		formStatus.value = 'error'
+		showFormAlert.value = true
 	}
 }
 </script>
@@ -63,7 +69,7 @@ const handleSubmit = async formData => {
 			formId="registration"
 			:schema="schema"
 			:data="initialValues"
-			:errorState="errorState"
+			:validationErrs="validationErrs"
 			@form-submitted="handleSubmit"
 		/>
 	</div>

@@ -6,6 +6,7 @@ module.exports = {
 			exec_mode: 'cluster',
 			instances: 'max',
 			script: '.output/server/index.mjs',
+			watch: ['.output'],
 			env: {
 				NUXT_ENV_API_URL: 'https://api.usepigment.com/api',
 			},

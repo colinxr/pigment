@@ -2,14 +2,19 @@
 import useModalStore from '@/stores/modal'
 import useSubmissionsStore from '@/stores/submissions'
 
-import { DynamicForm } from '#components'
-import { AlertWrapper } from '#components'
+import { DynamicForm, AlertWrapper } from '#components'
 
 const { $apiService } = useNuxtApp()
 
 const submissionsStore = useSubmissionsStore()
 
-const { errorState, handleResponseErrors } = useFormErrors()
+const {
+	showFormAlert,
+	formStatus,
+	alertMessage,
+	validationErrs,
+	handleResponseErrors,
+} = useFormErrors()
 
 const store = useModalStore()
 
@@ -19,10 +24,6 @@ const props = defineProps({
 		required: true,
 	},
 })
-
-const showFormAlert = ref(false)
-const formStatus = ref('')
-const alertMessage = ref('')
 
 const formSchema = [
 	{
@@ -93,7 +94,7 @@ const handleSubmit = async formData => {
 			formId="update-client"
 			:schema="formSchema"
 			:data="props.client"
-			:errorState="errorState"
+			:validationErrs="validationErrs"
 			@form-submitted="handleSubmit"
 		/>
 	</div>

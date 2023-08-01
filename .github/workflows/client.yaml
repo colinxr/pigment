@@ -89,7 +89,7 @@ jobs:
             echo $SERVER_PASS | sudo -S setfacl -d -m u:www-data:rwx /var/www/pigment/api/current
             echo $SERVER_PASS | sudo -S setfacl -d -m u:pigment:rwx /var/www/pigment/api/current
 
-            pm2 reload all
+            pm2 startOrReload /var/www/pigment/client/current/ecosystem.config.js --watch --env production
 
       - name: Remove Old Releases 
         uses: appleboy/ssh-action@v0.1.10
