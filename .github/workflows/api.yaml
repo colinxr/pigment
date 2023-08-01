@@ -161,7 +161,9 @@ jobs:
           script: |
             export APP_DIR=$APP_DIR
             
-            cd $APP_DIR/releases 
+            cd $APP_DIR/releases
+            echo $SERVER_PASS | sudo -S find . -type d -exec chmod 755 {} \;
+            echo $SERVER_PASS | sudo -S find . -type f -exec chmod 644 {} \;
             ls -t | tail -n +6 | xargs rm -rf
      
       -   name: Send Success Notification
