@@ -106,7 +106,7 @@ const handleSubmit = async formData => {
 	} catch (error) {
 		console.log(error)
 
-		handleResponseErrors(res)
+		handleResponseErrors(error)
 	}
 }
 </script>

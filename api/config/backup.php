@@ -8,7 +8,7 @@ return [
          * The name of this application. You can use this name to monitor
          * the backups.
          */
-        'name' => env('APP_NAME', 'laravel-backup'),
+        'name' => 'backups',
 
         'source' => [
 
@@ -166,11 +166,11 @@ return [
         'notifiable' => \Spatie\Backup\Notifications\Notifiable::class,
 
         'mail' => [
-            'to' => 'your@example.com',
+            'to' => 'colinxr@gmail.com',
 
             'from' => [
                 'address' => env('MAIL_FROM_ADDRESS', 'hello@example.com'),
-                'name' => env('MAIL_FROM_NAME', 'Example'),
+                'name' => 'Pigment Backups',
             ],
         ],
 
@@ -189,12 +189,12 @@ return [
         ],
 
         'discord' => [
-            'webhook_url' => '',
+            'webhook_url' => 'https://discord.com/api/webhooks/1135758340702605404/wgoImIkg8agBPayd-GHhkJtyJIC_1dzGDp1TBaJ0MowH1O5SDjRm6S97-xL8a5V8_ZTC',
 
             /*
              * If this is an empty string, the name field on the webhook will be used.
              */
-            'username' => '',
+            'username' => 'Laravel Backups',
 
             /*
              * If this is an empty string, the avatar on the webhook will be used.
@@ -211,7 +211,7 @@ return [
     'monitor_backups' => [
         [
             'name' => env('APP_NAME', 'laravel-backup'),
-            'disks' => ['local'],
+            'disks' => ['backups'],
             'health_checks' => [
                 \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumAgeInDays::class => 1,
                 \Spatie\Backup\Tasks\Monitor\HealthChecks\MaximumStorageInMegabytes::class => 5000,
