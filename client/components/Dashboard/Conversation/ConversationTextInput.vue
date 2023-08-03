@@ -7,21 +7,23 @@ const msgBody = ref('')
 const files = ref([])
 
 const handleSubmit = async () => {
-  emit('sendMsg', {
-    body: msgBody.value,
-    attachments: [],
-  })
+	emit('sendMsg', {
+		body: msgBody.value,
+		attachments: [],
+	})
 
-  msgBody.value = ''
-  files.value = []
+	msgBody.value = ''
+	files.value = []
 }
 </script>
 
 <template>
-  <form @submit.prevent="handleSubmit">
-  <div class="flex flex-row items-center">
-    <div class="flex flex-row items-center w-full border rounded-3xl h-12 px-2">
-      <!-- <button class="flex items-center justify-center h-10 w-10 text-gray-400 ml-1">
+	<form @submit.prevent="handleSubmit">
+		<div class="flex flex-row items-center">
+			<div
+				class="flex flex-row items-center w-full border rounded-3xl h-12 px-2"
+			>
+				<!-- <button class="flex items-center justify-center h-10 w-10 text-gray-400 ml-1">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
             d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z">
@@ -29,13 +31,17 @@ const handleSubmit = async () => {
         </svg>
       </button> -->
 
-      <div class="w-full">
-        <input v-model="msgBody" type="text" name="message"
-          class="border border-transparent w-full bg-white focus:outline-none text-sm h-10 flex items-center"
-          placeholder="Type your message....">
-        </div>
+				<div class="w-full">
+					<input
+						v-model="msgBody"
+						type="text"
+						name="message"
+						class="border border-transparent w-full bg-white focus:outline-none text-sm h-10 flex items-center"
+						placeholder="Type your message...."
+					/>
+				</div>
 
-        <!-- <div class="flex flex-row">
+				<!-- <div class="flex flex-row">
             <button class="flex items-center justify-center h-10 w-8 text-gray-400">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -53,17 +59,33 @@ const handleSubmit = async () => {
           </div>
         </div> -->
 
-        <div class="ml-6">
-          <button type="submit" :disabled="!msgBody"
-            class="flex items-center justify-center h-10 w-10 rounded-full bg-gray-200 hover:bg-gray-300 text-white">
-            <svg class="w-5 h-5 transform rotate-90 -mr-px" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-              xmlns="http://www.w3.org/2000/svg">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
-            </svg>
-          </button>
-        </div>
-      </div>
-    </div>
-  </form>
+				<div class="ml-6">
+					<button
+						type="submit"
+						:disabled="!msgBody"
+						class="flex items-center justify-center h-10 w-10 rounded-full text-white"
+						:class="{
+							'bg-gray-200': !msgBody,
+							'bg-indigo-700 hover:bg-indigo-900': msgBody,
+						}"
+					>
+						<svg
+							class="w-5 h-5 transform rotate-90 -mr-px"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+							xmlns="http://www.w3.org/2000/svg"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+							/>
+						</svg>
+					</button>
+				</div>
+			</div>
+		</div>
+	</form>
 </template>
