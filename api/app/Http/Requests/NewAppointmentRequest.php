@@ -25,7 +25,7 @@ class NewAppointmentRequest extends FormRequest
         return [
             'name' => 'required',
             'description' => 'sometimes',
-            'startDateTime' => 'required|date_format:Y-m-d\TH:i:sO',
+            'startDateTime' => 'required',
             'duration' => 'required',
             'price' => 'required',
             'deposit' => 'sometimes',

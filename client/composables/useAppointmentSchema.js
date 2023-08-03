@@ -1,12 +1,14 @@
 import { ref } from 'vue'
 import { createInput } from '@formkit/vue'
 import { convertToIsoString } from './useDateService'
+import CalendarInput from '@/components/Forms/CalendarInput.vue'
 import AppointmentDurationInput from '@/components/Forms/AppointmentDurationInput.vue'
 
 import { AutoCompleteInput } from '#components'
 
 const startDateTime = ref('')
 
+const Calender = createInput(CalendarInput)
 const DurationInput = createInput(AppointmentDurationInput)
 const AutocompleteComponent = createInput(AutoCompleteInput, {
 	props: ['list', 'keysToSearch', 'valueToShow'],
@@ -39,7 +41,7 @@ const appointmentForSubmission = [
 	},
 
 	{
-		$formkit: 'datetime-local',
+		$formkit: Calender,
 		label: 'Start Time',
 		id: 'startDateTime',
 		name: 'startDateTime',
@@ -105,7 +107,7 @@ const newAppointment = [
 	},
 
 	{
-		$formkit: 'datetime-local',
+		$formkit: Calender,
 		label: 'Start Time',
 		name: 'startDateTime',
 		id: 'startDateTime',

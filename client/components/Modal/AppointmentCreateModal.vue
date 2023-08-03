@@ -5,7 +5,10 @@ import useModalStore from '@/stores/modal'
 import { DynamicForm } from '#components'
 import { AlertWrapper } from '#components'
 
-import { getTimeZoneOffset } from '@/composables/useDateService'
+import {
+	getTimeZoneOffset,
+	convertToIsoString,
+} from '@/composables/useDateService'
 import useAppointmentSchema from '@/composables/useAppointmentSchema'
 import useWatchForRefresh from '@/composables/useWatchForRefresh'
 
@@ -49,8 +52,10 @@ const handleSubmit = async formData => {
 	authStore.setLastURL(route)
 
 	try {
-		const timezone = getTimeZoneOffset()
-		formData.startDateTime = `${formData.startDateTime}:00${timezone}`
+		// const timezone = getTimeZoneOffset()
+		const isoString = convertToIsoString(formData.startDateTime)
+		console.log(isoString)
+		formData.startDateTime = isoString
 
 		const res = await $apiService.appointments.store(
 			formData,

@@ -19,16 +19,15 @@ const getTimeZoneOffset = () => {
 	return buildOffsetISO(timezoneOffset)
 }
 
-const getReadableDate = dateString => {
-	const date = new Date(dateString)
+const getReadableDate = inputDate => {
+	const date = new Date(inputDate + 'Z')
+
 	const options = {
 		year: 'numeric',
 		month: 'long',
 		day: 'numeric',
 		hour: 'numeric',
 		minute: 'numeric',
-		second: 'numeric',
-		// timeZoneName: 'short'
 	}
 
 	return date.toLocaleString('en-US', options)
@@ -52,6 +51,11 @@ const getDuration = (startTime, endTime) => {
 	return hours
 }
 
+const convertToUTC = timestring => {
+	const date = new Date(timestring)
+	return date.toISOString()
+}
+
 const convertToIsoString = (dateString, withTz = false) => {
 	const dateTime = new Date(dateString)
 
@@ -62,13 +66,13 @@ const convertToIsoString = (dateString, withTz = false) => {
 		.toString()
 		.padStart(2, '0')
 
-	const year = dateTime.getFullYear()
-	const month = (dateTime.getMonth() + 1).toString().padStart(2, '0')
-	const day = dateTime.getDate().toString().padStart(2, '0')
-	const hours = dateTime.getHours().toString().padStart(2, '0')
-	const minutes = dateTime.getMinutes().toString().padStart(2, '0')
+	const year = dateTime.getUTCFullYear()
+	const month = (dateTime.getUTCMonth() + 1).toString().padStart(2, '0')
+	const day = dateTime.getUTCDate().toString().padStart(2, '0')
+	const hours = dateTime.getUTCHours().toString().padStart(2, '0')
+	const minutes = dateTime.getUTCMinutes().toString().padStart(2, '0')
 
-	const isoString = `${year}-${month}-${day}T${hours}:${minutes}`
+	const isoString = `${year}-${month}-${day} ${hours}:${minutes}:00`
 	return withTz
 		? `${isoString}${
 				offset >= 0 ? '+' : '-'
@@ -82,4 +86,5 @@ export {
 	dateIsUpcoming,
 	getDuration,
 	convertToIsoString,
+	convertToUTC,
 }
