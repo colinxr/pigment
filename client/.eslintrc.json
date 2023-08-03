@@ -98,7 +98,6 @@
         "functions": "only-multiline"
       }
     ],
-    "consistent-return": [ "error", "never" ],
     "curly": [ "error","multi-line"],
     "vue/component-tags-order": [
       "error",

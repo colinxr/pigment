@@ -19,6 +19,7 @@ const {
 	formStatus,
 	alertMessage,
 	validationErrs,
+	formIsSubmitting,
 	handleResponseErrors,
 } = useFormErrors()
 
@@ -45,6 +46,7 @@ onBeforeMount(async () => {
 })
 
 const handleSubmit = async formData => {
+	formIsSubmitting.value = true
 	showFormAlert.value = false
 	try {
 		console.log(formData.startDateTime)
@@ -66,6 +68,8 @@ const handleSubmit = async formData => {
 	} catch (error) {
 		console.log(error.message.response)
 		handleResponseErrors(error.message.response)
+	} finally {
+		formIsSubmitting.value = false
 	}
 }
 
@@ -91,6 +95,7 @@ definePageMeta({
 					:schema="appointmentForSubmission"
 					:data="initialValues"
 					:validationErrs="validationErrs"
+					:disabled="formIsSubmitting"
 					@form-submitted="handleSubmit"
 				/>
 			</template>

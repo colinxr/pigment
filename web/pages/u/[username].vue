@@ -9,6 +9,7 @@ const {
 	showFormAlert,
 	formStatus,
 	alertMessage,
+	formIsSubmitting,
 	handleResponseErrors,
 } = useFormErrors()
 
@@ -28,6 +29,7 @@ definePageMeta({
 })
 
 const handleSubmit = async formData => {
+	formIsSubmitting.value = true
 	try {
 		const { username } = route.params
 		const res = await $apiService.submissions.store(username, formData)
@@ -41,6 +43,8 @@ const handleSubmit = async formData => {
 		console.log(error.message.response)
 
 		handleResponseErrors(error.message.response)
+	} finally {
+		formIsSubmitting.value = false
 	}
 }
 </script>
@@ -65,6 +69,7 @@ const handleSubmit = async formData => {
 				:schema="schema"
 				:data="initialValues"
 				:validationErrs="validationErrs"
+				:disabled="formIsSubmitting"
 				@form-submitted="handleSubmit"
 			/>
 		</div>

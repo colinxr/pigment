@@ -5,10 +5,7 @@ import useModalStore from '@/stores/modal'
 import { DynamicForm } from '#components'
 import { AlertWrapper } from '#components'
 
-import {
-	getTimeZoneOffset,
-	convertToIsoString,
-} from '@/composables/useDateService'
+import { convertToIsoString } from '@/composables/useDateService'
 import useAppointmentSchema from '@/composables/useAppointmentSchema'
 import useWatchForRefresh from '@/composables/useWatchForRefresh'
 
@@ -27,6 +24,7 @@ const {
 	formStatus,
 	alertMessage,
 	validationErrs,
+	formIsSubmitting,
 	handleResponseErrors,
 } = useFormErrors()
 
@@ -51,6 +49,8 @@ const handleSubmit = async formData => {
 
 	authStore.setLastURL(route)
 
+	formIsSubmitting.value = true
+
 	try {
 		// const timezone = getTimeZoneOffset()
 		const isoString = convertToIsoString(formData.startDateTime)
@@ -67,12 +67,12 @@ const handleSubmit = async formData => {
 		alertMessage.value = res.data.message || 'Appointment created'
 
 		triggerRefresh()
-
-		return
 	} catch (error) {
 		console.log(error.message.response)
 
 		handleResponseErrors(error.message.response)
+	} finally {
+		formIsSubmitting.value = false
 	}
 }
 </script>
@@ -99,6 +99,7 @@ const handleSubmit = async formData => {
 			:schema="appointmentForSubmission"
 			:data="initialValues"
 			:validationErrs="validationErrs"
+			:disabled="formIsSubmitting"
 			@form-submitted="handleSubmit"
 		/>
 	</div>

@@ -4,8 +4,13 @@ import AlertWrapper from '@/components/Alerts/AlertWrapper.vue'
 
 const { $apiService } = useNuxtApp()
 
-const { showFormAlert, formStatus, alertMessage, handleResponseErrors } =
-	useFormErrors()
+const {
+	showFormAlert,
+	formStatus,
+	alertMessage,
+	formIsSubmitting,
+	handleResponseErrors,
+} = useFormErrors()
 
 const props = defineProps({
 	fetchSchedule: {
@@ -95,6 +100,7 @@ const handleErrors = (dayName, scheduleDay) => {
 }
 
 const handleSubmit = async formData => {
+	formIsSubmitting.value = true
 	showFormAlert.value = false
 
 	try {
@@ -107,6 +113,8 @@ const handleSubmit = async formData => {
 		console.log(error)
 
 		handleResponseErrors(error)
+	} finally {
+		formIsSubmitting.value = false
 	}
 }
 </script>

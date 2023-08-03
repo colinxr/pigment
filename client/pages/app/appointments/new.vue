@@ -13,6 +13,7 @@ const {
 	formStatus,
 	alertMessage,
 	validationErrs,
+	formIsSubmitting,
 	handleResponseErrors,
 } = useFormErrors()
 
@@ -53,8 +54,8 @@ watch(startDateTime, newVal => {
 })
 
 const handleSubmit = async formData => {
+	formIsSubmitting.value = true
 	showFormAlert.value = false
-	console.log(formData)
 
 	try {
 		const timezone = getTimeZoneOffset()
@@ -71,6 +72,8 @@ const handleSubmit = async formData => {
 		console.log(error.message.response)
 
 		handleResponseErrors(error.message.response)
+	} finally {
+		formIsSubmitting.value = false
 	}
 }
 
@@ -98,6 +101,7 @@ definePageMeta({
 					:data="initialValues"
 					:validationErrs="validationErrs"
 					:modelToUpdate="modelToUpdate"
+					:disabled="formIsSubmitting"
 					@form-submitted="handleSubmit"
 				/>
 			</template>

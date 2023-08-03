@@ -13,6 +13,7 @@ const {
 	formStatus,
 	alertMessage,
 	validationErrs,
+	formIsSubmitting,
 	handleResponseErrors,
 } = useFormErrors()
 
@@ -47,6 +48,7 @@ const formSchema = [
 ]
 
 const handleSubmit = async formData => {
+	formIsSubmitting.value = true
 	showFormAlert.value = false
 
 	try {
@@ -63,6 +65,8 @@ const handleSubmit = async formData => {
 		console.log(error.message.response)
 
 		handleResponseErrors(error.message.response)
+	} finally {
+		formIsSubmitting.value = false
 	}
 }
 </script>
@@ -89,6 +93,7 @@ const handleSubmit = async formData => {
 			:schema="formSchema"
 			:data="props.client"
 			:validationErrs="validationErrs"
+			:disabled="formIsSubmitting"
 			@form-submitted="handleSubmit"
 		/>
 	</div>

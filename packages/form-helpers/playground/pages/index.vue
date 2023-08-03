@@ -7,6 +7,7 @@ const {
 	formStatus,
 	alertMessage,
 	validationErrs,
+	formIsSubmitting,
 	handleResponseErrors,
 } = useFormErrors()
 
@@ -45,6 +46,7 @@ const initialValues = {
 }
 
 const handleSubmit = async () => {
+	formIsSubmitting.value = true
 	try {
 		const { username } = route.params
 		const res = await $apiService.submissions.store(username, formData)
@@ -56,6 +58,8 @@ const handleSubmit = async () => {
 		console.log(error.message.response)
 
 		handleResponseErrors(error.message.response)
+	} finally {
+		formIsSubmitting.value = false
 	}
 }
 </script>

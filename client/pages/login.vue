@@ -13,6 +13,7 @@ const {
 	alertMessage,
 	formStatus,
 	validationErrs,
+	formIsSubmitting,
 	handleResponseErrors,
 } = useFormErrors()
 
@@ -27,7 +28,7 @@ const initialValues = {
 }
 
 const handleSubmit = async formData => {
-	console.log(validationErrs)
+	formIsSubmitting.value = true
 
 	try {
 		const response = await $apiService.auth.login(formData)
@@ -50,6 +51,8 @@ const handleSubmit = async formData => {
 		// alertMessage.value = 'something went wrong'
 		// formStatus.value = 'error'
 		// showFormAlert.value = true
+	} finally {
+		formIsSubmitting.value = false
 	}
 }
 </script>
@@ -73,6 +76,7 @@ const handleSubmit = async formData => {
 			:schema="schema"
 			:data="initialValues"
 			:validationErrs="validationErrs"
+			:disabled="formIsSubmitting"
 			@form-submitted="handleSubmit"
 		/>
 	</div>

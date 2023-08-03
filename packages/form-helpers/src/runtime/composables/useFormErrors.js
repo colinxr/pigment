@@ -5,6 +5,7 @@ export default () => {
 	const formStatus = ref('')
 	const alertMessage = ref('')
 	const validationErrs = ref({})
+	const formIsSubmitting = ref(false)
 
 	const handleResponseErrors = ({ status, data }) => {
 		showFormAlert.value = true
@@ -46,6 +47,7 @@ export default () => {
 		showFormAlert,
 		formStatus,
 		alertMessage,
+		formIsSubmitting,
 		handleResponseErrors,
 		buildFormErrorBag,
 	}
