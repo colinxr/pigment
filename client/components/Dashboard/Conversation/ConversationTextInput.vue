@@ -60,6 +60,7 @@ onClickOutside(formElement, () => (isFocused.value = false))
 					}"
 					placeholder="Type your message...."
 					@focus="isFocused = !isFocused"
+					@keypress.enter="handleSubmit"
 				/>
 
 				<!-- <div class="flex flex-row">
