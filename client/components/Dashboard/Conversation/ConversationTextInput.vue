@@ -5,6 +5,7 @@ const emit = defineEmits(['sendMsg'])
 
 const msgBody = ref('')
 const files = ref([])
+const isFocused = ref(false)
 
 const handleSubmit = async () => {
 	emit('sendMsg', {
@@ -21,7 +22,11 @@ const handleSubmit = async () => {
 	<form @submit.prevent="handleSubmit">
 		<div class="flex flex-row items-center">
 			<div
-				class="flex flex-row items-center w-full border rounded-3xl h-12 px-2"
+				class="flex flex-row w-full border rounded-3xl p-4 overflow-visible"
+				:class="{
+					'h-[175px]': isFocused,
+					'items-center h-12': !isFocused,
+				}"
 			>
 				<!-- <button class="flex items-center justify-center h-10 w-10 text-gray-400 ml-1">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
@@ -31,15 +36,19 @@ const handleSubmit = async () => {
         </svg>
       </button> -->
 
-				<div class="w-full">
-					<input
-						v-model="msgBody"
-						type="text"
-						name="message"
-						class="border border-transparent w-full bg-white focus:outline-none text-sm h-10 flex items-center"
-						placeholder="Type your message...."
-					/>
-				</div>
+				<textarea
+					v-model="msgBody"
+					type="textarea"
+					name="message"
+					class="border border-transparent w-full bg-white focus:outline-none text-sm flex resize-none"
+					:class="{
+						'h-full': isFocused,
+						'h-[20px]': !isFocused,
+					}"
+					placeholder="Type your message...."
+					@focus="isFocused = !isFocused"
+					@blur="isFocused = !isFocused"
+				/>
 
 				<!-- <div class="flex flex-row">
             <button class="flex items-center justify-center h-10 w-8 text-gray-400">
