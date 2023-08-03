@@ -42,7 +42,7 @@ definePageMeta({
 	<div class="layout-main p-4 w-full">
 		<header class="mb-5">
 			<h2 class="text-xl font-semibold">Appointment: {{ appointment.name }}</h2>
-			<nuxt-link :to="`/app/appointments/${route.params.id}/edit`">
+			<nuxt-link :to="`/appointments/${route.params.id}/edit`">
 				Edit
 			</nuxt-link>
 		</header>

@@ -48,9 +48,7 @@ definePageMeta({
 					Client:
 					<span v-if="client">{{ client.full_name }}</span>
 				</h2>
-				<nuxt-link :to="`/app/clients/${route.params.id}/edit`">
-					Edit
-				</nuxt-link>
+				<nuxt-link :to="`/clients/${route.params.id}/edit`"> Edit </nuxt-link>
 			</header>
 
 			<Card class="w-full">
@@ -85,14 +83,14 @@ definePageMeta({
 					>
 						<Column field="startDateTime" header="Date" sortable>
 							<template #body="slotProps">
-								<NuxtLink :to="`/app/appointments/${slotProps.data.id}`">
+								<NuxtLink :to="`/appointments/${slotProps.data.id}`">
 									{{ getReadableDate(slotProps.data.startDateTime) }}
 								</NuxtLink>
 							</template>
 						</Column>
 						<Column field="description" header="Description">
 							<template #body="slotProps">
-								<NuxtLink :to="`/app/appointments/${slotProps.data.id}`">
+								<NuxtLink :to="`/appointments/${slotProps.data.id}`">
 									{{ slotProps.data.description }}
 								</NuxtLink>
 							</template>

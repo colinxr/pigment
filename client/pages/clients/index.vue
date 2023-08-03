@@ -1,21 +1,18 @@
 <script setup>
-import useModalStore from '@/stores/modal'
-import AppointmentDeleteModal from '@/components/Modal/AppointmentDeleteModal.vue'
+import { getReadableDate } from '@/composables/useDateService.js'
+// import AppointmentCard from '@/components/Appointments/AppointmentCard.vue'
 import LoadingCard from '@/components/Appointments/LoadingCard.vue'
 
 const { $apiService } = useNuxtApp()
-
-const modalStore = useModalStore()
-
-const appointments = ref([])
-const isLoading = ref(true)
-
 const { shouldRefreshData } = useWatchForRefresh()
 
-const fetchData = async () => {
-	const { data } = await $apiService.appointments.index()
+const clients = ref([])
+const isLoading = ref(true)
 
-	appointments.value = data.data
+const fetchData = async () => {
+	const { data } = await $apiService.clients.index()
+
+	clients.value = data.data
 	isLoading.value = false
 }
 
@@ -28,18 +25,18 @@ watch(shouldRefreshData, async () => {
 })
 
 /* eslint-disable-next-line */
-const handleDelete = ($event, apptID) => {
-	const appointment = appointments.value.find(({ id }) => id === apptID)
+const handleDelete = ($event, clientID) => {
+	const client = clients.value.find(({ id }) => id === clientID)
 
 	modalStore.openModal({
 		component: markRaw(AppointmentDeleteModal),
-		props: { appointment },
+		props: { client },
 	})
 }
 
 /* eslint-disable-next-line */
-const handleEdit = ($event, apptID) => {
-	navigateTo(`/app/appointments/${apptID}/edit`)
+const handleEdit = ($event, clientID) => {
+	navigateTo(`/clients/${clientID}/edit`)
 }
 
 definePageMeta({
@@ -50,61 +47,46 @@ definePageMeta({
 
 <template>
 	<div class="layout-main p-4 w-full">
-		<header class="mb-5">
-			<h2 class="text-xl font-semibold">Appointments</h2>
-			<nuxt-link to="/app/appointments/new"> New Appointment </nuxt-link>
-		</header>
+		<h2 class="text-xl font-semibold mb-5">Clients</h2>
 
 		<Card class="w-full">
-			<template v-if="!isLoading && appointments.length" #content>
+			<template v-if="!isLoading && clients.length" #content>
 				<DataTable
-					v-model:selection="appointments"
-					:value="appointments"
+					v-model:selection="clients"
+					:value="clients"
 					data-key="id"
-					:stripedRows="false"
+					:stripedRows="true"
 					responsiveLayout="scroll"
 					paginator
 					:rows="50"
 				>
 					<!-- <Column selectionMode="multiple" headerStyle="width: 3em"></Column> -->
-					<Column field="id" header="ID" sortable>
+					<Column field="id" header="ID">
 						<template #body="slotProps">
-							<NuxtLink :to="`/app/appointments/${slotProps.data.id}`">
+							<NuxtLink :to="`/clients/${slotProps.data.id}`">
 								{{ slotProps.data.id }}
 							</NuxtLink>
 						</template>
 					</Column>
-					<Column field="name" header="Name">
+					<Column field="full_name" header="Name">
 						<template #body="slotProps">
-							<NuxtLink :to="`/app/appointments/${slotProps.data.id}`">
-								{{ slotProps.data.name }}
+							<NuxtLink :to="`/clients/${slotProps.data.id}`">
+								{{ slotProps.data.full_name }}
 							</NuxtLink>
 						</template>
 					</Column>
-					<Column field="description" header="description">
+					<Column field="email" header="Email">
 						<template #body="slotProps">
-							<NuxtLink :to="`/app/appointments/${slotProps.data.id}`">
-								{{ slotProps.data.description }}
+							<NuxtLink :to="`/clients/${slotProps.data.id}`">
+								{{ slotProps.data.email }}
 							</NuxtLink>
 						</template>
 					</Column>
-					<Column field="startDateTime" header="Date" sortable>
+					<Column field="created_at" header="Created At">
 						<template #body="slotProps">
-							{{ getReadableDate(slotProps.data.startDateTime) }}
+							{{ getReadableDate(slotProps.data.created_at) }}
 						</template>
 					</Column>
-					<Column field="endDateTime" header="Duration">
-						<template #body="slotProps">
-							{{
-								getDuration(
-									slotProps.data.startDateTime,
-									slotProps.data.endDateTime
-								)
-							}}
-						</template>
-					</Column>
-					<Column field="price" header="Price" />
-					<Column field="deposit" header="Deposit" />
 					<Column field="edit_edit" header="Edit/Delete">
 						<template #body="slotProps">
 							<div class="controls flex justify-around">
@@ -121,9 +103,9 @@ definePageMeta({
 				</DataTable>
 			</template>
 
-			<template v-else="!isLoading && !appointments.length" #content>
+			<template v-else="!isLoading && !clients.length" #content>
 				<div class="w-full md:max-w-1/2">
-					<h2>No appointments scheduled yet</h2>
+					<h2>No clients yet.</h2>
 				</div>
 			</template>
 

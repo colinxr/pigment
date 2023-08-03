@@ -10,17 +10,17 @@ const menu = ref([
 			{
 				label: 'Submissions',
 				icon: 'pi pi-fw pi-clone',
-				to: '/app/submissions',
+				to: '/submissions',
 			},
 			{
 				label: 'Appointments',
 				icon: 'pi pi-fw pi-list',
-				to: '/app/appointments',
+				to: '/appointments',
 			},
 			{
 				label: 'Clients',
 				icon: 'pi pi-fw pi-id-card',
-				to: '/app/clients',
+				to: '/clients',
 			},
 		],
 	},
