@@ -1,10 +1,12 @@
 <script setup>
 import { ref } from 'vue'
+import { onClickOutside } from '@vueuse/core'
 
 const emit = defineEmits(['sendMsg'])
 
 const msgBody = ref('')
 const files = ref([])
+const formElement = ref(null)
 const isFocused = ref(false)
 
 const handleSubmit = async () => {
@@ -15,12 +17,23 @@ const handleSubmit = async () => {
 
 	msgBody.value = ''
 	files.value = []
+	isFocused.value = false
 }
+
+onClickOutside(formElement, () => (isFocused.value = false))
 </script>
 
 <template>
+	<div class="menu-ba mb-2 px-4 bg-color-white">
+		<button
+			class="flex items-center justify-center bg-gray-400 hover:bg-gray-700 h-6 w-6 rounded-full text-white"
+		>
+			<i class="pi pi-link text-sm"></i>
+		</button>
+	</div>
+
 	<form @submit.prevent="handleSubmit">
-		<div class="flex flex-row items-center">
+		<div class="flex flex-row items-center" ref="formElement">
 			<div
 				class="flex flex-row w-full border rounded-3xl p-4 overflow-visible"
 				:class="{
@@ -47,7 +60,6 @@ const handleSubmit = async () => {
 					}"
 					placeholder="Type your message...."
 					@focus="isFocused = !isFocused"
-					@blur="isFocused = !isFocused"
 				/>
 
 				<!-- <div class="flex flex-row">
@@ -68,7 +80,7 @@ const handleSubmit = async () => {
           </div>
         </div> -->
 
-				<div class="ml-6">
+				<div class="ml-4">
 					<button
 						type="submit"
 						:disabled="!msgBody"
@@ -78,20 +90,7 @@ const handleSubmit = async () => {
 							'bg-indigo-700 hover:bg-indigo-900': msgBody,
 						}"
 					>
-						<svg
-							class="w-5 h-5 transform rotate-90 -mr-px"
-							fill="none"
-							stroke="currentColor"
-							viewBox="0 0 24 24"
-							xmlns="http://www.w3.org/2000/svg"
-						>
-							<path
-								stroke-linecap="round"
-								stroke-linejoin="round"
-								stroke-width="2"
-								d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
-							/>
-						</svg>
+						<i class="pi pi-arrow-circle-up text-2xl"></i>
 					</button>
 				</div>
 			</div>
