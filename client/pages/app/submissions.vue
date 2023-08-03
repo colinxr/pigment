@@ -36,7 +36,7 @@ definePageMeta({
 <template>
 	<div class="flex grow h-full">
 		<SubmissionsList
-			class="w-full md:w-1/4"
+			class="w-full md:w-1/4 h-full overflow-scroll"
 			:class="{ 'hidden md:block': activeSubmission }"
 		/>
 

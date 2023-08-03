@@ -21,6 +21,7 @@ class CalendarScheduleController extends Controller
         try {
             $calService = new CalendarAppointmentService(Auth::user());
             $slots = $calService->getNextAvailableSlots($request->query('duration'));
+
             return response()->json(['data' => $slots,], 200);
         } catch (\Throwable $th) {
             return response()->json(['error' => $th->getMessage,]);
