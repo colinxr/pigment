@@ -9,9 +9,7 @@ use App\Models\Submission;
 use App\Models\Appointment;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\URL;
 use Illuminate\Notifications\Notifiable;
-use App\Interfaces\GoogleCalendarInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -44,6 +42,9 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+
+    protected $appends = ['full_name'];
+
     /**
      * The attributes that should be cast.
      *
@@ -53,6 +54,11 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'access_token' => 'array',
     ];
+
+    public function getFullNameAttribute()
+    {
+        return ucfirst($this->first_name) . ' ' . ucfirst($this->last_name);
+    }
 
     ///
     // Relationships

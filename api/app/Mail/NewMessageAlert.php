@@ -24,7 +24,6 @@ class NewMessageAlert extends Mailable
      */
     public function __construct(Message $message)
     {
-        // $this->conversation = $conversation;
         $this->message = $message;
     }
 
@@ -41,11 +40,9 @@ class NewMessageAlert extends Mailable
             $this->message->sender->username . '@mail.usepigment.com' :
             $this->message->sender->uuid . '@client.usepigment.com';
 
-        $from = new Address($fromEmail, $this->message->sender->full_name);
-
         return new Envelope(
             subject: "You've received a new message",
-            from: $from,
+            from: new Address($fromEmail, $this->message->sender->full_name),
             replyTo: $replyTo,
         );
     }
