@@ -96,8 +96,8 @@ const checkActiveRoute = item => route.path === item.to
 			tabindex="0"
 			@click="itemClick($event, item, index)"
 		>
-			<i :class="item.icon" class="md:mr-2" />
-			<span class="layout-menuitem-text hidden md:block">
+			<i :class="item.icon" class="lg:mr-2" />
+			<span class="layout-menuitem-text hidden lg:block">
 				{{ item.label }}
 			</span>
 			<i
@@ -114,8 +114,8 @@ const checkActiveRoute = item => route.path === item.to
 			:to="item.to"
 			@click="itemClick($event, item, index)"
 		>
-			<i :class="item.icon" class="md:mr-2" />
-			<span class="layout-menuitem-text text-grey-600 hidden md:block">
+			<i :class="item.icon" class="lg:mr-2" />
+			<span class="layout-menuitem-text text-grey-600 hidden lg:block">
 				{{ item.label }}
 			</span>
 			<i

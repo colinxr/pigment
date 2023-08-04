@@ -18,7 +18,7 @@ const handleSubmit = async () => {
 	})
 
 	msgBody.value = ''
-	files.value = []
+	attachments.value = []
 	isFocused.value = false
 }
 
@@ -69,32 +69,15 @@ onClickOutside(formElement, () => (isFocused.value = false))
 					@keypress.enter="handleSubmit"
 				/>
 
-				<!-- <div class="flex flex-row">
-            <button class="flex items-center justify-center h-10 w-8 text-gray-400">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13">
-                </path>
-              </svg>
-            </button>
-            <button class="flex items-center justify-center h-10 w-8 text-gray-400 ml-1 mr-2">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                  d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z">
-                </path>
-              </svg>
-            </button>
-          </div>
-        </div> -->
-
 				<div class="ml-4">
 					<button
 						type="submit"
-						:disabled="!msgBody"
+						:disabled="!msgBody || !attachments"
 						class="flex items-center justify-center h-10 w-10 rounded-full text-white"
 						:class="{
-							'bg-gray-200': !msgBody,
-							'bg-indigo-700 hover:bg-indigo-900': msgBody,
+							'bg-gray-200': !msgBody || !attachments,
+							'bg-indigo-700 hover:bg-indigo-900':
+								msgBody || attachments.length,
 						}"
 					>
 						<i class="pi pi-arrow-circle-up text-2xl"></i>

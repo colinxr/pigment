@@ -102,11 +102,9 @@ class SubmissionMessagesTest extends TestCase
     public function test_users_can_delete_a_conversation()
     {
         $this->actingAs($this->user);
-
         $this->assertDatabaseCount('submissions', 3);
 
         $submission = $this->user->submissions->first();
-
         $submission->newMessage($this->user, 'body text');
 
         $response = $this->delete("/api/submissions/{$submission->id}");

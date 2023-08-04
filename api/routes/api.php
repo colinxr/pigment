@@ -4,14 +4,15 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\OAuthController;
+use App\Http\Controllers\DropzoneController;
 use App\Http\Controllers\UserClientController;
+use App\Http\Controllers\UserExistsController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\EventWebhookController;
 use App\Http\Controllers\UserSubmissionsController;
 use App\Http\Controllers\CalendarScheduleController;
 use App\Http\Controllers\IncomingMessagesController;
 use App\Http\Controllers\SubmissionMessageController;
-use App\Http\Controllers\UserExistsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,7 @@ Route::post('/sanctum/token', [AuthController::class, 'storeToken']);
 Route::get('/users/{username}', UserExistsController::class);
 Route::post('/users/{user}/submissions', [UserSubmissionsController::class, 'store']);
 Route::post('/messages/parse', [IncomingMessagesController::class, 'store']);
+Route::post('/messages/images/temp', [DropzoneController::class, 'store']);
 
 Route::middleware('auth:sanctum')->group(function () {
     // Auth Routes

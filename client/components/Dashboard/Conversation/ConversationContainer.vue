@@ -26,15 +26,10 @@ const wrapper = ref(null)
 const { updateSubmissionsListOrder } = submissionsStore
 const { showActionPane, activeSubmission } = storeToRefs(submissionsStore)
 
-const buildMessageObject = ({ body, attachments }) => ({
-	body,
-	attachments,
-	status: 'PENDING',
-	is_from_admin: true,
-})
-
 const handleNewMessage = async message => {
 	const msgObject = buildMessageObject(message)
+
+	console.log(msgObject)
 
 	messages.value = [...messages.value, msgObject]
 
@@ -51,10 +46,17 @@ const handleNewMessage = async message => {
 	updateMessage(messageWasSent, message.body)
 }
 
-const postMessageToServer = async message => {
+const buildMessageObject = ({ body, attachments }) => ({
+	body,
+	attachments,
+	status: 'PENDING',
+	is_from_admin: true,
+})
+
+const postMessageToServer = async ({ body, attachments }) => {
 	const res = await $apiService.messages.post(props.submission.id, {
-		body: message.body,
-		files: message.files,
+		body,
+		attachments,
 	})
 
 	return res
