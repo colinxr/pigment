@@ -6,7 +6,7 @@ const { $apiService } = useNuxtApp()
 const menu = ref([
 	{
 		items: [
-			{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/app' },
+			{ label: 'Dashboard', icon: 'pi pi-fw pi-home', to: '/' },
 			{
 				label: 'Submissions',
 				icon: 'pi pi-fw pi-clone',

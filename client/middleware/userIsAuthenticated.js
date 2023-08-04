@@ -16,5 +16,5 @@ export default defineNuxtRouteMiddleware(async to => {
 	$apiService.axios.defaults.headers.Authorization = `Bearer ${store.user.token}`
 
 	setPageLayout('default')
-	if (['login', 'register'].includes(to.name)) return navigateTo('/app')
+	if (['login', 'register'].includes(to.name)) return navigateTo('/')
 })

@@ -1,64 +1,67 @@
 /* eslint-disable prettier/prettier */
-import { AxiosError } from 'axios'
-
 import Cookies from 'js-cookie'
+import { AxiosError } from 'axios'
 
 export default (error: AxiosError) => {
 	if (error.response) {
 		switch (error.response.status) {
-		case 400: {
 			// Handle Bad Request errors
-			console.log('Bad Request:', error.response.data)
-			break
-		}
-		case 401: {
-			// Handle Unauthorized errors
-			console.log('Unauthorized:', error.response.data)
-			Cookies.remove('authStore')
-			
-			window.location.href = '/'
-			break
-		}
-		case 403: {
-			// Handle Forbidden errors
-			const resJson: any = error.response.data as any
-			console.log('Forbidden:', resJson)
-
-			if (resJson.redirectURL) {
-				window.location.href = resJson.redirectURL
+			case 400: {
+				console.log('Bad Request:', error.response.data)
+				break
 			}
 
-			break
-		}
-		case 404: {
+			// Handle Unauthorized errors
+			case 401: {
+				console.log('Unauthorized:', error.response.data)
+				Cookies.remove('authStore')
+				
+				window.location.href = '/'
+				break
+			}
+
+			// Handle Forbidden errors
+			case 403: {
+				const resJson: any = error.response.data as any
+				console.log('Forbidden:', resJson)
+
+				if (resJson.redirectURL) {
+					window.location.href = resJson.redirectURL
+				}
+
+				break
+			}
+
 			// Handle Not Found errors
-			console.log('Not Found:', error.response)
+			case 404: {
+				console.log('Not Found:', error.response)
 
-			window.location.href = '/not-found'
-			break
-			// Add more cases for other error status codes as needed
-		}
+				window.location.href = '/not-found'
+				break
+				// Add more cases for other error status codes as needed
+			}
 
-		case 422: {
-			// Handle Not Found errors
-			console.log('Validation Errors:', error.response.data)
+			// Handle Validation errors
+			case 422: {
+				console.log('Validation Errors:', error.response.data)
 
-			return error.response.data
-			// Add more cases for other error status codes as needed
-		}
-		default: {
+				return error.response.data
+				// Add more cases for other error status codes as needed
+			}
+			
 			// Handle other error status codes
-			console.log('Server Error:', error.response.data)
+			default: {
+				console.log('Server Error:', error.response.data)
 
-			break
-		}
+				break
+			}
 		}
 
 		return error.response
 	}
 
+	// The request was made, but no response was received
 	if (error.request) {
-		// The request was made, but no response was received
 		console.log('No response received from the server:', error.request)
 		return error.response
 	}

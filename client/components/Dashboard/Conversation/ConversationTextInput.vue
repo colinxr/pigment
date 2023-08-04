@@ -2,17 +2,19 @@
 import { ref } from 'vue'
 import { onClickOutside } from '@vueuse/core'
 
+import FileInput from '@/components/Forms/FileInput.vue'
+
 const emit = defineEmits(['sendMsg'])
 
 const msgBody = ref('')
-const files = ref([])
+const attachments = ref([])
 const formElement = ref(null)
 const isFocused = ref(false)
 
 const handleSubmit = async () => {
 	emit('sendMsg', {
 		body: msgBody.value,
-		attachments: [],
+		attachments: attachments.value,
 	})
 
 	msgBody.value = ''
@@ -20,16 +22,28 @@ const handleSubmit = async () => {
 	isFocused.value = false
 }
 
+const handleNewAttachments = ({ files }) => {
+	attachments.value = [...attachments.value, ...files]
+}
+
+const clearAttachments = () => {
+	attachments.value = []
+}
+
+const handleRemove = ({ files }) => {
+	attachments.value = files
+}
+
 onClickOutside(formElement, () => (isFocused.value = false))
 </script>
 
 <template>
-	<div class="menu-ba mb-2 px-4 bg-color-white">
-		<button
-			class="flex items-center justify-center bg-gray-400 hover:bg-gray-700 h-6 w-6 rounded-full text-white"
-		>
-			<i class="pi pi-link text-sm"></i>
-		</button>
+	<div class="menu-ba mb-2 bg-color-white">
+		<FileInput
+			@select="handleNewAttachments"
+			@remove="handleRemove"
+			@clear="clearAttachments"
+		/>
 	</div>
 
 	<form @submit.prevent="handleSubmit">
@@ -41,14 +55,6 @@ onClickOutside(formElement, () => (isFocused.value = false))
 					'items-center h-12': !isFocused,
 				}"
 			>
-				<!-- <button class="flex items-center justify-center h-10 w-10 text-gray-400 ml-1">
-        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-            d="M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z">
-          </path>
-        </svg>
-      </button> -->
-
 				<textarea
 					v-model="msgBody"
 					type="textarea"

@@ -62,31 +62,30 @@ class GoogleCalendarService implements GoogleCalendarInterface
     return $this->service->events->insert($calendar->getId(), $event);
   }
 
-  public function updateEvent(string $event_id, Appointment $appt)
+  public function updateEvent(Appointment $appt)
   {
-    $event = $this->service->events->get(Auth::user()->calendar_id, $event_id);
+    $cal_id = $this->getCalendarId();
 
-    $event->summary = $appt->name;
-    $event->description = $appt->description;
-    $event->start = ['dateTime' => $appt->startDateTime];
-    $event->end = ['dateTime' => $appt->endDateTime];
-
-    $event = $this->service->events->update(Auth::user()->calendar_id, $event_id, $event);
+    $event = $this->service->events->get($cal_id, $appt->event_id);
 
     Log::info(json_encode($event));
 
-    // Handle the response
     if ($event) {
-      // Event deleted successfully
+      $event->summary = $appt->name;
+      $event->description = $appt->description;
+      $event->start = ['dateTime' => $appt->startDateTime];
+      $event->end = ['dateTime' => $appt->endDateTime];
+
+      $event = $this->service->events->update(Auth::user()->calendar_id, $appt->event_id, $event);
     } else {
       // Error deleting event
       throw new Exception('Event was not updated in Google');
     }
   }
 
-  public function deleteEvent(string $event_id)
+  public function deleteEvent(Appointment $appt)
   {
-    $response = $this->service->events->delete(Auth::user()->calendar_id, $event_id);
+    $response = $this->service->events->delete(Auth::user()->calendar_id, $appt->event_id);
 
     // Handle the response
     if ($response->getStatusCode() == 204) {
@@ -184,8 +183,9 @@ class GoogleCalendarService implements GoogleCalendarInterface
         $calendar = $this->createCalendar();
       }
 
-      Auth::user()->calendar_id = $calendar->id;
-      Auth::user()->save();
+      Auth::user()->update([
+        'calendar_id' => $calendar->id
+      ]);
 
       return $calendar->id;
     }

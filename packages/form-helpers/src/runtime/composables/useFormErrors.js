@@ -6,6 +6,7 @@ export default () => {
 	const alertMessage = ref('')
 	const validationErrs = ref({})
 	const formIsSubmitting = ref(false)
+	const flashMessage = ref('')
 
 	const handleResponseErrors = ({ status, data }) => {
 		showFormAlert.value = true
@@ -25,8 +26,8 @@ export default () => {
 		}
 
 		if (status === 500) {
-			// flash error
-			alertMessage.value = 'Something went wrong'
+			flashMessage.value = 'Something went wrong'
+			return
 		}
 
 		alertMessage.value = data.message

@@ -58,10 +58,10 @@ const handleSubmit = async formData => {
 	showFormAlert.value = false
 
 	try {
-		const timezone = getTimeZoneOffset()
-		formData.startDateTime = `${formData.startDateTime}:00${timezone}`
+		const isoString = convertToIsoString(formData.startDateTime)
+		formData.startDateTime = isoString
 
-		const res = await ApiService.appointments.store(formData)
+		const res = await $apiService.appointments.store(formData)
 
 		showFormAlert.value = true
 		formStatus.value = 'success'

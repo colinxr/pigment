@@ -1,19 +1,16 @@
 <script setup>
 import { DynamicForm, AlertWrapper } from '#components'
-
 import {
-	getTimeZoneOffset,
 	convertToIsoString,
 	getDuration,
 } from '@/composables/useDateService.js'
 
 import useAppointmentSchema from '@/composables/useAppointmentSchema'
 
+const route = useRoute()
 const { $apiService } = useNuxtApp()
-
 const { appointmentForSubmission } = useAppointmentSchema()
 
-const route = useRoute()
 const {
 	showFormAlert,
 	formStatus,
@@ -48,24 +45,25 @@ onBeforeMount(async () => {
 const handleSubmit = async formData => {
 	formIsSubmitting.value = true
 	showFormAlert.value = false
+
 	try {
-		console.log(formData.startDateTime)
+		const isoString = convertToIsoString(formData.startDateTime)
+		formData.startDateTime = isoString
 
-		const timezone = getTimeZoneOffset()
-		formData.startDateTime = `${formData.startDateTime}:00${timezone}`
-
-		console.log(formData.startDateTime)
-
-		const res = await ApiService.appointments.update(
+		const res = await $apiService.appointments.update(
 			appointment.value.id,
 			formData
 		)
+
+		console.log(res)
 
 		showFormAlert.value = true
 		formStatus.value = 'success'
 		alertMessage.value = res.data.message || 'Appointment Updated'
 		return
 	} catch (error) {
+		console.log(error)
+
 		console.log(error.message.response)
 		handleResponseErrors(error.message.response)
 	} finally {

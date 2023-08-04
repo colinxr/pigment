@@ -103,7 +103,7 @@ class AppointmentController extends Controller
         $appointment->update($request->toArray());
 
         $this->gCalService->setToken(Auth::user()->access_token);
-        $this->gCalService->updateEvent($appointment->event_id, $appointment);
+        $this->gCalService->updateEvent($appointment);
 
         return response()->json([
             'message' => 'Resource updated successfully',

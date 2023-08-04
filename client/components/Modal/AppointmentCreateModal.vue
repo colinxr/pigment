@@ -54,7 +54,6 @@ const handleSubmit = async formData => {
 	try {
 		// const timezone = getTimeZoneOffset()
 		const isoString = convertToIsoString(formData.startDateTime)
-		console.log(isoString)
 		formData.startDateTime = isoString
 
 		const res = await $apiService.appointments.store(
