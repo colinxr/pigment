@@ -8,6 +8,7 @@ use App\Mail\NewMessageAlert;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\NewMessageRequest;
 
 class SubmissionMessageController extends Controller
@@ -17,11 +18,15 @@ class SubmissionMessageController extends Controller
         try {
             $message = $submission->newMessage(Auth::user(), $request->body);
 
-            if ($request->attachments) {
-                foreach ($request->attachments as $attachment) {
-                    $image = $message->addMedia($attachment)->toMediaCollection('attachments');
-                }
-            }
+            $attachments = collect($request->attachments);
+
+            $attachments->each(function ($fileName) use ($message) {
+                if (!Storage::disk('public')->exists("temp/{$fileName}")) return null;
+
+                // Attach the file to the media collection of the message
+                $message->addMedia(storage_path("app/public/temp/{$fileName}"))
+                    ->toMediaCollection('attachments');
+            });
 
             Mail::to($message->recipient())->queue(new NewMessageAlert($message));
 
@@ -33,7 +38,6 @@ class SubmissionMessageController extends Controller
         } catch (\Throwable $th) {
             return response()->json([
                 'status' => 'error',
-                'message' => $th->getMessage(),
                 'data' => $th,
             ], 500);
         }

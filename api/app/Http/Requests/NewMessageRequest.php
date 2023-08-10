@@ -24,10 +24,7 @@ class NewMessageRequest extends FormRequest
     {
         return [
             'body' => 'required',
-            'attachments.*' => [
-                'nullable',
-                File::image(),
-            ]
+            'attachments.*' => 'nullable'
         ];
     }
 }

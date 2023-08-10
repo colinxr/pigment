@@ -22,8 +22,8 @@ const handleSubmit = async () => {
 	isFocused.value = false
 }
 
-const handleNewAttachments = ({ files }) => {
-	attachments.value = [...attachments.value, ...files]
+const handleNewAttachments = payload => {
+	attachments.value = [...attachments.value, ...payload.attachments]
 }
 
 const clearAttachments = () => {
@@ -40,7 +40,8 @@ onClickOutside(formElement, () => (isFocused.value = false))
 <template>
 	<div class="menu-ba mb-2 bg-color-white">
 		<FileInput
-			@select="handleNewAttachments"
+			:isDirty="attachments.length"
+			@new-attachments="handleNewAttachments"
 			@remove="handleRemove"
 			@clear="clearAttachments"
 		/>

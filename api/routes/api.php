@@ -32,7 +32,7 @@ Route::post('/sanctum/token', [AuthController::class, 'storeToken']);
 Route::get('/users/{username}', UserExistsController::class);
 Route::post('/users/{user}/submissions', [UserSubmissionsController::class, 'store']);
 Route::post('/messages/parse', [IncomingMessagesController::class, 'store']);
-Route::post('/messages/images/temp', [DropzoneController::class, 'store']);
+Route::post('/messages/attachments/temp', [DropzoneController::class, 'store']);
 
 Route::middleware('auth:sanctum')->group(function () {
     // Auth Routes

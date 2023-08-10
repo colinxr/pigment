@@ -73,6 +73,7 @@ export interface AppointmentRepositoryI {
 export interface MessageRepositoryI {
 	apiClient: AxiosInstance
 	post(submissionId: string, message: object): Promise<AxiosResponse>
+	storeTempFiles(files: Array<File>): Promise<AxiosResponse>
 }
 
 export interface UserRepositoryI {

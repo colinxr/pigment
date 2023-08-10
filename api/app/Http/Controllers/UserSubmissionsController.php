@@ -14,7 +14,8 @@ class UserSubmissionsController extends Controller
         $per_page = request()->query('per_page', 50);
 
         $subs = Auth::user()->submissions()
-            ->with(['messages', 'lastMessage', 'client'])
+            ->with(['lastMessage', 'client'])
+            ->with(['messages' => fn ($query) => $query->limit(-5)])
             ->orderByRaw('COALESCE((SELECT created_at FROM messages WHERE submission_id = submissions.id ORDER BY created_at DESC LIMIT 1), submissions.created_at) DESC')
             ->paginate($per_page);
 
@@ -58,7 +59,7 @@ class UserSubmissionsController extends Controller
         $submission->update(['has_new_messages' => false]);
 
         return response()->json([
-            'messages' => $submission->messages,
+            'messages' => $submission->messages()->latest()->limit(5)->get(),
         ], 200);
     }
 

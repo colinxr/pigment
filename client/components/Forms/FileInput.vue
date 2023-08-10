@@ -1,21 +1,63 @@
 <script setup>
 import FileUpload from 'primevue/fileupload'
 
+const { $apiService } = useNuxtApp()
+
+const props = defineProps({
+	isDirty: {
+		type: Boolean,
+	},
+})
+
 const emit = defineEmits(['newAttachments'])
 
-const attachments = ref([])
+const handleUpload = async $event => {
+	const files = await generateFilesForUpload($event.files)
+	const { data } = await $apiService.messages.storeTempFiles(files)
+
+	emit('newAttachments', { attachments: data.data })
+}
+
+const generateFilesForUpload = async blobs => {
+	const filePromises = blobs
+		.map(async ({ objectURL, name, type, size }) => {
+			if (size > 5500000) {
+				toast.add({
+					severity: 'warning',
+					summary: 'File too big. ',
+					detail: `${file.name} is too large. Please try something smaller.`,
+					life: 3000,
+				})
+
+				return null
+			}
+
+			const response = await fetch(objectURL)
+			const blob = await response.blob()
+			const file = new File([blob], name, { type })
+
+			return file
+		})
+		.filter(v => v !== null)
+
+	return Promise.all(filePromises)
+}
+
+watch(props.isDirty, newVal => {
+	if (!newVal) clearCallback()
+})
 </script>
 
 <template>
 	<FileUpload
-		v-model="attachments"
 		name="attachments[]"
-		:multiple="true"
 		accept="image/*"
+		:multiple="true"
 		:maxFileSize="5000000"
-		@select="onSelectedFiles"
+		:custom-upload="true"
+		@select="handleUpload"
 	>
-		<template #content="{ files }">
+		<template #content="{ files, uploadedFiles }">
 			<div v-if="files.length > 0">
 				<div class="flex flex-wrap gap-5 mb-5">
 					<div

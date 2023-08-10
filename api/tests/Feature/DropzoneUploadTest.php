@@ -21,7 +21,7 @@ class DropzoneUploadTest extends TestCase
 
     public function test_can_upload_files_from_dropzone(): void
     {
-        $response = $this->post('/api/messages/images/temp', [
+        $response = $this->post('/api/messages/attachments/temp', [
             'attachments' => [
                 UploadedFile::fake()->image('test.jpg'),
                 UploadedFile::fake()->image('test.png'),

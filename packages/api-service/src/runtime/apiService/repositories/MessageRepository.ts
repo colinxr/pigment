@@ -16,4 +16,21 @@ export default class MessageRepository implements MessageRepositoryI {
 
 		return res
 	}
+
+	async storeTempFiles(files: Array<File>): Promise<AxiosResponse> {
+		const formData = new FormData();
+		
+		for (const file of files) {
+			console.log(file);
+			
+			formData.append('attachments[]', file, file.name);
+		}
+		
+		const res = await this.apiClient.post(`/messages/attachments/temp`, formData, 
+		{
+			headers: { 'Content-Type': 'multipart/form-data', },
+		})
+
+		return res
+	}
 }
